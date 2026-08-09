@@ -47,6 +47,7 @@ export default function Home() {
   const [selected, setSelected] = useState<PokemonArt | null>(null);
   const [details, setDetails] = useState<PokemonDetails | null>(null);
   const [detailsLoading, setDetailsLoading] = useState(false);
+  const [variantView, setVariantView] = useState<"forms" | "artwork">("forms");
   const [view, setView] = useState<"gallery" | "generations" | "favorites">("gallery");
   const searchRef = useRef<HTMLInputElement>(null);
 
@@ -75,6 +76,14 @@ export default function Home() {
 
   const groupMap = useMemo(() => new Map(groups.map((group) => [group.key, group])), [groups]);
   const selectedGroup = selected ? groupMap.get(groupKey(selected)) || null : null;
+  const selectedForms = selectedGroup?.items.filter((item) => item.category === "generation") || [];
+  const selectedArtwork = selectedGroup?.items.filter((item) => item.category === "alternate") || [];
+  const shownVariants = variantView === "forms" ? selectedForms : selectedArtwork;
+
+  useEffect(() => {
+    if (!selectedGroup) return;
+    setVariantView(selectedGroup.items.some((item) => item.category === "generation") ? "forms" : "artwork");
+  }, [selectedGroup?.key]);
 
   useEffect(() => {
     if (!selectedGroup?.dex) { setDetails(null); return; }
@@ -148,13 +157,15 @@ export default function Home() {
   }
 
   function renderGroupCard(group: PokemonGroup) {
+    const formCount = group.items.filter((item) => item.category === "generation").length;
+    const artworkCount = group.items.filter((item) => item.category === "alternate").length;
     return (
       <article className="art-card" key={group.key}>
         <button className="image-button" onClick={() => setSelected(group.representative)} aria-label={`Open Pokédex entry for ${group.title}`}>
           <span className="dex-number">{group.dex ? `#${String(group.dex).padStart(4, "0")}` : "ALT"}</span>
           <img src={group.representative.src} alt={group.title} loading="lazy" />
           <span className="view-prompt">Open Pokédex ↗</span>
-          {group.items.length > 1 && <span className="forms-count">{group.items.length} forms + art</span>}
+          {group.items.length > 1 && <span className="forms-count">{formCount > 1 ? `${formCount} forms` : ""}{formCount > 1 && artworkCount ? " · " : ""}{artworkCount ? `${artworkCount} alternate ${artworkCount === 1 ? "artwork" : "artworks"}` : ""}</span>}
         </button>
         <div className="card-info">
           <div><h3>{group.title}</h3><p>{group.dex ? `Gen ${generationRoman[group.generation]} · ${generationRegions[group.generation]}` : group.representative.collection}</p></div>
@@ -202,7 +213,7 @@ export default function Home() {
 
       {selected && selectedGroup && <div className="modal" role="dialog" aria-modal="true" aria-label={`${selectedGroup.title} Pokédex entry`} onMouseDown={(event) => { if (event.currentTarget === event.target) setSelected(null); }}>
         <button className="modal-close" onClick={() => setSelected(null)} aria-label="Close Pokédex entry">×</button>
-        <div className={`modal-art ${selectedGroup.items.length > 1 ? "has-forms" : ""}`}><span className="modal-index">{selectedGroup.dex ? `#${String(selectedGroup.dex).padStart(4, "0")}` : "SPECIAL ART"}</span><img src={selected.src} alt={selected.title} />{selectedGroup.items.length > 1 && <div className="form-strip" aria-label={`${selectedGroup.title} forms and artwork`}><div className="form-strip-title"><span>Forms & artwork</span><b>{selectedGroup.items.length}</b></div>{selectedGroup.items.map((item) => <button key={item.id} className={selected.id === item.id ? "active" : ""} onClick={() => setSelected(item)} aria-label={`Show ${item.title}, ${item.collection}`}><img src={item.src} alt="" loading="lazy" /><span>{item.title}</span></button>)}</div>}</div>
+        <div className={`modal-art ${selectedGroup.items.length > 1 ? "has-forms" : ""}`}><span className="modal-index">{selectedGroup.dex ? `#${String(selectedGroup.dex).padStart(4, "0")}` : "SPECIAL ART"}</span><img src={selected.src} alt={selected.title} />{selectedGroup.items.length > 1 && <div className="form-strip" aria-label={`${selectedGroup.title} variations`}><div className="variant-tabs" role="tablist" aria-label="Variation type"><button role="tab" aria-selected={variantView === "forms"} className={variantView === "forms" ? "active" : ""} disabled={!selectedForms.length} onClick={() => { setVariantView("forms"); if (selectedForms.length) setSelected(selectedForms[0]); }}>Forms <b>{selectedForms.length}</b></button><button role="tab" aria-selected={variantView === "artwork"} className={variantView === "artwork" ? "active" : ""} disabled={!selectedArtwork.length} onClick={() => { setVariantView("artwork"); if (selectedArtwork.length) setSelected(selectedArtwork[0]); }}>Alternate artwork <b>{selectedArtwork.length}</b></button></div>{shownVariants.map((item) => <button key={item.id} className={`variant-thumb ${selected.id === item.id ? "active" : ""}`} onClick={() => setSelected(item)} aria-label={`Show ${item.title}, ${item.collection}`}><img src={item.src} alt="" loading="lazy" /><span>{item.title}</span></button>)}</div>}</div>
         <div className="modal-details"><p className="eyebrow"><span /> {selectedGroup.dex ? `Generation ${generationRoman[selectedGroup.generation]} · ${generationRegions[selectedGroup.generation]}` : selected.collection}</p><h2>{selectedGroup.title}</h2>{detailsLoading ? <p className="details-loading">Reading Pokédex data…</p> : details ? <><p className="pokemon-genus">{details.legendary ? "Legendary · " : details.mythical ? "Mythical · " : ""}{details.genus}</p><p className="dex-description">{details.description}</p><div className="type-row">{details.types.map((type) => <span className={`type type-${type}`} key={type}>{titleCase(type)}</span>)}</div><dl className="pokemon-facts"><div><dt>Height</dt><dd>{details.height} m</dd></div><div><dt>Weight</dt><dd>{details.weight} kg</dd></div><div><dt>Habitat</dt><dd>{details.habitat ? titleCase(details.habitat) : "Unknown"}</dd></div><div><dt>Artwork</dt><dd>{selectedGroup.items.length} in archive</dd></div></dl></> : selectedGroup.dex ? <p className="dex-description">Pokédex information is temporarily unavailable.</p> : <p className="dex-description">This unnumbered artwork belongs to the {selected.collection} collection.</p>}
           <div className="source-credit"><span>Artwork source</span><b>{selected.collection}</b><p>Official Pokémon game artwork from the supplied archive. The individual illustrator is not identified in this file.</p></div>
           <div className="modal-actions"><button onClick={() => toggleFavorite(selectedGroup.key)}>{favorites.has(selectedGroup.key) ? "♥ In favorites" : "♡ Add to favorites"}</button><a href={selected.src} download>Download art ↓</a></div><p className="key-hint">Use ← → for next Pokémon · Esc to close</p>
