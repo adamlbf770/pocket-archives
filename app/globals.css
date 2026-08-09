@@ -152,18 +152,18 @@ footer > a { color:#fff; text-decoration:none; text-transform:uppercase; font-si
 .modal-close { position:absolute; top:25px; right:30px; z-index:2; border:1px solid rgba(255,255,255,.4); background:transparent; color:#fff; width:44px; height:44px; border-radius:50%; font-size:27px; cursor:pointer; }
 .modal-art { background:#ece8dc; display:grid; place-items:center; position:relative; min-height:0; overflow:hidden; }
 .modal-art > img { width:100%; height:100%; object-fit:contain; padding:5%; min-height:0; }
-.modal-art.has-forms > img { padding-bottom:155px; }
+.modal-art.has-forms > img { padding-bottom:198px; }
 .modal-index { position:absolute; top:20px; left:22px; color:#6d6960; font-size:10px; font-weight:900; letter-spacing:.13em; }
-.form-strip { position:absolute; left:0; right:0; bottom:0; height:138px; background:rgba(25,24,18,.94); color:#fff; display:flex; align-items:center; gap:8px; padding:13px 14px; overflow-x:auto; overscroll-behavior-inline:contain; scroll-snap-type:x proximity; }
-.variant-tabs { position:sticky; left:0; align-self:stretch; flex:0 0 150px; background:var(--ink); z-index:2; display:flex; flex-direction:column; justify-content:center; gap:5px; padding-right:7px; }
-.variant-tabs button { border:1px solid rgba(255,255,255,.25); background:transparent; color:#aaa; padding:8px 9px; text-align:left; text-transform:uppercase; font-size:7px; letter-spacing:.09em; font-weight:900; cursor:pointer; }
-.variant-tabs button b { float:right; color:#fff; }
+.form-strip { position:absolute; left:0; right:0; bottom:0; height:180px; background:rgba(25,24,18,.96); color:#fff; display:flex; align-items:center; gap:12px; padding:14px 16px; overflow-x:auto; overscroll-behavior-inline:contain; scroll-snap-type:x proximity; }
+.variant-tabs { position:sticky; left:0; align-self:stretch; flex:0 0 190px; background:var(--ink); z-index:2; display:flex; flex-direction:column; justify-content:center; gap:6px; padding-right:9px; }
+.variant-tabs button { min-height:34px; border:1px solid rgba(255,255,255,.34); background:transparent; color:#c5c1b7; padding:9px 11px; text-align:left; text-transform:uppercase; font-size:9px; line-height:1.2; letter-spacing:.08em; font-weight:900; cursor:pointer; }
+.variant-tabs button b { float:right; color:#fff; font-size:10px; margin-left:8px; }
 .variant-tabs button.active { background:var(--orange); border-color:var(--orange); color:#fff; }
 .variant-tabs button:disabled { opacity:.35; cursor:not-allowed; }
-.form-strip > .variant-thumb { flex:0 0 92px; height:106px; background:#dad6ca; border:2px solid transparent; padding:3px; position:relative; cursor:pointer; scroll-snap-align:start; }
+.form-strip > .variant-thumb { flex:0 0 122px; height:146px; background:#dad6ca; border:3px solid transparent; padding:5px; position:relative; cursor:pointer; scroll-snap-align:start; }
 .form-strip > .variant-thumb.active { border-color:var(--orange); }
-.form-strip > .variant-thumb img { width:100%; height:76px; object-fit:contain; display:block; }
-.form-strip > .variant-thumb span { display:block; color:var(--ink); font-size:7px; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding:4px 3px 0; }
+.form-strip > .variant-thumb img { width:100%; height:108px; object-fit:contain; display:block; }
+.form-strip > .variant-thumb span { display:block; color:var(--ink); font-size:9px; line-height:1.2; font-weight:900; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding:7px 4px 0; }
 .card-strip-message { flex:1; color:#aaa; font-family:Georgia,serif; font-size:12px; padding:0 18px; }
 .modal-details { align-self:center; max-height:88vh; overflow-y:auto; padding-right:5px; }
 .modal-details h2 { font-size:clamp(48px,5.5vw,90px); letter-spacing:-.075em; line-height:.85; text-transform:uppercase; margin:0 0 26px; overflow-wrap:anywhere; }
@@ -221,12 +221,14 @@ footer > a { color:#fff; text-decoration:none; text-transform:uppercase; font-si
   .modal-details .eyebrow, .modal-details > p:not(.key-hint) { margin-bottom:10px; }
   .modal-actions { position:sticky; bottom:-20px; z-index:3; margin:15px -20px -20px; padding:12px 20px calc(14px + env(safe-area-inset-bottom)); background:linear-gradient(0deg,var(--ink) 80%,rgba(25,24,18,0)); }
   .modal-actions button, .modal-actions a { min-height:44px; display:flex; align-items:center; justify-content:center; text-align:center; }
-  .modal-art.has-forms > img { padding-bottom:105px; }
-  .form-strip { height:104px; padding:8px; scrollbar-width:none; }
-  .variant-tabs { flex-basis:120px; }
-  .variant-tabs button { min-height:25px; padding:5px 6px; font-size:6px; }
-  .form-strip > .variant-thumb { flex-basis:72px; height:84px; }
-  .form-strip > .variant-thumb img { height:59px; }
+  .modal-art.has-forms > img { padding-bottom:140px; }
+  .form-strip { height:132px; padding:9px 10px; gap:8px; scrollbar-width:none; }
+  .variant-tabs { flex-basis:148px; padding-right:7px; gap:4px; }
+  .variant-tabs button { min-height:27px; padding:6px 8px; font-size:7px; }
+  .variant-tabs button b { font-size:8px; }
+  .form-strip > .variant-thumb { flex-basis:90px; height:108px; padding:4px; }
+  .form-strip > .variant-thumb img { height:78px; }
+  .form-strip > .variant-thumb span { font-size:8px; padding-top:5px; }
   .modal-details { align-self:stretch; max-height:none; height:100%; padding:20px 20px calc(22px + env(safe-area-inset-bottom)); overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; }
   .modal-details .eyebrow { padding-right:48px; }
   .pokemon-facts { margin-bottom:12px; }
