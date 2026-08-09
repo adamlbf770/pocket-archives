@@ -48,6 +48,7 @@ export default function Home() {
   const [details, setDetails] = useState<PokemonDetails | null>(null);
   const [detailsLoading, setDetailsLoading] = useState(false);
   const [variantView, setVariantView] = useState<"forms" | "artwork">("forms");
+  const [displayMode, setDisplayMode] = useState<"grid" | "list">("grid");
   const [view, setView] = useState<"gallery" | "generations" | "favorites">("gallery");
   const searchRef = useRef<HTMLInputElement>(null);
 
@@ -55,6 +56,8 @@ export default function Home() {
     fetch("/data/pokemon.json").then((response) => response.json()).then(setArt);
     const saved = localStorage.getItem("pocket-archive-favorite-species");
     if (saved) setFavorites(new Set(JSON.parse(saved)));
+    const savedDisplay = localStorage.getItem("pocket-archive-display");
+    if (savedDisplay === "list") setDisplayMode("list");
   }, []);
 
   const groups = useMemo(() => {
@@ -156,6 +159,11 @@ export default function Home() {
     });
   }
 
+  function changeDisplay(mode: "grid" | "list") {
+    setDisplayMode(mode);
+    localStorage.setItem("pocket-archive-display", mode);
+  }
+
   function renderGroupCard(group: PokemonGroup) {
     const formCount = group.items.filter((item) => item.category === "generation").length;
     const artworkCount = group.items.filter((item) => item.category === "alternate").length;
@@ -171,6 +179,23 @@ export default function Home() {
           <div><h3>{group.title}</h3><p>{group.dex ? `Gen ${generationRoman[group.generation]} · ${generationRegions[group.generation]}` : group.representative.collection}</p></div>
           <button className={`heart ${favorites.has(group.key) ? "saved" : ""}`} onClick={() => toggleFavorite(group.key)} aria-label={`${favorites.has(group.key) ? "Remove" : "Add"} ${group.title} ${favorites.has(group.key) ? "from" : "to"} favorites`}>♥</button>
         </div>
+      </article>
+    );
+  }
+
+  function renderNameRow(group: PokemonGroup) {
+    const formCount = group.items.filter((item) => item.category === "generation").length;
+    const artworkCount = group.items.filter((item) => item.category === "alternate").length;
+    return (
+      <article className="name-row" key={group.key}>
+        <button className="name-row-main" onClick={() => setSelected(group.representative)} aria-label={`Open Pokédex entry for ${group.title}`}>
+          <span className="name-dex">{group.dex ? `#${String(group.dex).padStart(4, "0")}` : "ALT"}</span>
+          <strong>{group.title}</strong>
+          <span className="name-region">{group.dex ? `Gen ${generationRoman[group.generation]} · ${generationRegions[group.generation]}` : group.representative.collection}</span>
+          <span className="name-counts">{formCount > 1 ? `${formCount} forms` : "Standard form"}{artworkCount ? ` · ${artworkCount} alternate ${artworkCount === 1 ? "artwork" : "artworks"}` : ""}</span>
+          <span className="name-arrow">↗</span>
+        </button>
+        <button className={`heart name-heart ${favorites.has(group.key) ? "saved" : ""}`} onClick={() => toggleFavorite(group.key)} aria-label={`${favorites.has(group.key) ? "Remove" : "Add"} ${group.title} ${favorites.has(group.key) ? "from" : "to"} favorites`}>♥</button>
       </article>
     );
   }
@@ -202,10 +227,10 @@ export default function Home() {
           {view === "gallery" ? <div className="filter-row" aria-label="Filter by generation"><button className={filter === "all" ? "active" : ""} onClick={() => setFilter("all")}>All</button>{Array.from({ length: 9 }, (_, index) => index + 1).map((gen) => <button key={gen} className={filter === `gen-${gen}` ? "active" : ""} onClick={() => setFilter(`gen-${gen}`)}>Gen {generationRoman[gen]}</button>)}<button className={filter === "alternate" ? "active" : ""} onClick={() => setFilter("alternate")}>Has alternate art</button></div> : view === "generations" ? <div className="generation-jumps" aria-label="Jump to generation">{generationGroups.filter((group) => group.generation > 0).map((group) => <a key={group.generation} href={`#generation-${group.generation}`}>Gen {generationRoman[group.generation]}</a>)}{generationGroups.some((group) => group.generation === 0) && <a href="#generation-0">Special</a>}</div> : <p className="favorites-note">Your saved Pokémon live here on this device.</p>}
         </div>
 
-        <div className="results-bar"><p><b>{activeGroups.length.toLocaleString()}</b> {activeGroups.length === 1 ? "Pokémon" : "Pokémon"}{view === "generations" && " · grouped by debut generation"}</p>{view === "gallery" && <label>Sort<select value={sort} onChange={(event) => setSort(event.target.value)}><option value="dex">Pokédex number</option><option value="name">Name A–Z</option><option value="collection">Collection</option></select></label>}</div>
+        <div className="results-bar"><p><b>{activeGroups.length.toLocaleString()}</b> Pokémon{view === "generations" && " · grouped by debut generation"}</p><div className="results-controls">{view === "gallery" && <label>Sort<select value={sort} onChange={(event) => setSort(event.target.value)}><option value="dex">Pokédex number</option><option value="name">Name A–Z</option><option value="collection">Collection</option></select></label>}<div className="display-toggle" role="group" aria-label="Display style"><button className={displayMode === "grid" ? "active" : ""} onClick={() => changeDisplay("grid")} aria-pressed={displayMode === "grid"}><span>▦</span> Grid</button><button className={displayMode === "list" ? "active" : ""} onClick={() => changeDisplay("list")} aria-pressed={displayMode === "list"}><span>☰</span> Names</button></div></div></div>
 
-        {art.length === 0 ? <div className="loading-grid">Opening the archive…</div> : activeGroups.length === 0 ? <div className="empty-state"><span>{view === "favorites" ? "♥" : "?"}</span><h3>{view === "favorites" ? "No favorites yet" : "No matches found"}</h3><p>{view === "favorites" ? "Tap the heart on any Pokémon to build your collection." : "Try another name, number, or generation."}</p>{view !== "favorites" && <button onClick={() => { setQuery(""); setFilter("all"); }}>Clear filters</button>}</div> : view === "generations" ? <div className="generation-list">{generationGroups.sort((a, b) => (a.generation || 10) - (b.generation || 10)).map((group) => <section className="generation-section" id={`generation-${group.generation}`} key={group.generation}><div className="generation-heading"><div><span>{group.generation ? `Generation ${generationRoman[group.generation]}` : "Archive extras"}</span><h3>{generationRegions[group.generation]}</h3></div><p>{group.items.length.toLocaleString()} Pokémon</p></div><div className="art-grid">{group.items.map(renderGroupCard)}</div></section>)}</div> : <div className="art-grid">{activeGroups.slice(0, visible).map(renderGroupCard)}</div>}
-        {view !== "generations" && visible < activeGroups.length && <button className="load-more" onClick={() => setVisible((value) => value + PAGE_SIZE)}>Load more <span>{Math.min(PAGE_SIZE, activeGroups.length - visible)}</span></button>}
+        {art.length === 0 ? <div className="loading-grid">Opening the archive…</div> : activeGroups.length === 0 ? <div className="empty-state"><span>{view === "favorites" ? "♥" : "?"}</span><h3>{view === "favorites" ? "No favorites yet" : "No matches found"}</h3><p>{view === "favorites" ? "Tap the heart on any Pokémon to build your collection." : "Try another name, number, or generation."}</p>{view !== "favorites" && <button onClick={() => { setQuery(""); setFilter("all"); }}>Clear filters</button>}</div> : view === "generations" ? <div className="generation-list">{generationGroups.sort((a, b) => (a.generation || 10) - (b.generation || 10)).map((group) => <section className="generation-section" id={`generation-${group.generation}`} key={group.generation}><div className="generation-heading"><div><span>{group.generation ? `Generation ${generationRoman[group.generation]}` : "Archive extras"}</span><h3>{generationRegions[group.generation]}</h3></div><p>{group.items.length.toLocaleString()} Pokémon</p></div><div className={displayMode === "grid" ? "art-grid" : "name-list"}>{group.items.map(displayMode === "grid" ? renderGroupCard : renderNameRow)}</div></section>)}</div> : <div className={displayMode === "grid" ? "art-grid" : "name-list"}>{(displayMode === "grid" ? activeGroups.slice(0, visible) : activeGroups).map(displayMode === "grid" ? renderGroupCard : renderNameRow)}</div>}
+        {displayMode === "grid" && view !== "generations" && visible < activeGroups.length && <button className="load-more" onClick={() => setVisible((value) => value + PAGE_SIZE)}>Load more <span>{Math.min(PAGE_SIZE, activeGroups.length - visible)}</span></button>}
       </section>
 
       <section className="about" id="about"><p className="eyebrow"><span /> About the archive</p><div className="about-grid"><h2>A visual history,<br />one creature at a time.</h2><div><p>Pocket Archive brings each Pokémon’s official art, forms, and Pokédex details together. Species information is supplied by PokéAPI. Artwork is catalogued from the provided Sugimori collection; individual production credits are not consistently embedded in the files.</p><p className="source-links"><a href="https://pokeapi.co/docs/v2" target="_blank" rel="noreferrer">Pokédex data ↗</a><a href="https://iwataasks.nintendo.com/interviews/ds/pokemon-black-white/0/1/" target="_blank" rel="noreferrer">Sugimori interview ↗</a></p><p className="fine-print">A personal, non-commercial fan archive. Pokémon and all related characters are trademarks of Nintendo, Game Freak, and Creatures Inc.</p></div></div></section>
