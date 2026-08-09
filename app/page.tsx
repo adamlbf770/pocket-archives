@@ -14,6 +14,15 @@ type PokemonArt = {
 
 const PAGE_SIZE = 72;
 const generationRoman = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"];
+const generationRegions = ["Special collections", "Kanto", "Johto", "Hoenn", "Sinnoh", "Unova", "Kalos", "Alola", "Galar & Hisui", "Paldea"];
+const dexGenerationEnds = [151, 251, 386, 493, 649, 721, 809, 905, 1025];
+
+function generationFor(item: PokemonArt) {
+  if (item.generation) return item.generation;
+  if (!item.dex) return 0;
+  const index = dexGenerationEnds.findIndex((end) => item.dex! <= end);
+  return index < 0 ? 9 : index + 1;
+}
 
 export default function Home() {
   const [art, setArt] = useState<PokemonArt[]>([]);
@@ -23,6 +32,7 @@ export default function Home() {
   const [visible, setVisible] = useState(PAGE_SIZE);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [selected, setSelected] = useState<PokemonArt | null>(null);
+  const [view, setView] = useState<"gallery" | "generations">("gallery");
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -41,9 +51,9 @@ export default function Home() {
       if (event.key === "Escape") setSelected(null);
       if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
         const direction = event.key === "ArrowRight" ? 1 : -1;
-        const current = filtered.findIndex((item) => item.id === selected.id);
-        const next = (current + direction + filtered.length) % filtered.length;
-        setSelected(filtered[next]);
+        const current = activeResults.findIndex((item) => item.id === selected.id);
+        const next = (current + direction + activeResults.length) % activeResults.length;
+        setSelected(activeResults[next]);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -67,6 +77,19 @@ export default function Home() {
     });
   }, [art, query, filter, sort, favorites]);
 
+  const generationResults = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    return art.filter((item) => !needle || `${item.title} ${item.dex ?? ""} ${item.collection}`.toLowerCase().includes(needle))
+      .sort((a, b) => generationFor(a) - generationFor(b) || (a.dex ?? 9999) - (b.dex ?? 9999) || a.title.localeCompare(b.title));
+  }, [art, query]);
+
+  const generationGroups = useMemo(() => Array.from({ length: 10 }, (_, generation) => ({
+    generation,
+    items: generationResults.filter((item) => generationFor(item) === generation),
+  })).filter((group) => group.items.length), [generationResults]);
+
+  const activeResults = view === "generations" ? generationResults : filtered;
+
   const featured = useMemo(() => {
     const names = ["Bulbasaur", "Charizard", "Pikachu", "Gengar", "Eevee"];
     return names.map((name) => art.find((item) => item.title === name && item.category === "generation")).filter(Boolean) as PokemonArt[];
@@ -88,6 +111,22 @@ export default function Home() {
     alternates: art.filter((item) => item.category === "alternate").length,
   }), [art]);
 
+  function renderArtCard(item: PokemonArt) {
+    return (
+      <article className="art-card" key={item.id}>
+        <button className="image-button" onClick={() => setSelected(item)} aria-label={`View ${item.title}`}>
+          <span className="dex-number">{item.dex ? `#${String(item.dex).padStart(4, "0")}` : "ALT"}</span>
+          <img src={item.src} alt={item.title} loading="lazy" />
+          <span className="view-prompt">View artwork ↗</span>
+        </button>
+        <div className="card-info">
+          <div><h3>{item.title}</h3><p>{item.collection}</p></div>
+          <button className={`heart ${favorites.has(item.id) ? "saved" : ""}`} onClick={() => toggleFavorite(item.id)} aria-label={`${favorites.has(item.id) ? "Remove" : "Add"} ${item.title} ${favorites.has(item.id) ? "from" : "to"} favorites`}>♥</button>
+        </div>
+      </article>
+    );
+  }
+
   return (
     <main>
       <header className="site-header">
@@ -99,7 +138,7 @@ export default function Home() {
           <a href="#collection">Collection</a>
           <a href="#about">About</a>
         </nav>
-        <button className="favorites-link" onClick={() => { setFilter("favorites"); document.querySelector("#collection")?.scrollIntoView({ behavior: "smooth" }); }}>
+        <button className="favorites-link" onClick={() => { setView("gallery"); setFilter("favorites"); document.querySelector("#collection")?.scrollIntoView({ behavior: "smooth" }); }}>
           <span>♥</span> Favorites <b>{favorites.size}</b>
         </button>
       </header>
@@ -136,55 +175,63 @@ export default function Home() {
           <p>Search by name, Pokédex number, generation, or special collection.</p>
         </div>
 
+        <div className="view-tabs" role="tablist" aria-label="Collection views">
+          <button role="tab" aria-selected={view === "gallery"} className={view === "gallery" ? "active" : ""} onClick={() => setView("gallery")}><span>01</span> Gallery</button>
+          <button role="tab" aria-selected={view === "generations"} className={view === "generations" ? "active" : ""} onClick={() => setView("generations")}><span>02</span> By generation</button>
+        </div>
+
         <div className="filter-panel">
           <label className="search-box">
             <span aria-hidden="true">⌕</span>
             <input ref={searchRef} value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search Pokémon, number, or collection…" aria-label="Search archive" />
             <kbd>/</kbd>
           </label>
-          <div className="filter-row" aria-label="Filter by generation">
+          {view === "gallery" ? <div className="filter-row" aria-label="Filter by generation">
             <button className={filter === "all" ? "active" : ""} onClick={() => setFilter("all")}>All</button>
             {Array.from({ length: 9 }, (_, index) => index + 1).map((gen) => (
               <button key={gen} className={filter === `gen-${gen}` ? "active" : ""} onClick={() => setFilter(`gen-${gen}`)}>Gen {generationRoman[gen]}</button>
             ))}
             <button className={filter === "alternate" ? "active" : ""} onClick={() => setFilter("alternate")}>Alternate art</button>
-          </div>
+          </div> : <div className="generation-jumps" aria-label="Jump to generation">
+            {generationGroups.filter((group) => group.generation > 0).map((group) => <a key={group.generation} href={`#generation-${group.generation}`}>Gen {generationRoman[group.generation]}</a>)}
+            {generationGroups.some((group) => group.generation === 0) && <a href="#generation-0">Special</a>}
+          </div>}
         </div>
 
         <div className="results-bar">
-          <p><b>{filtered.length.toLocaleString()}</b> {filtered.length === 1 ? "artwork" : "artworks"}</p>
-          <label>Sort
+          <p><b>{activeResults.length.toLocaleString()}</b> {activeResults.length === 1 ? "artwork" : "artworks"}{view === "generations" && " · grouped by debut generation"}</p>
+          {view === "gallery" && <label>Sort
             <select value={sort} onChange={(event) => setSort(event.target.value)}>
               <option value="dex">Pokédex number</option>
               <option value="name">Name A–Z</option>
               <option value="collection">Collection</option>
             </select>
-          </label>
+          </label>}
         </div>
 
         {art.length === 0 ? (
           <div className="loading-grid">Opening the archive…</div>
-        ) : filtered.length === 0 ? (
+        ) : activeResults.length === 0 ? (
           <div className="empty-state"><span>?</span><h3>No matches found</h3><p>Try another name, number, or generation.</p><button onClick={() => { setQuery(""); setFilter("all"); }}>Clear filters</button></div>
-        ) : (
+        ) : view === "gallery" ? (
           <div className="art-grid">
-            {filtered.slice(0, visible).map((item) => (
-              <article className="art-card" key={item.id}>
-                <button className="image-button" onClick={() => setSelected(item)} aria-label={`View ${item.title}`}>
-                  <span className="dex-number">{item.dex ? `#${String(item.dex).padStart(4, "0")}` : "ALT"}</span>
-                  <img src={item.src} alt={item.title} loading="lazy" />
-                  <span className="view-prompt">View artwork ↗</span>
-                </button>
-                <div className="card-info">
-                  <div><h3>{item.title}</h3><p>{item.collection}</p></div>
-                  <button className={`heart ${favorites.has(item.id) ? "saved" : ""}`} onClick={() => toggleFavorite(item.id)} aria-label={`${favorites.has(item.id) ? "Remove" : "Add"} ${item.title} ${favorites.has(item.id) ? "from" : "to"} favorites`}>♥</button>
+            {filtered.slice(0, visible).map(renderArtCard)}
+          </div>
+        ) : (
+          <div className="generation-list">
+            {generationGroups.sort((a, b) => (a.generation || 10) - (b.generation || 10)).map((group) => (
+              <section className="generation-section" id={`generation-${group.generation}`} key={group.generation}>
+                <div className="generation-heading">
+                  <div><span>{group.generation ? `Generation ${generationRoman[group.generation]}` : "Archive extras"}</span><h3>{generationRegions[group.generation]}</h3></div>
+                  <p>{group.items.length.toLocaleString()} artworks</p>
                 </div>
-              </article>
+                <div className="art-grid">{group.items.map(renderArtCard)}</div>
+              </section>
             ))}
           </div>
         )}
 
-        {visible < filtered.length && <button className="load-more" onClick={() => setVisible((value) => value + PAGE_SIZE)}>Load more <span>{Math.min(PAGE_SIZE, filtered.length - visible)}</span></button>}
+        {view === "gallery" && visible < filtered.length && <button className="load-more" onClick={() => setVisible((value) => value + PAGE_SIZE)}>Load more <span>{Math.min(PAGE_SIZE, filtered.length - visible)}</span></button>}
       </section>
 
       <section className="about" id="about">
