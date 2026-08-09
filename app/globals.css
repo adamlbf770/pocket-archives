@@ -139,10 +139,10 @@ footer > a { color:#fff; text-decoration:none; text-transform:uppercase; font-si
 .pokemon-facts div { border-right:1px solid rgba(255,255,255,.16); border-bottom:1px solid rgba(255,255,255,.16); padding:10px 12px; }
 .pokemon-facts dt { color:#777; text-transform:uppercase; letter-spacing:.1em; font-size:7px; font-weight:900; }
 .pokemon-facts dd { margin:4px 0 0; font-family:Georgia,serif; font-size:13px; }
-.artist-credit { border-left:3px solid var(--orange); padding:3px 0 3px 13px; margin:19px 0; }
-.artist-credit span { color:#777; text-transform:uppercase; letter-spacing:.12em; font-size:7px; font-weight:900; display:block; }
-.artist-credit b { font-size:11px; display:block; margin:4px 0; }
-.artist-credit p { color:#777; font-family:Georgia,serif; font-size:10px; margin:0; line-height:1.4; }
+.source-credit { border-left:3px solid var(--orange); padding:3px 0 3px 13px; margin:19px 0; }
+.source-credit span { color:#777; text-transform:uppercase; letter-spacing:.12em; font-size:7px; font-weight:900; display:block; }
+.source-credit b { font-size:11px; display:block; margin:4px 0; }
+.source-credit p { color:#777; font-family:Georgia,serif; font-size:10px; margin:0; line-height:1.4; }
 .modal-actions { display:flex; gap:10px; margin-top:38px; }
 .modal-actions button, .modal-actions a { background:transparent; border:1px solid rgba(255,255,255,.35); color:#fff; text-decoration:none; padding:12px 15px; border-radius:999px; cursor:pointer; text-transform:uppercase; font-size:9px; font-weight:900; letter-spacing:.08em; }
 .modal-actions button:hover, .modal-actions a:hover { background:#fff; color:var(--ink); }
@@ -172,7 +172,7 @@ footer > a { color:#fff; text-decoration:none; text-transform:uppercase; font-si
   .form-strip button img { height:53px; }
   .modal-details { max-height:38vh; }
   .pokemon-facts { margin-bottom:12px; }
-  .artist-credit { margin:12px 0; }
+  .source-credit { margin:12px 0; }
   .key-hint { display:none; }
 }
 @media (max-width:560px) {
