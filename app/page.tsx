@@ -37,6 +37,7 @@ const referenceResources = [
 ];
 
 const PAGE_SIZE = 72;
+const secureReferenceHosts = new Set(["psartroom.weebly.com", "i.imgur.com", "31.media.tumblr.com", "37.media.tumblr.com", "38.media.tumblr.com", "33.media.tumblr.com", "25.media.tumblr.com", "24.media.tumblr.com", "i288.photobucket.com", "i19.photobucket.com", "i6.photobucket.com", "i5.photobucket.com", "i68.photobucket.com", "img.photobucket.com", "smg.photobucket.com", "rubberslug.s3.amazonaws.com", "ic.pics.livejournal.com", "www.pokewiki.de", "thesunnyclearing.weebly.com", "caffwin.weebly.com", "spiritofmetal.weebly.com", "lilycove.weebly.com", "olivine.weebly.com", "pikapalace.weebly.com", "bulbapedia.bulbagarden.net", "sketchfab.com", "www.google.com"]);
 const generationRoman = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"];
 const generationRegions = ["Special collections", "Kanto", "Johto", "Hoenn", "Sinnoh", "Unova", "Kalos", "Alola", "Galar & Hisui", "Paldea"];
 const dexGenerationEnds = [151, 251, 386, 493, 649, 721, 809, 905, 1025];
@@ -54,6 +55,16 @@ function groupKey(item: PokemonArt) {
 
 function titleCase(value: string) {
   return value.replaceAll("-", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function referenceDestination(value: string) {
+  try {
+    const url = new URL(value);
+    if (url.protocol === "http:" && secureReferenceHosts.has(url.hostname)) url.protocol = "https:";
+    return url.toString();
+  } catch {
+    return value;
+  }
 }
 
 export default function Home() {
@@ -326,7 +337,7 @@ export default function Home() {
 
         <div className="filter-panel">
           <label className="search-box"><span aria-hidden="true">⌕</span><input ref={searchRef} value={query} onChange={(event) => setQuery(event.target.value)} placeholder={view === "references" ? "Search Pokémon, pose, expression, or art resource…" : "Search Pokémon, number, form, or collection…"} aria-label={view === "references" ? "Search reference library" : "Search Pokédex"} /><kbd>/</kbd></label>
-          {view === "gallery" ? <div className="filter-row" aria-label="Open generation page"><button className={filter === "all" ? "active" : ""} onClick={openAllPokedex}>All</button>{Array.from({ length: 9 }, (_, index) => index + 1).map((gen) => <button key={gen} className={filter === `gen-${gen}` ? "active" : ""} onClick={() => openGeneration(gen)}>Gen {generationRoman[gen]}</button>)}</div> : view === "references" ? <p className="favorites-note">Search your supplied character-design drawings together with PS Art Room’s credited production model-sheet index.</p> : <p className="favorites-note">Your saved Pokémon live here on this device.</p>}
+          {view === "gallery" ? <div className="filter-row" aria-label="Open generation page"><button className={filter === "all" ? "active" : ""} onClick={openAllPokedex}>All</button>{Array.from({ length: 9 }, (_, index) => index + 1).map((gen) => <button key={gen} className={filter === `gen-${gen}` ? "active" : ""} onClick={() => openGeneration(gen)}>Gen {generationRoman[gen]}</button>)}</div> : view === "references" ? <p className="favorites-note">Search your supplied character-design drawings together with PS Art Room’s credited model-sheet index. Dead original hosts open through verified archived copies.</p> : <p className="favorites-note">Your saved Pokémon live here on this device.</p>}
         </div>
 
         {view === "gallery" && activeGeneration && <div className="generation-page-heading"><div><span>Generation {generationRoman[activeGeneration]}</span><h3>{generationRegions[activeGeneration]}</h3></div><button onClick={openAllPokedex}>← All Pokémon</button></div>}
@@ -335,7 +346,7 @@ export default function Home() {
 
         {view === "references" ? <div className="reference-library">
           {!!designResults.length && <section className="archive-sketches"><div className="reference-heading"><span>Your archive</span><h3>Character sketches</h3><p>{designResults.length} Pokémon</p></div><div className="art-grid">{designResults.map(renderDesignCard)}</div></section>}
-          <div className="reference-layout"><div className="reference-main"><div className="reference-heading"><span>PS Art Room index</span><h3>Production references</h3><p>{referenceResults.length} Pokémon</p></div>{setteiDirectory.length === 0 ? <div className="loading-grid">Indexing the reference room…</div> : referenceResults.length === 0 ? <div className="empty-state"><span>?</span><h3>No reference sheets found</h3><p>Try another Pokémon, pose, or expression.</p><button onClick={() => setQuery("")}>Clear search</button></div> : <div className="settei-list">{referenceResults.slice(0, visible).map((group) => <article className="settei-row" key={group.dex}><div className="settei-name"><span>#{String(group.dex).padStart(4, "0")}</span><h3>{group.name}</h3><p>{group.links.length} {group.links.length === 1 ? "sheet" : "sheets"}</p></div><div className="settei-links">{group.links.map((link, index) => <a href={link.url} target="_blank" rel="noreferrer" key={`${link.url}-${index}`}>{link.label === "Model sheet" && index > 0 ? `Model sheet ${index + 1}` : titleCase(link.label)} <span>↗</span></a>)}</div></article>)}</div>}</div>
+          <div className="reference-layout"><div className="reference-main"><div className="reference-heading"><span>PS Art Room index</span><h3>Production references</h3><p>{referenceResults.length} Pokémon</p></div>{setteiDirectory.length === 0 ? <div className="loading-grid">Indexing the reference room…</div> : referenceResults.length === 0 ? <div className="empty-state"><span>?</span><h3>No reference sheets found</h3><p>Try another Pokémon, pose, or expression.</p><button onClick={() => setQuery("")}>Clear search</button></div> : <div className="settei-list">{referenceResults.slice(0, visible).map((group) => <article className="settei-row" key={group.dex}><div className="settei-name"><span>#{String(group.dex).padStart(4, "0")}</span><h3>{group.name}</h3><p>{group.links.length} {group.links.length === 1 ? "sheet" : "sheets"}</p></div><div className="settei-links">{group.links.map((link, index) => { const archived = link.url.includes("web.archive.org/web/"); return <a href={referenceDestination(link.url)} target="_blank" rel="noreferrer" key={`${link.url}-${index}`} title={archived ? "Open preserved archive copy" : "Open original reference"}>{link.label === "Model sheet" && index > 0 ? `Model sheet ${index + 1}` : titleCase(link.label)}{archived && <small>Archived</small>} <span>↗</span></a>; })}</div></article>)}</div>}</div>
           {!!resourceResults.length && <aside className="resource-sidebar"><div className="reference-heading compact"><span>Artist toolkit</span><h3>More resources</h3></div><div className="resource-grid">{resourceResults.map((resource) => <a className="resource-card" href={resource.url} target="_blank" rel="noreferrer" key={resource.title}><span>{resource.eyebrow}</span><h3>{resource.title}</h3><p>{resource.description}</p><b>Visit original resource ↗</b></a>)}</div></aside>}</div>
         </div> : art.length === 0 ? <div className="loading-grid">Opening the archive…</div> : activeGroups.length === 0 ? <div className="empty-state"><span>{view === "favorites" ? "♥" : "?"}</span><h3>{view === "favorites" ? "No favorites yet" : "No matches found"}</h3><p>{view === "favorites" ? "Tap the heart on any Pokémon to build your collection." : "Try another name, number, or generation."}</p>{view !== "favorites" && <button onClick={() => { setQuery(""); setFilter("all"); }}>Clear filters</button>}</div> : <div className={displayMode === "grid" ? "art-grid" : "name-list"}>{(displayMode === "grid" ? activeGroups.slice(0, visible) : activeGroups).map(displayMode === "grid" ? renderGroupCard : renderNameRow)}</div>}
         {view === "references" && visible < referenceResults.length && <button className="load-more" onClick={() => setVisible((value) => value + PAGE_SIZE)}>Load more <span>{Math.min(PAGE_SIZE, referenceResults.length - visible)}</span></button>}

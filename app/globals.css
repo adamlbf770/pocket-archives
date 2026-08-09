@@ -149,8 +149,10 @@ button { color:inherit; }
 .settei-name p { margin:4px 0 0; color:#8a877e; font-family:Georgia,serif; font-size:10px; }
 .settei-links { display:flex; flex-wrap:wrap; gap:7px; justify-content:flex-end; }
 .settei-links a { min-height:38px; display:flex; align-items:center; gap:10px; padding:9px 12px; border:1px solid var(--line); border-radius:999px; color:var(--ink); text-decoration:none; text-transform:uppercase; letter-spacing:.07em; font-size:8px; font-weight:900; transition:.18s; }
+.settei-links a small { color:var(--orange); font-size:6px; letter-spacing:.08em; }
 .settei-links a span { color:var(--orange); font-size:12px; }
 .settei-links a:hover { background:var(--ink); border-color:var(--ink); color:#fff; }
+.settei-links a:hover small { color:var(--lime); }
 .about { background:var(--lime); padding:100px 4vw; }
 .about .eyebrow span { background:var(--ink); }
 .about-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:10vw; align-items:start; }
