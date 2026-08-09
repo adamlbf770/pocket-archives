@@ -60,6 +60,11 @@ button { color:inherit; }
 .filter-row { display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; overscroll-behavior-inline:contain; }
 .filter-row button { border:1px solid var(--line); background:transparent; padding:10px 15px; border-radius:999px; white-space:nowrap; cursor:pointer; text-transform:uppercase; font-size:9px; letter-spacing:.08em; font-weight:900; transition:.2s; }
 .filter-row button:hover, .filter-row button.active { background:var(--ink); border-color:var(--ink); color:#fff; }
+.generation-page-heading { margin-top:34px; padding:18px 0 25px; border-top:3px solid var(--ink); border-bottom:1px solid var(--line); display:flex; align-items:flex-end; justify-content:space-between; gap:24px; }
+.generation-page-heading span { color:var(--orange); text-transform:uppercase; font-size:9px; font-weight:900; letter-spacing:.14em; }
+.generation-page-heading h3 { margin:6px 0 0; font-size:clamp(42px,5vw,72px); line-height:.86; letter-spacing:-.07em; text-transform:uppercase; }
+.generation-page-heading button { min-height:42px; border:1px solid var(--ink); background:transparent; padding:10px 15px; border-radius:999px; cursor:pointer; text-transform:uppercase; font-size:9px; letter-spacing:.08em; font-weight:900; white-space:nowrap; }
+.generation-page-heading button:hover { background:var(--ink); color:#fff; }
 .generation-jumps { display:flex; gap:8px; overflow-x:auto; overscroll-behavior-inline:contain; }
 .generation-jumps a { border:1px solid var(--line); color:var(--ink); text-decoration:none; padding:10px 15px; border-radius:999px; white-space:nowrap; text-transform:uppercase; font-size:9px; letter-spacing:.08em; font-weight:900; }
 .generation-jumps a:hover { background:var(--ink); color:#fff; }
@@ -218,6 +223,7 @@ footer > a { color:#fff; text-decoration:none; text-transform:uppercase; font-si
   .filter-row, .generation-jumps { margin-right:-4vw; padding-right:4vw; scrollbar-width:none; scroll-snap-type:x proximity; }
   .filter-row button, .generation-jumps a { min-height:42px; display:flex; align-items:center; scroll-snap-align:start; }
   .generation-list { gap:75px; }
+  .generation-page-heading { margin-top:25px; }
   .reference-layout { grid-template-columns:1fr; gap:62px; }
   .resource-sidebar { position:static; }
   .resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
@@ -271,6 +277,10 @@ footer > a { color:#fff; text-decoration:none; text-transform:uppercase; font-si
   .search-box input { font-size:16px; }
   .search-box kbd { display:none; }
   .filter-row, .generation-jumps { margin-right:-20px; padding-right:20px; }
+  .generation-page-heading { align-items:flex-start; }
+  .generation-page-heading h3 { font-size:13vw; }
+  .generation-page-heading button { font-size:0; padding:10px 13px; }
+  .generation-page-heading button:first-letter { font-size:13px; }
   .art-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px 10px; }
   .card-info h3 { font-size:13px; }
   .card-info p { max-width:115px; font-size:10px; }

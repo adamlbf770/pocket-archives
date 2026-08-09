@@ -72,7 +72,7 @@ export default function Home() {
   const [cardsError, setCardsError] = useState(false);
   const [selectedCard, setSelectedCard] = useState<TcgCard | null>(null);
   const [displayMode, setDisplayMode] = useState<"grid" | "list">("grid");
-  const [view, setView] = useState<"gallery" | "generations" | "references" | "favorites">("gallery");
+  const [view, setView] = useState<"gallery" | "references" | "favorites">("gallery");
   const [setteiDirectory, setSetteiDirectory] = useState<SetteiGroup[]>([]);
   const searchRef = useRef<HTMLInputElement>(null);
 
@@ -83,6 +83,24 @@ export default function Home() {
     if (saved) setFavorites(new Set(JSON.parse(saved)));
     const savedDisplay = localStorage.getItem("pocket-archive-display");
     if (savedDisplay === "list") setDisplayMode("list");
+  }, []);
+
+  useEffect(() => {
+    const syncPageFromHash = () => {
+      const generationMatch = window.location.hash.match(/^#gen-([1-9])$/);
+      if (generationMatch) {
+        setView("gallery");
+        setFilter(`gen-${generationMatch[1]}`);
+        requestAnimationFrame(() => document.querySelector("#collection")?.scrollIntoView());
+      } else if (window.location.hash === "#references") {
+        setView("references");
+        setFilter("all");
+        requestAnimationFrame(() => document.querySelector("#collection")?.scrollIntoView());
+      }
+    };
+    syncPageFromHash();
+    window.addEventListener("hashchange", syncPageFromHash);
+    return () => window.removeEventListener("hashchange", syncPageFromHash);
   }, []);
 
   const groups = useMemo(() => {
@@ -169,12 +187,6 @@ export default function Home() {
     });
   }, [groups, query, filter, sort]);
 
-  const generationResults = useMemo(() => {
-    const needle = query.trim().toLowerCase();
-    return groups.filter((group) => !needle || `${group.title} ${group.dex ?? ""} ${group.items.map((item) => `${item.title} ${item.collection}`).join(" ")}`.toLowerCase().includes(needle))
-      .sort((a, b) => a.generation - b.generation || (a.dex ?? 9999) - (b.dex ?? 9999) || a.title.localeCompare(b.title));
-  }, [groups, query]);
-
   const favoriteResults = useMemo(() => filteredGroups.filter((group) => favorites.has(group.key)), [filteredGroups, favorites]);
   const designResults = useMemo(() => filteredGroups.filter((group) => group.items.some((item) => item.category === "design")), [filteredGroups]);
   const referenceResults = useMemo(() => {
@@ -185,8 +197,8 @@ export default function Home() {
     const needle = query.trim().toLowerCase();
     return referenceResources.filter((resource) => !needle || `${resource.title} ${resource.eyebrow} ${resource.description} ${resource.keywords}`.toLowerCase().includes(needle));
   }, [query]);
-  const activeGroups = view === "generations" ? generationResults : view === "favorites" ? favoriteResults : filteredGroups;
-  const generationGroups = useMemo(() => Array.from({ length: 10 }, (_, generation) => ({ generation, items: generationResults.filter((group) => group.generation === generation) })).filter((group) => group.items.length), [generationResults]);
+  const activeGroups = view === "favorites" ? favoriteResults : filteredGroups;
+  const activeGeneration = filter.startsWith("gen-") ? Number(filter.slice(4)) : null;
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -219,6 +231,24 @@ export default function Home() {
   function changeDisplay(mode: "grid" | "list") {
     setDisplayMode(mode);
     localStorage.setItem("pocket-archive-display", mode);
+  }
+
+  function openAllPokedex() {
+    setView("gallery");
+    setFilter("all");
+    window.history.pushState(null, "", "#collection");
+  }
+
+  function openGeneration(generation: number) {
+    setView("gallery");
+    setFilter(`gen-${generation}`);
+    window.history.pushState(null, "", `#gen-${generation}`);
+  }
+
+  function openReferences() {
+    setView("references");
+    setFilter("all");
+    window.history.pushState(null, "", "#references");
   }
 
   function renderGroupCard(group: PokemonGroup) {
@@ -290,25 +320,26 @@ export default function Home() {
       <section className="collection" id="collection">
         <div className="section-heading"><div><p className="eyebrow"><span /> Browse the Pokédex</p><h2>Know your favorite.</h2></div><p>Search a Pokémon once, then explore its Pokédex data, forms, and artwork in one place.</p></div>
         <div className="view-tabs" role="tablist" aria-label="Collection views">
-          <button role="tab" aria-selected={view === "gallery"} className={view === "gallery" ? "active" : ""} onClick={() => { setView("gallery"); setFilter("all"); }}><span>01</span> Pokédex</button>
-          <button role="tab" aria-selected={view === "generations"} className={view === "generations" ? "active" : ""} onClick={() => setView("generations")}><span>02</span> Pokédex by generation</button>
-          <button role="tab" aria-selected={view === "references"} className={view === "references" ? "active" : ""} onClick={() => { setView("references"); setFilter("all"); }}><span>03</span> References & sketches</button>
+          <button role="tab" aria-selected={view === "gallery"} className={view === "gallery" ? "active" : ""} onClick={openAllPokedex}><span>01</span> Pokédex</button>
+          <button role="tab" aria-selected={view === "references"} className={view === "references" ? "active" : ""} onClick={openReferences}><span>02</span> References & sketches</button>
         </div>
 
         <div className="filter-panel">
           <label className="search-box"><span aria-hidden="true">⌕</span><input ref={searchRef} value={query} onChange={(event) => setQuery(event.target.value)} placeholder={view === "references" ? "Search Pokémon, pose, expression, or art resource…" : "Search Pokémon, number, form, or collection…"} aria-label={view === "references" ? "Search reference library" : "Search Pokédex"} /><kbd>/</kbd></label>
-          {view === "gallery" ? <div className="filter-row" aria-label="Filter by generation"><button className={filter === "all" ? "active" : ""} onClick={() => setFilter("all")}>All</button>{Array.from({ length: 9 }, (_, index) => index + 1).map((gen) => <button key={gen} className={filter === `gen-${gen}` ? "active" : ""} onClick={() => setFilter(`gen-${gen}`)}>Gen {generationRoman[gen]}</button>)}</div> : view === "generations" ? <div className="generation-jumps" aria-label="Jump to generation">{generationGroups.filter((group) => group.generation > 0).map((group) => <a key={group.generation} href={`#generation-${group.generation}`}>Gen {generationRoman[group.generation]}</a>)}{generationGroups.some((group) => group.generation === 0) && <a href="#generation-0">Special</a>}</div> : view === "references" ? <p className="favorites-note">Search your supplied character-design drawings together with PS Art Room’s credited production model-sheet index.</p> : <p className="favorites-note">Your saved Pokémon live here on this device.</p>}
+          {view === "gallery" ? <div className="filter-row" aria-label="Open generation page"><button className={filter === "all" ? "active" : ""} onClick={openAllPokedex}>All</button>{Array.from({ length: 9 }, (_, index) => index + 1).map((gen) => <button key={gen} className={filter === `gen-${gen}` ? "active" : ""} onClick={() => openGeneration(gen)}>Gen {generationRoman[gen]}</button>)}</div> : view === "references" ? <p className="favorites-note">Search your supplied character-design drawings together with PS Art Room’s credited production model-sheet index.</p> : <p className="favorites-note">Your saved Pokémon live here on this device.</p>}
         </div>
 
-        <div className="results-bar"><p>{view === "references" ? <><b>{designResults.length.toLocaleString()}</b> archive sketches · <b>{referenceResults.reduce((sum, group) => sum + group.links.length, 0).toLocaleString()}</b> external sheets</> : <><b>{activeGroups.length.toLocaleString()}</b> Pokémon{view === "generations" && " · grouped by debut generation"}</>}</p><div className="results-controls">{view === "gallery" && <label>Sort<select value={sort} onChange={(event) => setSort(event.target.value)}><option value="dex">Pokédex number</option><option value="name">Name A–Z</option><option value="collection">Collection</option></select></label>}{view !== "references" && <div className="display-toggle" role="group" aria-label="Display style"><button className={displayMode === "grid" ? "active" : ""} onClick={() => changeDisplay("grid")} aria-pressed={displayMode === "grid"}><span>▦</span> Grid</button><button className={displayMode === "list" ? "active" : ""} onClick={() => changeDisplay("list")} aria-pressed={displayMode === "list"}><span>☰</span> Names</button></div>}</div></div>
+        {view === "gallery" && activeGeneration && <div className="generation-page-heading"><div><span>Generation {generationRoman[activeGeneration]}</span><h3>{generationRegions[activeGeneration]}</h3></div><button onClick={openAllPokedex}>← All Pokémon</button></div>}
+
+        <div className="results-bar"><p>{view === "references" ? <><b>{designResults.length.toLocaleString()}</b> archive sketches · <b>{referenceResults.reduce((sum, group) => sum + group.links.length, 0).toLocaleString()}</b> external sheets</> : <><b>{activeGroups.length.toLocaleString()}</b> Pokémon{activeGeneration ? ` · Generation ${generationRoman[activeGeneration]}` : ""}</>}</p><div className="results-controls">{view === "gallery" && <label>Sort<select value={sort} onChange={(event) => setSort(event.target.value)}><option value="dex">Pokédex number</option><option value="name">Name A–Z</option><option value="collection">Collection</option></select></label>}{view !== "references" && <div className="display-toggle" role="group" aria-label="Display style"><button className={displayMode === "grid" ? "active" : ""} onClick={() => changeDisplay("grid")} aria-pressed={displayMode === "grid"}><span>▦</span> Grid</button><button className={displayMode === "list" ? "active" : ""} onClick={() => changeDisplay("list")} aria-pressed={displayMode === "list"}><span>☰</span> Names</button></div>}</div></div>
 
         {view === "references" ? <div className="reference-library">
           {!!designResults.length && <section className="archive-sketches"><div className="reference-heading"><span>Your archive</span><h3>Character sketches</h3><p>{designResults.length} Pokémon</p></div><div className="art-grid">{designResults.map(renderDesignCard)}</div></section>}
           <div className="reference-layout"><div className="reference-main"><div className="reference-heading"><span>PS Art Room index</span><h3>Production references</h3><p>{referenceResults.length} Pokémon</p></div>{setteiDirectory.length === 0 ? <div className="loading-grid">Indexing the reference room…</div> : referenceResults.length === 0 ? <div className="empty-state"><span>?</span><h3>No reference sheets found</h3><p>Try another Pokémon, pose, or expression.</p><button onClick={() => setQuery("")}>Clear search</button></div> : <div className="settei-list">{referenceResults.slice(0, visible).map((group) => <article className="settei-row" key={group.dex}><div className="settei-name"><span>#{String(group.dex).padStart(4, "0")}</span><h3>{group.name}</h3><p>{group.links.length} {group.links.length === 1 ? "sheet" : "sheets"}</p></div><div className="settei-links">{group.links.map((link, index) => <a href={link.url} target="_blank" rel="noreferrer" key={`${link.url}-${index}`}>{link.label === "Model sheet" && index > 0 ? `Model sheet ${index + 1}` : titleCase(link.label)} <span>↗</span></a>)}</div></article>)}</div>}</div>
           {!!resourceResults.length && <aside className="resource-sidebar"><div className="reference-heading compact"><span>Artist toolkit</span><h3>More resources</h3></div><div className="resource-grid">{resourceResults.map((resource) => <a className="resource-card" href={resource.url} target="_blank" rel="noreferrer" key={resource.title}><span>{resource.eyebrow}</span><h3>{resource.title}</h3><p>{resource.description}</p><b>Visit original resource ↗</b></a>)}</div></aside>}</div>
-        </div> : art.length === 0 ? <div className="loading-grid">Opening the archive…</div> : activeGroups.length === 0 ? <div className="empty-state"><span>{view === "favorites" ? "♥" : "?"}</span><h3>{view === "favorites" ? "No favorites yet" : "No matches found"}</h3><p>{view === "favorites" ? "Tap the heart on any Pokémon to build your collection." : "Try another name, number, or generation."}</p>{view !== "favorites" && <button onClick={() => { setQuery(""); setFilter("all"); }}>Clear filters</button>}</div> : view === "generations" ? <div className="generation-list">{generationGroups.sort((a, b) => (a.generation || 10) - (b.generation || 10)).map((group) => <section className="generation-section" id={`generation-${group.generation}`} key={group.generation}><div className="generation-heading"><div><span>{group.generation ? `Generation ${generationRoman[group.generation]}` : "Archive extras"}</span><h3>{generationRegions[group.generation]}</h3></div><p>{group.items.length.toLocaleString()} Pokémon</p></div><div className={displayMode === "grid" ? "art-grid" : "name-list"}>{group.items.map(displayMode === "grid" ? renderGroupCard : renderNameRow)}</div></section>)}</div> : <div className={displayMode === "grid" ? "art-grid" : "name-list"}>{(displayMode === "grid" ? activeGroups.slice(0, visible) : activeGroups).map(displayMode === "grid" ? renderGroupCard : renderNameRow)}</div>}
+        </div> : art.length === 0 ? <div className="loading-grid">Opening the archive…</div> : activeGroups.length === 0 ? <div className="empty-state"><span>{view === "favorites" ? "♥" : "?"}</span><h3>{view === "favorites" ? "No favorites yet" : "No matches found"}</h3><p>{view === "favorites" ? "Tap the heart on any Pokémon to build your collection." : "Try another name, number, or generation."}</p>{view !== "favorites" && <button onClick={() => { setQuery(""); setFilter("all"); }}>Clear filters</button>}</div> : <div className={displayMode === "grid" ? "art-grid" : "name-list"}>{(displayMode === "grid" ? activeGroups.slice(0, visible) : activeGroups).map(displayMode === "grid" ? renderGroupCard : renderNameRow)}</div>}
         {view === "references" && visible < referenceResults.length && <button className="load-more" onClick={() => setVisible((value) => value + PAGE_SIZE)}>Load more <span>{Math.min(PAGE_SIZE, referenceResults.length - visible)}</span></button>}
-        {displayMode === "grid" && view !== "generations" && view !== "references" && visible < activeGroups.length && <button className="load-more" onClick={() => setVisible((value) => value + PAGE_SIZE)}>Load more <span>{Math.min(PAGE_SIZE, activeGroups.length - visible)}</span></button>}
+        {displayMode === "grid" && view !== "references" && visible < activeGroups.length && <button className="load-more" onClick={() => setVisible((value) => value + PAGE_SIZE)}>Load more <span>{Math.min(PAGE_SIZE, activeGroups.length - visible)}</span></button>}
       </section>
 
       <section className="about" id="about"><p className="eyebrow"><span /> About the archive</p><div className="about-grid"><h2>A visual history,<br />one creature at a time.</h2><div><p>Pocket Archive brings each Pokémon’s official art, forms, reference drawings, cards, and Pokédex details together. Your supplied character-design sheets and PS Art Room’s credited production references share one searchable References &amp; Sketches section, while remaining visibly identified by source. Species information is supplied by PokéAPI, and the image-only card gallery is supplied by the community Pokémon TCG API.</p><p className="source-links"><a href="https://psartroom.weebly.com/" target="_blank" rel="noreferrer">PS Art Room ↗</a><a href="https://pokeapi.co/docs/v2" target="_blank" rel="noreferrer">Pokédex data ↗</a><a href="https://docs.pokemontcg.io/" target="_blank" rel="noreferrer">Card data ↗</a><a href="https://iwataasks.nintendo.com/interviews/ds/pokemon-black-white/0/1/" target="_blank" rel="noreferrer">Sugimori interview ↗</a></p><p className="fine-print">A personal, non-commercial fan archive. Pokémon and all related characters are trademarks of Nintendo, Game Freak, and Creatures Inc. External reference links remain credited to their original curators and hosts.</p></div></div></section>
