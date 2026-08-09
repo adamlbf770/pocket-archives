@@ -115,6 +115,26 @@ button { color:inherit; }
 .empty-state p { font-family:Georgia,serif; color:#777; }
 .empty-state button { border:0; border-bottom:1px solid; background:transparent; margin:auto; cursor:pointer; }
 .loading-grid { font-size:12px; text-transform:uppercase; letter-spacing:.2em; }
+.reference-library { display:flex; flex-direction:column; gap:62px; }
+.resource-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+.resource-card { min-height:245px; padding:26px; background:var(--ink); color:#fff; text-decoration:none; display:flex; flex-direction:column; transition:.22s; position:relative; overflow:hidden; }
+.resource-card:after { content:"↗"; position:absolute; right:18px; top:13px; font-family:Georgia,serif; color:var(--orange); font-size:32px; transition:.22s; }
+.resource-card:hover { transform:translateY(-4px); background:#27251e; }
+.resource-card:hover:after { transform:translate(3px,-3px); }
+.resource-card > span { color:var(--lime); text-transform:uppercase; letter-spacing:.13em; font-size:8px; font-weight:900; }
+.resource-card h3 { margin:42px 35px 12px 0; font-size:24px; line-height:.95; letter-spacing:-.04em; text-transform:uppercase; }
+.resource-card p { margin:0 0 26px; color:#aaa69b; font-family:Georgia,serif; font-size:12px; line-height:1.55; }
+.resource-card b { margin-top:auto; color:#fff; text-transform:uppercase; letter-spacing:.1em; font-size:8px; }
+.settei-list { border-top:3px solid var(--ink); }
+.settei-row { min-height:92px; border-bottom:1px solid var(--line); display:grid; grid-template-columns:minmax(220px,.75fr) minmax(0,2fr); gap:34px; padding:17px 8px; align-items:center; }
+.settei-name { display:grid; grid-template-columns:60px minmax(0,1fr); align-items:center; column-gap:10px; }
+.settei-name > span { color:#8a877e; font-size:9px; font-weight:900; letter-spacing:.1em; grid-row:1 / span 2; }
+.settei-name h3 { margin:0; font-size:18px; letter-spacing:-.03em; }
+.settei-name p { margin:4px 0 0; color:#8a877e; font-family:Georgia,serif; font-size:10px; }
+.settei-links { display:flex; flex-wrap:wrap; gap:7px; justify-content:flex-end; }
+.settei-links a { min-height:38px; display:flex; align-items:center; gap:10px; padding:9px 12px; border:1px solid var(--line); border-radius:999px; color:var(--ink); text-decoration:none; text-transform:uppercase; letter-spacing:.07em; font-size:8px; font-weight:900; transition:.18s; }
+.settei-links a span { color:var(--orange); font-size:12px; }
+.settei-links a:hover { background:var(--ink); border-color:var(--ink); color:#fff; }
 .about { background:var(--lime); padding:100px 4vw; }
 .about .eyebrow span { background:var(--ink); }
 .about-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:10vw; align-items:start; }
@@ -187,6 +207,9 @@ footer > a { color:#fff; text-decoration:none; text-transform:uppercase; font-si
   .filter-row, .generation-jumps { margin-right:-4vw; padding-right:4vw; scrollbar-width:none; scroll-snap-type:x proximity; }
   .filter-row button, .generation-jumps a { min-height:42px; display:flex; align-items:center; scroll-snap-align:start; }
   .generation-list { gap:75px; }
+  .resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .settei-row { grid-template-columns:1fr; gap:13px; }
+  .settei-links { justify-content:flex-start; padding-left:70px; }
   .art-grid { grid-template-columns:repeat(3,1fr); }
   .name-row-main { grid-template-columns:60px minmax(120px,1.2fr) minmax(120px,1fr) 24px; }
   .name-counts { display:none; }
@@ -246,6 +269,14 @@ footer > a { color:#fff; text-decoration:none; text-transform:uppercase; font-si
   .name-row-main { grid-template-columns:52px minmax(100px,1fr) 20px; gap:8px; padding:10px 4px; }
   .name-region { display:none; }
   .name-row-main strong { font-size:13px; }
+  .reference-library { gap:42px; }
+  .resource-grid { grid-template-columns:1fr; }
+  .resource-card { min-height:210px; padding:22px; }
+  .resource-card h3 { margin-top:34px; font-size:22px; }
+  .settei-row { padding:16px 2px 19px; }
+  .settei-name { grid-template-columns:52px minmax(0,1fr); }
+  .settei-links { padding-left:0; gap:6px; }
+  .settei-links a { min-height:42px; font-size:7px; }
   .heart { min-width:42px; min-height:42px; }
   .image-button { touch-action:manipulation; }
   .source-links { flex-wrap:wrap; gap:15px; }
