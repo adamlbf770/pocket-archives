@@ -17,6 +17,12 @@ type PokemonDetails = {
   weight: number; habitat: string | null; legendary: boolean; mythical: boolean;
 };
 
+type TcgCard = {
+  id: string; name: string; artist?: string; rarity?: string; number: string;
+  set: { name: string; series: string; releaseDate: string };
+  images: { small: string; large: string };
+};
+
 const PAGE_SIZE = 72;
 const generationRoman = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"];
 const generationRegions = ["Special collections", "Kanto", "Johto", "Hoenn", "Sinnoh", "Unova", "Kalos", "Alola", "Galar & Hisui", "Paldea"];
@@ -47,7 +53,11 @@ export default function Home() {
   const [selected, setSelected] = useState<PokemonArt | null>(null);
   const [details, setDetails] = useState<PokemonDetails | null>(null);
   const [detailsLoading, setDetailsLoading] = useState(false);
-  const [variantView, setVariantView] = useState<"forms" | "artwork">("forms");
+  const [variantView, setVariantView] = useState<"forms" | "artwork" | "cards">("forms");
+  const [cards, setCards] = useState<TcgCard[]>([]);
+  const [cardsLoading, setCardsLoading] = useState(false);
+  const [cardsError, setCardsError] = useState(false);
+  const [selectedCard, setSelectedCard] = useState<TcgCard | null>(null);
   const [displayMode, setDisplayMode] = useState<"grid" | "list">("grid");
   const [view, setView] = useState<"gallery" | "generations" | "favorites">("gallery");
   const searchRef = useRef<HTMLInputElement>(null);
@@ -86,7 +96,29 @@ export default function Home() {
   useEffect(() => {
     if (!selectedGroup) return;
     setVariantView(selectedGroup.items.some((item) => item.category === "generation") ? "forms" : "artwork");
+    setCards([]);
+    setSelectedCard(null);
+    setCardsError(false);
   }, [selectedGroup?.key]);
+
+  useEffect(() => {
+    if (variantView !== "cards" || !selectedGroup?.dex || cards.length || cardsLoading) return;
+    const controller = new AbortController();
+    const params = new URLSearchParams({
+      q: `nationalPokedexNumbers:${selectedGroup.dex}`,
+      pageSize: "250",
+      orderBy: "-set.releaseDate,number",
+      select: "id,name,artist,rarity,number,set,images",
+    });
+    setCardsLoading(true);
+    setCardsError(false);
+    fetch(`https://api.pokemontcg.io/v2/cards?${params}`, { signal: controller.signal })
+      .then((response) => { if (!response.ok) throw new Error("Card lookup failed"); return response.json(); })
+      .then((payload) => { setCards(payload.data || []); setSelectedCard(payload.data?.[0] || null); })
+      .catch((error) => { if (error.name !== "AbortError") setCardsError(true); })
+      .finally(() => setCardsLoading(false));
+    return () => controller.abort();
+  }, [variantView, selectedGroup?.dex, cards.length]);
 
   useEffect(() => {
     if (!selectedGroup?.dex) { setDetails(null); return; }
@@ -233,15 +265,15 @@ export default function Home() {
         {displayMode === "grid" && view !== "generations" && visible < activeGroups.length && <button className="load-more" onClick={() => setVisible((value) => value + PAGE_SIZE)}>Load more <span>{Math.min(PAGE_SIZE, activeGroups.length - visible)}</span></button>}
       </section>
 
-      <section className="about" id="about"><p className="eyebrow"><span /> About the archive</p><div className="about-grid"><h2>A visual history,<br />one creature at a time.</h2><div><p>Pocket Archive brings each Pokémon’s official art, forms, and Pokédex details together. Species information is supplied by PokéAPI. Artwork is catalogued from the provided Sugimori collection; individual production credits are not consistently embedded in the files.</p><p className="source-links"><a href="https://pokeapi.co/docs/v2" target="_blank" rel="noreferrer">Pokédex data ↗</a><a href="https://iwataasks.nintendo.com/interviews/ds/pokemon-black-white/0/1/" target="_blank" rel="noreferrer">Sugimori interview ↗</a></p><p className="fine-print">A personal, non-commercial fan archive. Pokémon and all related characters are trademarks of Nintendo, Game Freak, and Creatures Inc.</p></div></div></section>
+      <section className="about" id="about"><p className="eyebrow"><span /> About the archive</p><div className="about-grid"><h2>A visual history,<br />one creature at a time.</h2><div><p>Pocket Archive brings each Pokémon’s official art, forms, cards, and Pokédex details together. Species information is supplied by PokéAPI, and the image-only card gallery is supplied by the community Pokémon TCG API. Artwork is catalogued from the provided Sugimori collection; individual production credits are not consistently embedded in the files.</p><p className="source-links"><a href="https://pokeapi.co/docs/v2" target="_blank" rel="noreferrer">Pokédex data ↗</a><a href="https://docs.pokemontcg.io/" target="_blank" rel="noreferrer">Card data ↗</a><a href="https://iwataasks.nintendo.com/interviews/ds/pokemon-black-white/0/1/" target="_blank" rel="noreferrer">Sugimori interview ↗</a></p><p className="fine-print">A personal, non-commercial fan archive. Pokémon and all related characters are trademarks of Nintendo, Game Freak, and Creatures Inc.</p></div></div></section>
       <footer><div className="brand footer-brand"><span className="brand-mark"><i /></span><span>POCKET<br />ARCHIVE</span></div><p>Gotta archive ’em all.</p><a href="#top">Back to top ↑</a></footer>
 
       {selected && selectedGroup && <div className="modal" role="dialog" aria-modal="true" aria-label={`${selectedGroup.title} Pokédex entry`} onMouseDown={(event) => { if (event.currentTarget === event.target) setSelected(null); }}>
         <button className="modal-close" onClick={() => setSelected(null)} aria-label="Close Pokédex entry">×</button>
-        <div className={`modal-art ${selectedGroup.items.length > 1 ? "has-forms" : ""}`}><span className="modal-index">{selectedGroup.dex ? `#${String(selectedGroup.dex).padStart(4, "0")}` : "SPECIAL ART"}</span><img src={selected.src} alt={selected.title} />{selectedGroup.items.length > 1 && <div className="form-strip" aria-label={`${selectedGroup.title} variations`}><div className="variant-tabs" role="tablist" aria-label="Variation type"><button role="tab" aria-selected={variantView === "forms"} className={variantView === "forms" ? "active" : ""} disabled={!selectedForms.length} onClick={() => { setVariantView("forms"); if (selectedForms.length) setSelected(selectedForms[0]); }}>Forms <b>{selectedForms.length}</b></button><button role="tab" aria-selected={variantView === "artwork"} className={variantView === "artwork" ? "active" : ""} disabled={!selectedArtwork.length} onClick={() => { setVariantView("artwork"); if (selectedArtwork.length) setSelected(selectedArtwork[0]); }}>Alternate artwork <b>{selectedArtwork.length}</b></button></div>{shownVariants.map((item) => <button key={item.id} className={`variant-thumb ${selected.id === item.id ? "active" : ""}`} onClick={() => setSelected(item)} aria-label={`Show ${item.title}, ${item.collection}`}><img src={item.src} alt="" loading="lazy" /><span>{item.title}</span></button>)}</div>}</div>
+        <div className={`modal-art ${selectedGroup.dex || selectedGroup.items.length > 1 ? "has-forms" : ""}`}><span className="modal-index">{variantView === "cards" && selectedCard ? `${selectedCard.set.name} · #${selectedCard.number}` : selectedGroup.dex ? `#${String(selectedGroup.dex).padStart(4, "0")}` : "SPECIAL ART"}</span>{variantView === "cards" && selectedCard ? <img className="tcg-card-main" src={selectedCard.images.large} alt={`${selectedCard.name} card from ${selectedCard.set.name}`} /> : <img src={selected.src} alt={selected.title} />}{(selectedGroup.dex || selectedGroup.items.length > 1) && <div className="form-strip" aria-label={`${selectedGroup.title} images`}><div className="variant-tabs" role="tablist" aria-label="Image type"><button role="tab" aria-selected={variantView === "forms"} className={variantView === "forms" ? "active" : ""} disabled={!selectedForms.length} onClick={() => { setVariantView("forms"); if (selectedForms.length) setSelected(selectedForms[0]); }}>Forms <b>{selectedForms.length}</b></button><button role="tab" aria-selected={variantView === "artwork"} className={variantView === "artwork" ? "active" : ""} disabled={!selectedArtwork.length} onClick={() => { setVariantView("artwork"); if (selectedArtwork.length) setSelected(selectedArtwork[0]); }}>Alternate artwork <b>{selectedArtwork.length}</b></button><button role="tab" aria-selected={variantView === "cards"} className={variantView === "cards" ? "active" : ""} disabled={!selectedGroup.dex} onClick={() => setVariantView("cards")}>Cards <b>{cardsLoading ? "…" : cards.length || ""}</b></button></div>{variantView === "cards" ? cardsLoading ? <p className="card-strip-message">Finding cards…</p> : cardsError ? <p className="card-strip-message">Card gallery unavailable right now.</p> : cards.map((card) => <button key={card.id} className={`variant-thumb card-thumb ${selectedCard?.id === card.id ? "active" : ""}`} onClick={() => setSelectedCard(card)} aria-label={`Show ${card.name}, ${card.set.name} number ${card.number}`}><img src={card.images.small} alt="" loading="lazy" /><span>{card.set.name} · {card.number}</span></button>) : shownVariants.map((item) => <button key={item.id} className={`variant-thumb ${selected.id === item.id ? "active" : ""}`} onClick={() => setSelected(item)} aria-label={`Show ${item.title}, ${item.collection}`}><img src={item.src} alt="" loading="lazy" /><span>{item.title}</span></button>)}</div>}</div>
         <div className="modal-details"><p className="eyebrow"><span /> {selectedGroup.dex ? `Generation ${generationRoman[selectedGroup.generation]} · ${generationRegions[selectedGroup.generation]}` : selected.collection}</p><h2>{selectedGroup.title}</h2>{detailsLoading ? <p className="details-loading">Reading Pokédex data…</p> : details ? <><p className="pokemon-genus">{details.legendary ? "Legendary · " : details.mythical ? "Mythical · " : ""}{details.genus}</p><p className="dex-description">{details.description}</p><div className="type-row">{details.types.map((type) => <span className={`type type-${type}`} key={type}>{titleCase(type)}</span>)}</div><dl className="pokemon-facts"><div><dt>Height</dt><dd>{details.height} m</dd></div><div><dt>Weight</dt><dd>{details.weight} kg</dd></div><div><dt>Habitat</dt><dd>{details.habitat ? titleCase(details.habitat) : "Unknown"}</dd></div><div><dt>Artwork</dt><dd>{selectedGroup.items.length} in archive</dd></div></dl></> : selectedGroup.dex ? <p className="dex-description">Pokédex information is temporarily unavailable.</p> : <p className="dex-description">This unnumbered artwork belongs to the {selected.collection} collection.</p>}
-          <div className="source-credit"><span>Artwork source</span><b>{selected.collection}</b><p>Official Pokémon game artwork from the supplied archive. The individual illustrator is not identified in this file.</p></div>
-          <div className="modal-actions"><button onClick={() => toggleFavorite(selectedGroup.key)}>{favorites.has(selectedGroup.key) ? "♥ In favorites" : "♡ Add to favorites"}</button><a href={selected.src} download>Download art ↓</a></div><p className="key-hint">Use ← → for next Pokémon · Esc to close</p>
+          {variantView === "cards" && selectedCard ? <div className="source-credit card-credit"><span>Trading card</span><b>{selectedCard.set.name} · #{selectedCard.number}</b><p>{selectedCard.rarity || "Rarity not listed"} · Illustrated by {selectedCard.artist || "artist not listed"}</p></div> : <div className="source-credit"><span>Artwork source</span><b>{selected.collection}</b><p>Official Pokémon game artwork from the supplied archive. The individual illustrator is not identified in this file.</p></div>}
+          <div className="modal-actions"><button onClick={() => toggleFavorite(selectedGroup.key)}>{favorites.has(selectedGroup.key) ? "♥ In favorites" : "♡ Add to favorites"}</button>{variantView === "cards" && selectedCard ? <a href={selectedCard.images.large} target="_blank" rel="noreferrer">Open card image ↗</a> : <a href={selected.src} download>Download art ↓</a>}</div><p className="key-hint">Use ← → for next Pokémon · Esc to close</p>
         </div>
       </div>}
     </main>
