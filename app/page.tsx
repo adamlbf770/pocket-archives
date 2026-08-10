@@ -246,10 +246,8 @@ export default function Home() {
     return () => window.removeEventListener("keydown", onKey);
   });
 
-  const featured = useMemo(() => {
-    const designs = art.filter((item) => item.category === "design").slice(0, 5);
-    return designs.length === 5 ? designs : ["Bulbasaur", "Charizard", "Pikachu", "Gengar", "Eevee"].map((name) => art.find((item) => item.title === name && item.category === "generation")).filter(Boolean) as PokemonArt[];
-  }, [art]);
+  const featured = useMemo(() => ["Bulbasaur", "Charizard", "Pikachu", "Gengar", "Eevee"].map((name) => art.find((item) => item.title === name && item.category === "generation")).filter(Boolean) as PokemonArt[], [art]);
+  const counts = useMemo(() => ({ alternates: art.filter((item) => item.category === "alternate").length }), [art]);
   useEffect(() => setVisible(PAGE_SIZE), [query, filter, sort, view]);
 
   function toggleFavorite(key: string) {
@@ -359,9 +357,9 @@ export default function Home() {
       </header>
 
       <section className="hero" id="top">
-        <div className="hero-copy"><p className="eyebrow"><span /> Pokémon art behind the scenes</p><h1>Drawn.<br /><em>Defined.</em></h1><p className="hero-intro">Explore the sketches, production sheets, poses, expressions, and character-design studies behind Pokémon—then step into the complete illustrated Pokédex.</p><a className="explore-button" href="#references">Enter the reference room <span>↓</span></a></div>
-        <div className="hero-gallery" aria-label="Featured Pokémon artwork">{featured.map((item, index) => <button key={item.id} className={`feature-card feature-${index + 1}`} onClick={() => setSelected(item)} aria-label={`View ${item.title}`}><span className="feature-number">{item.dex ? String(item.dex).padStart(4, "0") : "REF"}</span><img src={item.src} alt={item.title} /></button>)}{!featured.length && <div className="hero-loader">Cataloguing<br />the archive…</div>}</div>
-        <div className="hero-stats"><span><b>{designResults.length || "—"}</b> archive sketches</span><span><b>{setteiDirectory.reduce((sum, group) => sum + group.links.length, 0) || "—"}</b> production sheets</span><span><b>{groups.filter((group) => group.dex).length || "—"}</b> Pokédex entries</span></div>
+        <div className="hero-copy"><p className="eyebrow"><span /> The complete illustrated Pokédex</p><h1>Every era.<br /><em>Every form.</em></h1><p className="hero-intro">A fan-made field guide to 1,858 pieces of official Pokémon character art—from Kanto classics to Paldea and beyond.</p><a className="explore-button" href="#collection">Open the Pokédex <span>↓</span></a></div>
+        <div className="hero-gallery" aria-label="Featured Pokémon artwork">{featured.map((item, index) => <button key={item.id} className={`feature-card feature-${index + 1}`} onClick={() => setSelected(item)} aria-label={`View ${item.title}`}><span className="feature-number">{String(item.dex).padStart(4, "0")}</span><img src={item.src} alt={item.title} /></button>)}{!featured.length && <div className="hero-loader">Cataloguing<br />the archive…</div>}</div>
+        <div className="hero-stats"><span><b>{art.length ? art.length.toLocaleString() : "—"}</b> artworks</span><span><b>{groups.filter((group) => group.dex).length || "—"}</b> Pokémon</span><span><b>{counts.alternates || "—"}</b> alternates</span></div>
       </section>
 
       <section className="collection" id="collection">
