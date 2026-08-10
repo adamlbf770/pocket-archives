@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Pocket Archives — The Complete Pokémon Art Index",
-  description: "Explore 1,858 pieces of Pokémon character art across nine generations and dozens of special collections.",
+  title: "Pocket Archives — Pokémon Sketches, Model Sheets & Pokédex",
+  description: "Explore Pokémon production sketches, model sheets, character studies, and a complete illustrated Pokédex.",
   icons: { icon: "/favicon.png", shortcut: "/favicon.png" },
 };
 
