@@ -29,6 +29,22 @@ type SetteiGroup = {
 
 type ReferenceSelection = { group: SetteiGroup; index: number };
 
+type DevelopmentItem = {
+  id: string; year: number; title: string; kind: string; src: string;
+  credit: string; sourceUrl: string; sourceLabel: string; description: string;
+};
+
+const developmentArchive: DevelopmentItem[] = [
+  { id: "capumon-map", year: 1990, title: "Capsule Monsters world study", kind: "Original concept document", src: "https://helixchamber.com/wp-content/uploads/2018/09/1990_Capsule_Monsters_00_map_reg.png", credit: "Satoshi Tajiri & Ken Sugimori / Game Freak", sourceUrl: "https://helixchamber.com/2018/09/10/pack-monsters-world/", sourceLabel: "Helix Chamber research archive", description: "An early map and world-building study from the Capsule Monsters pitch period, before the Pokémon name was finalized." },
+  { id: "capumon-catalog", year: 1990, title: "Capsule Monsters creature catalog", kind: "Prototype sprite compilation", src: "https://helixchamber.com/wp-content/uploads/2018/12/CAPUMON_SPRITESHEET2_final.png", credit: "Game Freak source assets / Helix Chamber assembly", sourceUrl: "https://helixchamber.com/2019/02/16/what-dreams-may-come/", sourceLabel: "Helix Chamber prototype archive", description: "A research plate assembling early creature assets associated with the Capsule Monsters and early Red/Green development period." },
+  { id: "capumon-sprites", year: 1990, title: "Early Capumon sprite plate", kind: "Prototype sprite compilation", src: "https://helixchamber.com/wp-content/uploads/2018/08/Capumon_sprites_clean_xsmall_propo-250x300.jpg", credit: "Game Freak source assets / Helix Chamber assembly", sourceUrl: "https://helixchamber.com/2018/08/11/index-list/", sourceLabel: "Helix Chamber research archive", description: "A proportional overview of early monster sprites, including designs that changed substantially or were removed before release." },
+  { id: "early-kanto-1", year: 1995, title: "Early Kanto prototype index I", kind: "Extracted prototype assets", src: "https://helixchamber.com/wp-content/uploads/2019/02/early_kanto.png", credit: "Game Freak prototype data / Helix Chamber documentation", sourceUrl: "https://helixchamber.com/2019/02/16/what-dreams-may-come/", sourceLabel: "Helix Chamber prototype archive", description: "Documented early Red/Green assets and surviving back sprites. These are game-development artifacts, not finished Sugimori illustrations." },
+  { id: "early-kanto-2", year: 1995, title: "Early Kanto prototype index II", kind: "Extracted prototype assets", src: "https://helixchamber.com/wp-content/uploads/2019/02/early_kanto_2.png", credit: "Game Freak prototype data / Helix Chamber documentation", sourceUrl: "https://helixchamber.com/2019/02/16/what-dreams-may-come/", sourceLabel: "Helix Chamber prototype archive", description: "The second documented plate of early Kanto-era prototype material, including cut and revised creature designs." },
+  { id: "prototype-periods", year: 1995, title: "Red & Green development timeline", kind: "Research chronology", src: "https://helixchamber.com/wp-content/uploads/2019/02/periodization201902.png", credit: "Helix Chamber research presentation", sourceUrl: "https://helixchamber.com/2019/02/16/what-dreams-may-come/", sourceLabel: "Helix Chamber prototype archive", description: "A visual chronology used to distinguish different periods of the long Red/Green development process." },
+  { id: "map-comparison", year: 1995, title: "Early map document comparison", kind: "Development-document comparison", src: "https://helixchamber.com/wp-content/uploads/2019/02/MapPageCompare.png", credit: "Game Freak source material / Helix Chamber comparison", sourceUrl: "https://helixchamber.com/2019/02/16/what-dreams-may-come/", sourceLabel: "Helix Chamber prototype archive", description: "A comparison of surviving early planning material used to establish the order of Red/Green development assets." },
+  { id: "zukan-comparison", year: 1995, title: "Early monster index comparison", kind: "Development-document comparison", src: "https://helixchamber.com/wp-content/uploads/2019/02/ZukanCompare.png", credit: "Game Freak source material / Helix Chamber comparison", sourceUrl: "https://helixchamber.com/2019/02/16/what-dreams-may-come/", sourceLabel: "Helix Chamber prototype archive", description: "A comparison plate connecting prototype monster-index evidence with later documented material." },
+];
+
 const referenceResources = [
   { title: "Pokémon settei directory", eyebrow: "402 Pokémon", description: "The complete PS Art Room index of official production model sheets, expressions, poses, movement cycles, and alternate forms.", url: "https://psartroom.weebly.com/setteis.html", keywords: "pokemon settei model sheets sketches poses expressions walk run cycles" },
   { title: "General references", eyebrow: "Poses & motion", description: "Human pose tools, animal movement studies, drawing references, and file-format guidance collected for artists.", url: "https://psartroom.weebly.com/references.html", keywords: "references posemaniacs animals bat cat deer dog dragon horse wolf motion" },
@@ -111,6 +127,7 @@ export default function Home() {
   const [view, setView] = useState<"gallery" | "references" | "favorites">("references");
   const [setteiDirectory, setSetteiDirectory] = useState<SetteiGroup[]>([]);
   const [selectedReference, setSelectedReference] = useState<ReferenceSelection | null>(null);
+  const [selectedDevelopment, setSelectedDevelopment] = useState<DevelopmentItem | null>(null);
   const [referenceImageError, setReferenceImageError] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
 
@@ -235,6 +252,10 @@ export default function Home() {
     return setteiDirectory.filter((group) => !needle || `${group.name} ${group.dex} ${group.links.map((link) => link.label).join(" ")}`.toLowerCase().includes(needle));
   }, [query, setteiDirectory]);
   const referenceItems = useMemo(() => referenceResults.flatMap((group) => group.links.map((link, index) => ({ group, link, index }))), [referenceResults]);
+  const developmentResults = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    return developmentArchive.filter((item) => !needle || `${item.year} ${item.title} ${item.kind} ${item.credit} ${item.description} alpha beta prototype capsule monsters capumon`.toLowerCase().includes(needle));
+  }, [query]);
   const resourceResults = useMemo(() => {
     const needle = query.trim().toLowerCase();
     return referenceResources.filter((resource) => !needle || `${resource.title} ${resource.eyebrow} ${resource.description} ${resource.keywords}`.toLowerCase().includes(needle));
@@ -245,6 +266,11 @@ export default function Home() {
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "/" && document.activeElement?.tagName !== "INPUT") { event.preventDefault(); searchRef.current?.focus(); }
+      if (selectedDevelopment) {
+        if (event.key === "Escape") setSelectedDevelopment(null);
+        if (event.key === "ArrowRight" || event.key === "ArrowLeft") moveDevelopment(event.key === "ArrowRight" ? 1 : -1);
+        return;
+      }
       if (selectedReference) {
         if (event.key === "Escape") setSelectedReference(null);
         if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
@@ -324,6 +350,13 @@ export default function Home() {
     setSelectedReference({ group: next.group, index: next.index });
   }
 
+  function moveDevelopment(direction: number) {
+    if (!selectedDevelopment || !developmentResults.length) return;
+    const current = developmentResults.findIndex((item) => item.id === selectedDevelopment.id);
+    if (current < 0) return;
+    setSelectedDevelopment(developmentResults[(current + direction + developmentResults.length) % developmentResults.length]);
+  }
+
   function renderGroupCard(group: PokemonGroup) {
     const formCount = group.items.filter((item) => item.category === "generation").length;
     const artworkCount = group.items.filter((item) => item.category === "alternate").length;
@@ -391,25 +424,26 @@ export default function Home() {
       </section>
 
       <section className="collection" id="collection">
-        <div className="section-heading"><div><p className="eyebrow"><span /> {view === "gallery" ? "Browse the Pokédex" : view === "favorites" ? "Your collection" : "Explore the archive"}</p><h2>{view === "gallery" ? "Know your favorite." : view === "favorites" ? "Saved for later." : "See how they’re made."}</h2></div><p>{view === "gallery" ? "Search a Pokémon once, then explore its Pokédex data, forms, and artwork in one place." : view === "favorites" ? "Every Pokémon you have favorited on this device, gathered in one place." : "Production sketches, model sheets, expressions, and movement studies—viewed without leaving the archive."}</p></div>
+        <div className="section-heading"><div><p className="eyebrow"><span /> {view === "gallery" ? "Browse the Pokédex" : view === "favorites" ? "Your collection" : "Explore the archive"}</p><h2>{view === "gallery" ? "Know your favorite." : view === "favorites" ? "Saved for later." : "See how they’re made."}</h2></div><p>{view === "gallery" ? "Search a Pokémon once, then explore its Pokédex data, forms, and artwork in one place." : view === "favorites" ? "Every Pokémon you have favorited on this device, gathered in one place." : "From 1990 prototype concepts to modern production sheets—organized from oldest to newest and viewed without leaving the archive."}</p></div>
         <div className="view-tabs" role="tablist" aria-label="Collection views">
           <button role="tab" aria-selected={view === "references"} className={view === "references" ? "active" : ""} onClick={openReferences}><span>01</span> Archive</button>
           <button role="tab" aria-selected={view === "gallery"} className={view === "gallery" ? "active" : ""} onClick={openAllPokedex}><span>02</span> Pokédex</button>
         </div>
 
         <div className="filter-panel">
-          <label className="search-box"><span aria-hidden="true">⌕</span><input ref={searchRef} value={query} onChange={(event) => setQuery(event.target.value)} placeholder={view === "references" ? "Search Pokémon, pose, expression, or art resource…" : "Search Pokémon, number, form, or collection…"} aria-label={view === "references" ? "Search reference library" : "Search Pokédex"} /><kbd>/</kbd></label>
+          <label className="search-box"><span aria-hidden="true">⌕</span><input ref={searchRef} value={query} onChange={(event) => setQuery(event.target.value)} placeholder={view === "references" ? "Search Pokémon, prototype, pose, or resource…" : "Search Pokémon, number, form, or collection…"} aria-label={view === "references" ? "Search reference library" : "Search Pokédex"} /><kbd>/</kbd></label>
           {view === "gallery" ? <div className="filter-row" aria-label="Open generation page"><button className={filter === "all" ? "active" : ""} onClick={openAllPokedex}>All</button>{Array.from({ length: 9 }, (_, index) => index + 1).map((gen) => <button key={gen} className={filter === `gen-${gen}` ? "active" : ""} onClick={() => openGeneration(gen)}>Gen {generationRoman[gen]}</button>)}</div> : view === "references" ? <p className="favorites-note">Tap any sheet to study it here in the archive. Use the arrows to move through the collection without leaving the site.</p> : <p className="favorites-note">Your saved Pokémon live here on this device.</p>}
         </div>
 
         {view === "gallery" && activeGeneration && <div className="generation-page-heading"><div><span>Generation {generationRoman[activeGeneration]}</span><h3>{generationRegions[activeGeneration]}</h3></div><button onClick={openAllPokedex}>← All Pokémon</button></div>}
 
-        <div className="results-bar"><p>{view === "references" ? <><b>{designResults.length.toLocaleString()}</b> archive sketches · <b>{referenceItems.length.toLocaleString()}</b> production sheets</> : <><b>{activeGroups.length.toLocaleString()}</b> Pokémon{activeGeneration ? ` · Generation ${generationRoman[activeGeneration]}` : ""}</>}</p><div className="results-controls">{view === "gallery" && <label>Sort<select value={sort} onChange={(event) => setSort(event.target.value)}><option value="dex">Pokédex number</option><option value="name">Name A–Z</option><option value="collection">Collection</option></select></label>}{view !== "references" && <div className="display-toggle" role="group" aria-label="Display style"><button className={displayMode === "grid" ? "active" : ""} onClick={() => changeDisplay("grid")} aria-pressed={displayMode === "grid"}><span>▦</span> Grid</button><button className={displayMode === "list" ? "active" : ""} onClick={() => changeDisplay("list")} aria-pressed={displayMode === "list"}><span>☰</span> Names</button></div>}</div></div>
+        <div className="results-bar"><p>{view === "references" ? <><b>{developmentResults.length.toLocaleString()}</b> early-development plates · <b>{designResults.length.toLocaleString()}</b> archive sketches · <b>{referenceItems.length.toLocaleString()}</b> production sheets</> : <><b>{activeGroups.length.toLocaleString()}</b> Pokémon{activeGeneration ? ` · Generation ${generationRoman[activeGeneration]}` : ""}</>}</p><div className="results-controls">{view === "gallery" && <label>Sort<select value={sort} onChange={(event) => setSort(event.target.value)}><option value="dex">Pokédex number</option><option value="name">Name A–Z</option><option value="collection">Collection</option></select></label>}{view !== "references" && <div className="display-toggle" role="group" aria-label="Display style"><button className={displayMode === "grid" ? "active" : ""} onClick={() => changeDisplay("grid")} aria-pressed={displayMode === "grid"}><span>▦</span> Grid</button><button className={displayMode === "list" ? "active" : ""} onClick={() => changeDisplay("list")} aria-pressed={displayMode === "list"}><span>☰</span> Names</button></div>}</div></div>
 
         {view === "references" ? <div className="reference-library">
+          {!!developmentResults.length && <section className="development-archive"><div className="timeline-heading"><span>1990–1995 · Earliest first</span><h3>Alpha &amp; beta archive</h3><p>Original concepts, extracted prototype assets, and research plates are labeled separately.</p></div><div className="development-grid">{developmentResults.map((item) => <article className="development-card" key={item.id}><button onClick={() => setSelectedDevelopment(item)} aria-label={`Open ${item.title}`}><span className="development-image"><img src={item.src} alt={item.title} loading="lazy" /></span><span className="development-card-copy"><small>{item.year} · {item.kind}</small><strong>{item.title}</strong><em>{item.credit}</em></span><span className="sheet-open">Open historical plate ↗</span></button></article>)}</div><div className="prototype-portals"><a href="https://helixchamber.com/2019/02/16/what-dreams-may-come/" target="_blank" rel="noreferrer"><span>1990–1995</span><b>Complete Red &amp; Green prototype research</b><small>Helix Chamber ↗</small></a><a href="https://tcrf.net/Proto:Pok%C3%A9mon_Gold_and_Silver/Spaceworld_1997_Demo/Pok%C3%A9mon" target="_blank" rel="noreferrer"><span>1997</span><b>Space World Gold &amp; Silver prototype</b><small>The Cutting Room Floor ↗</small></a></div></section>}
           <section className="archive-provenance"><div><span>About the collection</span><h3>What are these sheets?</h3></div><div><p><b>Settei</b> are production reference drawings distributed to animation staff so characters, objects, poses, and proportions remain consistent. The Pokémon animated series is primarily produced in Japan by OLM.</p><p>These scans were gathered through the <a href="https://psartroom.weebly.com/setteis.html" target="_blank" rel="noreferrer">PS Art Room index</a> from many original hosts and community mirrors. The popup for every sheet identifies that host. Individual sheet artists are listed only when a reliable credit exists; most files do not contain one.</p><p className="provenance-links"><a href="https://psartroom.weebly.com/setteis.html" target="_blank" rel="noreferrer">View curated index ↗</a><a href="https://bulbapedia.bulbagarden.net/wiki/Production_of_Pok%C3%A9mon_animation" target="_blank" rel="noreferrer">How Pokémon animation is made ↗</a></p></div></section>
-          {!!designResults.length && <section className="archive-sketches"><div className="reference-heading"><span>Your archive</span><h3>Character sketches</h3><p>{designResults.length} Pokémon</p></div><div className="art-grid">{designResults.map(renderDesignCard)}</div></section>}
-          <div className="reference-layout"><div className="reference-main"><div className="reference-heading"><span>PS Art Room index</span><h3>Production references</h3><p>{referenceItems.length} sheets</p></div>{setteiDirectory.length === 0 ? <div className="loading-grid">Indexing the reference room…</div> : referenceItems.length === 0 ? <div className="empty-state"><span>?</span><h3>No reference sheets found</h3><p>Try another Pokémon, pose, or expression.</p><button onClick={() => setQuery("")}>Clear search</button></div> : <div className="settei-gallery">{referenceItems.slice(0, visible).map(({ group, link, index }) => { const archived = link.url.includes("web.archive.org/web/"); return <article className="sheet-card" key={`${group.dex}-${link.url}-${index}`}><button onClick={() => openReference(group, index)} aria-label={`Open ${group.name} ${link.label} in the reference viewer`}><span className="sheet-image"><img src={referenceDestination(link.url)} alt={`${group.name} ${link.label}`} loading="lazy" /></span><span className="sheet-card-copy"><small>#{String(group.dex).padStart(4, "0")}{archived ? " · Preserved copy" : " · Production art"}</small><strong>{group.name}</strong><em>{link.label === "Model sheet" && index > 0 ? `Model sheet ${index + 1}` : titleCase(link.label)}</em></span><span className="sheet-open">View full sheet ↗</span></button></article>; })}</div>}</div>
+          {!!designResults.length && <section className="archive-sketches"><div className="reference-heading"><span>1996–present · Pokédex order</span><h3>Character sketches</h3><p>{designResults.length} Pokémon</p></div><div className="art-grid">{designResults.map(renderDesignCard)}</div></section>}
+          <div className="reference-layout"><div className="reference-main"><div className="reference-heading"><span>1997–present · Pokédex order</span><h3>Production references</h3><p>{referenceItems.length} sheets</p></div>{setteiDirectory.length === 0 ? <div className="loading-grid">Indexing the reference room…</div> : referenceItems.length === 0 ? <div className="empty-state"><span>?</span><h3>No reference sheets found</h3><p>Try another Pokémon, pose, or expression.</p><button onClick={() => setQuery("")}>Clear search</button></div> : <div className="settei-gallery">{referenceItems.slice(0, visible).map(({ group, link, index }) => { const archived = link.url.includes("web.archive.org/web/"); return <article className="sheet-card" key={`${group.dex}-${link.url}-${index}`}><button onClick={() => openReference(group, index)} aria-label={`Open ${group.name} ${link.label} in the reference viewer`}><span className="sheet-image"><img src={referenceDestination(link.url)} alt={`${group.name} ${link.label}`} loading="lazy" /></span><span className="sheet-card-copy"><small>#{String(group.dex).padStart(4, "0")}{archived ? " · Preserved copy" : " · Production art"}</small><strong>{group.name}</strong><em>{link.label === "Model sheet" && index > 0 ? `Model sheet ${index + 1}` : titleCase(link.label)}</em></span><span className="sheet-open">View full sheet ↗</span></button></article>; })}</div>}</div>
           {!!resourceResults.length && <aside className="resource-sidebar"><div className="reference-heading compact"><span>Artist toolkit</span><h3>More resources</h3></div><div className="resource-grid">{resourceResults.map((resource) => <a className="resource-card" href={resource.url} target="_blank" rel="noreferrer" key={resource.title}><span>{resource.eyebrow}</span><h3>{resource.title}</h3><p>{resource.description}</p><b>Visit original resource ↗</b></a>)}</div></aside>}</div>
         </div> : art.length === 0 ? <div className="loading-grid">Opening the archive…</div> : activeGroups.length === 0 ? <div className="empty-state"><span>{view === "favorites" ? "♥" : "?"}</span><h3>{view === "favorites" ? "No favorites yet" : "No matches found"}</h3><p>{view === "favorites" ? "Tap the heart on any Pokémon to build your collection." : "Try another name, number, or generation."}</p>{view !== "favorites" && <button onClick={() => { setQuery(""); setFilter("all"); }}>Clear filters</button>}</div> : <div className={displayMode === "grid" ? "art-grid" : "name-list"}>{(displayMode === "grid" ? activeGroups.slice(0, visible) : activeGroups).map(displayMode === "grid" ? renderGroupCard : renderNameRow)}</div>}
         {view === "references" && visible < referenceItems.length && <button className="load-more" onClick={() => setVisible((value) => value + PAGE_SIZE)}>Load more <span>{Math.min(PAGE_SIZE, referenceItems.length - visible)}</span></button>}
@@ -446,6 +480,26 @@ export default function Home() {
           <div className="reference-source artist-status"><span>Artist credit</span><b>Not identified in the source file</b><p>Do not assume the game illustrator created an anime production sheet unless a reliable credit is documented.</p></div>
           <a className="reference-original" href={referenceDestination(selectedReference.group.links[selectedReference.index].url)} target="_blank" rel="noreferrer">Open original image ↗</a>
           <p className="key-hint">Use ← → for another sheet · Esc to close</p>
+        </aside>
+      </div>}
+
+      {selectedDevelopment && <div className="reference-viewer development-viewer" role="dialog" aria-modal="true" aria-label={`${selectedDevelopment.title} early development plate`} onMouseDown={(event) => { if (event.currentTarget === event.target) setSelectedDevelopment(null); }}>
+        <button className="reference-viewer-close" onClick={() => setSelectedDevelopment(null)} aria-label="Close early development viewer">×</button>
+        <div className="reference-viewer-stage development-stage">
+          <span className="reference-viewer-index">{selectedDevelopment.year} · {developmentResults.findIndex((item) => item.id === selectedDevelopment.id) + 1} of {developmentResults.length}</span>
+          <img src={selectedDevelopment.src} alt={selectedDevelopment.title} />
+          <button className="reference-step previous" onClick={() => moveDevelopment(-1)} aria-label="Previous early development plate">←</button>
+          <button className="reference-step next" onClick={() => moveDevelopment(1)} aria-label="Next early development plate">→</button>
+        </div>
+        <aside className="reference-viewer-details">
+          <p className="eyebrow"><span /> Early development archive</p>
+          <h2>{selectedDevelopment.title}</h2>
+          <p className="reference-viewer-label">{selectedDevelopment.year} · {selectedDevelopment.kind}</p>
+          <p className="reference-viewer-description">{selectedDevelopment.description}</p>
+          <div className="reference-source"><span>Creator / assembly credit</span><b>{selectedDevelopment.credit}</b><p>{selectedDevelopment.sourceLabel}</p></div>
+          <div className="reference-source artist-status"><span>Classification</span><b>{selectedDevelopment.kind}</b><p>Prototype extractions and research assemblies are identified separately from original concept drawings and finished character art.</p></div>
+          <a className="reference-original" href={selectedDevelopment.sourceUrl} target="_blank" rel="noreferrer">Read source research ↗</a>
+          <p className="key-hint">Use ← → for another plate · Esc to close</p>
         </aside>
       </div>}
     </main>
