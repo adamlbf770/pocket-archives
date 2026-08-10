@@ -69,6 +69,29 @@ function referenceDestination(value: string) {
   }
 }
 
+function referenceProvenance(value: string) {
+  try {
+    const url = new URL(value);
+    const host = url.hostname.replace(/^www\./, "");
+    const archived = host === "web.archive.org" || value.includes("web.archive.org/web/");
+    const labels: Record<string, string> = {
+      "psartroom.weebly.com": "PS Art Room mirror",
+      "settei.net": "Settei.net scan archive",
+      "i.imgur.com": "Imgur community mirror",
+      "imgur.com": "Imgur community mirror",
+      "rubberslug.s3.amazonaws.com": "Rubberslug collector archive",
+      "rubberslug.com": "Rubberslug collector archive",
+      "bulbapedia.bulbagarden.net": "Bulbapedia archive",
+      "archives.bulbagarden.net": "Bulbagarden Archives",
+      "web.archive.org": "Internet Archive preserved copy",
+    };
+    const label = labels[host] || (host.includes("tumblr.com") ? "Tumblr community mirror" : host.includes("photobucket.com") ? "Photobucket community mirror" : host.includes("weebly.com") ? "Community reference archive" : host);
+    return { label, host, archived };
+  } catch {
+    return { label: "Source recorded by PS Art Room", host: "Unknown host", archived: false };
+  }
+}
+
 export default function Home() {
   const [art, setArt] = useState<PokemonArt[]>([]);
   const [query, setQuery] = useState("");
@@ -107,11 +130,11 @@ export default function Home() {
         setView("gallery");
         setFilter(`gen-${generationMatch[1]}`);
         requestAnimationFrame(() => document.querySelector("#collection")?.scrollIntoView());
-      } else if (window.location.hash === "#references") {
+      } else if (window.location.hash === "#references" || window.location.hash === "#archive") {
         setView("references");
         setFilter("all");
         requestAnimationFrame(() => document.querySelector("#collection")?.scrollIntoView());
-      } else if (window.location.hash === "#collection") {
+      } else if (window.location.hash === "#collection" || window.location.hash === "#pokedex") {
         setView("gallery");
         setFilter("all");
       }
@@ -267,7 +290,7 @@ export default function Home() {
   function openAllPokedex() {
     setView("gallery");
     setFilter("all");
-    window.history.pushState(null, "", "#collection");
+    window.history.pushState(null, "", "#pokedex");
   }
 
   function openGeneration(generation: number) {
@@ -279,7 +302,12 @@ export default function Home() {
   function openReferences() {
     setView("references");
     setFilter("all");
-    window.history.pushState(null, "", "#references");
+    window.history.pushState(null, "", "#archive");
+  }
+
+  function openTopLevelPage(page: "archive" | "pokedex") {
+    if (page === "archive") openReferences(); else openAllPokedex();
+    requestAnimationFrame(() => document.querySelector("#collection")?.scrollIntoView({ behavior: "smooth" }));
   }
 
   function openReference(group: SetteiGroup, index: number) {
@@ -352,20 +380,20 @@ export default function Home() {
     <main>
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Pocket Archives home"><span className="brand-mark"><i /></span><span>POCKET<br />ARCHIVES</span></a>
-        <nav aria-label="Primary navigation"><a href="#references">Reference room</a><a href="#collection">Pokédex</a><a href="#about">About</a></nav>
+        <nav aria-label="Primary navigation"><button className={view === "references" ? "active" : ""} onClick={() => openTopLevelPage("archive")}>Archive</button><button className={view === "gallery" ? "active" : ""} onClick={() => openTopLevelPage("pokedex")}>Pokédex</button></nav>
         <button className="favorites-link" onClick={() => { setView("favorites"); setFilter("all"); document.querySelector("#collection")?.scrollIntoView({ behavior: "smooth" }); }}><span>♥</span> Favorites <b>{favorites.size}</b></button>
       </header>
 
       <section className="hero" id="top">
-        <div className="hero-copy"><p className="eyebrow"><span /> The complete illustrated Pokédex</p><h1>Every era.<br /><em>Every form.</em></h1><p className="hero-intro">A fan-made field guide to 1,858 pieces of official Pokémon character art—from Kanto classics to Paldea and beyond.</p><a className="explore-button" href="#collection">Open the Pokédex <span>↓</span></a></div>
+        <div className="hero-copy"><p className="eyebrow"><span /> The complete illustrated Pokédex</p><h1>Every era.<br /><em>Every form.</em></h1><p className="hero-intro">A fan-made field guide to 1,858 pieces of official Pokémon character art—from Kanto classics to Paldea and beyond.</p><a className="explore-button" href="#pokedex">Open the Pokédex <span>↓</span></a></div>
         <div className="hero-gallery" aria-label="Featured Pokémon artwork">{featured.map((item, index) => <button key={item.id} className={`feature-card feature-${index + 1}`} onClick={() => setSelected(item)} aria-label={`View ${item.title}`}><span className="feature-number">{String(item.dex).padStart(4, "0")}</span><img src={item.src} alt={item.title} /></button>)}{!featured.length && <div className="hero-loader">Cataloguing<br />the archive…</div>}</div>
         <div className="hero-stats"><span><b>{art.length ? art.length.toLocaleString() : "—"}</b> artworks</span><span><b>{groups.filter((group) => group.dex).length || "—"}</b> Pokémon</span><span><b>{counts.alternates || "—"}</b> alternates</span></div>
       </section>
 
       <section className="collection" id="collection">
-        <div className="section-heading"><div><p className="eyebrow"><span /> Explore the archive</p><h2>See how they’re made.</h2></div><p>Start with production art and character studies, or switch to the complete searchable Pokédex at any time.</p></div>
+        <div className="section-heading"><div><p className="eyebrow"><span /> {view === "gallery" ? "Browse the Pokédex" : view === "favorites" ? "Your collection" : "Explore the archive"}</p><h2>{view === "gallery" ? "Know your favorite." : view === "favorites" ? "Saved for later." : "See how they’re made."}</h2></div><p>{view === "gallery" ? "Search a Pokémon once, then explore its Pokédex data, forms, and artwork in one place." : view === "favorites" ? "Every Pokémon you have favorited on this device, gathered in one place." : "Production sketches, model sheets, expressions, and movement studies—viewed without leaving the archive."}</p></div>
         <div className="view-tabs" role="tablist" aria-label="Collection views">
-          <button role="tab" aria-selected={view === "references"} className={view === "references" ? "active" : ""} onClick={openReferences}><span>01</span> References & sketches</button>
+          <button role="tab" aria-selected={view === "references"} className={view === "references" ? "active" : ""} onClick={openReferences}><span>01</span> Archive</button>
           <button role="tab" aria-selected={view === "gallery"} className={view === "gallery" ? "active" : ""} onClick={openAllPokedex}><span>02</span> Pokédex</button>
         </div>
 
@@ -379,6 +407,7 @@ export default function Home() {
         <div className="results-bar"><p>{view === "references" ? <><b>{designResults.length.toLocaleString()}</b> archive sketches · <b>{referenceItems.length.toLocaleString()}</b> production sheets</> : <><b>{activeGroups.length.toLocaleString()}</b> Pokémon{activeGeneration ? ` · Generation ${generationRoman[activeGeneration]}` : ""}</>}</p><div className="results-controls">{view === "gallery" && <label>Sort<select value={sort} onChange={(event) => setSort(event.target.value)}><option value="dex">Pokédex number</option><option value="name">Name A–Z</option><option value="collection">Collection</option></select></label>}{view !== "references" && <div className="display-toggle" role="group" aria-label="Display style"><button className={displayMode === "grid" ? "active" : ""} onClick={() => changeDisplay("grid")} aria-pressed={displayMode === "grid"}><span>▦</span> Grid</button><button className={displayMode === "list" ? "active" : ""} onClick={() => changeDisplay("list")} aria-pressed={displayMode === "list"}><span>☰</span> Names</button></div>}</div></div>
 
         {view === "references" ? <div className="reference-library">
+          <section className="archive-provenance"><div><span>About the collection</span><h3>What are these sheets?</h3></div><div><p><b>Settei</b> are production reference drawings distributed to animation staff so characters, objects, poses, and proportions remain consistent. The Pokémon animated series is primarily produced in Japan by OLM.</p><p>These scans were gathered through the <a href="https://psartroom.weebly.com/setteis.html" target="_blank" rel="noreferrer">PS Art Room index</a> from many original hosts and community mirrors. The popup for every sheet identifies that host. Individual sheet artists are listed only when a reliable credit exists; most files do not contain one.</p><p className="provenance-links"><a href="https://psartroom.weebly.com/setteis.html" target="_blank" rel="noreferrer">View curated index ↗</a><a href="https://bulbapedia.bulbagarden.net/wiki/Production_of_Pok%C3%A9mon_animation" target="_blank" rel="noreferrer">How Pokémon animation is made ↗</a></p></div></section>
           {!!designResults.length && <section className="archive-sketches"><div className="reference-heading"><span>Your archive</span><h3>Character sketches</h3><p>{designResults.length} Pokémon</p></div><div className="art-grid">{designResults.map(renderDesignCard)}</div></section>}
           <div className="reference-layout"><div className="reference-main"><div className="reference-heading"><span>PS Art Room index</span><h3>Production references</h3><p>{referenceItems.length} sheets</p></div>{setteiDirectory.length === 0 ? <div className="loading-grid">Indexing the reference room…</div> : referenceItems.length === 0 ? <div className="empty-state"><span>?</span><h3>No reference sheets found</h3><p>Try another Pokémon, pose, or expression.</p><button onClick={() => setQuery("")}>Clear search</button></div> : <div className="settei-gallery">{referenceItems.slice(0, visible).map(({ group, link, index }) => { const archived = link.url.includes("web.archive.org/web/"); return <article className="sheet-card" key={`${group.dex}-${link.url}-${index}`}><button onClick={() => openReference(group, index)} aria-label={`Open ${group.name} ${link.label} in the reference viewer`}><span className="sheet-image"><img src={referenceDestination(link.url)} alt={`${group.name} ${link.label}`} loading="lazy" /></span><span className="sheet-card-copy"><small>#{String(group.dex).padStart(4, "0")}{archived ? " · Preserved copy" : " · Production art"}</small><strong>{group.name}</strong><em>{link.label === "Model sheet" && index > 0 ? `Model sheet ${index + 1}` : titleCase(link.label)}</em></span><span className="sheet-open">View full sheet ↗</span></button></article>; })}</div>}</div>
           {!!resourceResults.length && <aside className="resource-sidebar"><div className="reference-heading compact"><span>Artist toolkit</span><h3>More resources</h3></div><div className="resource-grid">{resourceResults.map((resource) => <a className="resource-card" href={resource.url} target="_blank" rel="noreferrer" key={resource.title}><span>{resource.eyebrow}</span><h3>{resource.title}</h3><p>{resource.description}</p><b>Visit original resource ↗</b></a>)}</div></aside>}</div>
@@ -413,7 +442,8 @@ export default function Home() {
           <p className="reference-viewer-label">{titleCase(selectedReference.group.links[selectedReference.index].label)}</p>
           <p className="reference-viewer-description">Study the silhouette, proportions, expressions, poses, and construction notes without leaving Pocket Archives.</p>
           {selectedReference.group.links.length > 1 && <div className="reference-sheet-tabs" aria-label={`${selectedReference.group.name} reference sheets`}>{selectedReference.group.links.map((link, index) => <button className={index === selectedReference.index ? "active" : ""} onClick={() => { setReferenceImageError(false); setSelectedReference({ group: selectedReference.group, index }); }} key={`${link.url}-${index}`}>{index + 1}</button>)}</div>}
-          <div className="reference-source"><span>Curated source</span><b>PS Art Room reference index</b><p>{selectedReference.group.links[selectedReference.index].url.includes("web.archive.org/web/") ? "Preserved archive copy" : "Original credited image host"}</p></div>
+          <div className="reference-source"><span>Provenance</span><b>{referenceProvenance(selectedReference.group.links[selectedReference.index].url).label}</b><p>{referenceProvenance(selectedReference.group.links[selectedReference.index].url).archived ? "Preserved copy located through the PS Art Room index" : `Image host: ${referenceProvenance(selectedReference.group.links[selectedReference.index].url).host} · Located through the PS Art Room index`}</p></div>
+          <div className="reference-source artist-status"><span>Artist credit</span><b>Not identified in the source file</b><p>Do not assume the game illustrator created an anime production sheet unless a reliable credit is documented.</p></div>
           <a className="reference-original" href={referenceDestination(selectedReference.group.links[selectedReference.index].url)} target="_blank" rel="noreferrer">Open original image ↗</a>
           <p className="key-hint">Use ← → for another sheet · Esc to close</p>
         </aside>
