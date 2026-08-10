@@ -131,6 +131,27 @@ button { color:inherit; }
 .museum-launch em { font-family:Georgia,serif; font-size:12px; font-style:normal; }
 .museum-launch > strong { min-width:160px; border-left:1px solid rgba(25,24,18,.28); padding-left:30px; display:flex; flex-direction:column; align-items:flex-end; justify-content:space-between; text-transform:uppercase; letter-spacing:.1em; font-size:10px; }
 .museum-launch > strong i { font-family:Georgia,serif; font-size:60px; line-height:.7; font-style:normal; }
+.museum-page { display:flex; flex-direction:column; gap:78px; padding-top:26px; }
+.museum-page-note { margin-top:25px; padding:16px 18px; border:1px solid var(--line); background:#ebe6d9; display:flex; justify-content:space-between; align-items:center; gap:28px; }
+.museum-page-note span { flex:0 0 auto; color:var(--orange); text-transform:uppercase; letter-spacing:.12em; font-size:8px; font-weight:900; }
+.museum-page-note p { margin:0; max-width:690px; color:#656158; font-family:Georgia,serif; font-size:12px; line-height:1.5; }
+.internal-list-wing, .museum-research-wing { display:flex; flex-direction:column; gap:24px; }
+.museum-wing-heading { border-top:4px solid var(--ink); padding-top:17px; display:grid; grid-template-columns:minmax(0,1fr) minmax(260px,.47fr); align-items:end; column-gap:34px; }
+.museum-wing-heading > span { grid-column:1 / -1; color:var(--orange); text-transform:uppercase; font-size:9px; font-weight:900; letter-spacing:.14em; }
+.museum-wing-heading h3 { margin:7px 0 0; font-size:clamp(48px,7vw,92px); line-height:.82; letter-spacing:-.075em; text-transform:uppercase; }
+.museum-wing-heading p { margin:0; color:#77736a; font-family:Georgia,serif; font-size:13px; line-height:1.6; }
+.museum-stat-strip { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); background:var(--ink); color:#fff; }
+.museum-stat-strip div { min-height:116px; padding:20px; border-right:1px solid rgba(255,255,255,.16); display:flex; flex-direction:column; justify-content:space-between; }
+.museum-stat-strip div:last-child { border-right:0; }
+.museum-stat-strip b { color:var(--lime); font-size:38px; line-height:1; letter-spacing:-.06em; }
+.museum-stat-strip span { color:#aaa69b; text-transform:uppercase; letter-spacing:.11em; font-size:8px; font-weight:900; }
+.internal-period-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; }
+.internal-period-grid button { min-height:310px; border:1px solid var(--line); padding:20px; background:#ebe6d9; color:var(--ink); text-align:left; cursor:pointer; display:flex; flex-direction:column; transition:.2s; }
+.internal-period-grid button:hover { transform:translateY(-3px); border-color:var(--orange); background:#f2eee3; }
+.internal-period-grid small { color:var(--orange); text-transform:uppercase; letter-spacing:.12em; font-size:7px; font-weight:900; }
+.internal-period-grid b { margin:44px 0 13px; font-size:clamp(19px,1.8vw,27px); line-height:.92; letter-spacing:-.05em; text-transform:uppercase; }
+.internal-period-grid p { margin:0 0 22px; color:#706c63; font-family:Georgia,serif; font-size:11px; line-height:1.5; }
+.internal-period-grid span { margin-top:auto; color:var(--orange); text-transform:uppercase; letter-spacing:.1em; font-size:8px; font-weight:900; }
 .timeline-heading { border-top:4px solid var(--orange); padding-top:17px; display:grid; grid-template-columns:minmax(0,1fr) minmax(240px,.45fr); align-items:end; column-gap:30px; }
 .timeline-heading > span { grid-column:1 / -1; color:var(--orange); text-transform:uppercase; font-size:9px; font-weight:900; letter-spacing:.14em; }
 .timeline-heading h3 { margin:7px 0 0; font-size:clamp(44px,6vw,82px); line-height:.84; letter-spacing:-.07em; text-transform:uppercase; }
@@ -321,7 +342,7 @@ footer > a { color:#fff; text-decoration:none; text-transform:uppercase; font-si
 .modal-actions button:hover, .modal-actions a:hover { background:#fff; color:var(--ink); }
 .key-hint { color:#666 !important; font-family:Arial,sans-serif !important; text-transform:uppercase; letter-spacing:.1em; font-size:8px; margin-top:22px; }
 
-@media (max-width:1100px) { .art-grid { grid-template-columns:repeat(4,1fr); } .development-grid, .research-square-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } .settei-gallery { grid-template-columns:repeat(2,minmax(0,1fr)); } .hero { grid-template-columns:50% 50%; } }
+@media (max-width:1100px) { .art-grid { grid-template-columns:repeat(4,1fr); } .development-grid, .research-square-grid, .internal-period-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } .settei-gallery { grid-template-columns:repeat(2,minmax(0,1fr)); } .hero { grid-template-columns:50% 50%; } }
 @media (max-width:800px) {
   .site-header { height:64px; position:sticky; top:0; z-index:40; }
   .site-header nav { display:none; }
@@ -347,6 +368,11 @@ footer > a { color:#fff; text-decoration:none; text-transform:uppercase; font-si
   .resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .archive-provenance { grid-template-columns:1fr; gap:28px; padding:34px; }
   .timeline-heading { grid-template-columns:1fr; gap:14px; }
+  .museum-wing-heading { grid-template-columns:1fr; gap:14px; }
+  .museum-stat-strip { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .museum-stat-strip div:nth-child(2) { border-right:0; }
+  .museum-stat-strip div:nth-child(-n+2) { border-bottom:1px solid rgba(255,255,255,.16); }
+  .internal-period-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .development-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .research-square-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .settei-gallery { grid-template-columns:repeat(2,minmax(0,1fr)); }
@@ -416,6 +442,11 @@ footer > a { color:#fff; text-decoration:none; text-transform:uppercase; font-si
   .view-tabs button { margin-right:12px; padding-right:12px; font-size:9px; }
   .view-tabs button:after { right:12px; }
   .filter-panel { padding:14px 0; }
+  .museum-page { gap:52px; padding-top:18px; }
+  .museum-page-note { align-items:flex-start; flex-direction:column; gap:9px; margin-top:16px; }
+  .museum-wing-heading h3 { font-size:60px; }
+  .internal-period-grid { grid-template-columns:1fr; }
+  .internal-period-grid button { min-height:245px; }
   .search-box { height:54px; padding:0 13px; gap:10px; }
   .search-box input { font-size:16px; }
   .search-box kbd { display:none; }
