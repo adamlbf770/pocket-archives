@@ -4,15 +4,14 @@ import Link from "next/link";
 import { useState } from "react";
 import { ARCHIVE_ORIGIN, SHOP_ORIGIN, demoInventory, formatPrice, recordStateLabel, shopObjectUrl, statusLabel, type InventoryItem } from "./catalog";
 
-const collectorSets = ["All", "Sugimori Art", "Kanto Starters", "Black Star Promos"] as const;
-type CollectorSet = typeof collectorSets[number];
-
 const sampleDescriptions: Record<string, string> = {
   "DEMO-001": "A sample listing for a 1999 Base Set Bulbasaur. The final listing will use photos and notes from the actual card.",
   "DEMO-002": "A sample listing for a 1999 Fossil Haunter.",
   "DEMO-003": "A sample listing for the first Pikachu Black Star Promo.",
   "DEMO-004": "A sample listing for the Ancient Mew Black Star Promo.",
   "DEMO-005": "A sample set bringing the three original Base Set starters together.",
+  "DEMO-006": "A sample pair bringing two classic Ken Sugimori illustrations together.",
+  "DEMO-007": "A sample pair of Wizards Black Star Promo cards.",
 };
 
 function categoryLabel(category: InventoryItem["category"]) {
@@ -23,7 +22,7 @@ function categoryLabel(category: InventoryItem["category"]) {
   return category;
 }
 
-function collectorSetLabel(item: InventoryItem): Exclude<CollectorSet, "All"> {
+function collectorSetLabel(item: InventoryItem) {
   if (item.id === "DEMO-002") return "Sugimori Art";
   if (item.id === "DEMO-003" || item.id === "DEMO-004") return "Black Star Promos";
   return "Kanto Starters";
@@ -39,19 +38,20 @@ function DemoNotice() {
 
 function ObjectVisual({ item, imageIndex = 0, detail = false }: { item: InventoryItem; imageIndex?: number; detail?: boolean }) {
   const image = item.images[imageIndex];
-  if (!detail && item.images.length > 1) return <span className="artifact-image artifact-image-stack">{item.images.slice(0, 3).map((card) => <img key={card.src} src={card.src} alt="" />)}</span>;
+  if (!detail && item.images.length > 1) return <span className={`artifact-image artifact-image-stack card-count-${Math.min(item.images.length, 3)}`}>{item.images.slice(0, 3).map((card) => <img key={card.src} src={card.src} alt="" />)}</span>;
   return <span className={detail ? "artifact-primary" : "artifact-image"}>{detail && <small>{image.caption}</small>}<img src={image.src} alt={image.caption} /></span>;
 }
 
 function ArtifactCard({ item }: { item: InventoryItem }) {
-  return <Link className="artifact-card" href={shopObjectUrl(item.slug)}><ObjectVisual item={item} /><span className="artifact-card-copy simple-card-copy"><small>{collectorSetLabel(item)}</small><b>{formatPrice(item.price, item.currency)}</b></span></Link>;
+  const label = item.category === "Curated Collections" ? item.title : collectorSetLabel(item);
+  return <Link className="artifact-card" href={shopObjectUrl(item.slug)} aria-label={`${label}, ${formatPrice(item.price, item.currency)}`}><ObjectVisual item={item} /><span className="artifact-card-copy simple-card-copy"><small>{label}</small><b>{formatPrice(item.price, item.currency)}</b></span></Link>;
 }
 
 export function ShopLanding() {
-  const [selectedSet, setSelectedSet] = useState<CollectorSet>("All");
-  const cards = selectedSet === "All" ? demoInventory : demoInventory.filter((item) => collectorSetLabel(item) === selectedSet);
+  const singlePokemon = demoInventory.filter((item) => item.category !== "Curated Collections");
+  const collections = demoInventory.filter((item) => item.category === "Curated Collections");
 
-  return <main className="shop-shell"><ShopHeader /><section className="simple-shop-content"><nav className="collector-set-tabs" aria-label="Collector sets">{collectorSets.map((set) => <button key={set} className={selectedSet === set ? "active" : ""} onClick={() => setSelectedSet(set)}>{set}</button>)}</nav><div className="artifact-grid simple-shop-grid">{cards.map((item) => <ArtifactCard key={item.id} item={item} />)}</div></section><footer className="shop-footer"><DemoNotice /><Link href={`${ARCHIVE_ORIGIN}/#archive`}>Visit the Archive ↗</Link></footer></main>;
+  return <main className="shop-shell"><ShopHeader /><section className="simple-shop-content"><section className="shop-product-section"><header><h1>Single Pokémon</h1><span>{singlePokemon.length} cards</span></header><div className="artifact-grid simple-shop-grid single-pokemon-grid">{singlePokemon.map((item) => <ArtifactCard key={item.id} item={item} />)}</div></section><section className="shop-product-section collection-product-section"><header><h2>Collections</h2><span>Multiple Pokémon in every set</span></header><div className="artifact-grid simple-shop-grid collection-shop-grid">{collections.map((item) => <ArtifactCard key={item.id} item={item} />)}</div></section></section><footer className="shop-footer"><DemoNotice /><Link href={`${ARCHIVE_ORIGIN}/#archive`}>Visit the Archive ↗</Link></footer></main>;
 }
 
 export function ArtifactPage({ item }: { item: InventoryItem }) {

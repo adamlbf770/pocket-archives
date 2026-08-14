@@ -384,10 +384,13 @@ footer p { font-family:Georgia,serif; color:#888; }
 .active-collection-note span { margin-left:8px; color:var(--ink); font-size:13px; }
 .artifact-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:56px 22px; }
 .simple-shop-content { min-height:calc(100vh - 192px); padding:34px 4vw 90px; }
-.collector-set-tabs { margin-bottom:30px; border-bottom:1px solid var(--line); display:flex; gap:30px; overflow-x:auto; }
-.collector-set-tabs button { min-height:48px; border:0; border-bottom:1px solid transparent; background:transparent; color:#8a867d; padding:0; cursor:pointer; white-space:nowrap; text-transform:uppercase; letter-spacing:.09em; font-size:8px; font-weight:900; }
-.collector-set-tabs button:hover, .collector-set-tabs button.active { color:var(--ink); border-bottom-color:var(--orange); }
+.shop-product-section > header { margin-bottom:28px; padding-bottom:15px; border-bottom:1px solid var(--line); display:flex; align-items:end; justify-content:space-between; gap:20px; }
+.shop-product-section > header h1, .shop-product-section > header h2 { margin:0; font-size:clamp(28px,3vw,46px); line-height:.9; letter-spacing:-.055em; text-transform:uppercase; }
+.shop-product-section > header span { color:#817d73; text-transform:uppercase; letter-spacing:.1em; font-size:7px; font-weight:900; }
+.collection-product-section { margin-top:86px; }
 .artifact-grid.simple-shop-grid { grid-template-columns:repeat(5,minmax(0,1fr)); gap:42px 20px; }
+.artifact-grid.single-pokemon-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }
+.artifact-grid.collection-shop-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
 .simple-card-copy { padding-top:12px; flex-direction:row; align-items:baseline; justify-content:space-between; gap:12px; }
 .simple-card-copy > small { color:#77736a; font-family:Arial,Helvetica,sans-serif; text-transform:uppercase; letter-spacing:.08em; font-size:7px; font-weight:900; }
 .simple-card-copy > b { font-family:Georgia,serif; font-size:15px; font-weight:normal; white-space:nowrap; }
@@ -400,9 +403,13 @@ footer p { font-family:Georgia,serif; color:#888; }
 .artifact-image-stack img { width:57%; height:78%; position:absolute; left:6%; top:11%; z-index:3; transform:rotate(-5deg); }
 .artifact-image-stack img:nth-child(2) { left:22%; z-index:2; transform:rotate(0); }
 .artifact-image-stack img:nth-child(3) { left:38%; z-index:1; transform:rotate(5deg); }
+.artifact-image-stack.card-count-2 img:first-child { left:14%; transform:rotate(-4deg); }
+.artifact-image-stack.card-count-2 img:nth-child(2) { left:31%; transform:rotate(4deg); }
 .artifact-card:hover .artifact-image-stack img { transform:rotate(-5deg) translateY(-3px); }
 .artifact-card:hover .artifact-image-stack img:nth-child(2) { transform:translateY(-3px); }
 .artifact-card:hover .artifact-image-stack img:nth-child(3) { transform:rotate(5deg) translateY(-3px); }
+.artifact-card:hover .artifact-image-stack.card-count-2 img:first-child { transform:rotate(-4deg) translateY(-3px); }
+.artifact-card:hover .artifact-image-stack.card-count-2 img:nth-child(2) { transform:rotate(4deg) translateY(-3px); }
 .artifact-card-copy { padding:15px 1px 0; display:flex; flex-direction:column; }
 .artifact-card-copy > strong { margin:0 0 6px; font-size:clamp(18px,1.4vw,24px); line-height:1; letter-spacing:-.03em; }
 .artifact-card-copy > small { color:#77736a; font-family:Georgia,serif; font-size:11px; }
@@ -426,9 +433,9 @@ footer p { font-family:Georgia,serif; color:#888; }
 .shop-footer a { color:var(--ink); text-decoration:none; }
 .artifact-detail { padding:70px 4vw 130px; display:grid; grid-template-columns:minmax(0,1.15fr) minmax(380px,.72fr); gap:7vw; align-items:start; }
 .artifact-gallery { position:sticky; top:130px; }
-.artifact-primary { aspect-ratio:1 / 1.08; min-height:620px; background:#e5e0d4; display:grid; place-items:center; position:relative; overflow:hidden; }
+.artifact-primary { height:clamp(440px,calc(100vh - 230px),720px); background:#e5e0d4; display:grid; place-items:center; position:relative; overflow:hidden; }
 .artifact-primary > small { position:absolute; left:20px; bottom:18px; z-index:2; max-width:70%; color:#868278; font-family:Georgia,serif; font-size:10px; line-height:1.4; }
-.artifact-primary img { width:100%; height:100%; padding:10%; object-fit:contain; mix-blend-mode:multiply; }
+.artifact-primary img { width:100%; height:100%; padding:6% 10% 9%; object-fit:contain; mix-blend-mode:multiply; }
 .artifact-thumbnails { display:flex; gap:8px; margin-top:10px; }
 .artifact-thumbnails button { width:88px; height:88px; border:1px solid transparent; background:#e5e0d4; padding:5px; cursor:pointer; }
 .artifact-thumbnails button.active { border-color:var(--ink); }
@@ -566,7 +573,7 @@ footer p { font-family:Georgia,serif; color:#888; }
   .collection-feature-copy button { margin-top:40px; }
   .artifact-detail { grid-template-columns:1fr; }
   .artifact-gallery { position:static; }
-  .artifact-primary { min-height:58vh; }
+  .artifact-primary { height:min(72vh,680px); }
   .artifact-record { padding-top:22px; }
 }
 @media (max-width:560px) {
@@ -598,7 +605,9 @@ footer p { font-family:Georgia,serif; color:#888; }
   .shop-hero > p { font-size:13px; }
   .shop-content { padding:0 20px 85px; }
   .simple-shop-content { padding:20px 20px 70px; }
-  .collector-set-tabs { margin-right:-20px; padding-right:20px; gap:22px; }
+  .shop-product-section > header { margin-bottom:20px; align-items:flex-start; flex-direction:column; gap:8px; }
+  .shop-product-section > header h1, .shop-product-section > header h2 { font-size:11vw; }
+  .collection-product-section { margin-top:68px; }
   .shop-demo-notice { width:auto; }
   .shop-browse-tools { min-height:62px; margin-bottom:24px; }
   .shop-quick-filters { margin-right:-20px; padding-right:20px; }
@@ -617,7 +626,7 @@ footer p { font-family:Georgia,serif; color:#888; }
   .collection-feature-copy { padding:38px 20px 46px; }
   .collection-feature-copy h2 { font-size:12vw; }
   .artifact-detail { padding:24px 20px 80px; }
-  .artifact-primary { min-height:0; }
+  .artifact-primary { height:min(68vh,560px); }
   .artifact-record h1 { font-size:14vw; }
   .artifact-back { margin-bottom:42px; }
   .artifact-offer { align-items:stretch; flex-direction:column; }
