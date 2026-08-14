@@ -101,6 +101,8 @@ const internalListPanels: ArchivePanel[] = [
   { id: "period-5", eyebrow: "Period 5 · Toward the final game", title: "The eclectic final wave", description: "The last broad group is the most varied, combining ordinary two-stage families, stone evolutions, unusual one-offs, and finally the starters.", details: ["Bulbasaur, Charmander, and Squirtle arrived surprisingly late in the internal sequence.", "Late additions helped balance types and shape the opening experience players would actually encounter.", "The roster was still being edited until close to debugging, leaving 39 unused slots among the 190 internal positions."], source: "Helix Chamber’s internal-list periodization · Period 5" },
 ];
 
+const museumReadingSequence = [...internalListPanels, ...helixResearchPanels];
+
 const museumRooms: MuseumRoom[] = [
   { id: "before-pokemon", year: "1990", title: "Before Pokémon", subtitle: "The Capsule Monsters pitch", image: "https://helixchamber.com/wp-content/uploads/2018/09/1990_Capsule_Monsters_00_map_reg.png", caption: "Capsule Monsters world study", body: "Satoshi Tajiri’s creature-collecting idea began as Capsule Monsters. Ken Sugimori’s drawings helped turn an abstract game pitch into a believable world of trainers, creatures, capsules, shops, routes, and battles.", highlights: ["The concept drew on Tajiri’s childhood interest in collecting insects.", "The capsule idea made fantastic creatures feel portable, tradable, and personal.", "Several early creatures and world concepts remained recognizable years later."], source: "Game Freak development material · Capsule Monsters research archives" },
   { id: "inventing-a-world", year: "1990", title: "Inventing a world", subtitle: "Maps, shops, and everyday life", image: "https://i.imgur.com/ZAQnI.jpg", caption: "Early town and environment studies", body: "The earliest drawings were not only monster designs. They explored what it would mean to live alongside them: traveling between towns, purchasing supplies, meeting other trainers, and navigating a world built around human–creature relationships.", highlights: ["Early Kanto had the visual grammar of a traditional Japanese role-playing game.", "Environmental sketches established scale before the Game Boy maps were finalized.", "The social world of Pokémon was present from the beginning."], source: "Early development scans preserved through the 2011 Reddit/Imgur collection" },
@@ -345,6 +347,7 @@ export default function Home() {
   }, [query]);
   const activeGroups = view === "favorites" ? favoriteResults : filteredGroups;
   const activeGeneration = filter.startsWith("gen-") ? Number(filter.slice(4)) : null;
+  const selectedPanelPosition = selectedPanel ? museumReadingSequence.findIndex((panel) => panel.id === selectedPanel.id) : -1;
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -357,6 +360,8 @@ export default function Home() {
       }
       if (selectedPanel) {
         if (event.key === "Escape") setSelectedPanel(null);
+        if (event.key === "ArrowRight") moveMuseumPanel(1);
+        if (event.key === "ArrowLeft") moveMuseumPanel(-1);
         return;
       }
       if (selectedDevelopment) {
@@ -467,6 +472,13 @@ export default function Home() {
     const current = developmentResults.findIndex((item) => item.id === selectedDevelopment.id);
     if (current < 0) return;
     setSelectedDevelopment(developmentResults[(current + direction + developmentResults.length) % developmentResults.length]);
+  }
+
+  function moveMuseumPanel(direction: number) {
+    if (!selectedPanel) return;
+    const current = museumReadingSequence.findIndex((panel) => panel.id === selectedPanel.id);
+    const next = current + direction;
+    if (next >= 0 && next < museumReadingSequence.length) setSelectedPanel(museumReadingSequence[next]);
   }
 
   function renderGroupCard(group: PokemonGroup) {
@@ -621,15 +633,15 @@ export default function Home() {
 
       {selectedPanel && <div className="reference-viewer local-info-viewer" role="dialog" aria-modal="true" aria-label={selectedPanel.title} onMouseDown={(event) => { if (event.currentTarget === event.target) setSelectedPanel(null); }}>
         <button className="reference-viewer-close" onClick={() => setSelectedPanel(null)} aria-label="Close explanation">×</button>
-        <div className="local-info-stage"><span>POCKET<br />ARCHIVES</span><b>RESEARCH<br />NOTE</b><small>READ WITHOUT<br />LEAVING THE ARCHIVE</small></div>
+        <div className="local-info-stage"><span>{selectedPanel.id.startsWith("period-") ? "Design period" : "Research note"}</span><b>{String(selectedPanelPosition + 1).padStart(2, "0")}</b><small>POCKET ARCHIVES<br />DESIGN MUSEUM</small></div>
         <aside className="reference-viewer-details local-info-details">
           <p className="eyebrow"><span /> {selectedPanel.eyebrow}</p>
           <h2>{selectedPanel.title}</h2>
           <p className="reference-viewer-description">{selectedPanel.description}</p>
           <ol className="local-info-list">{selectedPanel.details.map((detail) => <li key={detail}>{detail}</li>)}</ol>
           <div className="reference-source"><span>Source record</span><b>{selectedPanel.source}</b><p>This is a concise Pocket Archives summary, not a verbatim reproduction.</p></div>
-          <p className="local-viewer-note">This explanation opens and closes entirely inside Pocket Archives.</p>
-          <p className="key-hint">Esc to close</p>
+          <nav className="local-info-controls" aria-label="Move through museum reading rooms"><button disabled={selectedPanelPosition <= 0} onClick={() => moveMuseumPanel(-1)}>← Previous room</button><span>{String(selectedPanelPosition + 1).padStart(2, "0")} / {String(museumReadingSequence.length).padStart(2, "0")}</span><button disabled={selectedPanelPosition >= museumReadingSequence.length - 1} onClick={() => moveMuseumPanel(1)}>Next room →</button></nav>
+          <p className="key-hint">Use ← → to walk through the exhibition · Esc to close</p>
         </aside>
       </div>}
     </main>
