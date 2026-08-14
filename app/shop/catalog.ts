@@ -266,6 +266,7 @@ export const demoCuratedCollections: CuratedCollection[] = [
 export const inventoryCollectionOptions = ["New Acquisitions", "From the Archive", "Sugimori", "Vintage Japanese", "Carddass", "Promos", "Cards", "Ephemera", "Printed Matter", "Curated Collections", "Archived / Sold"] as const;
 
 export const SHOP_ORIGIN = "https://shop.pocketarchives.com";
+export const SHOP_HOME = `${SHOP_ORIGIN}/shop`;
 export const ARCHIVE_ORIGIN = "https://pocketarchives.com";
 
 export function shopObjectUrl(slug: string) { return `${SHOP_ORIGIN}/objects/${slug}`; }

@@ -196,6 +196,12 @@ export default function Home() {
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (window.location.hostname === "shop.pocketarchives.com") {
+      window.location.replace(`/shop${window.location.hash}`);
+    }
+  }, []);
+
+  useEffect(() => {
     fetch("/data/pokemon.json").then((response) => response.json()).then(setArt);
     fetch("/data/settei-links.json").then((response) => response.json()).then(setSetteiDirectory);
     const saved = localStorage.getItem("pocket-archive-favorite-species");
@@ -514,7 +520,7 @@ export default function Home() {
     <main>
       <header className="site-header">
         <div className="brand"><span className="brand-mark"><img src="/pocket-archives-logo.png" alt="" /></span><span>POCKET<br />ARCHIVES</span></div>
-        <nav aria-label="Primary navigation"><button className={view === "references" ? "active" : ""} onClick={() => openTopLevelPage("archive")}>Archive</button><button className={view === "museum" ? "active" : ""} onClick={() => openTopLevelPage("museum")}>Museum</button><a href="https://shop.pocketarchives.com">Shop ↗</a></nav>
+        <nav aria-label="Primary navigation"><button className={view === "references" ? "active" : ""} onClick={() => openTopLevelPage("archive")}>Archive</button><button className={view === "museum" ? "active" : ""} onClick={() => openTopLevelPage("museum")}>Museum</button><a href="https://shop.pocketarchives.com/shop">Shop ↗</a></nav>
         <button className="favorites-link" onClick={openFavorites}><span>♥</span> Favorites <b>{favorites.size}</b></button>
       </header>
 
@@ -529,7 +535,7 @@ export default function Home() {
         <div className="view-tabs" role="tablist" aria-label="Collection views">
           <button role="tab" aria-selected={view === "references"} className={view === "references" ? "active" : ""} onClick={openReferences}><span>01</span> Archive</button>
           <button role="tab" aria-selected={view === "museum"} className={view === "museum" ? "active" : ""} onClick={openMuseum}><span>02</span> Museum</button>
-          <a className="shop-view-tab" href="https://shop.pocketarchives.com"><span>03</span> Shop ↗</a>
+          <a className="shop-view-tab" href="https://shop.pocketarchives.com/shop"><span>03</span> Shop ↗</a>
         </div>
 
         {view !== "museum" ? <div className="filter-panel">
