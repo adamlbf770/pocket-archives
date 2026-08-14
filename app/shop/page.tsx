@@ -3,7 +3,7 @@ import { ShopLanding } from "./shop-client";
 
 export const metadata: Metadata = {
   title: "Shop — Pocket Archives",
-  description: "Vintage cards, prints, magazines, and unusual Pokémon finds.",
+  description: "Vintage Pokémon cards, promos, and sets.",
   openGraph: { title: "Pocket Archives Shop", description: "Collector. Curator. Dealer.", images: ["/og-shop.png"] },
   twitter: { card: "summary_large_image", title: "Pocket Archives Shop", description: "Collector. Curator. Dealer.", images: ["/og-shop.png"] },
 };

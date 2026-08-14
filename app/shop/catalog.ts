@@ -88,24 +88,29 @@ export type CuratedCollection = {
   demo: true;
 };
 
-function demoIllustration(src: string, subject: string): ObjectImage {
+function demoCardImage(src: string, subject: string): ObjectImage {
   return {
     src,
-    caption: `${subject} archive image — replace with a photo of the actual item.`,
+    caption: `${subject} card scan — replace with photos of the card being sold.`,
     view: "placeholder",
-    creator: "Archive source record",
+    creator: "Pokémon TCG API image library",
     rightsHolder: "Pokémon rights holders",
     rightsStatus: "display-only",
-    usageBasis: "Temporary demonstration preview from the supplied Pocket Archives collection",
+    usageBasis: "Temporary sample card scan sourced through the Pokémon TCG API",
   };
 }
 
 const demoVisuals = [
-  demoIllustration("/art/0547.webp", "Bulbasaur"),
-  demoIllustration("/art/0639.webp", "Haunter"),
-  demoIllustration("/art/0571.webp", "Pikachu"),
-  demoIllustration("/art/0193.webp", "Japanese printed matter"),
-  demoIllustration("/art/0351.webp", "Original starter group"),
+  demoCardImage("/shop/cards/bulbasaur-base.png", "Bulbasaur Base Set"),
+  demoCardImage("/shop/cards/haunter-fossil.png", "Haunter Fossil"),
+  demoCardImage("/shop/cards/pikachu-promo.png", "Pikachu Black Star Promo"),
+  demoCardImage("/shop/cards/mew-promo.png", "Mew Black Star Promo"),
+  demoCardImage("/shop/cards/bulbasaur-base.png", "Original starter trio"),
+];
+const starterVisuals = [
+  demoVisuals[0],
+  demoCardImage("/shop/cards/charmander-base.png", "Charmander Base Set"),
+  demoCardImage("/shop/cards/squirtle-base.png", "Squirtle Base Set"),
 ];
 const demoPlaceholder = demoVisuals[0];
 
@@ -141,7 +146,21 @@ export const demoInventory: InventoryItem[] = [
   },
 ];
 
-demoInventory.forEach((item, index) => { item.images = [demoVisuals[index]]; });
+const demoListingOverrides: Partial<InventoryItem>[] = [
+  { subtitle: "1999 Base Set — sample listing", objectType: "Trading card", category: "Cards", year: 1999, approximateYear: false, set: "Base Set", series: "Wizards of the Coast", cardNumber: "44", manufacturer: "Wizards of the Coast", publisher: "Wizards of the Coast" },
+  { subtitle: "1999 Fossil — sample listing", objectType: "Trading card", category: "Cards", year: 1999, approximateYear: false, set: "Fossil", series: "Wizards of the Coast", cardNumber: "21", manufacturer: "Wizards of the Coast", publisher: "Wizards of the Coast" },
+  { subtitle: "1999 Black Star Promo — sample listing", objectType: "Promo card", category: "Promos", year: 1999, approximateYear: false, set: "Wizards Black Star Promos", series: "Black Star Promo", cardNumber: "1", manufacturer: "Wizards of the Coast", publisher: "Wizards of the Coast" },
+  { title: "Mew", subtitle: "2000 Black Star Promo — sample listing", objectType: "Promo card", category: "Promos", year: 2000, approximateYear: false, set: "Wizards Black Star Promos", series: "Black Star Promo", cardNumber: "9", manufacturer: "Wizards of the Coast", publisher: "Wizards of the Coast", pokemonIds: [151], pokemonNames: ["Mew"] },
+  { subtitle: "1999 Base Set trio — sample listing", objectType: "Three-card set", category: "Curated Collections", year: 1999, approximateYear: false, set: "Base Set", series: "Wizards of the Coast", manufacturer: "Wizards of the Coast", publisher: "Wizards of the Coast" },
+];
+
+demoInventory.forEach((item, index) => {
+  Object.assign(item, demoListingOverrides[index], {
+    images: index === 4 ? starterVisuals : [demoVisuals[index]],
+    sourceMetadata: "Temporary card scan sourced through the Pokémon TCG API; replace with photos of the listed card.",
+    rightsMetadata: "Display-only sample image. Live listings should use photos of the card being sold.",
+  });
+});
 
 export const demoCuratedCollections: CuratedCollection[] = [
   { id: "DEMO-COLLECTION-001", slug: "gastly-haunter-gengar", title: "Gastly / Haunter / Gengar", description: "Objects tracing one of Kanto’s most visually coherent evolution lines.", curatorNote: "A future grouping can mix cards, printed matter, and production references while retaining object-level records.", era: "1996–present", featuredImage: null, inventoryIds: ["DEMO-002"], pokemonIds: [92, 93, 94], relatedArchiveIds: [], relatedMuseumIds: ["public-visual-identity"], saleMode: "individual", collectionPrice: null, currency: "USD", demo: true },
