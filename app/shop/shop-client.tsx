@@ -1,15 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import { ARCHIVE_ORIGIN, SHOP_ORIGIN, demoCuratedCollections, demoInventory, formatPrice, inventoryCollectionOptions, recordStateLabel, shopObjectUrl, statusLabel, type CuratedCollection, type InventoryItem } from "./catalog";
+import { useState } from "react";
+import { ARCHIVE_ORIGIN, SHOP_ORIGIN, demoInventory, formatPrice, recordStateLabel, shopObjectUrl, statusLabel, type InventoryItem } from "./catalog";
 
-type QuickView = "all" | "cards" | "promos" | "collections";
-
-const collectionVisuals: Record<string, string[]> = {
-  "gastly-haunter-gengar": ["/shop/cards/haunter-fossil.png", "/shop/cards/mew-promo.png", "/shop/cards/pikachu-promo.png"],
-  "original-starters": ["/shop/cards/bulbasaur-base.png", "/shop/cards/charmander-base.png", "/shop/cards/squirtle-base.png"],
-};
+const collectorSets = ["All", "Sugimori Art", "Kanto Starters", "Black Star Promos"] as const;
+type CollectorSet = typeof collectorSets[number];
 
 const sampleDescriptions: Record<string, string> = {
   "DEMO-001": "A sample listing for a 1999 Base Set Bulbasaur. The final listing will use photos and notes from the actual card.",
@@ -27,11 +23,10 @@ function categoryLabel(category: InventoryItem["category"]) {
   return category;
 }
 
-function filterLabel(label: string) {
-  if (label === "All objects") return "Everything";
-  if (label === "Ephemera" || label === "Printed Matter") return "Prints";
-  if (label === "Curated Collections") return "Sets";
-  return label;
+function collectorSetLabel(item: InventoryItem): Exclude<CollectorSet, "All"> {
+  if (item.id === "DEMO-002") return "Sugimori Art";
+  if (item.id === "DEMO-003" || item.id === "DEMO-004") return "Black Star Promos";
+  return "Kanto Starters";
 }
 
 function ShopHeader() {
@@ -49,58 +44,14 @@ function ObjectVisual({ item, imageIndex = 0, detail = false }: { item: Inventor
 }
 
 function ArtifactCard({ item }: { item: InventoryItem }) {
-  const showPrice = item.price !== null && item.availabilityStatus === "available";
-  return <Link className="artifact-card" href={shopObjectUrl(item.slug)}><ObjectVisual item={item} /><span className="artifact-card-copy"><strong>{item.title}</strong><small>{item.year || "Undated"} {categoryLabel(item.category)} · {item.country}</small><span>{showPrice && <b>{formatPrice(item.price, item.currency)}</b>}{item.fromArchive && <em>From the Archive</em>}</span></span></Link>;
-}
-
-function CollectionFeature({ group, onExplore }: { group: CuratedCollection; onExplore: () => void }) {
-  const visuals = collectionVisuals[group.slug] || [];
-  return <article className="collection-feature"><div className="collection-feature-visual" aria-hidden="true">{visuals.map((src) => <span key={src}><img src={src} alt="" /></span>)}</div><div className="collection-feature-copy"><small>Collection</small><h2>{group.title}</h2><p>{group.description.replace("Objects tracing", "A look at")}</p><span>{group.pokemonIds.length} Pokémon</span><button onClick={onExplore}>See the collection <i>→</i></button></div></article>;
+  return <Link className="artifact-card" href={shopObjectUrl(item.slug)}><ObjectVisual item={item} /><span className="artifact-card-copy simple-card-copy"><small>{collectorSetLabel(item)}</small><b>{formatPrice(item.price, item.currency)}</b></span></Link>;
 }
 
 export function ShopLanding() {
-  const [query, setQuery] = useState("");
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [quickView, setQuickView] = useState<QuickView>("all");
-  const [advancedOpen, setAdvancedOpen] = useState(false);
-  const [collectionFocus, setCollectionFocus] = useState<string | null>(null);
-  const [collection, setCollection] = useState("All objects");
-  const [artist, setArtist] = useState("All artists");
-  const [era, setEra] = useState("All eras");
-  const [country, setCountry] = useState("All countries");
-  const [language, setLanguage] = useState("All languages");
-  const [condition, setCondition] = useState("All conditions");
-  const [availability, setAvailability] = useState("Everything");
+  const [selectedSet, setSelectedSet] = useState<CollectorSet>("All");
+  const cards = selectedSet === "All" ? demoInventory : demoInventory.filter((item) => collectorSetLabel(item) === selectedSet);
 
-  const results = useMemo(() => demoInventory.filter((item) => {
-    const needle = query.trim().toLowerCase();
-    const searchable = `${item.accessionNumber} ${item.title} ${item.subtitle} ${item.description} ${item.objectType} ${item.category} ${item.tags.join(" ")} ${item.pokemonNames.join(" ")} ${item.artist || ""} ${item.year || ""} ${item.country} ${item.language} ${item.series || ""} ${item.condition}`.toLowerCase();
-    const cardCategories = ["Cards", "Carddass", "Promos"];
-    const promoCategories = ["Promos"];
-    const quickMatch = quickView === "all" ||
-      (quickView === "cards" && cardCategories.includes(item.category)) ||
-      (quickView === "promos" && promoCategories.includes(item.category)) ||
-      (quickView === "collections" && item.category === "Curated Collections");
-    return (!needle || searchable.includes(needle)) && quickMatch &&
-      (!collectionFocus || item.relatedCollectionIds.includes(collectionFocus)) &&
-      (collection === "All objects" || item.category === collection || item.tags.includes(collection)) &&
-      (artist === "All artists" || item.artist === artist) &&
-      (era === "All eras" || item.era === era) &&
-      (country === "All countries" || item.country === country) &&
-      (language === "All languages" || item.language === language) &&
-      (condition === "All conditions" || item.condition === condition) &&
-      (availability === "Everything" || item.availabilityStatus === availability);
-  }), [query, quickView, collectionFocus, collection, artist, era, country, language, condition, availability]);
-
-  const values = (key: "artist" | "era" | "country" | "language" | "condition") => [...new Set(demoInventory.map((item) => item[key]).filter(Boolean))] as string[];
-  const usedCollections = inventoryCollectionOptions.filter((option) => demoInventory.some((item) => item.category === option || item.tags.includes(option)));
-  const resetFilters = () => { setQuery(""); setQuickView("all"); setCollectionFocus(null); setCollection("All objects"); setArtist("All artists"); setEra("All eras"); setCountry("All countries"); setLanguage("All languages"); setCondition("All conditions"); setAvailability("Everything"); };
-  const chooseView = (view: QuickView) => { setQuickView(view); setCollectionFocus(null); };
-  const exploreCollection = (slug: string) => { setCollectionFocus(slug); setQuickView("all"); document.getElementById("shop-grid")?.scrollIntoView({ behavior: "smooth" }); };
-  const featured = results.slice(0, 3);
-  const more = results.slice(3);
-
-  return <main className="shop-shell"><ShopHeader /><section className="shop-hero"><p className="eyebrow"><span /> Pocket Archives / Shop</p><h1>Worth keeping<span>.</span></h1><p>Vintage Pokémon cards, promos, and sets.</p></section><section className="shop-content"><div className="shop-browse-tools"><div className="shop-quick-filters" aria-label="Shop categories">{([['all', 'All'], ['cards', 'Cards'], ['promos', 'Promos'], ['collections', 'Collections']] as [QuickView, string][]).map(([value, label]) => <button key={value} className={quickView === value && !collectionFocus ? "active" : ""} onClick={() => chooseView(value)}>{label}</button>)}</div><div className="shop-tool-buttons"><button className={searchOpen ? "active" : ""} onClick={() => setSearchOpen((open) => !open)} aria-label="Search shop" aria-expanded={searchOpen}>⌕</button><button className={advancedOpen ? "active" : ""} onClick={() => setAdvancedOpen((open) => !open)} aria-label="More filters" aria-expanded={advancedOpen}>≡</button></div></div>{searchOpen && <label className="shop-search"><input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search the shop" aria-label="Search the shop" /><button onClick={() => { setQuery(""); setSearchOpen(false); }} aria-label="Close search">×</button></label>}{advancedOpen && <div className="shop-filter-grid"><label>Category<select value={collection} onChange={(event) => setCollection(event.target.value)}><option value="All objects">Everything</option>{usedCollections.map((option) => <option key={option} value={option}>{filterLabel(option)}</option>)}</select></label><label>Artist<select value={artist} onChange={(event) => setArtist(event.target.value)}><option>All artists</option>{values("artist").map((option) => <option key={option}>{option}</option>)}</select></label><label>Era<select value={era} onChange={(event) => setEra(event.target.value)}><option>All eras</option>{values("era").map((option) => <option key={option}>{option}</option>)}</select></label><label>Country<select value={country} onChange={(event) => setCountry(event.target.value)}><option>All countries</option>{values("country").map((option) => <option key={option}>{option}</option>)}</select></label><label>Language<select value={language} onChange={(event) => setLanguage(event.target.value)}><option>All languages</option>{values("language").map((option) => <option key={option}>{option}</option>)}</select></label><label>Condition<select value={condition} onChange={(event) => setCondition(event.target.value)}><option>All conditions</option>{values("condition").map((option) => <option key={option}>{option}</option>)}</select></label><label>Status<select value={availability} onChange={(event) => setAvailability(event.target.value)}><option>Everything</option><option value="available">Available</option><option value="reserved">Reserved</option><option value="not-for-sale">Not for sale</option><option value="sold">Sold</option></select></label><button className="filter-reset" onClick={resetFilters}>Clear all</button></div>}{collectionFocus && <button className="active-collection-note" onClick={() => setCollectionFocus(null)}>Showing collection <span>×</span></button>}<div id="shop-grid">{results.length ? <><div className="artifact-grid artifact-grid-featured">{featured.map((item) => <ArtifactCard key={item.id} item={item} />)}</div>{demoCuratedCollections[0] && <CollectionFeature group={demoCuratedCollections[0]} onExplore={() => exploreCollection(demoCuratedCollections[0].slug)} />}{more.length > 0 && <div className="artifact-grid artifact-grid-more">{more.map((item) => <ArtifactCard key={item.id} item={item} />)}</div>}{demoCuratedCollections[1] && <CollectionFeature group={demoCuratedCollections[1]} onExplore={() => exploreCollection(demoCuratedCollections[1].slug)} />}</> : <div className="empty-state"><span>◇</span><h3>Nothing found</h3><p>Try another search or clear the filters.</p><button onClick={resetFilters}>Clear filters</button></div>}</div></section><footer className="shop-footer"><DemoNotice /><Link href={`${ARCHIVE_ORIGIN}/#archive`}>Visit the Archive ↗</Link></footer></main>;
+  return <main className="shop-shell"><ShopHeader /><section className="simple-shop-content"><nav className="collector-set-tabs" aria-label="Collector sets">{collectorSets.map((set) => <button key={set} className={selectedSet === set ? "active" : ""} onClick={() => setSelectedSet(set)}>{set}</button>)}</nav><div className="artifact-grid simple-shop-grid">{cards.map((item) => <ArtifactCard key={item.id} item={item} />)}</div></section><footer className="shop-footer"><DemoNotice /><Link href={`${ARCHIVE_ORIGIN}/#archive`}>Visit the Archive ↗</Link></footer></main>;
 }
 
 export function ArtifactPage({ item }: { item: InventoryItem }) {
