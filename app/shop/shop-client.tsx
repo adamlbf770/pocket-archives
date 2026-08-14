@@ -27,6 +27,8 @@ function categoryLabel(category: InventoryItem["category"]) {
 function collectorSetLabel(item: InventoryItem) {
   if (item.id === "DEMO-002") return "Sugimori Art";
   if (item.id === "DEMO-003" || item.id === "DEMO-004") return "Black Star Promos";
+  if (item.category === "Carddass") return "Bandai Carddass";
+  if (item.tags.includes("Meiji")) return "Meiji Get Cards";
   return "Kanto Starters";
 }
 
@@ -76,7 +78,7 @@ export function ArtifactPage({ item }: { item: InventoryItem }) {
   const memberships = storeCollections.filter((collection) => collection.physicalCopyIds.some((copyId) => copies.some((copy) => copy.id === copyId)));
   const privateSale = item.commerceMode === "privateSale";
   const canAcquire = item.commerceMode === "fixedPrice" && item.availabilityStatus === "available" && item.quantity > 0;
-  const description = item.demo ? sampleDescriptions[item.id] : item.description;
+  const description = item.demo ? sampleDescriptions[item.id] || item.description : item.description;
   const provenance = item.demo ? "Sample listing; no physical item is represented." : item.provenance;
   const source = item.demo ? "Waiting for photos from the live inventory." : item.sourceMetadata;
   const relatedLot = lotForObject(item.id);

@@ -102,6 +102,18 @@ function demoCardImage(src: string, subject: string): ObjectImage {
   };
 }
 
+function referenceScan(src: string, subject: string): ObjectImage {
+  return {
+    src,
+    caption: `${subject} reference scan — replace with photographs of the card being sold.`,
+    view: "placeholder",
+    creator: "Bulbagarden Archives contributor",
+    rightsHolder: "Pokémon rights holders",
+    rightsStatus: "display-only",
+    usageBasis: "Temporary historical reference scan sourced through Bulbagarden Archives",
+  };
+}
+
 const demoVisuals = [
   demoCardImage("/shop/cards/bulbasaur-base.png", "Bulbasaur Base Set"),
   demoCardImage("/shop/cards/haunter-fossil.png", "Haunter Fossil"),
@@ -212,6 +224,37 @@ demoInventory.push(
     soldDate: null,
     price: 65,
     images: [demoVisuals[2], demoVisuals[3]],
+  },
+);
+
+demoInventory.push(
+  {
+    ...demoInventory[0],
+    accessionNumber: "PA-0008", id: "DEMO-008", slug: "demo-1996-carddass-pikachu", title: "Pikachu", subtitle: "1996 Bandai Carddass — sample listing", objectType: "Collectible card", category: "Carddass",
+    description: "A sample listing for an early Bandai Carddass Pikachu, one of the small-format cards that helped move Pokémon from the Game Boy into everyday collecting.", archivalNote: "Bandai's September 1996 Carddass release predates the Pokémon Trading Card Game and belongs to the franchise's earliest official collectible-card history.", culturalSignificance: "An affordable entry point into the first year of Pokémon collecting culture.",
+    year: 1996, approximateYear: false, era: "Launch era · 1996", country: "Japan", language: "Japanese", artist: "Ken Sugimori", illustrator: "Ken Sugimori", manufacturer: "Bandai", publisher: "Bandai", set: "Pokémon Carddass Part 1 & 2", series: "Green / red back", cardNumber: "025", catalogNumber: "PA-0008", edition: null, printing: null, condition: "Very Good", conditionNotes: "Sample condition only. Live listing will document corners, surface, color, and reverse.", dimensions: "Approx. 59 × 86 mm", provenance: "Sample listing; no physical item is represented.", acquisitionSource: null, acquisitionDate: null,
+    pokemonIds: [25], pokemonNames: ["Pikachu"], artistIds: ["ken-sugimori"], relatedMuseumIds: ["public-visual-identity"], relatedArchiveIds: ["carddass-action-1"], relatedCardIds: [], relatedCollectionIds: ["before-the-tcg", "carddass-first-generation"], tags: ["Carddass", "Vintage Japanese", "Original 151", "The Binder"], fromArchive: true, physicalOwnership: false, commerceMode: "fixedPrice", recordState: "available", availabilityStatus: "available", price: 18, currency: "USD", quantity: 1, reserved: false, soldDate: null, placedInPrivateCollection: false, images: [referenceScan("/shop/cards/carddass-pikachu.jpg", "1996 Pikachu Carddass")], sourceMetadata: "Historical reference scan from Bulbagarden Archives; final listing requires original inventory photography.", rightsMetadata: "Display-only reference image. Replace with original photographs before sale.", featured: false, demo: true,
+  },
+  {
+    ...demoInventory[0],
+    accessionNumber: "PA-0009", id: "DEMO-009", slug: "demo-1996-carddass-charmander", title: "Charmander", subtitle: "1996 Bandai Carddass — sample listing", objectType: "Collectible card", category: "Carddass",
+    description: "A sample listing for an early Bandai Carddass Charmander, built for collectors who want historically meaningful pieces without chasing only expensive rarities.", archivalNote: "The original Carddass run translated Sugimori's character art into a numbered pocket encyclopedia before the TCG became the dominant card format.", culturalSignificance: "A direct link between the original Pokédex and vending-machine collecting.",
+    year: 1996, approximateYear: false, era: "Launch era · 1996", country: "Japan", language: "Japanese", artist: "Ken Sugimori", illustrator: "Ken Sugimori", manufacturer: "Bandai", publisher: "Bandai", set: "Pokémon Carddass Part 1 & 2", series: "Green / red back", cardNumber: "004", catalogNumber: "PA-0009", edition: null, printing: null, condition: "Very Good", conditionNotes: "Sample condition only. Live listing will document corners, surface, color, and reverse.", dimensions: "Approx. 59 × 86 mm", provenance: "Sample listing; no physical item is represented.", acquisitionSource: null, acquisitionDate: null,
+    pokemonIds: [4], pokemonNames: ["Charmander"], artistIds: ["ken-sugimori"], relatedMuseumIds: ["public-visual-identity"], relatedArchiveIds: ["carddass-action-1"], relatedCardIds: [], relatedCollectionIds: ["before-the-tcg", "carddass-first-generation"], tags: ["Carddass", "Vintage Japanese", "Original 151", "The Binder"], fromArchive: true, physicalOwnership: false, commerceMode: "fixedPrice", recordState: "available", availabilityStatus: "available", price: 16, currency: "USD", quantity: 1, reserved: false, soldDate: null, placedInPrivateCollection: false, images: [referenceScan("/shop/cards/carddass-charmander.jpg", "1996 Charmander Carddass")], sourceMetadata: "Historical reference scan from Bulbagarden Archives; final listing requires original inventory photography.", rightsMetadata: "Display-only reference image. Replace with original photographs before sale.", featured: false, demo: true,
+  },
+  {
+    ...demoInventory[0],
+    accessionNumber: "PA-0010", id: "DEMO-010", slug: "demo-1997-meiji-get-card-mewtwo", title: "Mewtwo", subtitle: "1997 Meiji Get Card — sample listing", objectType: "Snack premium card", category: "Ephemera",
+    description: "A sample listing for a Meiji Get Card distributed with Japanese confectionery, preserving the point where Pokémon collecting entered ordinary snack-counter life.", archivalNote: "Meiji's compact premiums show that Pokémon culture did not grow through hobby shops alone; it was also collected through inexpensive everyday products.", culturalSignificance: "Consumer ephemera from Pokémon's rapid spread across late-1990s Japan.",
+    year: 1997, approximateYear: false, era: "Early franchise · 1997", country: "Japan", language: "Japanese", artist: null, illustrator: null, manufacturer: "Meiji", publisher: "Meiji", set: "Pokémon Get Cards", series: "1997", cardNumber: "150", catalogNumber: "PA-0010", edition: null, printing: null, condition: "Good", conditionNotes: "Sample condition only. Live listing will note bends, rub, surface wear, and reverse.", dimensions: "To be measured", provenance: "Sample listing; no physical item is represented.", acquisitionSource: null, acquisitionDate: null,
+    pokemonIds: [150], pokemonNames: ["Mewtwo"], artistIds: [], relatedMuseumIds: ["public-visual-identity"], relatedArchiveIds: [], relatedCardIds: [], relatedCollectionIds: ["everyday-pokemon-japan"], tags: ["Meiji", "Ephemera", "Vintage Japanese", "The Binder"], fromArchive: true, physicalOwnership: false, commerceMode: "fixedPrice", recordState: "available", availabilityStatus: "available", price: 12, currency: "USD", quantity: 1, reserved: false, soldDate: null, placedInPrivateCollection: false, images: [referenceScan("/shop/cards/meiji-1997-mewtwo.jpeg", "1997 Mewtwo Meiji Get Card")], sourceMetadata: "Historical reference scan from Bulbagarden Archives; final listing requires original inventory photography.", rightsMetadata: "Display-only reference image. Replace with original photographs before sale.", featured: false, demo: true,
+  },
+  {
+    ...demoInventory[0],
+    accessionNumber: "PA-0011", id: "DEMO-011", slug: "demo-1997-meiji-get-card-charizard", title: "Charizard", subtitle: "1997 Meiji Get Card — sample listing", objectType: "Snack premium card", category: "Ephemera",
+    description: "A sample listing for a 1997 Meiji Get Card featuring Charizard, a small piece of Japanese consumer print culture with a very large collector afterlife.", archivalNote: "Snack premiums made collecting casual and social: inexpensive cards encountered in daily life rather than reserved for a dedicated card game.", culturalSignificance: "A compact record of Pokémon's transition from game release to mass cultural presence.",
+    year: 1997, approximateYear: false, era: "Early franchise · 1997", country: "Japan", language: "Japanese", artist: null, illustrator: null, manufacturer: "Meiji", publisher: "Meiji", set: "Pokémon Get Cards", series: "1997", cardNumber: "006", catalogNumber: "PA-0011", edition: null, printing: null, condition: "Good", conditionNotes: "Sample condition only. Live listing will note bends, rub, surface wear, and reverse.", dimensions: "To be measured", provenance: "Sample listing; no physical item is represented.", acquisitionSource: null, acquisitionDate: null,
+    pokemonIds: [6], pokemonNames: ["Charizard"], artistIds: [], relatedMuseumIds: ["public-visual-identity"], relatedArchiveIds: [], relatedCardIds: [], relatedCollectionIds: ["everyday-pokemon-japan"], tags: ["Meiji", "Ephemera", "Vintage Japanese", "The Binder"], fromArchive: true, physicalOwnership: false, commerceMode: "fixedPrice", recordState: "available", availabilityStatus: "available", price: 14, currency: "USD", quantity: 1, reserved: false, soldDate: null, placedInPrivateCollection: false, images: [referenceScan("/shop/cards/meiji-1997-charizard.jpg", "1997 Charizard Meiji Get Card")], sourceMetadata: "Historical reference scan from Bulbagarden Archives; final listing requires original inventory photography.", rightsMetadata: "Display-only reference image. Replace with original photographs before sale.", featured: false, demo: true,
   },
 );
 

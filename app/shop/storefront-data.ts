@@ -109,6 +109,10 @@ export const catalogItems: CatalogItem[] = [
   { id: "CAT-MEW-PROMO", title: "Mew Black Star Promo 9", objectType: "Promo card", set: "Wizards Black Star Promos", catalogNumber: "9", year: 2000, artist: "Ken Sugimori" },
   { id: "CAT-CHARMANDER-BASE", title: "Base Set Charmander 46/102", objectType: "Trading card", set: "Base Set", catalogNumber: "46/102", year: 1999, artist: "Mitsuhiro Arita" },
   { id: "CAT-SQUIRTLE-BASE", title: "Base Set Squirtle 63/102", objectType: "Trading card", set: "Base Set", catalogNumber: "63/102", year: 1999, artist: "Mitsuhiro Arita" },
+  { id: "CAT-CARDDASS-PIKACHU", title: "Carddass Pikachu 025", objectType: "Collectible card", set: "Pokémon Carddass Part 1 & 2", catalogNumber: "025", year: 1996, artist: "Ken Sugimori" },
+  { id: "CAT-CARDDASS-CHARMANDER", title: "Carddass Charmander 004", objectType: "Collectible card", set: "Pokémon Carddass Part 1 & 2", catalogNumber: "004", year: 1996, artist: "Ken Sugimori" },
+  { id: "CAT-MEIJI-MEWTWO", title: "Meiji Get Card Mewtwo 150", objectType: "Snack premium card", set: "Pokémon Get Cards", catalogNumber: "150", year: 1997, artist: null },
+  { id: "CAT-MEIJI-CHARIZARD", title: "Meiji Get Card Charizard 006", objectType: "Snack premium card", set: "Pokémon Get Cards", catalogNumber: "006", year: 1997, artist: null },
 ];
 
 function copy(id: number, catalogItemId: string, publicObjectId: string, mode: CopyAllocationMode, referenceId: string | null, presentation: PresentationOptionId = "sleeve"): PhysicalCopy {
@@ -152,6 +156,10 @@ export const physicalCopies: PhysicalCopy[] = [
   copy(9, "CAT-HAUNTER-FOSSIL", "DEMO-006", "collection", "the-sugimori-archive", "curatedSet"),
   copy(10, "CAT-PIKACHU-PROMO", "DEMO-007", "collection", "black-star-studies", "curatedSet"),
   copy(11, "CAT-MEW-PROMO", "DEMO-007", "collection", "black-star-studies", "curatedSet"),
+  copy(12, "CAT-CARDDASS-PIKACHU", "DEMO-008", "single", "binder"),
+  copy(13, "CAT-CARDDASS-CHARMANDER", "DEMO-009", "single", "binder"),
+  copy(14, "CAT-MEIJI-MEWTWO", "DEMO-010", "single", "binder"),
+  copy(15, "CAT-MEIJI-CHARIZARD", "DEMO-011", "single", "binder"),
 ];
 
 export const presentationOptions: PresentationOption[] = [
@@ -177,6 +185,10 @@ export const collectionMembers: StoreCollectionMember[] = [
   { id: "MEM-STARTER-S", label: "Squirtle · Base Set", image: "/shop/cards/squirtle-base.png", publicObjectId: "DEMO-005", physicalCopyIds: ["PA-COPY-000007"], status: "In Collection" },
   { id: "MEM-GASTLY", label: "Gastly · Artist study", image: "/shop/cards/haunter-fossil.png", publicObjectId: null, physicalCopyIds: [], status: "Not currently held" },
   { id: "MEM-GENGAR", label: "Gengar · Artist study", image: "/shop/cards/haunter-fossil.png", publicObjectId: null, physicalCopyIds: [], status: "Not currently held" },
+  { id: "MEM-CARDDASS-P", label: "Pikachu · 1996 Carddass", image: "/shop/cards/carddass-pikachu.jpg", publicObjectId: "DEMO-008", physicalCopyIds: ["PA-COPY-000012"], status: "Available" },
+  { id: "MEM-CARDDASS-C", label: "Charmander · 1996 Carddass", image: "/shop/cards/carddass-charmander.jpg", publicObjectId: "DEMO-009", physicalCopyIds: ["PA-COPY-000013"], status: "Available" },
+  { id: "MEM-MEIJI-M", label: "Mewtwo · 1997 Meiji Get Card", image: "/shop/cards/meiji-1997-mewtwo.jpeg", publicObjectId: "DEMO-010", physicalCopyIds: ["PA-COPY-000014"], status: "Available" },
+  { id: "MEM-MEIJI-C", label: "Charizard · 1997 Meiji Get Card", image: "/shop/cards/meiji-1997-charizard.jpg", publicObjectId: "DEMO-011", physicalCopyIds: ["PA-COPY-000015"], status: "Available" },
 ];
 
 export const storeCollections: StoreCollection[] = [
@@ -184,10 +196,14 @@ export const storeCollections: StoreCollection[] = [
   { id: "STORE-COL-002", slug: "base-set-starters", title: "Base Set Starters", subtitle: "Three beginnings, kept together.", description: "A selected three-card set of the original partners as they appeared in the 1999 English Base Set.", curatorNote: "A familiar trio becomes more interesting when treated as one designed entry point: three types, three temperaments, and three equally memorable first choices.", type: "curatedSet", category: "Characters", era: "1999", heroImages: ["/shop/cards/bulbasaur-base.png", "/shop/cards/charmander-base.png", "/shop/cards/squirtle-base.png"], memberIds: ["MEM-STARTER-B", "MEM-STARTER-C", "MEM-STARTER-S"], physicalCopyIds: ["PA-COPY-000005", "PA-COPY-000006", "PA-COPY-000007"], relatedArchiveIds: ["public-visual-identity"], presentationOptionIds: ["binder", "curatedSet"], price: 72, demo: true },
   { id: "STORE-COL-003", slug: "kanto-ghosts", title: "Kanto Ghosts", subtitle: "A family built from atmosphere and silhouette.", description: "An open collecting guide for Gastly, Haunter, and Gengar pieces selected for mood, graphic shape, and unusual illustration choices.", curatorNote: "This collection can grow without becoming a checklist of every printing. Each addition has to contribute a new visual idea.", type: "open", category: "Visual Themes", era: "1996–present", heroImages: ["/shop/cards/haunter-fossil.png"], memberIds: ["MEM-GASTLY", "MEM-HAUNTER", "MEM-GENGAR"], physicalCopyIds: [], relatedArchiveIds: [], presentationOptionIds: ["sleeve", "capsule", "binder"], price: null, demo: true },
   { id: "STORE-COL-004", slug: "black-star-studies", title: "Black Star Studies", subtitle: "Early promotional images beyond the booster pack.", description: "A small curated pairing of Pikachu and Mew promotional cards, selected as two different expressions of Pokémon’s early public identity.", curatorNote: "Mascot and mystery: one immediately recognizable, one deliberately elusive.", type: "curatedSet", category: "Eras", era: "1999–2000", heroImages: ["/shop/cards/pikachu-promo.png", "/shop/cards/mew-promo.png"], memberIds: ["MEM-BLACKSTAR-P", "MEM-BLACKSTAR-M"], physicalCopyIds: ["PA-COPY-000010", "PA-COPY-000011"], relatedArchiveIds: [], presentationOptionIds: ["sleeve", "capsule", "curatedSet"], price: 65, demo: true },
+  { id: "STORE-COL-005", slug: "before-the-tcg", title: "Before the TCG", subtitle: "The first pocket-sized ways to collect Pokémon.", description: "A focused group of 1996 Bandai Carddass cards from the period just before the Pokémon Trading Card Game became the dominant format.", curatorNote: "These cards matter because they preserve the franchise at the moment collecting was becoming part of the experience—not as a price tier, but as a numbered visual encyclopedia.", type: "editorial", category: "Eras", era: "1996", heroImages: ["/shop/cards/carddass-pikachu.jpg", "/shop/cards/carddass-charmander.jpg"], memberIds: ["MEM-CARDDASS-P", "MEM-CARDDASS-C"], physicalCopyIds: ["PA-COPY-000012", "PA-COPY-000013"], relatedArchiveIds: ["carddass-action-1"], presentationOptionIds: ["sleeve", "capsule", "binder"], price: 34, demo: true },
+  { id: "STORE-COL-006", slug: "everyday-pokemon-japan", title: "Everyday Pokémon Japan", subtitle: "Snack premiums, small print, and ordinary encounters.", description: "A growing collection of inexpensive cards and paper pieces distributed through food, retail, mail, and promotion in late-1990s Japan.", curatorNote: "The most revealing collectibles are not always the rarest. These small premiums show how Pokémon became part of daily life beyond the Game Boy and the card shop.", type: "open", category: "Visual Themes", era: "1997–2002", heroImages: ["/shop/cards/meiji-1997-mewtwo.jpeg", "/shop/cards/meiji-1997-charizard.jpg", "/shop/cards/carddass-pikachu.jpg"], memberIds: ["MEM-MEIJI-M", "MEM-MEIJI-C", "MEM-CARDDASS-P"], physicalCopyIds: ["PA-COPY-000014", "PA-COPY-000015"], relatedArchiveIds: [], presentationOptionIds: ["sleeve", "capsule", "binder"], price: null, demo: true },
 ];
 
 export const binderProducts: BinderProduct[] = [
   { id: "BINDER-DEMO-001", title: "Base Set Starters", volume: "Volume I", physicalCopyIds: ["PA-COPY-000005", "PA-COPY-000006", "PA-COPY-000007"], binderDesignVersion: "PA-BINDER-01", collectionId: "STORE-COL-002", editionNumber: null, packaging: "Archival binder, title page, curator note, numbered positions, and QR record", totalPrice: 114, demo: true },
+  { id: "BINDER-DEMO-002", title: "Before the TCG", volume: "Volume II", physicalCopyIds: ["PA-COPY-000012", "PA-COPY-000013"], binderDesignVersion: "PA-BINDER-01", collectionId: "STORE-COL-005", editionNumber: null, packaging: "Archival binder pages, format guide, curator note, numbered positions, and QR record", totalPrice: 58, demo: true },
+  { id: "BINDER-DEMO-003", title: "Everyday Pokémon Japan", volume: "Volume III", physicalCopyIds: ["PA-COPY-000014", "PA-COPY-000015"], binderDesignVersion: "PA-BINDER-01", collectionId: "STORE-COL-006", editionNumber: null, packaging: "Archival binder pages, cultural timeline, curator note, numbered positions, and QR record", totalPrice: 50, demo: true },
 ];
 
 export const futureArtistProgram: ArtistProgramProfile[] = [
@@ -195,7 +211,7 @@ export const futureArtistProgram: ArtistProgramProfile[] = [
 ];
 
 export const galleryObjectIds = ["DEMO-004", "DEMO-005", "DEMO-006", "DEMO-002"];
-export const binderObjectIds = ["DEMO-001", "DEMO-003"];
+export const binderObjectIds = ["DEMO-001", "DEMO-003", "DEMO-008", "DEMO-009", "DEMO-010", "DEMO-011"];
 export const privateSaleObjectIds = ["DEMO-002"];
 
 export function collectionBySlug(slug: string) { return storeCollections.find((collection) => collection.slug === slug); }
