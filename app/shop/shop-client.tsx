@@ -31,7 +31,7 @@ function collectorSetLabel(item: InventoryItem) {
 }
 
 export function ShopHeader({ active = "shop" }: { active?: "shop" | "sales" }) {
-  return <header className="site-header shop-site-header"><Link className="brand" href={SHOP_ORIGIN}><span className="brand-mark"><i /></span><span>POCKET ARCHIVES<br />SHOP</span></Link><nav aria-label="Shop rooms"><Link className={active === "shop" ? "active" : ""} href={`${SHOP_ORIGIN}/#gallery`}>Gallery</Link><Link href={`${SHOP_ORIGIN}/#collections`}>Collections</Link><Link href={`${SHOP_ORIGIN}/#binder`}>The Binder</Link><Link className={active === "sales" ? "active" : ""} href="/sales">Sales</Link><Link href={`${SHOP_ORIGIN}/#private-sale`}>Private Sale</Link></nav></header>;
+  return <header className="site-header shop-site-header"><Link className="brand" href={SHOP_ORIGIN}><span className="brand-mark"><img src="/pocket-archives-logo.png" alt="" /></span><span>POCKET ARCHIVES<br />SHOP</span></Link><nav aria-label="Shop rooms"><Link className={active === "shop" ? "active" : ""} href={`${SHOP_ORIGIN}/#gallery`}>Gallery</Link><Link href={`${SHOP_ORIGIN}/#collections`}>Collections</Link><Link href={`${SHOP_ORIGIN}/#binder`}>The Binder</Link><Link className={active === "sales" ? "active" : ""} href="/sales">Sales</Link><Link href={`${SHOP_ORIGIN}/#private-sale`}>Private Sale</Link></nav></header>;
 }
 
 function DemoNotice() {

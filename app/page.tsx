@@ -513,7 +513,7 @@ export default function Home() {
   return (
     <main>
       <header className="site-header">
-        <div className="brand"><span className="brand-mark"><i /></span><span>POCKET<br />ARCHIVES</span></div>
+        <div className="brand"><span className="brand-mark"><img src="/pocket-archives-logo.png" alt="" /></span><span>POCKET<br />ARCHIVES</span></div>
         <nav aria-label="Primary navigation"><button className={view === "references" ? "active" : ""} onClick={() => openTopLevelPage("archive")}>Archive</button><button className={view === "museum" ? "active" : ""} onClick={() => openTopLevelPage("museum")}>Museum</button><a href="https://shop.pocketarchives.com">Shop ↗</a></nav>
         <button className="favorites-link" onClick={openFavorites}><span>♥</span> Favorites <b>{favorites.size}</b></button>
       </header>
@@ -555,7 +555,7 @@ export default function Home() {
       </section>
 
       <section className="about" id="about"><p className="eyebrow"><span /> About the archive</p><div className="about-grid"><h2>A visual history,<br />one creature at a time.</h2><div><p>Pocket Archives preserves the working history behind Pokémon: early concepts, prototype creatures, character studies, production references, and the research that helps place them in context. Artwork and species records remain connected where they clarify a design’s development, while every surviving source is identified as carefully as the evidence allows.</p><p className="source-records">Source records · PS Art Room · PokéAPI · Pokémon TCG API · Nintendo creator interviews · Helix Chamber</p><p className="fine-print">A personal, non-commercial fan archive. Pokémon and all related characters are trademarks of Nintendo, Game Freak, and Creatures Inc. Source records remain credited to their original curators and hosts; archive browsing stays inside Pocket Archives.</p></div></div></section>
-      <footer><div className="brand footer-brand"><span className="brand-mark"><i /></span><span>POCKET<br />ARCHIVES</span></div><p>Gotta archive ’em all.</p></footer>
+      <footer><div className="brand footer-brand"><span className="brand-mark"><img src="/pocket-archives-logo.png" alt="" /></span><span>POCKET<br />ARCHIVES</span></div><p>Gotta archive ’em all.</p></footer>
 
       {selected && selectedGroup && <div className="modal" role="dialog" aria-modal="true" aria-label={`${selectedGroup.title} archive record`} onMouseDown={(event) => { if (event.currentTarget === event.target) setSelected(null); }}>
         <button className="modal-close" onClick={() => setSelected(null)} aria-label="Close archive record">×</button>
@@ -604,7 +604,7 @@ export default function Home() {
       </div>}
 
       {tourRoom !== null && <div className="museum-tour" role="dialog" aria-modal="true" aria-label={`Museum tour room ${tourRoom + 1}: ${museumRooms[tourRoom].title}`}>
-        <header><div className="museum-wordmark"><span className="brand-mark"><i /></span><b>POCKET ARCHIVES</b><small>DESIGN MUSEUM</small></div><div className="museum-progress-label">Room {String(tourRoom + 1).padStart(2, "0")} / {String(museumRooms.length).padStart(2, "0")}</div><button onClick={() => setTourRoom(null)} aria-label="Exit museum tour">×</button></header>
+        <header><div className="museum-wordmark"><span className="brand-mark"><img src="/pocket-archives-logo.png" alt="" /></span><b>POCKET ARCHIVES</b><small>DESIGN MUSEUM</small></div><div className="museum-progress-label">Room {String(tourRoom + 1).padStart(2, "0")} / {String(museumRooms.length).padStart(2, "0")}</div><button onClick={() => setTourRoom(null)} aria-label="Exit museum tour">×</button></header>
         <div className="museum-art"><span>{museumRooms[tourRoom].year}</span><img src={museumRooms[tourRoom].image} alt={museumRooms[tourRoom].caption} /><small>{museumRooms[tourRoom].caption}</small></div>
         <article className="museum-wall-text"><p className="eyebrow"><span /> {museumRooms[tourRoom].subtitle}</p><h2>{museumRooms[tourRoom].title}</h2><p className="museum-body">{museumRooms[tourRoom].body}</p><ul>{museumRooms[tourRoom].highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}</ul><p className="museum-source">Source record · {museumRooms[tourRoom].source}</p>{inventoryForMuseum(museumRooms[tourRoom].id).filter((item) => item.availabilityStatus === "available").map((item) => <a className="museum-related-piece" href={shopObjectUrl(item.slug)} key={item.id}><span>Related object available</span><b>{item.title}</b><small>View object ↗</small></a>)}</article>
         <nav className="museum-controls" aria-label="Museum tour navigation"><button disabled={tourRoom === 0} onClick={() => setTourRoom((room) => room === null ? 0 : Math.max(0, room - 1))}>← Previous</button><button onClick={() => tourRoom === museumRooms.length - 1 ? setTourRoom(null) : setTourRoom(tourRoom + 1)}>{tourRoom === museumRooms.length - 1 ? "Finish tour" : "Next room →"}</button></nav>
