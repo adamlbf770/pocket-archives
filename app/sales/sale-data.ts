@@ -112,7 +112,9 @@ export const defaultBidIncrementRules: BidIncrementRule[] = [
   { minimum: 500, maximum: null, increment: 25 },
 ];
 
-const lotObjectIds = demoInventory.map((item) => item.id);
+// Sale 001 is a fixed seven-lot demonstration. New shop inventory should not
+// silently become auction lots just because it was added to the catalog.
+const lotObjectIds = demoInventory.slice(0, 7).map((item) => item.id);
 
 export const demoSales: AuctionSale[] = [
   {
