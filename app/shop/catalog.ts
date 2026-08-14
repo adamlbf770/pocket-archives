@@ -88,15 +88,26 @@ export type CuratedCollection = {
   demo: true;
 };
 
-const demoPlaceholder: ObjectImage = {
-  src: "/og-shop.png",
-  caption: "Pocket Archives Shop demonstration placeholder — replace with photographs of the physical object.",
-  view: "placeholder",
-  creator: "Pocket Archives",
-  rightsHolder: "Pocket Archives",
-  rightsStatus: "display-only",
-  usageBasis: "Original demonstration graphic",
-};
+function demoIllustration(src: string, subject: string): ObjectImage {
+  return {
+    src,
+    caption: `${subject} archive illustration used as a temporary visual — replace with photography of the physical object.`,
+    view: "placeholder",
+    creator: "Archive source record",
+    rightsHolder: "Pokémon rights holders",
+    rightsStatus: "display-only",
+    usageBasis: "Temporary demonstration preview from the supplied Pocket Archives collection",
+  };
+}
+
+const demoVisuals = [
+  demoIllustration("/art/0547.webp", "Bulbasaur"),
+  demoIllustration("/art/0639.webp", "Haunter"),
+  demoIllustration("/art/0571.webp", "Pikachu"),
+  demoIllustration("/art/0193.webp", "Japanese printed matter"),
+  demoIllustration("/art/0351.webp", "Original starter group"),
+];
+const demoPlaceholder = demoVisuals[0];
 
 // DEMO INVENTORY — remove or replace this single array before live inventory launches.
 // No record below represents a physical object currently owned or offered by Pocket Archives.
@@ -111,7 +122,7 @@ export const demoInventory: InventoryItem[] = [
     accessionNumber: "PA-0002", id: "DEMO-002", slug: "demo-sugimori-haunter-japanese-card", title: "Haunter", subtitle: "Japanese illustrated card — demonstration record", objectType: "Trading card", category: "Cards",
     description: "A demonstration record for an early Japanese card centered on Ken Sugimori’s Haunter artwork.", archivalNote: "Haunter’s restrained palette and graphic silhouette show how character art translated into small-format collecting objects.", culturalSignificance: "A test of the reciprocal connection between a physical object, its Pokémon, its illustrator, and the broader archive.",
     year: 1997, approximateYear: true, era: "Early franchise · 1996–1999", country: "Japan", language: "Japanese", artist: "Ken Sugimori", illustrator: "Ken Sugimori", manufacturer: null, publisher: "Demo publisher", set: "Japanese card demonstration record", series: "Demo series", cardNumber: "DEMO", catalogNumber: "PA-0002", edition: null, printing: null, condition: "Very Good", conditionNotes: "Demonstration condition only; descriptive notes remain flexible for non-TCG objects.", dimensions: null, provenance: "Demonstration record; no physical object is represented.", acquisitionSource: null, acquisitionDate: null,
-    pokemonIds: [93], pokemonNames: ["Haunter"], artistIds: ["ken-sugimori"], relatedMuseumIds: ["public-visual-identity"], relatedArchiveIds: [], relatedCardIds: [], relatedCollectionIds: ["gastly-evolution-line"], tags: ["Sugimori", "Vintage Japanese", "Cards"], fromArchive: false, physicalOwnership: true, recordState: "collection", availabilityStatus: "reserved", price: 32, currency: "USD", quantity: 1, reserved: true, soldDate: null, placedInPrivateCollection: false, images: [demoPlaceholder], sourceMetadata: "Object record pending live inventory photography.", rightsMetadata: "Shop images must be original photographs of owned physical inventory.", featured: true, demo: true,
+    pokemonIds: [93], pokemonNames: ["Haunter"], artistIds: ["ken-sugimori"], relatedMuseumIds: ["public-visual-identity"], relatedArchiveIds: [], relatedCardIds: [], relatedCollectionIds: ["gastly-haunter-gengar"], tags: ["Sugimori", "Vintage Japanese", "Cards"], fromArchive: false, physicalOwnership: true, recordState: "collection", availabilityStatus: "reserved", price: 32, currency: "USD", quantity: 1, reserved: true, soldDate: null, placedInPrivateCollection: false, images: [demoPlaceholder], sourceMetadata: "Object record pending live inventory photography.", rightsMetadata: "Shop images must be original photographs of owned physical inventory.", featured: true, demo: true,
   },
   {
     accessionNumber: "PA-0003", id: "DEMO-003", slug: "demo-vintage-pikachu-promotional-ephemera", title: "Pikachu", subtitle: "Japanese promotional ephemera — archived demo", objectType: "Printed ephemera", category: "Ephemera",
@@ -129,6 +140,8 @@ export const demoInventory: InventoryItem[] = [
     year: 1996, approximateYear: true, era: "Launch era · 1996", country: "Japan", language: "Japanese", artist: "Ken Sugimori", illustrator: "Ken Sugimori", manufacturer: "Mixed objects", publisher: "Mixed publishers", set: "Editorial demonstration grouping", series: "Original starters", cardNumber: null, catalogNumber: "PA-0005", edition: null, printing: null, condition: "Mixed", conditionNotes: "Condition would be recorded separately for every included object.", dimensions: null, provenance: "Demonstration record; no physical objects are represented.", acquisitionSource: null, acquisitionDate: null, pokemonIds: [1, 4, 7], pokemonNames: ["Bulbasaur", "Charmander", "Squirtle"], artistIds: ["ken-sugimori"], relatedMuseumIds: ["public-visual-identity"], relatedArchiveIds: [], relatedCardIds: [], relatedCollectionIds: ["original-starters"], tags: ["Curated Collections", "Sugimori", "Original 151"], fromArchive: false, physicalOwnership: true, recordState: "available", availabilityStatus: "available", price: 72, currency: "USD", quantity: 1, reserved: false, soldDate: null, placedInPrivateCollection: false, images: [demoPlaceholder], sourceMetadata: "Object record pending live inventory photography.", rightsMetadata: "Shop images must be original photographs of owned physical inventory.", featured: true, demo: true,
   },
 ];
+
+demoInventory.forEach((item, index) => { item.images = [demoVisuals[index]]; });
 
 export const demoCuratedCollections: CuratedCollection[] = [
   { id: "DEMO-COLLECTION-001", slug: "gastly-haunter-gengar", title: "Gastly / Haunter / Gengar", description: "Objects tracing one of Kanto’s most visually coherent evolution lines.", curatorNote: "A future grouping can mix cards, printed matter, and production references while retaining object-level records.", era: "1996–present", featuredImage: null, inventoryIds: ["DEMO-002"], pokemonIds: [92, 93, 94], relatedArchiveIds: [], relatedMuseumIds: ["public-visual-identity"], saleMode: "individual", collectionPrice: null, currency: "USD", demo: true },

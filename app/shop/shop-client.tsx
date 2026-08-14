@@ -2,9 +2,14 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ARCHIVE_ORIGIN, SHOP_ORIGIN, demoCuratedCollections, demoInventory, formatPrice, inventoryCollectionOptions, recordStateLabel, shopObjectUrl, statusLabel, type InventoryItem } from "./catalog";
+import { ARCHIVE_ORIGIN, SHOP_ORIGIN, demoCuratedCollections, demoInventory, formatPrice, inventoryCollectionOptions, recordStateLabel, shopObjectUrl, statusLabel, type CuratedCollection, type InventoryItem } from "./catalog";
 
-type QuickView = "all" | "available" | "collections" | "archive";
+type QuickView = "all" | "cards" | "objects" | "collections";
+
+const collectionVisuals: Record<string, string[]> = {
+  "gastly-haunter-gengar": ["/art/0435.webp", "/art/0436.webp", "/art/0437.webp"],
+  "original-starters": ["/art/0348.webp", "/art/0351.webp", "/art/0354.webp"],
+};
 
 function ShopHeader() {
   return <header className="site-header shop-site-header"><Link className="brand" href={SHOP_ORIGIN}><span className="brand-mark"><i /></span><span>POCKET ARCHIVES<br />SHOP</span></Link><nav aria-label="Ecosystem navigation"><Link href={`${ARCHIVE_ORIGIN}/#archive`}>Archive ↗</Link><Link href={`${ARCHIVE_ORIGIN}/#museum`}>Museum ↗</Link><Link href={`${ARCHIVE_ORIGIN}/#pokedex`}>Pokédex ↗</Link><Link className="active" href={SHOP_ORIGIN}>Shop</Link></nav></header>;
@@ -20,13 +25,22 @@ function ObjectVisual({ item, imageIndex = 0, detail = false }: { item: Inventor
 }
 
 function ArtifactCard({ item }: { item: InventoryItem }) {
-  return <Link className={`artifact-card status-${item.availabilityStatus}`} href={shopObjectUrl(item.slug)}><ObjectVisual item={item} /><span className="artifact-card-copy"><small>{item.accessionNumber} · {item.year || "Undated"} · {item.country}</small><strong>{item.title}</strong><em>{item.subtitle}</em><span><b>{recordStateLabel(item.recordState)}</b>{item.price !== null && item.availabilityStatus !== "not-for-sale" && <i>{formatPrice(item.price, item.currency)}</i>}</span></span></Link>;
+  const objectLabel = item.category === "Cards" ? "Card" : item.category;
+  const showPrice = item.price !== null && item.availabilityStatus === "available";
+  return <Link className="artifact-card" href={shopObjectUrl(item.slug)}><ObjectVisual item={item} /><span className="artifact-card-copy"><strong>{item.title}</strong><small>{item.year || "Undated"} {objectLabel} · {item.country}</small><span>{showPrice && <b>{formatPrice(item.price, item.currency)}</b>}{item.fromArchive && <em>From the Archive</em>}</span></span></Link>;
+}
+
+function CollectionFeature({ group, onExplore }: { group: CuratedCollection; onExplore: () => void }) {
+  const visuals = collectionVisuals[group.slug] || [];
+  return <article className="collection-feature"><div className="collection-feature-visual" aria-hidden="true">{visuals.map((src) => <span key={src}><img src={src} alt="" /></span>)}</div><div className="collection-feature-copy"><small>Curated collection</small><h2>{group.title}</h2><p>{group.description}</p><span>{group.pokemonIds.length} Pokémon</span><button onClick={onExplore}>Explore collection <i>→</i></button></div></article>;
 }
 
 export function ShopLanding() {
   const [query, setQuery] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
   const [quickView, setQuickView] = useState<QuickView>("all");
   const [advancedOpen, setAdvancedOpen] = useState(false);
+  const [collectionFocus, setCollectionFocus] = useState<string | null>(null);
   const [collection, setCollection] = useState("All objects");
   const [artist, setArtist] = useState("All artists");
   const [era, setEra] = useState("All eras");
@@ -38,11 +52,14 @@ export function ShopLanding() {
   const results = useMemo(() => demoInventory.filter((item) => {
     const needle = query.trim().toLowerCase();
     const searchable = `${item.accessionNumber} ${item.title} ${item.subtitle} ${item.description} ${item.objectType} ${item.category} ${item.tags.join(" ")} ${item.pokemonNames.join(" ")} ${item.artist || ""} ${item.year || ""} ${item.country} ${item.language} ${item.series || ""} ${item.condition}`.toLowerCase();
+    const cardCategories = ["Cards", "Carddass", "Promos"];
+    const objectCategories = ["Ephemera", "Printed Matter"];
     const quickMatch = quickView === "all" ||
-      (quickView === "available" && item.availabilityStatus === "available") ||
-      (quickView === "collections" && (item.category.toLowerCase().includes("collection") || item.tags.some((tag) => tag.toLowerCase().includes("collection")))) ||
-      (quickView === "archive" && item.fromArchive);
+      (quickView === "cards" && cardCategories.includes(item.category)) ||
+      (quickView === "objects" && objectCategories.includes(item.category)) ||
+      (quickView === "collections" && item.category === "Curated Collections");
     return (!needle || searchable.includes(needle)) && quickMatch &&
+      (!collectionFocus || item.relatedCollectionIds.includes(collectionFocus)) &&
       (collection === "All objects" || item.category === collection || item.tags.includes(collection)) &&
       (artist === "All artists" || item.artist === artist) &&
       (era === "All eras" || item.era === era) &&
@@ -50,17 +67,17 @@ export function ShopLanding() {
       (language === "All languages" || item.language === language) &&
       (condition === "All conditions" || item.condition === condition) &&
       (availability === "All records" || item.availabilityStatus === availability);
-  }), [query, quickView, collection, artist, era, country, language, condition, availability]);
+  }), [query, quickView, collectionFocus, collection, artist, era, country, language, condition, availability]);
 
   const values = (key: "artist" | "era" | "country" | "language" | "condition") => [...new Set(demoInventory.map((item) => item[key]).filter(Boolean))] as string[];
   const usedCollections = inventoryCollectionOptions.filter((option) => demoInventory.some((item) => item.category === option || item.tags.includes(option)));
-  const available = demoInventory.filter((item) => item.availabilityStatus === "available").length;
-  const archived = demoInventory.filter((item) => item.availabilityStatus === "sold").length;
-  const years = demoInventory.map((item) => item.year).filter((year): year is number => year !== null);
-  const yearRange = years.length ? `${Math.min(...years)}–${Math.max(...years)}` : "Undated";
-  const resetFilters = () => { setQuery(""); setQuickView("all"); setCollection("All objects"); setArtist("All artists"); setEra("All eras"); setCountry("All countries"); setLanguage("All languages"); setCondition("All conditions"); setAvailability("All records"); };
+  const resetFilters = () => { setQuery(""); setQuickView("all"); setCollectionFocus(null); setCollection("All objects"); setArtist("All artists"); setEra("All eras"); setCountry("All countries"); setLanguage("All languages"); setCondition("All conditions"); setAvailability("All records"); };
+  const chooseView = (view: QuickView) => { setQuickView(view); setCollectionFocus(null); };
+  const exploreCollection = (slug: string) => { setCollectionFocus(slug); setQuickView("all"); document.getElementById("shop-grid")?.scrollIntoView({ behavior: "smooth" }); };
+  const featured = results.slice(0, 3);
+  const more = results.slice(3);
 
-  return <main className="shop-shell"><ShopHeader /><section className="shop-hero"><div><p className="eyebrow"><span /> Pocket Archives / Shop</p><h1>Objects worth<br />keeping<span>.</span></h1></div><p>Selected cards, printed matter, and artifacts from Pokémon’s visual history.</p></section><section className="shop-content"><div className="shop-utility-line"><DemoNotice /><div className="shop-stat-strip" aria-label="Shop inventory summary"><span><b>{available}</b> Available</span><span><b>{archived}</b> Archived</span><span><b>{demoCuratedCollections.length}</b> Collections</span><span><b>{yearRange}</b></span></div></div><div className="shop-section-heading"><h2>Objects</h2><span>{results.length} shown</span></div><div className="shop-filters"><div className="shop-filter-bar"><div className="shop-quick-filters" aria-label="Catalog views">{([['all', 'All'], ['available', 'Available'], ['collections', 'Collections'], ['archive', 'From the Archive']] as [QuickView, string][]).map(([value, label]) => <button key={value} className={quickView === value ? "active" : ""} onClick={() => setQuickView(value)}>{label}</button>)}</div><button className={`advanced-filter-toggle ${advancedOpen ? "active" : ""}`} onClick={() => setAdvancedOpen((open) => !open)} aria-expanded={advancedOpen}>Filter <span>{advancedOpen ? "−" : "+"}</span></button></div><label className="shop-search"><span aria-hidden="true">⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search objects or accession numbers" aria-label="Search shop objects" /></label>{advancedOpen && <div className="shop-filter-grid"><label>Collection<select value={collection} onChange={(event) => setCollection(event.target.value)}><option>All objects</option>{usedCollections.map((option) => <option key={option}>{option}</option>)}</select></label><label>Artist<select value={artist} onChange={(event) => setArtist(event.target.value)}><option>All artists</option>{values("artist").map((option) => <option key={option}>{option}</option>)}</select></label><label>Era<select value={era} onChange={(event) => setEra(event.target.value)}><option>All eras</option>{values("era").map((option) => <option key={option}>{option}</option>)}</select></label><label>Country<select value={country} onChange={(event) => setCountry(event.target.value)}><option>All countries</option>{values("country").map((option) => <option key={option}>{option}</option>)}</select></label><label>Language<select value={language} onChange={(event) => setLanguage(event.target.value)}><option>All languages</option>{values("language").map((option) => <option key={option}>{option}</option>)}</select></label><label>Condition<select value={condition} onChange={(event) => setCondition(event.target.value)}><option>All conditions</option>{values("condition").map((option) => <option key={option}>{option}</option>)}</select></label><label>State<select value={availability} onChange={(event) => setAvailability(event.target.value)}><option>All records</option><option value="available">Available</option><option value="reserved">Reserved</option><option value="not-for-sale">Pocket Archives Collection</option><option value="sold">Sold — Archived</option></select></label><button className="filter-reset" onClick={resetFilters}>Clear all</button></div>}</div>{results.length ? <div className="artifact-grid">{results.map((item) => <ArtifactCard key={item.id} item={item} />)}</div> : <div className="empty-state"><span>◇</span><h3>No objects found</h3><p>Try a broader search or clear the filters.</p><button onClick={resetFilters}>Clear filters</button></div>}<section className="curated-collection-section"><div className="shop-section-heading"><h2>Collections</h2><span>Curated groupings</span></div><div className="curated-collection-grid">{demoCuratedCollections.map((group, index) => <article key={group.id}><small>Collection {String(index + 1).padStart(2, "0")}</small><h3>{group.title}</h3><p>{group.description}</p><span>{group.saleMode === "group" ? "Offered as one set" : group.saleMode === "individual" ? "Listed individually" : "Editorial collection"}</span></article>)}</div></section></section><footer className="shop-footer"><span>© Pocket Archives</span><Link href={`${ARCHIVE_ORIGIN}/#archive`}>Visit the Archive ↗</Link></footer></main>;
+  return <main className="shop-shell"><ShopHeader /><section className="shop-hero"><p className="eyebrow"><span /> Pocket Archives / Shop</p><h1>Objects worth keeping<span>.</span></h1><p>Selected cards, printed matter, and artifacts from Pokémon’s visual history.</p></section><section className="shop-content"><div className="shop-browse-tools"><div className="shop-quick-filters" aria-label="Catalog categories">{([['all', 'All'], ['cards', 'Cards'], ['objects', 'Objects'], ['collections', 'Collections']] as [QuickView, string][]).map(([value, label]) => <button key={value} className={quickView === value && !collectionFocus ? "active" : ""} onClick={() => chooseView(value)}>{label}</button>)}</div><div className="shop-tool-buttons"><button className={searchOpen ? "active" : ""} onClick={() => setSearchOpen((open) => !open)} aria-label="Search shop" aria-expanded={searchOpen}>⌕</button><button className={advancedOpen ? "active" : ""} onClick={() => setAdvancedOpen((open) => !open)} aria-label="Advanced filters" aria-expanded={advancedOpen}>≡</button></div></div>{searchOpen && <label className="shop-search"><input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search objects or accession numbers" aria-label="Search shop objects" /><button onClick={() => { setQuery(""); setSearchOpen(false); }} aria-label="Close search">×</button></label>}{advancedOpen && <div className="shop-filter-grid"><label>Collection<select value={collection} onChange={(event) => setCollection(event.target.value)}><option>All objects</option>{usedCollections.map((option) => <option key={option}>{option}</option>)}</select></label><label>Artist<select value={artist} onChange={(event) => setArtist(event.target.value)}><option>All artists</option>{values("artist").map((option) => <option key={option}>{option}</option>)}</select></label><label>Era<select value={era} onChange={(event) => setEra(event.target.value)}><option>All eras</option>{values("era").map((option) => <option key={option}>{option}</option>)}</select></label><label>Country<select value={country} onChange={(event) => setCountry(event.target.value)}><option>All countries</option>{values("country").map((option) => <option key={option}>{option}</option>)}</select></label><label>Language<select value={language} onChange={(event) => setLanguage(event.target.value)}><option>All languages</option>{values("language").map((option) => <option key={option}>{option}</option>)}</select></label><label>Condition<select value={condition} onChange={(event) => setCondition(event.target.value)}><option>All conditions</option>{values("condition").map((option) => <option key={option}>{option}</option>)}</select></label><label>State<select value={availability} onChange={(event) => setAvailability(event.target.value)}><option>All records</option><option value="available">Available</option><option value="reserved">Reserved</option><option value="not-for-sale">Pocket Archives Collection</option><option value="sold">Sold — Archived</option></select></label><button className="filter-reset" onClick={resetFilters}>Clear all</button></div>}{collectionFocus && <button className="active-collection-note" onClick={() => setCollectionFocus(null)}>Viewing collection <span>×</span></button>}<div id="shop-grid">{results.length ? <><div className="artifact-grid artifact-grid-featured">{featured.map((item) => <ArtifactCard key={item.id} item={item} />)}</div>{demoCuratedCollections[0] && <CollectionFeature group={demoCuratedCollections[0]} onExplore={() => exploreCollection(demoCuratedCollections[0].slug)} />}{more.length > 0 && <div className="artifact-grid artifact-grid-more">{more.map((item) => <ArtifactCard key={item.id} item={item} />)}</div>}{demoCuratedCollections[1] && <CollectionFeature group={demoCuratedCollections[1]} onExplore={() => exploreCollection(demoCuratedCollections[1].slug)} />}</> : <div className="empty-state"><span>◇</span><h3>No objects found</h3><p>Try a broader search or clear the filters.</p><button onClick={resetFilters}>Clear filters</button></div>}</div></section><footer className="shop-footer"><DemoNotice /><Link href={`${ARCHIVE_ORIGIN}/#archive`}>Visit the Archive ↗</Link></footer></main>;
 }
 
 export function ArtifactPage({ item }: { item: InventoryItem }) {
