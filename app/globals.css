@@ -435,7 +435,7 @@ footer p { font-family:Georgia,serif; color:#888; }
 .artifact-gallery { position:sticky; top:130px; }
 .artifact-primary { height:clamp(440px,calc(100vh - 230px),720px); background:#e5e0d4; display:grid; place-items:center; position:relative; overflow:hidden; }
 .artifact-primary > small { position:absolute; left:20px; bottom:18px; z-index:2; max-width:70%; color:#868278; font-family:Georgia,serif; font-size:10px; line-height:1.4; }
-.artifact-primary img { width:100%; height:100%; padding:6% 10% 9%; object-fit:contain; mix-blend-mode:multiply; }
+.artifact-primary img { width:auto; height:auto; max-width:80%; max-height:84%; display:block; object-fit:contain; mix-blend-mode:multiply; }
 .artifact-thumbnails { display:flex; gap:8px; margin-top:10px; }
 .artifact-thumbnails button { width:88px; height:88px; border:1px solid transparent; background:#e5e0d4; padding:5px; cursor:pointer; }
 .artifact-thumbnails button.active { border-color:var(--ink); }
