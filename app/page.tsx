@@ -184,7 +184,7 @@ export default function Home() {
   const [cardsError, setCardsError] = useState(false);
   const [selectedCard, setSelectedCard] = useState<TcgCard | null>(null);
   const [displayMode, setDisplayMode] = useState<"grid" | "list">("grid");
-  const [view, setView] = useState<"gallery" | "references" | "museum" | "favorites">("references");
+  const [view, setView] = useState<"references" | "museum" | "favorites">("references");
   const [archiveSection, setArchiveSection] = useState<"alpha" | "sketches" | "references" | "resources">("alpha");
   const [setteiDirectory, setSetteiDirectory] = useState<SetteiGroup[]>([]);
   const [selectedReference, setSelectedReference] = useState<ReferenceSelection | null>(null);
@@ -206,12 +206,8 @@ export default function Home() {
 
   useEffect(() => {
     const syncPageFromHash = () => {
-      const generationMatch = window.location.hash.match(/^#gen-([1-9])$/);
-      if (generationMatch) {
-        setView("gallery");
-        setFilter(`gen-${generationMatch[1]}`);
-        requestAnimationFrame(() => document.querySelector("#collection")?.scrollIntoView());
-      } else if (window.location.hash === "#references" || window.location.hash === "#archive") {
+      const retiredGalleryLink = window.location.hash === "#collection" || window.location.hash === "#pokedex" || window.location.hash.startsWith("#gen-");
+      if (window.location.hash === "#references" || window.location.hash === "#archive" || retiredGalleryLink) {
         setView("references");
         setFilter("all");
         requestAnimationFrame(() => document.querySelector("#collection")?.scrollIntoView());
@@ -223,9 +219,6 @@ export default function Home() {
         setView("favorites");
         setFilter("all");
         requestAnimationFrame(() => document.querySelector("#collection")?.scrollIntoView());
-      } else if (window.location.hash === "#collection" || window.location.hash === "#pokedex") {
-        setView("gallery");
-        setFilter("all");
       }
     };
     syncPageFromHash();
@@ -273,7 +266,7 @@ export default function Home() {
     if (!match || !art.length) return;
     const pokemon = art.find((item) => item.dex === Number(match[1]));
     if (!pokemon) return;
-    setView("gallery");
+    setView("references");
     setFilter("all");
     setSelected(pokemon);
     requestAnimationFrame(() => document.querySelector("#collection")?.scrollIntoView());
@@ -347,7 +340,6 @@ export default function Home() {
     return referenceResources.filter((resource) => !needle || `${resource.title} ${resource.eyebrow} ${resource.description} ${resource.keywords}`.toLowerCase().includes(needle));
   }, [query]);
   const activeGroups = view === "favorites" ? favoriteResults : filteredGroups;
-  const activeGeneration = filter.startsWith("gen-") ? Number(filter.slice(4)) : null;
   const selectedPanelPosition = selectedPanel ? museumReadingSequence.findIndex((panel) => panel.id === selectedPanel.id) : -1;
 
   useEffect(() => {
@@ -395,7 +387,7 @@ export default function Home() {
   });
 
   const featured = useMemo(() => ["Bulbasaur", "Charizard", "Pikachu", "Gengar", "Eevee"].map((name) => art.find((item) => item.title === name && item.category === "generation")).filter(Boolean) as PokemonArt[], [art]);
-  const counts = useMemo(() => ({ alternates: art.filter((item) => item.category === "alternate").length }), [art]);
+  const counts = useMemo(() => ({ references: setteiDirectory.reduce((total, group) => total + group.links.length, 0) }), [setteiDirectory]);
   useEffect(() => setVisible(PAGE_SIZE), [query, filter, sort, view]);
 
   function toggleFavorite(key: string) {
@@ -410,18 +402,6 @@ export default function Home() {
   function changeDisplay(mode: "grid" | "list") {
     setDisplayMode(mode);
     localStorage.setItem("pocket-archive-display", mode);
-  }
-
-  function openAllPokedex() {
-    setView("gallery");
-    setFilter("all");
-    window.history.pushState(null, "", "#pokedex");
-  }
-
-  function openGeneration(generation: number) {
-    setView("gallery");
-    setFilter(`gen-${generation}`);
-    window.history.pushState(null, "", `#gen-${generation}`);
   }
 
   function openReferences() {
@@ -450,8 +430,8 @@ export default function Home() {
     requestAnimationFrame(() => document.querySelector("#collection")?.scrollIntoView({ behavior: "smooth" }));
   }
 
-  function openTopLevelPage(page: "archive" | "museum" | "pokedex") {
-    if (page === "archive") openReferences(); else if (page === "museum") openMuseum(); else openAllPokedex();
+  function openTopLevelPage(page: "archive" | "museum") {
+    if (page === "archive") openReferences(); else openMuseum();
     requestAnimationFrame(() => document.querySelector("#collection")?.scrollIntoView({ behavior: "smooth" }));
   }
 
@@ -486,7 +466,7 @@ export default function Home() {
   function renderGroupCard(group: PokemonGroup) {
     return (
       <article className="art-card" key={group.key}>
-        <button className="image-button" onClick={() => setSelected(group.representative)} aria-label={`Open Pokédex entry for ${group.title}`}>
+        <button className="image-button" onClick={() => setSelected(group.representative)} aria-label={`Open archive record for ${group.title}`}>
           <span className="dex-number">{group.dex ? `#${String(group.dex).padStart(4, "0")}` : "ALT"}</span>
           <img src={group.representative.src} alt={group.title} loading="lazy" />
           {group.items.length > 1 && <span className="forms-count">{group.items.length} images</span>}
@@ -505,7 +485,7 @@ export default function Home() {
     const designCount = group.items.filter((item) => item.category === "design").length;
     return (
       <article className="name-row" key={group.key}>
-        <button className="name-row-main" onClick={() => setSelected(group.representative)} aria-label={`Open Pokédex entry for ${group.title}`}>
+        <button className="name-row-main" onClick={() => setSelected(group.representative)} aria-label={`Open archive record for ${group.title}`}>
           <span className="name-dex">{group.dex ? `#${String(group.dex).padStart(4, "0")}` : "ALT"}</span>
           <strong>{group.title}</strong>
           <span className="name-region">{group.dex ? `Gen ${generationRoman[group.generation]} · ${generationRegions[group.generation]}` : group.representative.collection}</span>
@@ -534,33 +514,30 @@ export default function Home() {
     <main>
       <header className="site-header">
         <div className="brand"><span className="brand-mark"><i /></span><span>POCKET<br />ARCHIVES</span></div>
-        <nav aria-label="Primary navigation"><button className={view === "references" ? "active" : ""} onClick={() => openTopLevelPage("archive")}>Archive</button><button className={view === "museum" ? "active" : ""} onClick={() => openTopLevelPage("museum")}>Museum</button><button className={view === "gallery" ? "active" : ""} onClick={() => openTopLevelPage("pokedex")}>Pokédex</button><a href="https://shop.pocketarchives.com">Shop ↗</a></nav>
+        <nav aria-label="Primary navigation"><button className={view === "references" ? "active" : ""} onClick={() => openTopLevelPage("archive")}>Archive</button><button className={view === "museum" ? "active" : ""} onClick={() => openTopLevelPage("museum")}>Museum</button><a href="https://shop.pocketarchives.com">Shop ↗</a></nav>
         <button className="favorites-link" onClick={openFavorites}><span>♥</span> Favorites <b>{favorites.size}</b></button>
       </header>
 
       <section className="hero" id="top">
-        <div className="hero-copy"><p className="eyebrow"><span /> The complete illustrated Pokédex</p><h1>Every era.<br /><em>Every form.</em></h1><p className="hero-intro">A fan-made field guide to 1,858 pieces of official Pokémon character art—from Kanto classics to Paldea and beyond.</p><button className="explore-button" onClick={() => openTopLevelPage("pokedex")}>Open the Pokédex <span>↓</span></button></div>
-        <div className="hero-gallery" aria-label="Featured Pokémon artwork">{featured.map((item, index) => <button key={item.id} className={`feature-card feature-${index + 1}`} onClick={() => setSelected(item)} aria-label={`View ${item.title}`}><span className="feature-number">{String(item.dex).padStart(4, "0")}</span><img src={item.src} alt={item.title} /></button>)}{!featured.length && <div className="hero-loader">Cataloguing<br />the archive…</div>}</div>
-        <div className="hero-stats"><span><b>{art.length ? art.length.toLocaleString() : "—"}</b> artworks</span><span><b>{groups.filter((group) => group.dex).length || "—"}</b> Pokémon</span><span><b>{counts.alternates || "—"}</b> alternates</span></div>
+        <div className="hero-copy"><p className="eyebrow"><span /> Pokémon design history, preserved</p><h1>From first sketch.<br /><em>To finished world.</em></h1><p className="hero-intro">A visual archive of prototype creatures, character studies, production sheets, and the ideas behind Pokémon’s evolving design language.</p><button className="explore-button" onClick={() => openTopLevelPage("archive")}>Enter the archive <span>↓</span></button></div>
+        <div className="hero-gallery" aria-label="Featured archive artwork">{featured.map((item, index) => <button key={item.id} className={`feature-card feature-${index + 1}`} onClick={() => setSelected(item)} aria-label={`View the ${item.title} archive record`}><span className="feature-number">{String(item.dex).padStart(4, "0")}</span><img src={item.src} alt={item.title} /></button>)}{!featured.length && <div className="hero-loader">Cataloguing<br />the archive…</div>}</div>
+        <div className="hero-stats"><span><b>{art.length ? art.length.toLocaleString() : "—"}</b> archived images</span><span><b>{groups.filter((group) => group.dex).length || "—"}</b> species indexed</span><span><b>{counts.references || "—"}</b> reference sheets</span></div>
       </section>
 
       <section className="collection" id="collection">
-        <div className="section-heading"><div><p className="eyebrow"><span /> {view === "gallery" ? "Browse the Pokédex" : view === "favorites" ? "Your collection" : view === "museum" ? "Pocket Archives Design Museum" : "Explore the archive"}</p><h2>{view === "gallery" ? "Know your favorite." : view === "favorites" ? "Saved for later." : view === "museum" ? "Walk through history." : "See how they’re made."}</h2></div><p>{view === "gallery" ? "Search a Pokémon once, then explore its Pokédex data, forms, and artwork in one place." : view === "favorites" ? "Every Pokémon you have favorited on this device, gathered in one place." : view === "museum" ? "A guided history of how Pokémon’s creatures, systems, artwork, and production language evolved." : "From 1990 prototype concepts to modern production sheets—organized from oldest to newest and viewed without leaving the archive."}</p></div>
+        <div className="section-heading"><div><p className="eyebrow"><span /> {view === "favorites" ? "Your collection" : view === "museum" ? "Pocket Archives Design Museum" : "Explore the archive"}</p><h2>{view === "favorites" ? "Saved for later." : view === "museum" ? "Walk through history." : "See how they’re made."}</h2></div><p>{view === "favorites" ? "Every archive record you have favorited on this device, gathered in one place." : view === "museum" ? "A guided history of how Pokémon’s creatures, systems, artwork, and production language evolved." : "From 1990 prototype concepts to modern production sheets—organized from oldest to newest and viewed without leaving the archive."}</p></div>
         <div className="view-tabs" role="tablist" aria-label="Collection views">
           <button role="tab" aria-selected={view === "references"} className={view === "references" ? "active" : ""} onClick={openReferences}><span>01</span> Archive</button>
           <button role="tab" aria-selected={view === "museum"} className={view === "museum" ? "active" : ""} onClick={openMuseum}><span>02</span> Museum</button>
-          <button role="tab" aria-selected={view === "gallery"} className={view === "gallery" ? "active" : ""} onClick={openAllPokedex}><span>03</span> Pokédex</button>
-          <a className="shop-view-tab" href="https://shop.pocketarchives.com"><span>04</span> Shop ↗</a>
+          <a className="shop-view-tab" href="https://shop.pocketarchives.com"><span>03</span> Shop ↗</a>
         </div>
 
         {view !== "museum" ? <div className="filter-panel">
-          <label className="search-box"><span aria-hidden="true">⌕</span><input ref={searchRef} value={query} onChange={(event) => setQuery(event.target.value)} placeholder={view === "references" ? "Search Pokémon, prototype, pose, or resource…" : "Search Pokémon, number, form, or collection…"} aria-label={view === "references" ? "Search reference library" : "Search Pokédex"} /><kbd>/</kbd></label>
-          {view === "gallery" ? <div className="filter-row" aria-label="Open generation page"><button className={filter === "all" ? "active" : ""} onClick={openAllPokedex}>All</button>{Array.from({ length: 9 }, (_, index) => index + 1).map((gen) => <button key={gen} className={filter === `gen-${gen}` ? "active" : ""} onClick={() => openGeneration(gen)}>Gen {generationRoman[gen]}</button>)}</div> : view === "references" ? <p className="favorites-note">Tap any sheet to study it here in the archive. Use the arrows to move through the collection without leaving the site.</p> : <p className="favorites-note">Your saved Pokémon live here on this device.</p>}
+          <label className="search-box"><span aria-hidden="true">⌕</span><input ref={searchRef} value={query} onChange={(event) => setQuery(event.target.value)} placeholder={view === "references" ? "Search Pokémon, prototype, pose, or resource…" : "Search saved archive records…"} aria-label={view === "references" ? "Search reference library" : "Search saved archive records"} /><kbd>/</kbd></label>
+          {view === "references" ? <p className="favorites-note">Tap any sheet to study it here in the archive. Use the arrows to move through the collection without leaving the site.</p> : <p className="favorites-note">Your saved archive records live here on this device.</p>}
         </div> : <div className="museum-visitor-guide"><div><span>Your visit</span><b>{museumWing === "lobby" ? "Start with the guided tour." : museumWing === "periods" ? "You are in The 190." : "You are at the Research Desk."}</b></div><ol><li><strong>01</strong><span>Tour</span><small>The complete story</small></li><li><strong>02</strong><span>The 190</span><small>Five design periods</small></li><li><strong>03</strong><span>Research</span><small>How the evidence works</small></li></ol></div>}
 
-        {view === "gallery" && activeGeneration && <div className="generation-page-heading"><div><span>Generation {generationRoman[activeGeneration]}</span><h3>{generationRegions[activeGeneration]}</h3></div><button onClick={openAllPokedex}>← All Pokémon</button></div>}
-
-        {view !== "museum" && <div className="results-bar"><p>{view === "references" ? <><b>{archiveSection === "alpha" ? developmentResults.length.toLocaleString() : archiveSection === "sketches" ? designResults.length.toLocaleString() : archiveSection === "references" ? referenceItems.length.toLocaleString() : resourceResults.length.toLocaleString()}</b> {archiveSection === "alpha" ? "alpha & beta plates" : archiveSection === "sketches" ? "character sketch groups" : archiveSection === "references" ? "production sheets" : "artist resources"}</> : <><b>{activeGroups.length.toLocaleString()}</b> Pokémon{activeGeneration ? ` · Generation ${generationRoman[activeGeneration]}` : ""}</>}</p><div className="results-controls">{view === "gallery" && <label>Sort<select value={sort} onChange={(event) => setSort(event.target.value)}><option value="dex">Pokédex number</option><option value="name">Name A–Z</option><option value="collection">Collection</option></select></label>}{view !== "references" && <div className="display-toggle" role="group" aria-label="Display style"><button className={displayMode === "grid" ? "active" : ""} onClick={() => changeDisplay("grid")} aria-pressed={displayMode === "grid"}><span>▦</span> Grid</button><button className={displayMode === "list" ? "active" : ""} onClick={() => changeDisplay("list")} aria-pressed={displayMode === "list"}><span>☰</span> Names</button></div>}</div></div>}
+        {view !== "museum" && <div className="results-bar"><p>{view === "references" ? <><b>{archiveSection === "alpha" ? developmentResults.length.toLocaleString() : archiveSection === "sketches" ? designResults.length.toLocaleString() : archiveSection === "references" ? referenceItems.length.toLocaleString() : resourceResults.length.toLocaleString()}</b> {archiveSection === "alpha" ? "alpha & beta plates" : archiveSection === "sketches" ? "character sketch groups" : archiveSection === "references" ? "production sheets" : "artist resources"}</> : <><b>{activeGroups.length.toLocaleString()}</b> saved records</>}</p><div className="results-controls">{view === "favorites" && <div className="display-toggle" role="group" aria-label="Display style"><button className={displayMode === "grid" ? "active" : ""} onClick={() => changeDisplay("grid")} aria-pressed={displayMode === "grid"}><span>▦</span> Grid</button><button className={displayMode === "list" ? "active" : ""} onClick={() => changeDisplay("list")} aria-pressed={displayMode === "list"}><span>☰</span> Names</button></div>}</div></div>}
 
         {view === "references" ? <div className="reference-library" id="archive-browser">
           <nav className="archive-index" aria-label="Archive sections"><button className={archiveSection === "alpha" ? "active" : ""} onClick={() => openArchiveSection("alpha")}><small>01</small><b>Alpha &amp; beta</b><span>{developmentResults.length} plates</span></button><button className={archiveSection === "sketches" ? "active" : ""} onClick={() => openArchiveSection("sketches")}><small>02</small><b>Character sketches</b><span>{designResults.length} Pokémon</span></button><button className={archiveSection === "references" ? "active" : ""} onClick={() => openArchiveSection("references")}><small>03</small><b>Production sheets</b><span>{referenceItems.length} sheets</span></button><button className={archiveSection === "resources" ? "active" : ""} onClick={() => openArchiveSection("resources")}><small>04</small><b>Artist resources</b><span>{resourceResults.length} collections</span></button></nav>
@@ -574,16 +551,16 @@ export default function Home() {
           {museumWing === "research" && <section className="museum-research-wing museum-focused-wing"><button className="museum-wing-back" onClick={() => setMuseumWing("lobby")}>← Museum lobby</button><div className="museum-wing-heading"><span>Room 03 · Evidence room</span><h3>Research Desk</h3><p>Start with note 01, or choose a question. These seven concise explanations separate surviving evidence from informed interpretation.</p></div><div className="research-square-grid" aria-label="Local prototype research explanations">{helixResearchPanels.map((panel, index) => <button key={panel.id} onClick={() => setSelectedPanel(panel)}><small>{String(index + 1).padStart(2, "0")} · Research note</small><b>{panel.title}</b><span>Read note →</span></button>)}</div></section>}
         </div> : art.length === 0 ? <div className="loading-grid">Opening the archive…</div> : activeGroups.length === 0 ? <div className="empty-state"><span>{view === "favorites" ? "♥" : "?"}</span><h3>{view === "favorites" ? "No favorites yet" : "No matches found"}</h3><p>{view === "favorites" ? "Tap the heart on any Pokémon to build your collection." : "Try another name, number, or generation."}</p>{view !== "favorites" && <button onClick={() => { setQuery(""); setFilter("all"); }}>Clear filters</button>}</div> : <div className={displayMode === "grid" ? "art-grid" : "name-list"}>{(displayMode === "grid" ? activeGroups.slice(0, visible) : activeGroups).map(displayMode === "grid" ? renderGroupCard : renderNameRow)}</div>}
         {view === "references" && archiveSection === "references" && visible < referenceItems.length && <button className="load-more" onClick={() => setVisible((value) => value + PAGE_SIZE)}>Load more <span>{Math.min(PAGE_SIZE, referenceItems.length - visible)}</span></button>}
-        {displayMode === "grid" && (view === "gallery" || view === "favorites") && visible < activeGroups.length && <button className="load-more" onClick={() => setVisible((value) => value + PAGE_SIZE)}>Load more <span>{Math.min(PAGE_SIZE, activeGroups.length - visible)}</span></button>}
+        {displayMode === "grid" && view === "favorites" && visible < activeGroups.length && <button className="load-more" onClick={() => setVisible((value) => value + PAGE_SIZE)}>Load more <span>{Math.min(PAGE_SIZE, activeGroups.length - visible)}</span></button>}
       </section>
 
-      <section className="about" id="about"><p className="eyebrow"><span /> About the archive</p><div className="about-grid"><h2>A visual history,<br />one creature at a time.</h2><div><p>Pocket Archives brings each Pokémon’s official art, forms, reference drawings, cards, and Pokédex details together. Your supplied character-design sheets and PS Art Room’s credited production references share one searchable References &amp; Sketches section, while remaining visibly identified by source. Species information is supplied by PokéAPI, and the image-only card gallery is supplied by the community Pokémon TCG API.</p><p className="source-records">Source records · PS Art Room · PokéAPI · Pokémon TCG API · Nintendo creator interviews · Helix Chamber</p><p className="fine-print">A personal, non-commercial fan archive. Pokémon and all related characters are trademarks of Nintendo, Game Freak, and Creatures Inc. Source records remain credited to their original curators and hosts; archive browsing stays inside Pocket Archives.</p></div></div></section>
+      <section className="about" id="about"><p className="eyebrow"><span /> About the archive</p><div className="about-grid"><h2>A visual history,<br />one creature at a time.</h2><div><p>Pocket Archives preserves the working history behind Pokémon: early concepts, prototype creatures, character studies, production references, and the research that helps place them in context. Artwork and species records remain connected where they clarify a design’s development, while every surviving source is identified as carefully as the evidence allows.</p><p className="source-records">Source records · PS Art Room · PokéAPI · Pokémon TCG API · Nintendo creator interviews · Helix Chamber</p><p className="fine-print">A personal, non-commercial fan archive. Pokémon and all related characters are trademarks of Nintendo, Game Freak, and Creatures Inc. Source records remain credited to their original curators and hosts; archive browsing stays inside Pocket Archives.</p></div></div></section>
       <footer><div className="brand footer-brand"><span className="brand-mark"><i /></span><span>POCKET<br />ARCHIVES</span></div><p>Gotta archive ’em all.</p></footer>
 
-      {selected && selectedGroup && <div className="modal" role="dialog" aria-modal="true" aria-label={`${selectedGroup.title} Pokédex entry`} onMouseDown={(event) => { if (event.currentTarget === event.target) setSelected(null); }}>
-        <button className="modal-close" onClick={() => setSelected(null)} aria-label="Close Pokédex entry">×</button>
+      {selected && selectedGroup && <div className="modal" role="dialog" aria-modal="true" aria-label={`${selectedGroup.title} archive record`} onMouseDown={(event) => { if (event.currentTarget === event.target) setSelected(null); }}>
+        <button className="modal-close" onClick={() => setSelected(null)} aria-label="Close archive record">×</button>
         <div className={`modal-art ${selectedGroup.dex || selectedGroup.items.length > 1 ? "has-forms" : ""}`}><span className="modal-index">{variantView === "cards" && selectedCard ? `${selectedCard.set.name} · #${selectedCard.number}` : selectedGroup.dex ? `#${String(selectedGroup.dex).padStart(4, "0")}` : "SPECIAL ART"}</span>{variantView === "cards" && selectedCard ? <img className="tcg-card-main" src={selectedCard.images.large} alt={`${selectedCard.name} card from ${selectedCard.set.name}`} /> : <img src={selected.src} alt={selected.title} />}{(selectedGroup.dex || selectedGroup.items.length > 1) && <div className="form-strip" aria-label={`${selectedGroup.title} images`}><div className="variant-tabs" role="tablist" aria-label="Image type"><button role="tab" aria-selected={variantView === "forms"} className={variantView === "forms" ? "active" : ""} disabled={!selectedForms.length} onClick={() => { setVariantView("forms"); if (selectedForms.length) setSelected(selectedForms[0]); }}>Forms <b>{selectedForms.length}</b></button><button role="tab" aria-selected={variantView === "artwork"} className={variantView === "artwork" ? "active" : ""} disabled={!selectedArtwork.length} onClick={() => { setVariantView("artwork"); if (selectedArtwork.length) setSelected(selectedArtwork[0]); }}>Alternate artwork <b>{selectedArtwork.length}</b></button><button role="tab" aria-selected={variantView === "design"} className={variantView === "design" ? "active" : ""} disabled={!selectedDesign.length} onClick={() => { setVariantView("design"); if (selectedDesign.length) setSelected(selectedDesign[0]); }}>Sketches & design <b>{selectedDesign.length}</b></button><button role="tab" aria-selected={variantView === "cards"} className={variantView === "cards" ? "active" : ""} disabled={!selectedGroup.dex} onClick={() => setVariantView("cards")}>Cards <b>{cardsLoading ? "…" : cards.length || ""}</b></button></div>{variantView === "cards" ? cardsLoading ? <p className="card-strip-message">Finding cards…</p> : cardsError ? <p className="card-strip-message">Card gallery unavailable right now.</p> : cards.map((card) => <button key={card.id} className={`variant-thumb card-thumb ${selectedCard?.id === card.id ? "active" : ""}`} onClick={() => setSelectedCard(card)} aria-label={`Show ${card.name}, ${card.set.name} number ${card.number}`}><img src={card.images.small} alt="" loading="lazy" /><span>{card.set.name} · {card.number}</span></button>) : shownVariants.map((item) => <button key={item.id} className={`variant-thumb ${selected.id === item.id ? "active" : ""}`} onClick={() => setSelected(item)} aria-label={`Show ${item.title}, ${item.collection}`}><img src={item.src} alt="" loading="lazy" /><span>{item.title}</span></button>)}</div>}</div>
-        <div className="modal-details"><p className="eyebrow"><span /> {selectedGroup.dex ? `Generation ${generationRoman[selectedGroup.generation]} · ${generationRegions[selectedGroup.generation]}` : selected.collection}</p><h2>{selectedGroup.title}</h2>{detailsLoading ? <p className="details-loading">Reading Pokédex data…</p> : details ? <><p className="pokemon-genus">{details.legendary ? "Legendary · " : details.mythical ? "Mythical · " : ""}{details.genus}</p><p className="dex-description">{details.description}</p><div className="type-row">{details.types.map((type) => <span className={`type type-${type}`} key={type}>{titleCase(type)}</span>)}</div><dl className="pokemon-facts"><div><dt>Height</dt><dd>{details.height} m</dd></div><div><dt>Weight</dt><dd>{details.weight} kg</dd></div><div><dt>Habitat</dt><dd>{details.habitat ? titleCase(details.habitat) : "Unknown"}</dd></div><div><dt>Artwork</dt><dd>{selectedGroup.items.length} in archive</dd></div></dl></> : selectedGroup.dex ? <p className="dex-description">Pokédex information is temporarily unavailable.</p> : <p className="dex-description">This unnumbered artwork belongs to the {selected.collection} collection.</p>}
+        <div className="modal-details"><p className="eyebrow"><span /> {selectedGroup.dex ? `Generation ${generationRoman[selectedGroup.generation]} · ${generationRegions[selectedGroup.generation]}` : selected.collection}</p><h2>{selectedGroup.title}</h2>{detailsLoading ? <p className="details-loading">Reading species record…</p> : details ? <><p className="pokemon-genus">{details.legendary ? "Legendary · " : details.mythical ? "Mythical · " : ""}{details.genus}</p><p className="dex-description">{details.description}</p><div className="type-row">{details.types.map((type) => <span className={`type type-${type}`} key={type}>{titleCase(type)}</span>)}</div><dl className="pokemon-facts"><div><dt>Height</dt><dd>{details.height} m</dd></div><div><dt>Weight</dt><dd>{details.weight} kg</dd></div><div><dt>Habitat</dt><dd>{details.habitat ? titleCase(details.habitat) : "Unknown"}</dd></div><div><dt>Artwork</dt><dd>{selectedGroup.items.length} in archive</dd></div></dl></> : selectedGroup.dex ? <p className="dex-description">Species information is temporarily unavailable.</p> : <p className="dex-description">This unnumbered artwork belongs to the {selected.collection} collection.</p>}
           {variantView === "cards" && selectedCard ? <div className="source-credit card-credit"><span>Trading card</span><b>{selectedCard.set.name} · #{selectedCard.number}</b><p>{selectedCard.rarity || "Rarity not listed"} · Illustrated by {selectedCard.artist || "artist not listed"}</p></div> : <div className="source-credit compact-credit"><span>Collection</span><b>{selected.collection}</b></div>}
           {selectedRights && variantView !== "cards" && <div className="source-credit rights-credit"><span>Rights &amp; provenance</span><b>{selectedRights.originalSource}</b><p>{selectedRights.digitalSource} · {selectedRights.rightsStatus} · {selectedRights.usageBasis}</p></div>}
           {!!selectedShopItems.length && <section className="contextual-shop-module"><span>Available from Pocket Archives</span>{selectedShopItems.map((item) => <a href={shopObjectUrl(item.slug)} key={item.id}><div><b>{item.title}</b><small>{item.artist || item.category}</small></div><strong>View object ↗</strong></a>)}</section>}

@@ -3,8 +3,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://pocketarchives.com"),
-  title: "Pocket Archives — Pokémon Sketches, Model Sheets & Pokédex",
-  description: "Explore Pokémon production sketches, model sheets, character studies, and a complete illustrated Pokédex.",
+  title: "Pocket Archives — Pokémon Design History & Production Art",
+  description: "Explore Pokémon prototypes, character sketches, production sheets, and a guided museum of creature-design history.",
   icons: { icon: "/favicon.png", shortcut: "/favicon.png" },
 };
 
