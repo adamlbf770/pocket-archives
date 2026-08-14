@@ -40,6 +40,16 @@ const worker = {
       }, allowedWidths);
     }
 
+    // The dealer catalog shares deployment infrastructure while remaining a
+    // distinct host and route surface. Commerce services can be replaced later
+    // without moving the main archive application.
+    if (url.hostname === "shop.pocketarchives.com") {
+      if (url.pathname === "/") url.pathname = "/shop";
+      const objectMatch = url.pathname.match(/^\/objects\/([^/]+)$/);
+      if (objectMatch) url.pathname = `/objects/${objectMatch[1]}`;
+      request = new Request(url, request);
+    }
+
     return handler.fetch(request, env, ctx);
   },
 };

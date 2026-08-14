@@ -1,33 +1,71 @@
-export type InventoryStatus = "available" | "reserved" | "sold" | "not-for-sale";
+export type AvailabilityStatus = "available" | "reserved" | "sold" | "not-for-sale";
+export type RecordState = "collection" | "available" | "private-collection";
+export type DownloadRights = "allowed" | "display-only" | "thumbnail-only" | "restricted" | "unknown";
+export type ObjectImageView = "front" | "back" | "detail" | "edge" | "corner" | "surface" | "packaging" | "insert" | "provenance" | "placeholder";
+
+export type ObjectImage = {
+  src: string;
+  caption: string;
+  view: ObjectImageView;
+  creator: string;
+  rightsHolder: string;
+  rightsStatus: DownloadRights;
+  usageBasis: string;
+};
 
 export type InventoryItem = {
+  accessionNumber: string;
   id: string;
   slug: string;
   title: string;
+  subtitle: string;
+  objectType: string;
+  category: "Cards" | "Carddass" | "Promos" | "Ephemera" | "Printed Matter" | "Curated Collections";
   description: string;
   archivalNote: string;
-  price: number;
-  currency: "USD";
-  quantity: number;
-  status: InventoryStatus;
-  category: "Cards" | "Carddass" | "Promos" | "Ephemera" | "Curated Collections";
-  tags: string[];
+  culturalSignificance: string;
+  year: number | null;
+  approximateYear: boolean;
+  era: string;
+  country: string;
+  language: string;
+  artist: string | null;
+  illustrator: string | null;
+  manufacturer: string | null;
+  publisher: string | null;
+  set: string | null;
+  series: string | null;
+  cardNumber: string | null;
+  catalogNumber: string | null;
+  edition: string | null;
+  printing: string | null;
+  condition: string;
+  conditionNotes: string;
+  dimensions: string | null;
+  provenance: string;
+  acquisitionSource: string | null;
+  acquisitionDate: string | null;
   pokemonIds: number[];
   pokemonNames: string[];
-  artist: string | null;
-  year: number | null;
-  set: string | null;
-  number: string | null;
-  language: string;
-  country: string;
-  manufacturer: string | null;
-  condition: string;
-  provenance: string | null;
-  fromArchive: boolean;
-  images: string[];
+  artistIds: string[];
   relatedMuseumIds: string[];
+  relatedArchiveIds: string[];
   relatedCardIds: string[];
-  collectionIds: string[];
+  relatedCollectionIds: string[];
+  tags: string[];
+  fromArchive: boolean;
+  physicalOwnership: boolean;
+  recordState: RecordState;
+  availabilityStatus: AvailabilityStatus;
+  price: number | null;
+  currency: "USD";
+  quantity: number;
+  reserved: boolean;
+  soldDate: string | null;
+  placedInPrivateCollection: boolean;
+  images: ObjectImage[];
+  sourceMetadata: string;
+  rightsMetadata: string;
   featured: boolean;
   demo: true;
 };
@@ -37,202 +75,87 @@ export type CuratedCollection = {
   slug: string;
   title: string;
   description: string;
-  archivalNote: string;
+  curatorNote: string;
+  era: string;
+  featuredImage: string | null;
   inventoryIds: string[];
+  pokemonIds: number[];
+  relatedArchiveIds: string[];
+  relatedMuseumIds: string[];
   saleMode: "group" | "individual" | "editorial";
-  price: number | null;
+  collectionPrice: number | null;
   currency: "USD";
   demo: true;
 };
 
-// DEMO INVENTORY — remove or replace this single array before live commerce launches.
-// Images are archival stand-ins from the existing Pocket Archives library, not product photographs.
+const demoPlaceholder: ObjectImage = {
+  src: "/og-shop.png",
+  caption: "Pocket Archives Shop demonstration placeholder — replace with photographs of the physical object.",
+  view: "placeholder",
+  creator: "Pocket Archives",
+  rightsHolder: "Pocket Archives",
+  rightsStatus: "display-only",
+  usageBasis: "Original demonstration graphic",
+};
+
+// DEMO INVENTORY — remove or replace this single array before live inventory launches.
+// No record below represents a physical object currently owned or offered by Pocket Archives.
 export const demoInventory: InventoryItem[] = [
   {
-    id: "DEMO-001",
-    slug: "demo-1997-japanese-carddass-tangela",
-    title: "1997 Japanese Carddass Tangela",
-    description: "A demonstration listing for a Japanese Carddass-era character piece featuring Tangela. Final listings will use photographs of the actual object offered.",
-    archivalNote: "Carddass helped give the original 151 a life beyond the Game Boy screen, presenting Pokémon as collectible illustrations and cultural objects in their own right.",
-    price: 18,
-    currency: "USD",
-    quantity: 1,
-    status: "available",
-    category: "Carddass",
-    tags: ["New Acquisitions", "Vintage Japanese", "Sugimori", "From the Archive"],
-    pokemonIds: [114],
-    pokemonNames: ["Tangela"],
-    artist: "Ken Sugimori",
-    year: 1997,
-    set: "Carddass demonstration record",
-    number: "DEMO",
-    language: "Japanese",
-    country: "Japan",
-    manufacturer: "Bandai",
-    condition: "Demo condition — replace with object-specific grading notes",
-    provenance: "Demonstration record; no physical object is represented.",
-    fromArchive: true,
-    images: ["/art/0311.webp", "/art/0457.webp"],
-    relatedMuseumIds: ["pokemon-in-motion"],
-    relatedCardIds: [],
-    collectionIds: ["early-japanese-carddass"],
-    featured: true,
-    demo: true,
+    accessionNumber: "PA-0001", id: "DEMO-001", slug: "demo-1997-carddass-bulbasaur", title: "Bulbasaur", subtitle: "Pocket Monsters Carddass — demonstration record", objectType: "Collectible card", category: "Carddass",
+    description: "A demonstration record showing how a 1997 Japanese Carddass object would be catalogued. Final records will use photographs and condition notes for the actual piece.", archivalNote: "Carddass gave the original 151 a life beyond the Game Boy screen, presenting Pokémon as small-format collectible illustrations.", culturalSignificance: "An example of Pokémon’s early expansion into Japanese printed collecting culture.",
+    year: 1997, approximateYear: false, era: "Early franchise · 1996–1999", country: "Japan", language: "Japanese", artist: "Ken Sugimori", illustrator: "Ken Sugimori", manufacturer: "Bandai", publisher: "Bandai", set: "Pocket Monsters Carddass", series: "Demonstration series", cardNumber: "DEMO", catalogNumber: "PA-0001", edition: "Demo", printing: "Demo", condition: "Excellent", conditionNotes: "Demonstration condition only. Replace with front, back, edge, corner, and surface observations.", dimensions: "To be measured", provenance: "Demonstration record; no physical object is represented.", acquisitionSource: null, acquisitionDate: null,
+    pokemonIds: [1], pokemonNames: ["Bulbasaur"], artistIds: ["ken-sugimori"], relatedMuseumIds: ["pokemon-in-motion", "public-visual-identity"], relatedArchiveIds: ["carddass-action-1"], relatedCardIds: [], relatedCollectionIds: ["early-japanese-carddass", "original-starters"], tags: ["New Acquisitions", "Sugimori", "Vintage Japanese", "Carddass"], fromArchive: true, physicalOwnership: true, recordState: "available", availabilityStatus: "available", price: 18, currency: "USD", quantity: 1, reserved: false, soldDate: null, placedInPrivateCollection: false, images: [demoPlaceholder], sourceMetadata: "Object record pending live inventory photography.", rightsMetadata: "Shop images must be original photographs of owned physical inventory.", featured: true, demo: true,
   },
   {
-    id: "DEMO-002",
-    slug: "demo-sugimori-haunter-japanese-card",
-    title: "Sugimori Haunter Japanese Card",
-    description: "A demonstration inventory record for an early Japanese card centered on Ken Sugimori’s Haunter artwork.",
-    archivalNote: "The restrained palette and graphic silhouette show how Sugimori’s character art translated from game documentation into small-format collecting objects.",
-    price: 32,
-    currency: "USD",
-    quantity: 1,
-    status: "reserved",
-    category: "Cards",
-    tags: ["Sugimori", "Vintage Japanese", "Cards"],
-    pokemonIds: [93],
-    pokemonNames: ["Haunter"],
-    artist: "Ken Sugimori",
-    year: 1997,
-    set: "Japanese card demonstration record",
-    number: "DEMO",
-    language: "Japanese",
-    country: "Japan",
-    manufacturer: "Demo publisher — replace with live object data",
-    condition: "Demo condition — replace with object-specific grading notes",
-    provenance: "Demonstration record; no physical object is represented.",
-    fromArchive: false,
-    images: ["/art/0290.webp", "/art/0436.webp"],
-    relatedMuseumIds: ["public-visual-identity"],
-    relatedCardIds: [],
-    collectionIds: ["gastly-evolution-line"],
-    featured: true,
-    demo: true,
+    accessionNumber: "PA-0002", id: "DEMO-002", slug: "demo-sugimori-haunter-japanese-card", title: "Haunter", subtitle: "Japanese illustrated card — demonstration record", objectType: "Trading card", category: "Cards",
+    description: "A demonstration record for an early Japanese card centered on Ken Sugimori’s Haunter artwork.", archivalNote: "Haunter’s restrained palette and graphic silhouette show how character art translated into small-format collecting objects.", culturalSignificance: "A test of the reciprocal connection between a physical object, its Pokémon, its illustrator, and the broader archive.",
+    year: 1997, approximateYear: true, era: "Early franchise · 1996–1999", country: "Japan", language: "Japanese", artist: "Ken Sugimori", illustrator: "Ken Sugimori", manufacturer: null, publisher: "Demo publisher", set: "Japanese card demonstration record", series: "Demo series", cardNumber: "DEMO", catalogNumber: "PA-0002", edition: null, printing: null, condition: "Very Good", conditionNotes: "Demonstration condition only; descriptive notes remain flexible for non-TCG objects.", dimensions: null, provenance: "Demonstration record; no physical object is represented.", acquisitionSource: null, acquisitionDate: null,
+    pokemonIds: [93], pokemonNames: ["Haunter"], artistIds: ["ken-sugimori"], relatedMuseumIds: ["public-visual-identity"], relatedArchiveIds: [], relatedCardIds: [], relatedCollectionIds: ["gastly-evolution-line"], tags: ["Sugimori", "Vintage Japanese", "Cards"], fromArchive: false, physicalOwnership: true, recordState: "collection", availabilityStatus: "reserved", price: 32, currency: "USD", quantity: 1, reserved: true, soldDate: null, placedInPrivateCollection: false, images: [demoPlaceholder], sourceMetadata: "Object record pending live inventory photography.", rightsMetadata: "Shop images must be original photographs of owned physical inventory.", featured: true, demo: true,
   },
   {
-    id: "DEMO-003",
-    slug: "demo-vintage-pikachu-promotional-ephemera",
-    title: "Vintage Pikachu Promotional Ephemera",
-    description: "A demonstration archival record for a small Japanese promotional paper object featuring Pikachu.",
-    archivalNote: "Disposable paper material often preserves how Pokémon was presented in everyday life more directly than premium collectibles do.",
-    price: 28,
-    currency: "USD",
-    quantity: 0,
-    status: "sold",
-    category: "Ephemera",
-    tags: ["Promos", "Ephemera", "Vintage Japanese", "From the Archive"],
-    pokemonIds: [25],
-    pokemonNames: ["Pikachu"],
-    artist: null,
-    year: 1998,
-    set: "Promotional ephemera demonstration record",
-    number: null,
-    language: "Japanese",
-    country: "Japan",
-    manufacturer: "Demo publisher — replace with live object data",
-    condition: "Demo condition — archived after sale",
-    provenance: "Demonstration record; no physical object is represented.",
-    fromArchive: true,
-    images: ["/art/0016.webp"],
-    relatedMuseumIds: ["keeping-consistency"],
-    relatedCardIds: [],
-    collectionIds: [],
-    featured: false,
-    demo: true,
+    accessionNumber: "PA-0003", id: "DEMO-003", slug: "demo-vintage-pikachu-promotional-ephemera", title: "Pikachu", subtitle: "Japanese promotional ephemera — archived demo", objectType: "Printed ephemera", category: "Ephemera",
+    description: "A demonstration archival record for a small Japanese promotional paper object featuring Pikachu.", archivalNote: "Disposable paper material often preserves how Pokémon was presented in everyday life more directly than premium collectibles do.", culturalSignificance: "A model for keeping an object’s archival record visible after it leaves Pocket Archives.",
+    year: 1998, approximateYear: true, era: "Early franchise · 1996–1999", country: "Japan", language: "Japanese", artist: null, illustrator: null, manufacturer: null, publisher: "Demo publisher", set: null, series: "Promotional material", cardNumber: null, catalogNumber: "PA-0003", edition: null, printing: null, condition: "Good", conditionNotes: "Demonstration condition only.", dimensions: null, provenance: "Demonstration record; no physical object or buyer is represented.", acquisitionSource: "Demo source", acquisitionDate: "2026", pokemonIds: [25], pokemonNames: ["Pikachu"], artistIds: [], relatedMuseumIds: ["keeping-consistency"], relatedArchiveIds: [], relatedCardIds: [], relatedCollectionIds: [], tags: ["Promos", "Ephemera", "Vintage Japanese", "From the Archive"], fromArchive: true, physicalOwnership: false, recordState: "private-collection", availabilityStatus: "sold", price: 28, currency: "USD", quantity: 0, reserved: false, soldDate: "Demo date", placedInPrivateCollection: true, images: [demoPlaceholder], sourceMetadata: "Demonstration record only.", rightsMetadata: "Shop images must be original photographs of owned physical inventory.", featured: false, demo: true,
   },
   {
-    id: "DEMO-004",
-    slug: "demo-original-starter-evolution-lines",
-    title: "Original Starter Evolution Lines",
-    description: "A demonstration grouped listing built to test how a curated multi-object collection could be presented and eventually sold together or piece by piece.",
-    archivalNote: "Bulbasaur, Charmander, and Squirtle arrived relatively late in the original internal sequence, yet became the carefully balanced introduction to the entire Pokémon world.",
-    price: 72,
-    currency: "USD",
-    quantity: 1,
-    status: "available",
-    category: "Curated Collections",
-    tags: ["Curated Collections", "Kanto", "Sugimori"],
-    pokemonIds: [1, 4, 7],
-    pokemonNames: ["Bulbasaur", "Charmander", "Squirtle"],
-    artist: "Ken Sugimori",
-    year: 1996,
-    set: "Editorial demonstration grouping",
-    number: null,
-    language: "Japanese",
-    country: "Japan",
-    manufacturer: "Mixed objects — record per item",
-    condition: "Demo condition — individual object notes would appear here",
-    provenance: "Demonstration record; no physical objects are represented.",
-    fromArchive: false,
-    images: ["/art/0348.webp", "/art/0351.webp", "/art/0354.webp"],
-    relatedMuseumIds: ["public-visual-identity"],
-    relatedCardIds: [],
-    collectionIds: ["original-starters"],
-    featured: true,
-    demo: true,
+    accessionNumber: "PA-0004", id: "DEMO-004", slug: "demo-pocket-monsters-printed-matter", title: "Pocket Monsters Printed Matter", subtitle: "Early Japanese paper artifact — collection demo", objectType: "Printed matter", category: "Printed Matter",
+    description: "A demonstration record for a physically held archive object that is documented but not available for acquisition.", archivalNote: "The Collection state separates stewardship from commerce: Pocket Archives may own and document an object without offering it.", culturalSignificance: "Tests the permanent Pocket Archives Collection designation for books, magazines, flyers, inserts, and other paper material.",
+    year: 1997, approximateYear: true, era: "Early franchise · 1996–1999", country: "Japan", language: "Japanese", artist: null, illustrator: null, manufacturer: null, publisher: "Demo publisher", set: null, series: "Pocket Monsters printed matter", cardNumber: null, catalogNumber: "PA-0004", edition: null, printing: null, condition: "Very Good", conditionNotes: "Demo description; the final record would note folds, toning, handling, and surface wear.", dimensions: "To be measured", provenance: "Demonstration record; no physical object is represented.", acquisitionSource: "Founder collection demo", acquisitionDate: "2026", pokemonIds: [], pokemonNames: [], artistIds: [], relatedMuseumIds: ["inventing-a-world"], relatedArchiveIds: ["reddit-concept-3"], relatedCardIds: [], relatedCollectionIds: ["early-printed-matter"], tags: ["From the Archive", "Vintage Japanese", "Ephemera"], fromArchive: true, physicalOwnership: true, recordState: "collection", availabilityStatus: "not-for-sale", price: null, currency: "USD", quantity: 1, reserved: false, soldDate: null, placedInPrivateCollection: false, images: [demoPlaceholder], sourceMetadata: "Object record pending live inventory photography.", rightsMetadata: "Shop images must be original photographs of owned physical inventory.", featured: true, demo: true,
+  },
+  {
+    accessionNumber: "PA-0005", id: "DEMO-005", slug: "demo-original-starter-evolution-lines", title: "Original Starter Evolution Lines", subtitle: "Curated object group — demonstration record", objectType: "Curated multi-object group", category: "Curated Collections",
+    description: "A demonstration grouped record testing how several objects could be presented together and later offered as one set or as individual pieces.", archivalNote: "Bulbasaur, Charmander, and Squirtle arrived relatively late in the original internal sequence, yet became the balanced introduction to the Pokémon world.", culturalSignificance: "Shows how one physical grouping can connect to multiple Pokémon and a single design-era narrative.",
+    year: 1996, approximateYear: true, era: "Launch era · 1996", country: "Japan", language: "Japanese", artist: "Ken Sugimori", illustrator: "Ken Sugimori", manufacturer: "Mixed objects", publisher: "Mixed publishers", set: "Editorial demonstration grouping", series: "Original starters", cardNumber: null, catalogNumber: "PA-0005", edition: null, printing: null, condition: "Mixed", conditionNotes: "Condition would be recorded separately for every included object.", dimensions: null, provenance: "Demonstration record; no physical objects are represented.", acquisitionSource: null, acquisitionDate: null, pokemonIds: [1, 4, 7], pokemonNames: ["Bulbasaur", "Charmander", "Squirtle"], artistIds: ["ken-sugimori"], relatedMuseumIds: ["public-visual-identity"], relatedArchiveIds: [], relatedCardIds: [], relatedCollectionIds: ["original-starters"], tags: ["Curated Collections", "Sugimori", "Original 151"], fromArchive: false, physicalOwnership: true, recordState: "available", availabilityStatus: "available", price: 72, currency: "USD", quantity: 1, reserved: false, soldDate: null, placedInPrivateCollection: false, images: [demoPlaceholder], sourceMetadata: "Object record pending live inventory photography.", rightsMetadata: "Shop images must be original photographs of owned physical inventory.", featured: true, demo: true,
   },
 ];
 
-// DEMO CURATED COLLECTIONS — independent from inventory so a group can remain editorial,
-// become a single sellable set, or point to separately available objects later.
 export const demoCuratedCollections: CuratedCollection[] = [
-  {
-    id: "DEMO-COLLECTION-001",
-    slug: "gastly-haunter-gengar",
-    title: "The Gastly / Haunter / Gengar Collection",
-    description: "An editorial grouping for objects that trace one of Kanto’s most visually coherent evolution lines.",
-    archivalNote: "A future collection can mix cards, print ephemera, production references, and separately priced inventory without losing the historical relationship between them.",
-    inventoryIds: ["DEMO-002"],
-    saleMode: "individual",
-    price: null,
-    currency: "USD",
-    demo: true,
-  },
-  {
-    id: "DEMO-COLLECTION-002",
-    slug: "original-starters",
-    title: "Original Starter Evolution Lines",
-    description: "A demonstration collection joining the three original partners through a single editorial idea.",
-    archivalNote: "This grouping is configured as one sellable set while retaining object-level metadata for a future inventory backend.",
-    inventoryIds: ["DEMO-004"],
-    saleMode: "group",
-    price: 72,
-    currency: "USD",
-    demo: true,
-  },
+  { id: "DEMO-COLLECTION-001", slug: "gastly-haunter-gengar", title: "Gastly / Haunter / Gengar", description: "Objects tracing one of Kanto’s most visually coherent evolution lines.", curatorNote: "A future grouping can mix cards, printed matter, and production references while retaining object-level records.", era: "1996–present", featuredImage: null, inventoryIds: ["DEMO-002"], pokemonIds: [92, 93, 94], relatedArchiveIds: [], relatedMuseumIds: ["public-visual-identity"], saleMode: "individual", collectionPrice: null, currency: "USD", demo: true },
+  { id: "DEMO-COLLECTION-002", slug: "original-starters", title: "Original Starter Evolution Lines", description: "A demonstration collection joining the three original partners through one editorial idea.", curatorNote: "Configured as a grouped set while retaining object-level metadata for a future inventory provider.", era: "1996", featuredImage: null, inventoryIds: ["DEMO-005"], pokemonIds: [1, 4, 7], relatedArchiveIds: [], relatedMuseumIds: ["public-visual-identity"], saleMode: "group", collectionPrice: 72, currency: "USD", demo: true },
 ];
 
-export const inventoryCollectionOptions = [
-  "New Acquisitions",
-  "From the Archive",
-  "Sugimori",
-  "Vintage Japanese",
-  "Carddass",
-  "Promos",
-  "Cards",
-  "Ephemera",
-  "Curated Collections",
-] as const;
+export const inventoryCollectionOptions = ["New Acquisitions", "From the Archive", "Sugimori", "Vintage Japanese", "Carddass", "Promos", "Cards", "Ephemera", "Printed Matter", "Curated Collections", "Archived / Sold"] as const;
 
-export function inventoryBySlug(slug: string) {
-  return demoInventory.find((item) => item.slug === slug);
-}
+export const SHOP_ORIGIN = "https://shop.pocketarchives.com";
+export const ARCHIVE_ORIGIN = "https://pocketarchives.com";
 
-export function inventoryForPokemon(pokemonId: number) {
-  return demoInventory.filter((item) => item.pokemonIds.includes(pokemonId));
-}
-
-export function inventoryForMuseum(museumId: string) {
-  return demoInventory.filter((item) => item.relatedMuseumIds.includes(museumId));
-}
-
-export function statusLabel(status: InventoryStatus) {
+export function shopObjectUrl(slug: string) { return `${SHOP_ORIGIN}/objects/${slug}`; }
+export function inventoryBySlug(slug: string) { return demoInventory.find((item) => item.slug === slug); }
+export function inventoryForPokemon(pokemonId: number) { return demoInventory.filter((item) => item.pokemonIds.includes(pokemonId)); }
+export function inventoryForMuseum(museumId: string) { return demoInventory.filter((item) => item.relatedMuseumIds.includes(museumId)); }
+export function statusLabel(status: AvailabilityStatus) {
   if (status === "sold") return "Sold — Archived";
-  if (status === "not-for-sale") return "Archive only";
-  return status.charAt(0).toUpperCase() + status.slice(1);
+  if (status === "not-for-sale") return "Not available for acquisition";
+  if (status === "available") return "Available for acquisition";
+  return "Reserved";
 }
-
-export function formatPrice(price: number, currency: string) {
+export function recordStateLabel(state: RecordState) {
+  if (state === "private-collection") return "Private Collection";
+  if (state === "collection") return "Pocket Archives Collection";
+  return "Available for Acquisition";
+}
+export function formatPrice(price: number | null, currency: string) {
+  if (price === null) return "";
   return new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }).format(price);
 }
