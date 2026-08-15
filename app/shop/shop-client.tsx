@@ -170,7 +170,8 @@ function Presentation360({
           </div>
           <div className="presentation-face presentation-back">
             {mode === "capsule" && <div className="capsule-label"><img src="/pocket-archives-logo.png" alt="" /><span><b>POCKET ARCHIVES</b><small>{label}</small></span></div>}
-            <div className="archive-card-back"><img src="/pocket-archives-logo.png" alt="" /><span>POCKET ARCHIVES</span><b>{label}</b><small>Permanent collection record · presentation only · no grade or authentication claim</small></div>
+            {mode === "sleeve" && <div className="sleeve-label"><b>POCKET ARCHIVES</b><small>{label}</small></div>}
+            <img className="presentation-card-image presentation-card-back-image" src="/shop/cards/pokemon-card-back.png" alt="Pokémon trading card back" draggable={false} />
           </div>
         </div>
       </div>
