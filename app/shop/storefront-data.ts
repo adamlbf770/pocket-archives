@@ -103,6 +103,7 @@ export type ArtistProgramProfile = {
 const object = (id: string) => demoInventory.find((item) => item.id === id)!;
 
 export const catalogItems: CatalogItem[] = [
+  { id: "CAT-GIRAFARIG-NEO", title: "Neo Genesis Girafarig 58/111", objectType: "Trading card", set: "Neo Genesis", catalogNumber: "58/111", year: 2000, artist: "Ken Sugimori" },
   { id: "CAT-BULBASAUR-BASE", title: "Base Set Bulbasaur 44/102", objectType: "Trading card", set: "Base Set", catalogNumber: "44/102", year: 1999, artist: "Mitsuhiro Arita" },
   { id: "CAT-HAUNTER-FOSSIL", title: "Fossil Haunter 21/62", objectType: "Trading card", set: "Fossil", catalogNumber: "21/62", year: 1999, artist: "Ken Sugimori" },
   { id: "CAT-PIKACHU-PROMO", title: "Pikachu Black Star Promo 1", objectType: "Promo card", set: "Wizards Black Star Promos", catalogNumber: "1", year: 1999, artist: "Ken Sugimori" },
@@ -145,6 +146,31 @@ function copy(id: number, catalogItemId: string, publicObjectId: string, mode: C
 
 // Every ID below occurs once and has exactly one current allocation.
 export const physicalCopies: PhysicalCopy[] = [
+  {
+    id: "PA-COPY-000016",
+    catalogItemId: "CAT-GIRAFARIG-NEO",
+    publicObjectId: "LIVE-001",
+    condition: object("LIVE-001").condition,
+    acquisitionCost: null,
+    acquisitionSource: "Pocket Archives founder collection",
+    allocation: { mode: "single", referenceId: null },
+    presentation: "raw",
+    imageIds: object("LIVE-001").images.map((image) => image.src),
+    storageLocation: "Pocket Archives inventory",
+    saleState: "available",
+    ownedByPocketArchives: true,
+    consigned: false,
+    consignorId: null,
+    agreementStatus: "not-applicable",
+    commissionRate: null,
+    minimumNet: null,
+    reserve: null,
+    insuranceValue: null,
+    intakeDate: "2026-08-15",
+    returnDate: null,
+    payoutStatus: "not-applicable",
+    demo: false,
+  },
   copy(1, "CAT-BULBASAUR-BASE", "DEMO-001", "single", "binder"),
   copy(2, "CAT-HAUNTER-FOSSIL", "DEMO-002", "privateSale", "private-room"),
   copy(3, "CAT-PIKACHU-PROMO", "DEMO-003", "single", "binder"),
@@ -230,8 +256,8 @@ export const futureArtistProgram: ArtistProgramProfile[] = [
   { id: "ARTIST-PROGRAM-PLACEHOLDER", name: "Artists at Pocket Archives", status: "future", originalWorkOnly: true, licensedWorkRequired: true, mediums: ["Original drawing", "Painting", "Print", "Independent card art", "Custom collectible"] },
 ];
 
-export const galleryObjectIds = ["DEMO-004", "DEMO-005", "DEMO-006", "DEMO-002"];
-export const binderObjectIds = ["DEMO-001", "DEMO-003", "DEMO-008", "DEMO-009", "DEMO-010", "DEMO-011"];
+export const galleryObjectIds = ["LIVE-001", "DEMO-004", "DEMO-005", "DEMO-006", "DEMO-002"];
+export const binderObjectIds = ["LIVE-001", "DEMO-001", "DEMO-003", "DEMO-008", "DEMO-009", "DEMO-010", "DEMO-011"];
 export const binderCollectionSlugs = ["yuka-morii-binder", "mew-binder"];
 export const privateSaleObjectIds = ["DEMO-002"];
 

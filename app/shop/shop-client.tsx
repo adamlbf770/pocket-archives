@@ -90,7 +90,7 @@ export function ShopHeader({ active = "shop" }: { active?: "shop" | "sales" }) {
 function DemoNotice() {
   return (
     <p className="shop-demo-notice">
-      <span aria-hidden="true" /> Sample listings — replace before launch
+      <span aria-hidden="true" /> Live inventory is photographed · Samples are labeled
     </p>
   );
 }
@@ -105,7 +105,7 @@ export function ObjectVisual({
   detail?: boolean;
 }) {
   const image = item.images[imageIndex];
-  if (!detail && item.images.length > 1)
+  if (!detail && item.category === "Curated Collections" && item.images.length > 1)
     return (
       <span
         className={`artifact-image artifact-image-stack card-count-${Math.min(item.images.length, 3)}`}
@@ -133,7 +133,11 @@ function CardViewer({
   const [side, setSide] = useState<"front" | "back">("front");
   const [dragging, setDragging] = useState(false);
   const drag = useRef<{ x: number; side: "front" | "back" } | null>(null);
-  const image = item.images[imageIndex] || item.images[0];
+  const selectedImage = item.images[imageIndex] || item.images[0];
+  const image =
+    selectedImage.view === "back"
+      ? item.images.find((candidate) => candidate.view === "front") || item.images[0]
+      : selectedImage;
   const scannedBack = item.images.find((candidate) => candidate.view === "back");
   const backImage = scannedBack?.src || "/shop/cards/pokemon-card-back.png?v=demo-2";
   const backAlt = scannedBack?.caption || "Demonstration Pokémon trading card back";
@@ -306,7 +310,9 @@ export function ShopLanding() {
               <ObjectVisual item={item} />
               <span>
                 <small>
-                  {item.commerceMode === "privateSale"
+                  {!item.demo
+                    ? "Live inventory · Available"
+                    : item.commerceMode === "privateSale"
                     ? "Available by private sale"
                     : item.category === "Curated Collections"
                       ? "Curated collection"
@@ -453,9 +459,9 @@ export function ArtifactPage({ item }: { item: InventoryItem }) {
       <section className="artifact-detail">
         <div className="artifact-gallery">
           {item.category === "Curated Collections" ? <ObjectVisual item={item} imageIndex={imageIndex} detail /> : <CardViewer item={item} imageIndex={imageIndex} />}
-          {item.images.length > 1 && (
+          {item.images.filter((image) => image.view !== "back").length > 1 && (
             <div className="artifact-thumbnails">
-              {item.images.map((image, index) => (
+              {item.images.map((image, index) => ({ image, index })).filter(({ image }) => image.view !== "back").map(({ image, index }) => (
                 <button
                   className={index === imageIndex ? "active" : ""}
                   key={`${image.src}-${index}`}

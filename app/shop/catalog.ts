@@ -69,7 +69,7 @@ export type InventoryItem = {
   sourceMetadata: string;
   rightsMetadata: string;
   featured: boolean;
-  demo: true;
+  demo: boolean;
 };
 
 export type CuratedCollection = {
@@ -114,6 +114,18 @@ function referenceScan(src: string, subject: string): ObjectImage {
   };
 }
 
+function ownedPhoto(src: string, caption: string, view: "front" | "back"): ObjectImage {
+  return {
+    src,
+    caption,
+    view,
+    creator: "Pocket Archives",
+    rightsHolder: "Pocket Archives",
+    rightsStatus: "allowed",
+    usageBasis: "Original photograph of physical inventory owned by Pocket Archives",
+  };
+}
+
 const demoVisuals = [
   demoCardImage("/shop/cards/bulbasaur-base.png", "Bulbasaur Base Set"),
   demoCardImage("/shop/cards/haunter-fossil.png", "Haunter Fossil"),
@@ -128,8 +140,7 @@ const starterVisuals = [
 ];
 const demoPlaceholder = demoVisuals[0];
 
-// DEMO INVENTORY — remove or replace this single array before live inventory launches.
-// No record below represents a physical item currently owned or offered by Pocket Archives.
+// Unified shop inventory. Sample records use demo: true; photographed physical inventory uses demo: false.
 export const demoInventory: InventoryItem[] = [
   {
     accessionNumber: "PA-0001", id: "DEMO-001", slug: "demo-1997-carddass-bulbasaur", title: "Bulbasaur", subtitle: "Pocket Monsters Carddass — demonstration record", objectType: "Collectible card", category: "Carddass",
@@ -227,6 +238,68 @@ demoInventory.push(
   },
 );
 
+// LIVE INVENTORY — first photographed physical listing.
+demoInventory.push({
+  accessionNumber: "PA-0012",
+  id: "LIVE-001",
+  slug: "girafarig-neo-genesis-58-111",
+  title: "Girafarig",
+  subtitle: "2000 Neo Genesis 58/111 — live card test",
+  objectType: "Trading card",
+  category: "Cards",
+  description: "The first live Pocket Archives inventory test: an English Neo Genesis Girafarig photographed front and back and offered as a single card.",
+  archivalNote: "Girafarig’s two-headed silhouette is especially suited to Ken Sugimori’s clean early character language, while Neo Genesis records Pokémon’s first major expansion beyond Kanto.",
+  culturalSignificance: "A modest, accessible card marking the transition from demonstration listings to photographed Pocket Archives inventory.",
+  year: 2000,
+  approximateYear: false,
+  era: "Neo era · 2000",
+  country: "United States",
+  language: "English",
+  artist: "Ken Sugimori",
+  illustrator: "Ken Sugimori",
+  manufacturer: "Wizards of the Coast",
+  publisher: "Wizards of the Coast",
+  set: "Neo Genesis",
+  series: "Neo",
+  cardNumber: "58/111",
+  catalogNumber: "PA-0012",
+  edition: "Unlimited",
+  printing: "English",
+  condition: "Moderately Played",
+  conditionNotes: "Visible edge whitening and corner wear on the reverse, with general handling wear. Review both original photographs before inquiring.",
+  dimensions: "Approx. 63.5 × 88 mm",
+  provenance: "Owned and photographed by Pocket Archives; entered as the first live inventory test card.",
+  acquisitionSource: "Pocket Archives founder collection",
+  acquisitionDate: "2026-08-15",
+  pokemonIds: [203],
+  pokemonNames: ["Girafarig"],
+  artistIds: ["ken-sugimori"],
+  relatedMuseumIds: ["public-visual-identity"],
+  relatedArchiveIds: [],
+  relatedCardIds: [],
+  relatedCollectionIds: [],
+  tags: ["Live Inventory", "Neo Genesis", "Sugimori", "Singles", "Cards"],
+  fromArchive: false,
+  physicalOwnership: true,
+  commerceMode: "fixedPrice",
+  recordState: "available",
+  availabilityStatus: "available",
+  price: 0.5,
+  currency: "USD",
+  quantity: 1,
+  reserved: false,
+  soldDate: null,
+  placedInPrivateCollection: false,
+  images: [
+    ownedPhoto("/shop/inventory/pa-0012-front.jpg", "Girafarig Neo Genesis 58/111 — photographed front", "front"),
+    ownedPhoto("/shop/inventory/pa-0012-back.jpg", "Girafarig Neo Genesis 58/111 — photographed reverse", "back"),
+  ],
+  sourceMetadata: "Original front and back inventory photographs made by Pocket Archives on 2026-08-15.",
+  rightsMetadata: "Original Pocket Archives inventory photography.",
+  featured: true,
+  demo: false,
+});
+
 demoInventory.push(
   {
     ...demoInventory[0],
@@ -286,5 +359,11 @@ export function recordStateLabel(state: RecordState) {
 }
 export function formatPrice(price: number | null, currency: string) {
   if (price === null) return "";
-  return new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }).format(price);
+  const showCents = price % 1 !== 0;
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency,
+    minimumFractionDigits: showCents ? 2 : 0,
+    maximumFractionDigits: showCents ? 2 : 0,
+  }).format(price);
 }
