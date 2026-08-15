@@ -621,7 +621,8 @@ footer p { font-family:Georgia,serif; color:#888; }
 .presentation-360-stage { perspective:1500px; user-select:none; }
 .presentation-360-toolbar { position:absolute; z-index:5; top:16px; left:18px; right:18px; display:flex; align-items:center; justify-content:space-between; pointer-events:none; }
 .presentation-360-toolbar span { color:#77736a; text-transform:uppercase; letter-spacing:.11em; font-size:7px; font-weight:900; }
-.presentation-360-toolbar button { min-width:54px; min-height:34px; border:1px solid rgba(25,24,18,.26); border-radius:999px; background:rgba(250,248,241,.82); color:var(--ink); cursor:pointer; pointer-events:auto; text-transform:uppercase; letter-spacing:.09em; font-size:7px; font-weight:900; backdrop-filter:blur(10px); }
+.presentation-360-controls { display:flex; gap:5px; pointer-events:auto; }
+.presentation-360-toolbar button { min-width:54px; min-height:34px; border:1px solid rgba(25,24,18,.26); border-radius:999px; background:rgba(250,248,241,.9); color:var(--ink); cursor:pointer; pointer-events:auto; text-transform:uppercase; letter-spacing:.09em; font-size:7px; font-weight:900; backdrop-filter:blur(10px); }
 .presentation-360-toolbar button:hover { background:var(--ink); color:#fff; }
 .presentation-perspective { width:100%; height:100%; display:grid; place-items:center; perspective:1500px; cursor:grab; touch-action:pan-y; }
 .presentation-perspective:active { cursor:grabbing; }
@@ -634,11 +635,15 @@ footer p { font-family:Georgia,serif; color:#888; }
 .presentation-back { transform:rotateY(180deg); -webkit-transform:rotateY(180deg); }
 .presentation-object-raw .presentation-face { border-radius:4px; }
 .presentation-object-raw .presentation-card-image { width:100%; height:100%; max-width:none; max-height:none; object-fit:contain; mix-blend-mode:normal; }
-.presentation-object-sleeve .presentation-face { padding:8% 7% 11%; border:1px solid rgba(58,77,86,.42); border-radius:10px; background:linear-gradient(135deg,rgba(255,255,255,.76),rgba(207,225,230,.32)); box-shadow:inset 0 0 0 5px rgba(255,255,255,.2),inset 0 -28px 35px rgba(119,151,161,.09); }
+.presentation-object-sleeve .presentation-face { padding:7% 6% 12%; border:1px solid rgba(255,255,255,.22); border-radius:10px; background:#11110f; box-shadow:inset 0 0 0 4px rgba(255,255,255,.055),inset 0 -28px 35px rgba(0,0,0,.28); }
 .presentation-object-sleeve .presentation-card-image { width:100%; height:100%; max-width:none; max-height:none; object-fit:contain; mix-blend-mode:normal; filter:contrast(.99) saturate(.98); }
-.sleeve-label { position:absolute; z-index:2; left:8%; right:8%; bottom:2.6%; display:flex; justify-content:space-between; align-items:center; gap:8px; color:#5e6b6f; }
+.sleeve-label { position:absolute; z-index:2; left:7%; right:7%; bottom:2.7%; display:flex; justify-content:space-between; align-items:center; gap:8px; color:#fff; }
 .sleeve-label b, .sleeve-label small { font-size:6px; letter-spacing:.09em; }
 .sleeve-label small { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.black-sleeve-back { position:absolute; inset:0; z-index:2; padding:18%; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#11110f; color:#fff; text-align:center; }
+.black-sleeve-back img { width:58% !important; height:auto !important; max-width:180px !important; max-height:180px !important; object-fit:contain; mix-blend-mode:normal !important; }
+.black-sleeve-back b { margin-top:12%; font-size:clamp(9px,1.1vw,14px); letter-spacing:.1em; }
+.black-sleeve-back small { margin-top:6%; color:#a7a49c; font-size:clamp(6px,.65vw,8px); letter-spacing:.09em; }
 .presentation-object-capsule .presentation-face { padding:18% 8% 7%; border:7px solid rgba(255,255,255,.84); border-radius:13px; background:linear-gradient(145deg,rgba(255,255,255,.82),rgba(202,212,215,.5)); box-shadow:inset 0 0 0 1px rgba(25,24,18,.22),inset 0 0 30px rgba(255,255,255,.64); }
 .presentation-object-capsule .presentation-face:after { content:""; position:absolute; inset:4px; border:1px solid rgba(25,24,18,.12); border-radius:7px; pointer-events:none; }
 .presentation-object-capsule .presentation-card-image { width:100%; height:100%; max-width:none; max-height:none; object-fit:contain; mix-blend-mode:normal; filter:contrast(.99) saturate(.98); }

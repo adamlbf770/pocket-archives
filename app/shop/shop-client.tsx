@@ -137,6 +137,9 @@ function Presentation360({
   const [dragging, setDragging] = useState(false);
   const drag = useRef<{ x: number; rotation: number } | null>(null);
   const image = item.images[imageIndex] || item.images[0];
+  const scannedBack = item.images.find((candidate) => candidate.view === "back");
+  const backImage = scannedBack?.src || "/shop/cards/pokemon-card-back.png?v=demo-2";
+  const backAlt = scannedBack?.caption || "Demonstration Pokémon trading card back";
   const region = item.country === "Japan" ? "JP" : item.country.slice(0, 2).toUpperCase();
   const label = `${item.accessionNumber.replace("-", " ")} · ${item.title.toUpperCase()} · ${region}`;
   const mode = presentationId === "capsule" ? "capsule" : presentationId === "sleeve" ? "sleeve" : "raw";
@@ -160,7 +163,13 @@ function Presentation360({
 
   return (
     <div className="artifact-primary presentation-360-stage">
-      <div className="presentation-360-toolbar"><span>Drag to rotate · 360°</span><button onClick={() => setRotation((value) => value + 180)}>Flip</button></div>
+      <div className="presentation-360-toolbar">
+        <span>Drag to rotate · 360°</span>
+        <div className="presentation-360-controls" aria-label="Choose card side">
+          <button onClick={() => setRotation(0)}>Front</button>
+          <button onClick={() => setRotation(180)}>Back</button>
+        </div>
+      </div>
       <div className="presentation-perspective" onPointerDown={beginDrag} onPointerMove={continueDrag} onPointerUp={endDrag} onPointerCancel={endDrag}>
         <div className={`presentation-object presentation-object-${mode} ${dragging ? "dragging" : ""}`} style={{ transform: `rotateY(${rotation}deg)` }}>
           <div className="presentation-face presentation-front">
@@ -170,12 +179,15 @@ function Presentation360({
           </div>
           <div className="presentation-face presentation-back">
             {mode === "capsule" && <div className="capsule-label"><img src="/pocket-archives-logo.png" alt="" /><span><b>POCKET ARCHIVES</b><small>{label}</small></span></div>}
-            {mode === "sleeve" && <div className="sleeve-label"><b>POCKET ARCHIVES</b><small>{label}</small></div>}
-            <img className="presentation-card-image presentation-card-back-image" src="/shop/cards/pokemon-card-back.png" alt="Pokémon trading card back" draggable={false} />
+            {mode === "sleeve" ? (
+              <div className="black-sleeve-back"><img src="/pocket-archives-logo.png" alt="Pocket Archives" /><b>POCKET ARCHIVES</b><small>{label}</small></div>
+            ) : (
+              <img className="presentation-card-image presentation-card-back-image" src={backImage} alt={backAlt} draggable={false} />
+            )}
           </div>
         </div>
       </div>
-      <small>{mode === "raw" ? image.caption : mode === "sleeve" ? "Archival sleeve presentation study" : "Pocket Archives capsule presentation study"}</small>
+      <small>{mode === "raw" ? image.caption : mode === "sleeve" ? "Black Pocket Archives sleeve — demonstration render" : "Pocket Archives capsule — demonstration render"}</small>
     </div>
   );
 }
