@@ -133,9 +133,9 @@ function Presentation360({
   presentationId: string;
   imageIndex: number;
 }) {
-  const [rotation, setRotation] = useState(0);
+  const [side, setSide] = useState<"front" | "back">("front");
   const [dragging, setDragging] = useState(false);
-  const drag = useRef<{ x: number; rotation: number } | null>(null);
+  const drag = useRef<{ x: number; side: "front" | "back" } | null>(null);
   const image = item.images[imageIndex] || item.images[0];
   const scannedBack = item.images.find((candidate) => candidate.view === "back");
   const backImage = scannedBack?.src || "/shop/cards/pokemon-card-back.png?v=demo-2";
@@ -145,14 +145,16 @@ function Presentation360({
   const mode = presentationId === "capsule" ? "capsule" : presentationId === "sleeve" ? "sleeve" : "raw";
 
   function beginDrag(event: ReactPointerEvent<HTMLDivElement>) {
-    drag.current = { x: event.clientX, rotation };
+    drag.current = { x: event.clientX, side };
     setDragging(true);
     event.currentTarget.setPointerCapture(event.pointerId);
   }
 
   function continueDrag(event: ReactPointerEvent<HTMLDivElement>) {
     if (!drag.current) return;
-    setRotation(drag.current.rotation + (event.clientX - drag.current.x) * 0.72);
+    const distance = event.clientX - drag.current.x;
+    if (distance < -36) setSide("back");
+    if (distance > 36) setSide("front");
   }
 
   function endDrag(event: ReactPointerEvent<HTMLDivElement>) {
@@ -164,22 +166,22 @@ function Presentation360({
   return (
     <div className="artifact-primary presentation-360-stage">
       <div className="presentation-360-toolbar">
-        <span>Drag to rotate · 360°</span>
+        <span>Swipe or choose a side</span>
         <div className="presentation-360-controls" aria-label="Choose card side">
-          <button onClick={() => setRotation(0)}>Front</button>
-          <button onClick={() => setRotation(180)}>Back</button>
+          <button className={side === "front" ? "active" : ""} aria-pressed={side === "front"} onClick={() => setSide("front")}>Front</button>
+          <button className={side === "back" ? "active" : ""} aria-pressed={side === "back"} onClick={() => setSide("back")}>Back</button>
         </div>
       </div>
       <div className="presentation-perspective" onPointerDown={beginDrag} onPointerMove={continueDrag} onPointerUp={endDrag} onPointerCancel={endDrag}>
-        <div className={`presentation-object presentation-object-${mode} ${dragging ? "dragging" : ""}`} style={{ transform: `rotateY(${rotation}deg)` }}>
-          <div className="presentation-face presentation-front">
+        <div className={`presentation-object presentation-object-${mode} presentation-side-${side} ${dragging ? "dragging" : ""}`}>
+          <div key={`${mode}-${side}`} className="presentation-face">
             {mode === "capsule" && <div className="capsule-label"><img src="/pocket-archives-logo.png" alt="" /><span><b>POCKET ARCHIVES</b><small>{label}</small></span></div>}
-            {mode === "sleeve" && <div className="sleeve-label"><b>POCKET ARCHIVES</b><small>{label}</small></div>}
-            <img className="presentation-card-image" src={image.src} alt={image.caption} draggable={false} />
-          </div>
-          <div className="presentation-face presentation-back">
-            {mode === "capsule" && <div className="capsule-label"><img src="/pocket-archives-logo.png" alt="" /><span><b>POCKET ARCHIVES</b><small>{label}</small></span></div>}
-            {mode === "sleeve" ? (
+            {side === "front" ? (
+              <>
+                {mode === "sleeve" && <div className="sleeve-label"><b>POCKET ARCHIVES</b><small>{label}</small></div>}
+                <img className="presentation-card-image" src={image.src} alt={image.caption} draggable={false} />
+              </>
+            ) : mode === "sleeve" ? (
               <div className="black-sleeve-back"><img src="/pocket-archives-logo.png" alt="Pocket Archives" /><b>POCKET ARCHIVES</b><small>{label}</small></div>
             ) : (
               <img className="presentation-card-image presentation-card-back-image" src={backImage} alt={backAlt} draggable={false} />

@@ -623,16 +623,14 @@ footer p { font-family:Georgia,serif; color:#888; }
 .presentation-360-toolbar span { color:#77736a; text-transform:uppercase; letter-spacing:.11em; font-size:7px; font-weight:900; }
 .presentation-360-controls { display:flex; gap:5px; pointer-events:auto; }
 .presentation-360-toolbar button { min-width:54px; min-height:34px; border:1px solid rgba(25,24,18,.26); border-radius:999px; background:rgba(250,248,241,.9); color:var(--ink); cursor:pointer; pointer-events:auto; text-transform:uppercase; letter-spacing:.09em; font-size:7px; font-weight:900; backdrop-filter:blur(10px); }
-.presentation-360-toolbar button:hover { background:var(--ink); color:#fff; }
+.presentation-360-toolbar button:hover, .presentation-360-toolbar button.active { background:var(--ink); color:#fff; }
 .presentation-perspective { width:100%; height:100%; display:grid; place-items:center; perspective:1500px; cursor:grab; touch-action:pan-y; }
 .presentation-perspective:active { cursor:grabbing; }
-.presentation-object { width:min(52%,350px); aspect-ratio:2.5/3.5; position:relative; transform-style:preserve-3d; transition:transform .5s cubic-bezier(.2,.75,.2,1); filter:drop-shadow(0 28px 30px rgba(25,24,18,.22)); }
-.presentation-object.dragging { transition:none; }
+.presentation-object { width:min(52%,350px); aspect-ratio:2.5/3.5; position:relative; filter:drop-shadow(0 28px 30px rgba(25,24,18,.22)); }
 .presentation-object-capsule { width:min(58%,390px); aspect-ratio:2.72/4.18; }
 .presentation-object-sleeve { width:min(56%,370px); aspect-ratio:2.72/3.82; }
-.presentation-face { position:absolute; inset:0; overflow:hidden; display:grid; place-items:center; backface-visibility:hidden; -webkit-backface-visibility:hidden; }
-.presentation-front { transform:rotateY(0deg); -webkit-transform:rotateY(0deg); }
-.presentation-back { transform:rotateY(180deg); -webkit-transform:rotateY(180deg); }
+.presentation-face { position:absolute; inset:0; overflow:hidden; display:grid; place-items:center; animation:presentation-side-in .32s cubic-bezier(.2,.75,.2,1); }
+@keyframes presentation-side-in { from { opacity:.35; transform:rotateY(82deg) scale(.985); } to { opacity:1; transform:rotateY(0) scale(1); } }
 .presentation-object-raw .presentation-face { border-radius:4px; }
 .presentation-object-raw .presentation-card-image { width:100%; height:100%; max-width:none; max-height:none; object-fit:contain; mix-blend-mode:normal; }
 .presentation-object-sleeve .presentation-face { padding:7% 6% 12%; border:1px solid rgba(255,255,255,.22); border-radius:10px; background:#11110f; box-shadow:inset 0 0 0 4px rgba(255,255,255,.055),inset 0 -28px 35px rgba(0,0,0,.28); }
