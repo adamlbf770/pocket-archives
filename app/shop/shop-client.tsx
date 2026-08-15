@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import {
   ARCHIVE_ORIGIN,
   SHOP_HOME,
@@ -121,6 +121,61 @@ export function ObjectVisual({
       {detail && <small>{image.caption}</small>}
       <img src={image.src} alt={image.caption} />
     </span>
+  );
+}
+
+function Presentation360({
+  item,
+  presentationId,
+  imageIndex,
+}: {
+  item: InventoryItem;
+  presentationId: string;
+  imageIndex: number;
+}) {
+  const [rotation, setRotation] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const drag = useRef<{ x: number; rotation: number } | null>(null);
+  const image = item.images[imageIndex] || item.images[0];
+  const region = item.country === "Japan" ? "JP" : item.country.slice(0, 2).toUpperCase();
+  const label = `${item.accessionNumber.replace("-", " ")} · ${item.title.toUpperCase()} · ${region}`;
+  const mode = presentationId === "capsule" ? "capsule" : presentationId === "sleeve" ? "sleeve" : "raw";
+
+  function beginDrag(event: ReactPointerEvent<HTMLDivElement>) {
+    drag.current = { x: event.clientX, rotation };
+    setDragging(true);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+
+  function continueDrag(event: ReactPointerEvent<HTMLDivElement>) {
+    if (!drag.current) return;
+    setRotation(drag.current.rotation + (event.clientX - drag.current.x) * 0.72);
+  }
+
+  function endDrag(event: ReactPointerEvent<HTMLDivElement>) {
+    drag.current = null;
+    setDragging(false);
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+  }
+
+  return (
+    <div className="artifact-primary presentation-360-stage">
+      <div className="presentation-360-toolbar"><span>Drag to rotate · 360°</span><button onClick={() => setRotation((value) => value + 180)}>Flip</button></div>
+      <div className="presentation-perspective" onPointerDown={beginDrag} onPointerMove={continueDrag} onPointerUp={endDrag} onPointerCancel={endDrag}>
+        <div className={`presentation-object presentation-object-${mode} ${dragging ? "dragging" : ""}`} style={{ transform: `rotateY(${rotation}deg)` }}>
+          <div className="presentation-face presentation-front">
+            {mode === "capsule" && <div className="capsule-label"><img src="/pocket-archives-logo.png" alt="" /><span><b>POCKET ARCHIVES</b><small>{label}</small></span></div>}
+            {mode === "sleeve" && <div className="sleeve-label"><b>POCKET ARCHIVES</b><small>{label}</small></div>}
+            <img className="presentation-card-image" src={image.src} alt={image.caption} draggable={false} />
+          </div>
+          <div className="presentation-face presentation-back">
+            {mode === "capsule" && <div className="capsule-label"><img src="/pocket-archives-logo.png" alt="" /><span><b>POCKET ARCHIVES</b><small>{label}</small></span></div>}
+            <div className="archive-card-back"><img src="/pocket-archives-logo.png" alt="" /><span>POCKET ARCHIVES</span><b>{label}</b><small>Permanent collection record · presentation only · no grade or authentication claim</small></div>
+          </div>
+        </div>
+      </div>
+      <small>{mode === "raw" ? image.caption : mode === "sleeve" ? "Archival sleeve presentation study" : "Pocket Archives capsule presentation study"}</small>
+    </div>
   );
 }
 
@@ -405,7 +460,7 @@ export function ArtifactPage({ item }: { item: InventoryItem }) {
       <ShopHeader />
       <section className="artifact-detail">
         <div className="artifact-gallery">
-          <ObjectVisual item={item} imageIndex={imageIndex} detail />
+          {item.category === "Curated Collections" ? <ObjectVisual item={item} imageIndex={imageIndex} detail /> : <Presentation360 item={item} presentationId={presentationId} imageIndex={imageIndex} />}
           {item.images.length > 1 && (
             <div className="artifact-thumbnails">
               {item.images.map((image, index) => (
@@ -421,6 +476,7 @@ export function ArtifactPage({ item }: { item: InventoryItem }) {
               ))}
             </div>
           )}
+          {item.category !== "Curated Collections" && <div className="artifact-presentation-tabs" role="group" aria-label="Preview presentation"><span>View as</span>{presentationChoices.map((option) => <button className={presentationId === option.id ? "active" : ""} onClick={() => setPresentationId(option.id)} key={`gallery-${option.id}`}>{option.label}</button>)}</div>}
         </div>
         <article className="artifact-record">
           <Link className="artifact-back" href={SHOP_HOME}>
