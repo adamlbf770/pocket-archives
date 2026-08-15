@@ -21,7 +21,6 @@ import {
   galleryObjectIds,
   membersForCollection,
   presentationOptions,
-  presentationOptionsForObject,
   privateSaleObjectIds,
   storeCollections,
   type StoreCollection,
@@ -124,13 +123,11 @@ export function ObjectVisual({
   );
 }
 
-function Presentation360({
+function CardViewer({
   item,
-  presentationId,
   imageIndex,
 }: {
   item: InventoryItem;
-  presentationId: string;
   imageIndex: number;
 }) {
   const [side, setSide] = useState<"front" | "back">("front");
@@ -140,9 +137,6 @@ function Presentation360({
   const scannedBack = item.images.find((candidate) => candidate.view === "back");
   const backImage = scannedBack?.src || "/shop/cards/pokemon-card-back.png?v=demo-2";
   const backAlt = scannedBack?.caption || "Demonstration Pokémon trading card back";
-  const region = item.country === "Japan" ? "JP" : item.country.slice(0, 2).toUpperCase();
-  const label = `${item.accessionNumber.replace("-", " ")} · ${item.title.toUpperCase()} · ${region}`;
-  const mode = presentationId === "capsule" ? "capsule" : presentationId === "sleeve" ? "sleeve" : "raw";
 
   function beginDrag(event: ReactPointerEvent<HTMLDivElement>) {
     drag.current = { x: event.clientX, side };
@@ -173,23 +167,17 @@ function Presentation360({
         </div>
       </div>
       <div className="presentation-perspective" onPointerDown={beginDrag} onPointerMove={continueDrag} onPointerUp={endDrag} onPointerCancel={endDrag}>
-        <div className={`presentation-object presentation-object-${mode} presentation-side-${side} ${dragging ? "dragging" : ""}`}>
-          <div key={`${mode}-${side}`} className="presentation-face">
-            {mode === "capsule" && <div className="capsule-label"><img src="/pocket-archives-logo.png" alt="" /><span><b>POCKET ARCHIVES</b><small>{label}</small></span></div>}
+        <div className={`presentation-object presentation-object-raw presentation-side-${side} ${dragging ? "dragging" : ""}`}>
+          <div key={side} className="presentation-face">
             {side === "front" ? (
-              <>
-                {mode === "sleeve" && <div className="sleeve-label"><b>POCKET ARCHIVES</b><small>{label}</small></div>}
-                <img className="presentation-card-image" src={image.src} alt={image.caption} draggable={false} />
-              </>
-            ) : mode === "sleeve" ? (
-              <div className="black-sleeve-back"><img src="/pocket-archives-logo.png" alt="Pocket Archives" /><b>POCKET ARCHIVES</b><small>{label}</small></div>
+              <img className="presentation-card-image" src={image.src} alt={image.caption} draggable={false} />
             ) : (
               <img className="presentation-card-image presentation-card-back-image" src={backImage} alt={backAlt} draggable={false} />
             )}
           </div>
         </div>
       </div>
-      <small>{mode === "raw" ? image.caption : mode === "sleeve" ? "Black Pocket Archives sleeve — demonstration render" : "Pocket Archives capsule — demonstration render"}</small>
+      <small>{image.caption}</small>
     </div>
   );
 }
@@ -438,13 +426,6 @@ export function ShopLanding() {
 
 export function ArtifactPage({ item }: { item: InventoryItem }) {
   const [imageIndex, setImageIndex] = useState(0);
-  const presentationChoices = presentationOptionsForObject(item);
-  const [presentationId, setPresentationId] = useState(
-    presentationChoices[0]?.id || "raw",
-  );
-  const selectedPresentation =
-    presentationChoices.find((option) => option.id === presentationId) ||
-    presentationChoices[0];
   const copies = copiesForObject(item.id);
   const memberships = storeCollections.filter((collection) =>
     collection.physicalCopyIds.some((copyId) =>
@@ -466,16 +447,12 @@ export function ArtifactPage({ item }: { item: InventoryItem }) {
     ? "Waiting for photos from the live inventory."
     : item.sourceMetadata;
   const relatedLot = lotForObject(item.id);
-  const presentedTotal =
-    item.price !== null && selectedPresentation
-      ? item.price + selectedPresentation.priceAdjustment
-      : null;
   return (
     <main className="shop-shell">
       <ShopHeader />
       <section className="artifact-detail">
         <div className="artifact-gallery">
-          {item.category === "Curated Collections" ? <ObjectVisual item={item} imageIndex={imageIndex} detail /> : <Presentation360 item={item} presentationId={presentationId} imageIndex={imageIndex} />}
+          {item.category === "Curated Collections" ? <ObjectVisual item={item} imageIndex={imageIndex} detail /> : <CardViewer item={item} imageIndex={imageIndex} />}
           {item.images.length > 1 && (
             <div className="artifact-thumbnails">
               {item.images.map((image, index) => (
@@ -491,7 +468,6 @@ export function ArtifactPage({ item }: { item: InventoryItem }) {
               ))}
             </div>
           )}
-          {item.category !== "Curated Collections" && <div className="artifact-presentation-tabs" role="group" aria-label="Preview presentation"><span>View as</span>{presentationChoices.map((option) => <button className={presentationId === option.id ? "active" : ""} onClick={() => setPresentationId(option.id)} key={`gallery-${option.id}`}>{option.label}</button>)}</div>}
         </div>
         <article className="artifact-record">
           <Link className="artifact-back" href={SHOP_HOME}>
@@ -534,71 +510,6 @@ export function ArtifactPage({ item }: { item: InventoryItem }) {
               <strong>{statusLabel(item.availabilityStatus)}</strong>
             )}
           </div>
-          <section className="presentation-studio">
-            <header>
-              <span>Choose a presentation</span>
-              <p>Presentation is separate from the piece’s listed value.</p>
-            </header>
-            <div className="presentation-options">
-              {presentationChoices.map((option) => (
-                <button
-                  className={presentationId === option.id ? "active" : ""}
-                  onClick={() => setPresentationId(option.id)}
-                  key={option.id}
-                >
-                  <span>{option.label}</span>
-                  <small>
-                    {option.priceAdjustment
-                      ? `+${formatPrice(option.priceAdjustment, "USD")}`
-                      : "Included"}
-                  </small>
-                  <p>{option.description}</p>
-                </button>
-              ))}
-            </div>
-            {selectedPresentation && (
-              <div
-                className={`presentation-preview presentation-${selectedPresentation.id}`}
-              >
-                <div>
-                  {item.images
-                    .slice(
-                      0,
-                      selectedPresentation.id === "binder" ||
-                        selectedPresentation.id === "curatedSet"
-                        ? 3
-                        : 1,
-                    )
-                    .map((image, index) => (
-                      <img
-                        src={image.src}
-                        alt=""
-                        key={`${image.src}-preview-${index}`}
-                      />
-                    ))}
-                </div>
-                <span>
-                  <small>POCKET ARCHIVES · PRESENTATION STUDY</small>
-                  <b>{selectedPresentation.label}</b>
-                  <em>
-                    {copies.map((copy) => copy.id).join(" · ") ||
-                      item.accessionNumber}
-                  </em>
-                  <p>
-                    {selectedPresentation.packagingType} · QR links to this
-                    permanent listing. The capsule is presentation only and
-                    makes no grading or authentication claim.
-                  </p>
-                  {presentedTotal !== null && (
-                    <strong>
-                      Presented total ·{" "}
-                      {formatPrice(presentedTotal, item.currency)}
-                    </strong>
-                  )}
-                </span>
-              </div>
-            )}
-          </section>
           {relatedLot && (
             <Link
               className="related-sale-link"
@@ -904,7 +815,7 @@ export function CollectionExperience({
             const option = presentationOptions.find(
               (choice) => choice.id === id,
             );
-            return option ? (
+            return option?.available ? (
               <p key={id}>
                 <b>{option.label}</b>
                 <small>

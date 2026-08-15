@@ -115,7 +115,7 @@ export const catalogItems: CatalogItem[] = [
   { id: "CAT-MEIJI-CHARIZARD", title: "Meiji Get Card Charizard 006", objectType: "Snack premium card", set: "Pokémon Get Cards", catalogNumber: "006", year: 1997, artist: null },
 ];
 
-function copy(id: number, catalogItemId: string, publicObjectId: string, mode: CopyAllocationMode, referenceId: string | null, presentation: PresentationOptionId = "sleeve"): PhysicalCopy {
+function copy(id: number, catalogItemId: string, publicObjectId: string, mode: CopyAllocationMode, referenceId: string | null, presentation: PresentationOptionId = "raw"): PhysicalCopy {
   return {
     id: `PA-COPY-${String(id).padStart(6, "0")}`,
     catalogItemId,
@@ -163,9 +163,9 @@ export const physicalCopies: PhysicalCopy[] = [
 ];
 
 export const presentationOptions: PresentationOption[] = [
-  { id: "raw", label: "Piece only", description: "The card or collectible as listed, without an added Pocket Archives presentation.", priceAdjustment: 0, available: true, requiredQuantity: 1, packagingType: "Protective shipping sleeve" },
-  { id: "sleeve", label: "Archive Sleeve", description: "Archival-safe sleeve with a restrained Pocket Archives record label.", priceAdjustment: 4, available: true, requiredQuantity: 1, packagingType: "Archival sleeve" },
-  { id: "capsule", label: "Pocket Archives Capsule", description: "Reusable slab-style holder with accession label and QR link. Presentation only—no grade or authentication claim.", priceAdjustment: 18, available: true, requiredQuantity: 1, packagingType: "Reusable capsule" },
+  { id: "raw", label: "Piece only", description: "The card or collectible as listed, without an added Pocket Archives presentation.", priceAdjustment: 0, available: true, requiredQuantity: 1, packagingType: "Card or collectible only" },
+  { id: "sleeve", label: "Archive Sleeve", description: "Archival-safe sleeve with a restrained Pocket Archives record label.", priceAdjustment: 4, available: false, requiredQuantity: 1, packagingType: "Archival sleeve" },
+  { id: "capsule", label: "Pocket Archives Capsule", description: "Reusable slab-style holder with accession label and QR link. Presentation only—no grade or authentication claim.", priceAdjustment: 18, available: false, requiredQuantity: 1, packagingType: "Reusable capsule" },
   { id: "binder", label: "Pocket Archives Binder", description: "Placed into an archival binder page with a catalog label and digital collection link.", priceAdjustment: 24, available: true, requiredQuantity: 1, packagingType: "Archival binder page" },
   { id: "curatedSet", label: "Collection Presentation", description: "Binder, title page, curator note, piece list, and QR link for a multi-piece collection.", priceAdjustment: 42, available: true, requiredQuantity: 2, packagingType: "Curated collection binder" },
   { id: "custom", label: "Custom Presentation", description: "A future presentation configured for a specific piece or commissioned collection.", priceAdjustment: 0, available: false, requiredQuantity: 1, packagingType: "Custom" },
