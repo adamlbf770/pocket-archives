@@ -106,6 +106,7 @@ export const catalogItems: CatalogItem[] = [
   { id: "CAT-GIRAFARIG-NEO", title: "Neo Genesis Girafarig 58/111", objectType: "Trading card", set: "Neo Genesis", catalogNumber: "58/111", year: 2000, artist: "Ken Sugimori" },
   { id: "CAT-MARILL-EXPEDITION", title: "Expedition Marill 120/165", objectType: "Trading card", set: "Expedition Base Set", catalogNumber: "120/165", year: 2002, artist: "Satoshi Ohta" },
   { id: "CAT-DROWZEE-CARDDASS", title: "Bandai Carddass Drowzee 097", objectType: "Collectible card", set: "Pokémon Carddass Part 1 & 2", catalogNumber: "097", year: 1996, artist: "Ken Sugimori" },
+  { id: "CAT-SLOWBRO-CARDDASS", title: "Pocket Monsters Carddass Slowbro File No.080", objectType: "Collectible card", set: "Pocket Monsters Carddass", catalogNumber: "080", year: 1997, artist: null },
   { id: "CAT-BULBASAUR-BASE", title: "Base Set Bulbasaur 44/102", objectType: "Trading card", set: "Base Set", catalogNumber: "44/102", year: 1999, artist: "Mitsuhiro Arita" },
   { id: "CAT-HAUNTER-FOSSIL", title: "Fossil Haunter 21/62", objectType: "Trading card", set: "Fossil", catalogNumber: "21/62", year: 1999, artist: "Ken Sugimori" },
   { id: "CAT-PIKACHU-PROMO", title: "Pikachu Black Star Promo 1", objectType: "Promo card", set: "Wizards Black Star Promos", catalogNumber: "1", year: 1999, artist: "Ken Sugimori" },
@@ -223,6 +224,31 @@ export const physicalCopies: PhysicalCopy[] = [
     payoutStatus: "not-applicable",
     demo: false,
   },
+  {
+    id: "PA-COPY-000019",
+    catalogItemId: "CAT-SLOWBRO-CARDDASS",
+    publicObjectId: "LIVE-004",
+    condition: object("LIVE-004").condition,
+    acquisitionCost: null,
+    acquisitionSource: "Pocket Archives founder collection",
+    allocation: { mode: "single", referenceId: null },
+    presentation: "raw",
+    imageIds: object("LIVE-004").images.map((image) => image.src),
+    storageLocation: "Pocket Archives inventory",
+    saleState: "available",
+    ownedByPocketArchives: true,
+    consigned: false,
+    consignorId: null,
+    agreementStatus: "not-applicable",
+    commissionRate: null,
+    minimumNet: null,
+    reserve: null,
+    insuranceValue: null,
+    intakeDate: "2026-08-15",
+    returnDate: null,
+    payoutStatus: "not-applicable",
+    demo: false,
+  },
   copy(1, "CAT-BULBASAUR-BASE", "DEMO-001", "single", "binder"),
   copy(2, "CAT-HAUNTER-FOSSIL", "DEMO-002", "privateSale", "private-room"),
   copy(3, "CAT-PIKACHU-PROMO", "DEMO-003", "single", "binder"),
@@ -308,8 +334,8 @@ export const futureArtistProgram: ArtistProgramProfile[] = [
   { id: "ARTIST-PROGRAM-PLACEHOLDER", name: "Artists at Pocket Archives", status: "future", originalWorkOnly: true, licensedWorkRequired: true, mediums: ["Original drawing", "Painting", "Print", "Independent card art", "Custom collectible"] },
 ];
 
-export const galleryObjectIds = ["LIVE-002", "LIVE-003", "LIVE-001", "DEMO-004", "DEMO-005", "DEMO-006", "DEMO-002"];
-export const binderObjectIds = ["LIVE-002", "LIVE-003", "LIVE-001", "DEMO-001", "DEMO-003", "DEMO-008", "DEMO-009", "DEMO-010", "DEMO-011"];
+export const galleryObjectIds = ["LIVE-004", "LIVE-002", "LIVE-003", "LIVE-001", "DEMO-004", "DEMO-005", "DEMO-006", "DEMO-002"];
+export const binderObjectIds = ["LIVE-004", "LIVE-002", "LIVE-003", "LIVE-001", "DEMO-001", "DEMO-003", "DEMO-008", "DEMO-009", "DEMO-010", "DEMO-011"];
 export const binderCollectionSlugs = ["yuka-morii-binder", "mew-binder"];
 export const privateSaleObjectIds = ["DEMO-002"];
 
