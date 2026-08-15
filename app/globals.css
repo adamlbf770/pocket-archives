@@ -28,7 +28,8 @@ button { color:inherit; }
 .explore-button { color:#fff; border:0; border-bottom:1px solid #fff; background:transparent; padding:0 0 9px; text-decoration:none; text-transform:uppercase; letter-spacing:.13em; font-size:11px; font-weight:900; display:inline-flex; gap:30px; cursor:pointer; }
 .explore-button span { color:var(--orange); font-size:16px; }
 .hero-gallery { position:relative; z-index:1; min-height:520px; }
-.feature-card { position:absolute; margin:0; border:0; cursor:default; border-radius:3px; padding:0; overflow:hidden; box-shadow:0 24px 60px rgba(0,0,0,.35); }
+.feature-card { position:absolute; margin:0; border:0; cursor:default; border-radius:3px; padding:0; overflow:hidden; box-shadow:0 24px 60px rgba(0,0,0,.35); transition:transform .38s cubic-bezier(.2,.8,.2,1),box-shadow .38s ease; }
+.feature-card:hover { transform:translateY(-9px) rotate(0deg) scale(1.025) !important; z-index:5; box-shadow:0 34px 78px rgba(0,0,0,.52); }
 .feature-card img { width:100%; height:100%; object-fit:contain; display:block; padding:8%; }
 .feature-number { position:absolute; top:12px; left:14px; color:rgba(0,0,0,.35); font-weight:900; font-size:10px; z-index:1; letter-spacing:.1em; }
 .feature-1 { width:43%; height:54%; background:#f8eeb5; left:4%; top:1%; transform:rotate(-5deg); }
