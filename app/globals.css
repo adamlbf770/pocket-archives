@@ -626,7 +626,7 @@ footer p { font-family:Georgia,serif; color:#888; }
 .presentation-360-toolbar button:hover, .presentation-360-toolbar button.active { background:var(--ink); color:#fff; }
 .presentation-perspective { width:100%; height:100%; display:grid; place-items:center; perspective:1500px; cursor:grab; touch-action:pan-y; }
 .presentation-perspective:active { cursor:grabbing; }
-.presentation-object { width:min(52%,350px); aspect-ratio:2.5/3.5; position:relative; filter:drop-shadow(0 28px 30px rgba(25,24,18,.22)); }
+.presentation-object { width:min(88%,480px); aspect-ratio:2.5/3.5; position:relative; filter:drop-shadow(0 28px 30px rgba(25,24,18,.22)); }
 .presentation-object-capsule { width:min(58%,390px); aspect-ratio:2.72/4.18; }
 .presentation-object-sleeve { width:min(56%,370px); aspect-ratio:2.72/3.82; }
 .presentation-face { position:absolute; inset:0; overflow:hidden; display:grid; place-items:center; animation:presentation-side-in .32s cubic-bezier(.2,.75,.2,1); }
@@ -1223,7 +1223,7 @@ body {
   .archive-index button { min-height:112px; }
   .development-card:nth-child(n), .sheet-card:nth-child(n) { transform:none; }
   .museum-launch { background:linear-gradient(155deg,#f1532b 0 84%,#dce94f 84%); }
-  .presentation-object { width:min(68%,310px); }
+  .presentation-object { width:min(88%,390px); }
   .presentation-object-sleeve, .presentation-object-capsule { width:min(76%,340px); }
   .presentation-360-toolbar { top:12px; left:12px; right:12px; }
   .artifact-presentation-tabs > span { display:none; }
