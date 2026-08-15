@@ -402,7 +402,7 @@ export default function Home() {
     return () => window.removeEventListener("keydown", onKey);
   });
 
-  const featured = useMemo(() => ["Bulbasaur", "Charizard", "Pikachu", "Gengar", "Eevee"].map((name) => art.find((item) => item.title === name && item.category === "generation")).filter(Boolean) as PokemonArt[], [art]);
+  const featured = useMemo(() => ["Bulbasaur RG", "Gengar RG", "Charizard RG", "Pikachu RG", "Eevee RG"].map((title) => art.find((item) => item.title === title && item.collection === "Red and Green")).filter(Boolean) as PokemonArt[], [art]);
   const counts = useMemo(() => ({ references: setteiDirectory.reduce((total, group) => total + group.links.length, 0) }), [setteiDirectory]);
   useEffect(() => setVisible(PAGE_SIZE), [query, filter, sort, view]);
 
@@ -540,7 +540,7 @@ export default function Home() {
 
       <section className="hero" id="top">
         <div className="hero-copy"><p className="eyebrow"><span /> Pokémon design history, preserved</p><h1>From first sketch.<br /><em>To finished world.</em></h1><p className="hero-intro">A visual archive of prototype creatures, character studies, production sheets, and the ideas behind Pokémon’s evolving design language.</p><button className="explore-button" onClick={() => openTopLevelPage("archive")}>Enter the archive <span>↓</span></button></div>
-        <div className="hero-gallery" aria-label="Featured archive artwork">{featured.map((item, index) => <button key={item.id} className={`feature-card feature-${index + 1}`} onClick={() => setSelected(item)} aria-label={`View the ${item.title} archive record`}><span className="feature-number">{String(item.dex).padStart(4, "0")}</span><img src={item.src} alt={item.title} /></button>)}{!featured.length && <div className="hero-loader">Cataloguing<br />the archive…</div>}</div>
+        <div className="hero-gallery" aria-label="Vintage Ken Sugimori Pokémon artwork">{featured.map((item, index) => <figure key={item.id} className={`feature-card feature-${index + 1}`}><span className="feature-number">{String(item.dex).padStart(4, "0")}</span><img src={item.src} alt={`${item.title.replace(" RG", "")} · vintage Ken Sugimori Red and Green artwork`} /></figure>)}{!featured.length && <div className="hero-loader">Cataloguing<br />the archive…</div>}</div>
         <div className="hero-stats"><span><b>{art.length ? art.length.toLocaleString() : "—"}</b> archived images</span><span><b>{groups.filter((group) => group.dex).length || "—"}</b> species indexed</span><span><b>{counts.references || "—"}</b> reference sheets</span></div>
       </section>
 
