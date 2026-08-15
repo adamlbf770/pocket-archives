@@ -197,6 +197,8 @@ export default function Home() {
   const [museumWing, setMuseumWing] = useState<"lobby" | "periods" | "research">("lobby");
   const [referenceImageError, setReferenceImageError] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
+  const museumTextRef = useRef<HTMLElement>(null);
+  const museumTouchStart = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     if (window.location.hostname === "shop.pocketarchives.com") {
@@ -352,12 +354,17 @@ export default function Home() {
   const selectedPanelPosition = selectedPanel ? museumReadingSequence.findIndex((panel) => panel.id === selectedPanel.id) : -1;
 
   useEffect(() => {
+    if (tourRoom === null) return;
+    museumTextRef.current?.scrollTo({ top: 0, behavior: "auto" });
+  }, [tourRoom]);
+
+  useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "/" && document.activeElement?.tagName !== "INPUT") { event.preventDefault(); searchRef.current?.focus(); }
       if (tourRoom !== null) {
         if (event.key === "Escape") setTourRoom(null);
-        if (event.key === "ArrowRight") setTourRoom((tourRoom + 1) % museumRooms.length);
-        if (event.key === "ArrowLeft") setTourRoom((tourRoom - 1 + museumRooms.length) % museumRooms.length);
+        if (event.key === "ArrowRight" && tourRoom < museumRooms.length - 1) setTourRoom(tourRoom + 1);
+        if (event.key === "ArrowLeft" && tourRoom > 0) setTourRoom(tourRoom - 1);
         return;
       }
       if (selectedPanel) {
@@ -472,6 +479,10 @@ export default function Home() {
     if (next >= 0 && next < museumReadingSequence.length) setSelectedPanel(museumReadingSequence[next]);
   }
 
+  function moveMuseumTour(direction: number) {
+    setTourRoom((room) => room === null ? 0 : Math.min(museumRooms.length - 1, Math.max(0, room + direction)));
+  }
+
   function renderGroupCard(group: PokemonGroup) {
     return (
       <article className="art-card" key={group.key}>
@@ -544,7 +555,7 @@ export default function Home() {
         {view !== "museum" ? <div className="filter-panel">
           <label className="search-box"><span aria-hidden="true">⌕</span><input ref={searchRef} value={query} onChange={(event) => setQuery(event.target.value)} placeholder={view === "references" ? "Search Pokémon, prototype, pose, or resource…" : "Search saved archive records…"} aria-label={view === "references" ? "Search reference library" : "Search saved archive records"} /><kbd>/</kbd></label>
           {view === "references" ? <p className="favorites-note">Tap any sheet to study it here in the archive. Use the arrows to move through the collection without leaving the site.</p> : <p className="favorites-note">Your saved archive records live here on this device.</p>}
-        </div> : <div className="museum-visitor-guide"><div><span>Your visit</span><b>{museumWing === "lobby" ? "Begin with the full chronological tour." : museumWing === "periods" ? "You are in the Design Lab." : "You are at the Evidence Desk."}</b></div><ol><li><strong>01</strong><span>History tour</span><small>1965 to the present</small></li><li><strong>02</strong><span>Design lab</span><small>The original 190 slots</small></li><li><strong>03</strong><span>Evidence desk</span><small>How we know</small></li></ol></div>}
+        </div> : <div className="museum-visitor-guide"><div><span>Your visit</span><b>{museumWing === "lobby" ? "Begin with the full chronological tour." : museumWing === "periods" ? "You are in the Design Lab." : "You are at the Evidence Desk."}</b></div><ol><li><button className={museumWing === "lobby" ? "active" : ""} onClick={() => setMuseumWing("lobby")}><strong>01</strong><span>History tour</span><small>1965 to the present</small></button></li><li><button className={museumWing === "periods" ? "active" : ""} onClick={() => setMuseumWing("periods")}><strong>02</strong><span>Design lab</span><small>The original 190 slots</small></button></li><li><button className={museumWing === "research" ? "active" : ""} onClick={() => setMuseumWing("research")}><strong>03</strong><span>Evidence desk</span><small>How we know</small></button></li></ol></div>}
 
         {view !== "museum" && <div className="results-bar"><p>{view === "references" ? <><b>{archiveSection === "alpha" ? developmentResults.length.toLocaleString() : archiveSection === "sketches" ? designResults.length.toLocaleString() : archiveSection === "references" ? referenceItems.length.toLocaleString() : resourceResults.length.toLocaleString()}</b> {archiveSection === "alpha" ? "alpha & beta plates" : archiveSection === "sketches" ? "character sketch groups" : archiveSection === "references" ? "production sheets" : "artist resources"}</> : <><b>{activeGroups.length.toLocaleString()}</b> saved records</>}</p><div className="results-controls">{view === "favorites" && <div className="display-toggle" role="group" aria-label="Display style"><button className={displayMode === "grid" ? "active" : ""} onClick={() => changeDisplay("grid")} aria-pressed={displayMode === "grid"}><span>▦</span> Grid</button><button className={displayMode === "list" ? "active" : ""} onClick={() => changeDisplay("list")} aria-pressed={displayMode === "list"}><span>☰</span> Names</button></div>}</div></div>}
 
@@ -612,10 +623,10 @@ export default function Home() {
         </aside>
       </div>}
 
-      {tourRoom !== null && <div className="museum-tour" role="dialog" aria-modal="true" aria-label={`Museum tour room ${tourRoom + 1}: ${museumRooms[tourRoom].title}`}>
+      {tourRoom !== null && <div className="museum-tour" role="dialog" aria-modal="true" aria-label={`Museum tour room ${tourRoom + 1}: ${museumRooms[tourRoom].title}`} onTouchStart={(event) => { const touch = event.touches[0]; museumTouchStart.current = { x: touch.clientX, y: touch.clientY }; }} onTouchEnd={(event) => { const start = museumTouchStart.current; museumTouchStart.current = null; if (!start) return; const touch = event.changedTouches[0]; const deltaX = touch.clientX - start.x; const deltaY = touch.clientY - start.y; if (Math.abs(deltaX) > 55 && Math.abs(deltaX) > Math.abs(deltaY) * 1.25) moveMuseumTour(deltaX < 0 ? 1 : -1); }}>
         <header><div className="museum-wordmark"><span className="brand-mark"><img src="/pocket-archives-logo.png" alt="" /></span><b>POCKET ARCHIVES</b><small>HISTORY MUSEUM</small></div><div className="museum-progress-label">Room {String(tourRoom + 1).padStart(2, "0")} / {String(museumRooms.length).padStart(2, "0")}</div><button onClick={() => setTourRoom(null)} aria-label="Exit museum tour">×</button></header>
-        <div className="museum-art"><span>{museumRooms[tourRoom].year}</span><img src={museumRooms[tourRoom].image} alt={museumRooms[tourRoom].caption} /><small>{museumRooms[tourRoom].caption}</small></div>
-        <article className="museum-wall-text"><p className="eyebrow"><span /> {museumRooms[tourRoom].subtitle}</p><h2>{museumRooms[tourRoom].title}</h2><p className="museum-body">{museumRooms[tourRoom].body}</p><ul>{museumRooms[tourRoom].highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}</ul><details className="museum-evidence"><summary>Evidence &amp; source</summary><p>{museumRooms[tourRoom].source}</p><a href={museumRooms[tourRoom].sourceUrl} target="_blank" rel="noreferrer">Open source record ↗</a></details>{inventoryForMuseum(museumRooms[tourRoom].id).filter((item) => item.availabilityStatus === "available").map((item) => <a className="museum-related-piece" href={shopObjectUrl(item.slug)} key={item.id}><span>Related piece in the shop</span><b>{item.title}</b><small>View piece ↗</small></a>)}</article>
+        <div className="museum-art museum-room-enter" key={`art-${museumRooms[tourRoom].id}`}><span>{museumRooms[tourRoom].year}</span><img src={museumRooms[tourRoom].image} alt={museumRooms[tourRoom].caption} /><small>{museumRooms[tourRoom].caption}</small></div>
+        <article className="museum-wall-text museum-room-enter" ref={museumTextRef} key={`text-${museumRooms[tourRoom].id}`}><p className="eyebrow"><span /> {museumRooms[tourRoom].subtitle}</p><h2>{museumRooms[tourRoom].title}</h2><p className="museum-body">{museumRooms[tourRoom].body}</p><ul>{museumRooms[tourRoom].highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}</ul><details className="museum-evidence"><summary>Evidence &amp; source</summary><p>{museumRooms[tourRoom].source}</p><a href={museumRooms[tourRoom].sourceUrl} target="_blank" rel="noreferrer">Open source record ↗</a></details>{inventoryForMuseum(museumRooms[tourRoom].id).filter((item) => item.availabilityStatus === "available").map((item) => <a className="museum-related-piece" href={shopObjectUrl(item.slug)} key={item.id}><span>Related piece in the shop</span><b>{item.title}</b><small>View piece ↗</small></a>)}</article>
         <nav className="museum-controls" aria-label="Museum tour navigation"><button disabled={tourRoom === 0} onClick={() => setTourRoom((room) => room === null ? 0 : Math.max(0, room - 1))}>← Previous</button><div className="museum-room-map" aria-label="Tour rooms">{museumRooms.map((room, index) => <button key={room.id} className={index === tourRoom ? "active" : ""} onClick={() => setTourRoom(index)} aria-label={`Go to room ${index + 1}: ${room.title}`} aria-current={index === tourRoom ? "step" : undefined}><span /></button>)}</div><button onClick={() => tourRoom === museumRooms.length - 1 ? setTourRoom(null) : setTourRoom(tourRoom + 1)}>{tourRoom === museumRooms.length - 1 ? "Finish tour" : "Next room →"}</button></nav>
       </div>}
 
