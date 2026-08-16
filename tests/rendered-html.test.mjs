@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
 async function render(pathname = "/") {
@@ -32,6 +33,25 @@ test("server-renders the Pocket Archives landing page", async () => {
   assert.match(html, /Pokémon design history, preserved/i);
   assert.match(html, /From first sketch/i);
   assert.doesNotMatch(html, /Your site is taking shape|Building your site/i);
+});
+
+test("Sword and Shield icons are tightly framed for the archive comparison", async () => {
+  const iconDirectory = new URL(
+    "../public/sprites/sword-shield-icons/",
+    import.meta.url,
+  );
+  const icons = (await readdir(iconDirectory))
+    .filter((filename) => /^\d{4}\.png$/.test(filename))
+    .sort();
+
+  assert.equal(icons.length, 151);
+  for (const filename of icons) {
+    const png = await readFile(new URL(filename, iconDirectory));
+    assert.equal(png.toString("ascii", 1, 4), "PNG");
+    const width = png.readUInt32BE(16);
+    const height = png.readUInt32BE(20);
+    assert.ok(width <= 56 && height <= 56, `${filename} still has excess padding`);
+  }
 });
 
 test("server-renders all batch 03 shop listings", async () => {
