@@ -25,6 +25,7 @@ import {
   storeCollections,
   type StoreCollection,
 } from "./storefront-data";
+import { useMobileReturn } from "./use-mobile-return";
 
 const sampleDescriptions: Record<string, string> = {
   "DEMO-001":
@@ -48,12 +49,13 @@ function categoryLabel(category: InventoryItem["category"]) {
 }
 
 function collectorSetLabel(item: InventoryItem) {
+  if (!item.demo) return item.set || "Singles";
   if (item.id === "DEMO-002") return "Sugimori Art";
   if (item.id === "DEMO-003" || item.id === "DEMO-004")
     return "Black Star Promos";
   if (item.category === "Carddass") return "Bandai Carddass";
   if (item.tags.includes("Meiji")) return "Meiji Get Cards";
-  return "Kanto Starters";
+  return item.set || "Singles";
 }
 
 export function ShopHeader({ active = "shop" }: { active?: "shop" | "sales" }) {
@@ -431,6 +433,7 @@ export function ShopLanding() {
 }
 
 export function ArtifactPage({ item }: { item: InventoryItem }) {
+  useMobileReturn(SHOP_HOME);
   const [imageIndex, setImageIndex] = useState(0);
   const copies = copiesForObject(item.id);
   const memberships = storeCollections.filter((collection) =>
@@ -723,6 +726,7 @@ export function CollectionExperience({
 }: {
   collection: StoreCollection;
 }) {
+  useMobileReturn(`${SHOP_HOME}#collections`);
   const members = membersForCollection(collection);
   return (
     <main className="shop-shell collection-experience">
