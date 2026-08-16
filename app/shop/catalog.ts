@@ -300,6 +300,38 @@ demoInventory.push({
   demo: false,
 });
 
+// LIVE INVENTORY — synchronized from the Pocket_Archives eBay account.
+demoInventory.push(
+  {
+    accessionNumber: "PA-0016", id: "LIVE-005", slug: "delibird-152-132-mega-evolution", title: "Delibird", subtitle: "2025 Mega Evolution 152/132 · Illustration Rare", objectType: "Trading card", category: "Cards",
+    description: "A lightly played English Delibird Illustration Rare, photographed front and back. The Pocket Archives price is one dollar below the active Pocket_Archives eBay listing.", archivalNote: "The full-art composition turns Delibird’s delivery motif into a complete illustrated scene, showing how modern rarity treatments can expand a character beyond the card frame.", culturalSignificance: "A contemporary Illustration Rare offered as an approachable example of modern Pokémon card art.",
+    year: 2025, approximateYear: false, era: "Modern era · 2025", country: "United States", language: "English", artist: "Takeshi Nakamura", illustrator: "Takeshi Nakamura", manufacturer: "The Pokémon Company", publisher: "The Pokémon Company", set: "Mega Evolution", series: "Mega Evolution", cardNumber: "152/132", catalogNumber: "PA-0016", edition: null, printing: "English", condition: "Lightly Played", conditionNotes: "Light signs of handling and wear consistent with the seller-listed LP condition. Review both photographs before purchase.", dimensions: "Approx. 63.5 × 88 mm", provenance: "Owned by Pocket Archives and listed through the Pocket_Archives eBay account as item 158192379038.", acquisitionSource: "Pocket Archives inventory", acquisitionDate: "2026-08-15",
+    pokemonIds: [225], pokemonNames: ["Delibird"], artistIds: [], relatedMuseumIds: [], relatedArchiveIds: [], relatedCardIds: [], relatedCollectionIds: [], tags: ["Live Inventory", "Illustration Rare", "Singles", "Cards", "eBay Import"], fromArchive: false, physicalOwnership: true, commerceMode: "fixedPrice", recordState: "available", availabilityStatus: "available", price: 1.99, currency: "USD", quantity: 1, reserved: false, soldDate: null, placedInPrivateCollection: false,
+    images: [ownedPhoto("/shop/inventory/pa-0016-front.webp", "Delibird 152/132 — photographed front", "front"), ownedPhoto("/shop/inventory/pa-0016-back.webp", "Delibird 152/132 — photographed reverse", "back")], sourceMetadata: "Imported from the active Pocket_Archives eBay listing on 2026-08-15; Pocket Archives price is $1 below the $2.99 eBay price.", rightsMetadata: "Pocket_Archives inventory photography.", featured: true, demo: false,
+  },
+  {
+    accessionNumber: "PA-0017", id: "LIVE-006", slug: "doublade-098-088-perfect-order", title: "Doublade", subtitle: "2026 Perfect Order 098/088 · Illustration Rare", objectType: "Trading card", category: "Cards",
+    description: "A near-mint English Doublade Illustration Rare from Perfect Order, photographed front and back. The Pocket Archives price is one dollar below the active Pocket_Archives eBay listing.", archivalNote: "Anesaki Dynamic’s illustration uses Doublade’s mirrored weapon design as the structure of the entire image rather than treating the Pokémon as a figure placed over a background.", culturalSignificance: "A compact example of the increasingly illustration-led identity of modern Pokémon collecting.",
+    year: 2026, approximateYear: false, era: "Modern era · 2026", country: "United States", language: "English", artist: "Anesaki Dynamic", illustrator: "Anesaki Dynamic", manufacturer: "The Pokémon Company", publisher: "The Pokémon Company", set: "Perfect Order", series: "Mega Evolution", cardNumber: "098/088", catalogNumber: "PA-0017", edition: null, printing: "English", condition: "Near Mint", conditionNotes: "Seller-listed Near Mint. Review the original front and reverse photographs for the exact physical copy.", dimensions: "Approx. 63.5 × 88 mm", provenance: "Owned by Pocket Archives and listed through the Pocket_Archives eBay account as item 158192376610.", acquisitionSource: "Pocket Archives inventory", acquisitionDate: "2026-08-15",
+    pokemonIds: [680], pokemonNames: ["Doublade"], artistIds: [], relatedMuseumIds: [], relatedArchiveIds: [], relatedCardIds: [], relatedCollectionIds: [], tags: ["Live Inventory", "Illustration Rare", "Singles", "Cards", "eBay Import"], fromArchive: false, physicalOwnership: true, commerceMode: "fixedPrice", recordState: "available", availabilityStatus: "available", price: 3.99, currency: "USD", quantity: 1, reserved: false, soldDate: null, placedInPrivateCollection: false,
+    images: [ownedPhoto("/shop/inventory/pa-0017-front.webp", "Doublade 098/088 — photographed front", "front"), ownedPhoto("/shop/inventory/pa-0017-back.webp", "Doublade 098/088 — photographed reverse", "back")], sourceMetadata: "Imported from the active Pocket_Archives eBay listing on 2026-08-15; Pocket Archives price is $1 below the $4.99 eBay price.", rightsMetadata: "Pocket_Archives inventory photography.", featured: true, demo: false,
+  },
+  {
+    accessionNumber: "PA-0018", id: "LIVE-007", slug: "heliolisk-229-217-ascended-heroes", title: "Heliolisk", subtitle: "2026 Ascended Heroes 229/217 · Illustration Rare", objectType: "Trading card", category: "Cards",
+    description: "A near-mint English Heliolisk Illustration Rare from Ascended Heroes, photographed front and back. The Pocket Archives price is one dollar below the active Pocket_Archives eBay listing.", archivalNote: "The wide environmental composition gives Heliolisk a sense of scale and motion while keeping the Pokémon’s graphic frill as the visual anchor.", culturalSignificance: "An affordable modern art card that demonstrates the TCG’s shift toward scene-driven illustration.",
+    year: 2026, approximateYear: false, era: "Modern era · 2026", country: "United States", language: "English", artist: "SVLT", illustrator: "SVLT", manufacturer: "The Pokémon Company", publisher: "The Pokémon Company", set: "Ascended Heroes", series: "Mega Evolution", cardNumber: "229/217", catalogNumber: "PA-0018", edition: null, printing: "English", condition: "Near Mint", conditionNotes: "Seller-listed Near Mint. Review the original front and reverse photographs for the exact physical copy.", dimensions: "Approx. 63.5 × 88 mm", provenance: "Owned by Pocket Archives and listed through the Pocket_Archives eBay account as item 158192370693.", acquisitionSource: "Pocket Archives inventory", acquisitionDate: "2026-08-15",
+    pokemonIds: [695], pokemonNames: ["Heliolisk"], artistIds: [], relatedMuseumIds: [], relatedArchiveIds: [], relatedCardIds: [], relatedCollectionIds: [], tags: ["Live Inventory", "Illustration Rare", "Singles", "Cards", "eBay Import"], fromArchive: false, physicalOwnership: true, commerceMode: "fixedPrice", recordState: "available", availabilityStatus: "available", price: 1.49, currency: "USD", quantity: 1, reserved: false, soldDate: null, placedInPrivateCollection: false,
+    images: [ownedPhoto("/shop/inventory/pa-0018-front.webp", "Heliolisk 229/217 — photographed front", "front"), ownedPhoto("/shop/inventory/pa-0018-back.webp", "Heliolisk 229/217 — photographed reverse", "back")], sourceMetadata: "Imported from the active Pocket_Archives eBay listing on 2026-08-15; Pocket Archives price is $1 below the $2.49 eBay price.", rightsMetadata: "Pocket_Archives inventory photography.", featured: true, demo: false,
+  },
+  {
+    accessionNumber: "PA-0019", id: "LIVE-008", slug: "zarude-090-081-m5-abyss-eye", title: "Zarude", subtitle: "2026 M5 Abyss Eye 090/081 · Japanese Art Rare", objectType: "Trading card", category: "Cards",
+    description: "A near-mint Japanese Zarude Art Rare from M5: Abyss Eye, photographed front and back. The Pocket Archives price is one dollar below the active Pocket_Archives eBay listing.", archivalNote: "Matazo places Zarude inside a dense, atmospheric environment, using the Art Rare format to emphasize the Pokémon’s place within a living world.", culturalSignificance: "A Japanese-language contemporary art card connecting the shop’s modern inventory to Pokémon’s home market.",
+    year: 2026, approximateYear: false, era: "Modern era · 2026", country: "Japan", language: "Japanese", artist: "Matazo", illustrator: "Matazo", manufacturer: "The Pokémon Company", publisher: "The Pokémon Company", set: "M5: Abyss Eye", series: "Pokémon Card Game", cardNumber: "090/081", catalogNumber: "PA-0019", edition: null, printing: "Japanese", condition: "Near Mint", conditionNotes: "Seller-listed Near Mint and described as excellent overall. Review the original front and reverse photographs for the exact physical copy.", dimensions: "Approx. 63 × 88 mm", provenance: "Owned by Pocket Archives and listed through the Pocket_Archives eBay account as item 158192369332.", acquisitionSource: "Pocket Archives inventory", acquisitionDate: "2026-08-15",
+    pokemonIds: [893], pokemonNames: ["Zarude"], artistIds: [], relatedMuseumIds: [], relatedArchiveIds: [], relatedCardIds: [], relatedCollectionIds: [], tags: ["Live Inventory", "Art Rare", "Japanese", "Singles", "Cards", "eBay Import"], fromArchive: false, physicalOwnership: true, commerceMode: "fixedPrice", recordState: "available", availabilityStatus: "available", price: 3.99, currency: "USD", quantity: 1, reserved: false, soldDate: null, placedInPrivateCollection: false,
+    images: [ownedPhoto("/shop/inventory/pa-0019-front.webp", "Zarude 090/081 — photographed front", "front"), ownedPhoto("/shop/inventory/pa-0019-back.webp", "Zarude 090/081 — photographed reverse", "back")], sourceMetadata: "Imported from the active Pocket_Archives eBay listing on 2026-08-15; Pocket Archives price is $1 below the $4.99 eBay price.", rightsMetadata: "Pocket_Archives inventory photography.", featured: true, demo: false,
+  },
+);
+
 demoInventory.push(
   {
     accessionNumber: "PA-0013",
@@ -346,7 +378,7 @@ demoInventory.push(
     commerceMode: "fixedPrice",
     recordState: "available",
     availabilityStatus: "available",
-    price: 0.5,
+    price: 4.99,
     currency: "USD",
     quantity: 1,
     reserved: false,
@@ -356,7 +388,7 @@ demoInventory.push(
       ownedPhoto("/shop/inventory/pa-0013-front.jpg", "Marill Expedition 120/165 — scanned front", "front"),
       ownedPhoto("/shop/inventory/pa-0013-back.jpg", "Marill Expedition 120/165 — scanned reverse", "back"),
     ],
-    sourceMetadata: "Original front and back inventory scans made by Pocket Archives on 2026-08-15.",
+    sourceMetadata: "Original front and back inventory scans made by Pocket Archives on 2026-08-15. Also listed through the Pocket_Archives eBay account as item 158192286524; the Pocket Archives price is $1 below the $5.99 eBay price.",
     rightsMetadata: "Original Pocket Archives inventory scan.",
     featured: true,
     demo: false,
@@ -526,7 +558,7 @@ export const SHOP_HOME = `${SHOP_ORIGIN}/shop`;
 export const ARCHIVE_ORIGIN = "https://pocketarchives.com";
 
 export function shopObjectUrl(slug: string) { return `${SHOP_ORIGIN}/objects/${slug}`; }
-export function inventoryBySlug(slug: string) { return demoInventory.find((item) => item.slug === slug); }
+export function inventoryBySlug(slug: string) { return demoInventory.find((item) => item.slug === slug && !item.demo); }
 export function inventoryForPokemon(pokemonId: number) { return demoInventory.filter((item) => item.pokemonIds.includes(pokemonId)); }
 export function inventoryForMuseum(museumId: string) { return demoInventory.filter((item) => item.relatedMuseumIds.includes(museumId)); }
 export function statusLabel(status: AvailabilityStatus) {

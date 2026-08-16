@@ -107,6 +107,10 @@ export const catalogItems: CatalogItem[] = [
   { id: "CAT-MARILL-EXPEDITION", title: "Expedition Marill 120/165", objectType: "Trading card", set: "Expedition Base Set", catalogNumber: "120/165", year: 2002, artist: "Satoshi Ohta" },
   { id: "CAT-HYPNO-CARDDASS", title: "Pocket Monsters Carddass Hypno File No.097", objectType: "Collectible card", set: "Pocket Monsters Carddass", catalogNumber: "097", year: 1997, artist: null },
   { id: "CAT-SLOWBRO-CARDDASS", title: "Pocket Monsters Carddass Slowbro File No.080", objectType: "Collectible card", set: "Pocket Monsters Carddass", catalogNumber: "080", year: 1997, artist: null },
+  { id: "CAT-DELIBIRD-ME", title: "Mega Evolution Delibird 152/132", objectType: "Trading card", set: "Mega Evolution", catalogNumber: "152/132", year: 2025, artist: "Takeshi Nakamura" },
+  { id: "CAT-DOUBLADE-PO", title: "Perfect Order Doublade 098/088", objectType: "Trading card", set: "Perfect Order", catalogNumber: "098/088", year: 2026, artist: "Anesaki Dynamic" },
+  { id: "CAT-HELIOLISK-AH", title: "Ascended Heroes Heliolisk 229/217", objectType: "Trading card", set: "Ascended Heroes", catalogNumber: "229/217", year: 2026, artist: "SVLT" },
+  { id: "CAT-ZARUDE-M5", title: "M5: Abyss Eye Zarude 090/081", objectType: "Trading card", set: "M5: Abyss Eye", catalogNumber: "090/081", year: 2026, artist: "Matazo" },
   { id: "CAT-BULBASAUR-BASE", title: "Base Set Bulbasaur 44/102", objectType: "Trading card", set: "Base Set", catalogNumber: "44/102", year: 1999, artist: "Mitsuhiro Arita" },
   { id: "CAT-HAUNTER-FOSSIL", title: "Fossil Haunter 21/62", objectType: "Trading card", set: "Fossil", catalogNumber: "21/62", year: 1999, artist: "Ken Sugimori" },
   { id: "CAT-PIKACHU-PROMO", title: "Pikachu Black Star Promo 1", objectType: "Promo card", set: "Wizards Black Star Promos", catalogNumber: "1", year: 1999, artist: "Ken Sugimori" },
@@ -249,6 +253,10 @@ export const physicalCopies: PhysicalCopy[] = [
     payoutStatus: "not-applicable",
     demo: false,
   },
+  { id: "PA-COPY-000020", catalogItemId: "CAT-DELIBIRD-ME", publicObjectId: "LIVE-005", condition: object("LIVE-005").condition, acquisitionCost: null, acquisitionSource: "Pocket_Archives eBay inventory", allocation: { mode: "single", referenceId: null }, presentation: "raw", imageIds: object("LIVE-005").images.map((image) => image.src), storageLocation: "Pocket Archives inventory", saleState: "available", ownedByPocketArchives: true, consigned: false, consignorId: null, agreementStatus: "not-applicable", commissionRate: null, minimumNet: null, reserve: null, insuranceValue: null, intakeDate: "2026-08-15", returnDate: null, payoutStatus: "not-applicable", demo: false },
+  { id: "PA-COPY-000021", catalogItemId: "CAT-DOUBLADE-PO", publicObjectId: "LIVE-006", condition: object("LIVE-006").condition, acquisitionCost: null, acquisitionSource: "Pocket_Archives eBay inventory", allocation: { mode: "single", referenceId: null }, presentation: "raw", imageIds: object("LIVE-006").images.map((image) => image.src), storageLocation: "Pocket Archives inventory", saleState: "available", ownedByPocketArchives: true, consigned: false, consignorId: null, agreementStatus: "not-applicable", commissionRate: null, minimumNet: null, reserve: null, insuranceValue: null, intakeDate: "2026-08-15", returnDate: null, payoutStatus: "not-applicable", demo: false },
+  { id: "PA-COPY-000022", catalogItemId: "CAT-HELIOLISK-AH", publicObjectId: "LIVE-007", condition: object("LIVE-007").condition, acquisitionCost: null, acquisitionSource: "Pocket_Archives eBay inventory", allocation: { mode: "single", referenceId: null }, presentation: "raw", imageIds: object("LIVE-007").images.map((image) => image.src), storageLocation: "Pocket Archives inventory", saleState: "available", ownedByPocketArchives: true, consigned: false, consignorId: null, agreementStatus: "not-applicable", commissionRate: null, minimumNet: null, reserve: null, insuranceValue: null, intakeDate: "2026-08-15", returnDate: null, payoutStatus: "not-applicable", demo: false },
+  { id: "PA-COPY-000023", catalogItemId: "CAT-ZARUDE-M5", publicObjectId: "LIVE-008", condition: object("LIVE-008").condition, acquisitionCost: null, acquisitionSource: "Pocket_Archives eBay inventory", allocation: { mode: "single", referenceId: null }, presentation: "raw", imageIds: object("LIVE-008").images.map((image) => image.src), storageLocation: "Pocket Archives inventory", saleState: "available", ownedByPocketArchives: true, consigned: false, consignorId: null, agreementStatus: "not-applicable", commissionRate: null, minimumNet: null, reserve: null, insuranceValue: null, intakeDate: "2026-08-15", returnDate: null, payoutStatus: "not-applicable", demo: false },
   copy(1, "CAT-BULBASAUR-BASE", "DEMO-001", "single", "binder"),
   copy(2, "CAT-HAUNTER-FOSSIL", "DEMO-002", "privateSale", "private-room"),
   copy(3, "CAT-PIKACHU-PROMO", "DEMO-003", "single", "binder"),
@@ -334,8 +342,8 @@ export const futureArtistProgram: ArtistProgramProfile[] = [
   { id: "ARTIST-PROGRAM-PLACEHOLDER", name: "Artists at Pocket Archives", status: "future", originalWorkOnly: true, licensedWorkRequired: true, mediums: ["Original drawing", "Painting", "Print", "Independent card art", "Custom collectible"] },
 ];
 
-export const galleryObjectIds = ["LIVE-004", "LIVE-002", "LIVE-003", "LIVE-001", "DEMO-004", "DEMO-005", "DEMO-006", "DEMO-002"];
-export const binderObjectIds = ["LIVE-004", "LIVE-002", "LIVE-003", "LIVE-001", "DEMO-001", "DEMO-003", "DEMO-008", "DEMO-009", "DEMO-010", "DEMO-011"];
+export const galleryObjectIds = ["LIVE-008", "LIVE-007", "LIVE-006", "LIVE-005", "LIVE-004", "LIVE-002", "LIVE-003", "LIVE-001", "DEMO-004", "DEMO-005", "DEMO-006", "DEMO-002"];
+export const binderObjectIds = ["LIVE-008", "LIVE-007", "LIVE-006", "LIVE-005", "LIVE-004", "LIVE-002", "LIVE-003", "LIVE-001", "DEMO-001", "DEMO-003", "DEMO-008", "DEMO-009", "DEMO-010", "DEMO-011"];
 export const binderCollectionSlugs = ["yuka-morii-binder", "mew-binder"];
 export const privateSaleObjectIds = ["DEMO-002"];
 

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ARCHIVE_ORIGIN, formatPrice, type InventoryItem } from "../shop/catalog";
 import { ObjectVisual, ShopHeader } from "../shop/shop-client";
+import { useMobileReturn } from "../shop/use-mobile-return";
 import {
   bidHistoryForLot,
   demoSales,
@@ -46,6 +47,7 @@ export function SalesLanding() {
 }
 
 export function SaleCatalog({ sale }: { sale: AuctionSale }) {
+  useMobileReturn("/sales");
   const lots = lotsForSale(sale.id);
   return <main className="shop-shell sale-shell"><ShopHeader active="sales" /><section className="sale-catalog-hero"><DemoMark /><Link href="/sales" className="artifact-back">← All sales</Link><div><p>{saleNumber(sale)} · {sale.status}</p><h1>{sale.title}</h1><span>{sale.subtitle}</span></div><aside><p>{sale.description}</p><dl><div><dt>Era</dt><dd>{sale.era}</dd></div><div><dt>Lots</dt><dd>{sale.estimatedLotCount}</dd></div><div><dt>Closes</dt><dd>{dateRange(sale)}</dd></div></dl></aside></section>{lots.length > 0 ? <section className="sale-lots"><header><p>Sale Catalog</p><h2>{lots.length} Lots</h2></header><div className="sale-lot-grid">{lots.map((lot) => <LotCard key={lot.id} sale={sale} lot={lot} />)}</div><aside className="sale-terms-note"><b>Extended bidding</b><p>If a valid bid is placed within the final {sale.antiSniping.triggerMinutes} minutes, that lot’s closing time extends by {sale.antiSniping.extensionMinutes} minutes. Demo only; no bids are accepted.</p></aside></section> : <section className="empty-sale-catalog"><span>Permanent Catalog Record</span><h2>This demonstration sale is archived.</h2><p>The final system will preserve every completed lot, result, condition report, and provenance record here.</p></section>}<SaleFooter /></main>;
 }
@@ -56,6 +58,7 @@ function LotImageGallery({ item }: { item: InventoryItem }) {
 }
 
 export function LotDetail({ sale, lot, item }: { sale: AuctionSale; lot: AuctionLot; item: InventoryItem }) {
+  useMobileReturn(`/sales/${sale.slug}`);
   const minimum = minimumNextBid(lot, sale);
   const [bidAmount, setBidAmount] = useState(String(minimum));
   const [confirming, setConfirming] = useState(false);

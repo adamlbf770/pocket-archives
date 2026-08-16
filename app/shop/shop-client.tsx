@@ -12,19 +12,17 @@ import {
   statusLabel,
   type InventoryItem,
 } from "./catalog";
-import { currentSale, lotForObject } from "../sales/sale-data";
+import { lotForObject } from "../sales/sale-data";
 import {
-  binderCollectionSlugs,
-  binderObjectIds,
   collectionTypeLabel,
   copiesForObject,
   galleryObjectIds,
   membersForCollection,
   presentationOptions,
-  privateSaleObjectIds,
   storeCollections,
   type StoreCollection,
 } from "./storefront-data";
+import { useMobileReturn } from "./use-mobile-return";
 
 const sampleDescriptions: Record<string, string> = {
   "DEMO-001":
@@ -48,12 +46,13 @@ function categoryLabel(category: InventoryItem["category"]) {
 }
 
 function collectorSetLabel(item: InventoryItem) {
+  if (!item.demo) return item.set || "Singles";
   if (item.id === "DEMO-002") return "Sugimori Art";
   if (item.id === "DEMO-003" || item.id === "DEMO-004")
     return "Black Star Promos";
   if (item.category === "Carddass") return "Bandai Carddass";
   if (item.tags.includes("Meiji")) return "Meiji Get Cards";
-  return "Kanto Starters";
+  return item.set || "Singles";
 }
 
 export function ShopHeader({ active = "shop" }: { active?: "shop" | "sales" }) {
@@ -77,11 +76,6 @@ export function ShopHeader({ active = "shop" }: { active?: "shop" | "sales" }) {
           Gallery
         </Link>
         <Link href={`${SHOP_HOME}#collections`}>Collections</Link>
-        <Link href={`${SHOP_HOME}#binder`}>The Binder</Link>
-        <Link className={active === "sales" ? "active" : ""} href="/sales">
-          Sales
-        </Link>
-        <Link href={`${SHOP_HOME}#private-sale`}>Private Sale</Link>
       </nav>
     </header>
   );
@@ -90,7 +84,7 @@ export function ShopHeader({ active = "shop" }: { active?: "shop" | "sales" }) {
 function DemoNotice() {
   return (
     <p className="shop-demo-notice">
-      <span aria-hidden="true" /> Live inventory is photographed · Samples are labeled
+      <span aria-hidden="true" /> Live inventory · Front and back documented
     </p>
   );
 }
@@ -263,21 +257,9 @@ function BinderCollectionCard({ collection }: { collection: StoreCollection }) {
 }
 
 export function ShopLanding() {
-  const sale = currentSale();
   const galleryItems = galleryObjectIds
     .map((id) => demoInventory.find((item) => item.id === id))
-    .filter(Boolean) as InventoryItem[];
-  const binderItems = binderObjectIds
-    .map((id) => demoInventory.find((item) => item.id === id))
-    .filter(Boolean) as InventoryItem[];
-  const binderCollections = binderCollectionSlugs
-    .map((slug) =>
-      storeCollections.find((collection) => collection.slug === slug),
-    )
-    .filter(Boolean) as StoreCollection[];
-  const privateItems = privateSaleObjectIds
-    .map((id) => demoInventory.find((item) => item.id === id))
-    .filter(Boolean) as InventoryItem[];
+    .filter((item): item is InventoryItem => Boolean(item && !item.demo));
 
   return (
     <main className="shop-shell physical-shop">
@@ -297,7 +279,8 @@ export function ShopLanding() {
             <h2>The Gallery</h2>
           </div>
           <p>
-            Selected cards, pieces, and collections with a reason to be here.
+            Every piece shown is real Pocket Archives inventory, photographed
+            front and back.
           </p>
         </header>
         <div className="store-gallery-grid">
@@ -310,19 +293,11 @@ export function ShopLanding() {
               <ObjectVisual item={item} />
               <span>
                 <small>
-                  {!item.demo
-                    ? "Live inventory · Available"
-                    : item.commerceMode === "privateSale"
-                    ? "Available by private sale"
-                    : item.category === "Curated Collections"
-                      ? "Curated collection"
-                      : "Selected piece"}
+                  Live inventory · Available
                 </small>
                 <b>{item.title}</b>
                 <em>
-                  {item.commerceMode === "privateSale"
-                    ? "Request details"
-                    : formatPrice(item.price, item.currency)}
+                  {formatPrice(item.price, item.currency)}
                 </em>
               </span>
             </Link>
@@ -336,94 +311,28 @@ export function ShopLanding() {
             <h2>Collections</h2>
           </div>
           <p>
-            Cards and collectibles brought together by artist, character, era,
-            or visual idea.
+            Thoughtful groups built around artists, characters, eras, and
+            visual ideas.
           </p>
         </header>
-        <div className="store-collection-grid">
-          {storeCollections.map((collection) => (
-            <CollectionCard collection={collection} key={collection.id} />
-          ))}
-        </div>
-      </section>
-      <section className="store-binder" id="binder">
-        <div className="binder-intro">
-          <small>Room 03 · Accessible collecting</small>
-          <h2>The Binder</h2>
-          <p>
-            Open a themed binder to see every card together, or browse
-            affordable singles below.
-          </p>
-          <span>Artist binders · Pokémon binders · selected singles</span>
-        </div>
-        <div className="binder-content">
-          <div className="binder-collection-grid">
-            {binderCollections.map((collection) => (
-              <BinderCollectionCard
-                collection={collection}
-                key={collection.id}
-              />
-            ))}
-          </div>
-          <div className="binder-singles-heading">
-            <span>Singles for your binder</span>
-            <small>Generally under $25</small>
-          </div>
-          <div className="binder-card-grid">
-            {binderItems.map((item) => (
-              <ArtifactCard item={item} key={item.id} />
-            ))}
-          </div>
-        </div>
-      </section>
-      {sale && (
-        <section className="store-current-sale">
-          <span>Current Sale · Demonstration</span>
+        <div className="collections-coming-soon">
+          <span aria-hidden="true">02</span>
           <div>
-            <small>
-              Pocket Archives Sale {String(sale.saleNumber).padStart(3, "0")}
-            </small>
-            <h2>{sale.title}</h2>
-            <p>{sale.subtitle}</p>
+            <small>Coming soon</small>
+            <h3>Collections, built slowly.</h3>
+            <p>
+              Artist binders, character studies, and historically meaningful
+              sets will appear here only when the real cards are ready.
+            </p>
           </div>
-          <Link href={`/sales/${sale.slug}`}>
-            {sale.estimatedLotCount} lots · View Sale →
-          </Link>
-        </section>
-      )}
-      <section className="store-private-sale" id="private-sale">
-        <header className="store-room-heading">
-          <div>
-            <small>Room 04 · By appointment</small>
-            <h2>Private Sale</h2>
-          </div>
-          <p>
-            Unusual pieces considered quietly, with full condition and
-            provenance records.
-          </p>
-        </header>
-        {privateItems.map((item) => (
-          <Link
-            href={shopObjectUrl(item.slug)}
-            className="private-sale-object"
-            key={item.id}
-          >
-            <ObjectVisual item={item} />
-            <span>
-              <small>Available by Private Sale · Demonstration</small>
-              <h3>{item.title}</h3>
-              <p>{item.archivalNote}</p>
-              <b>Request details →</b>
-            </span>
-          </Link>
-        ))}
+          <p>Artist binders · Character studies · Historical sets</p>
+        </div>
       </section>
       <footer className="shop-footer physical-shop-footer">
         <DemoNotice />
         <p>
           <Link href={`${ARCHIVE_ORIGIN}/#archive`}>Archive ↗</Link>
           <Link href={`${ARCHIVE_ORIGIN}/#museum`}>Museum ↗</Link>
-          <Link href="/sales">Sales</Link>
         </p>
       </footer>
     </main>
@@ -431,6 +340,7 @@ export function ShopLanding() {
 }
 
 export function ArtifactPage({ item }: { item: InventoryItem }) {
+  useMobileReturn(SHOP_HOME);
   const [imageIndex, setImageIndex] = useState(0);
   const copies = copiesForObject(item.id);
   const memberships = storeCollections.filter((collection) =>
@@ -723,6 +633,7 @@ export function CollectionExperience({
 }: {
   collection: StoreCollection;
 }) {
+  useMobileReturn(`${SHOP_HOME}#collections`);
   const members = membersForCollection(collection);
   return (
     <main className="shop-shell collection-experience">

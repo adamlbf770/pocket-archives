@@ -199,6 +199,50 @@ export default function Home() {
   const searchRef = useRef<HTMLInputElement>(null);
   const museumTextRef = useRef<HTMLElement>(null);
   const museumTouchStart = useRef<{ x: number; y: number } | null>(null);
+  const overlayHistoryArmed = useRef(false);
+
+  const hasOpenOverlay = Boolean(
+    selected ||
+      selectedReference ||
+      selectedDevelopment ||
+      selectedPanel ||
+      tourRoom !== null,
+  );
+
+  useEffect(() => {
+    if (hasOpenOverlay && !overlayHistoryArmed.current) {
+      const currentState =
+        window.history.state && typeof window.history.state === "object"
+          ? window.history.state
+          : {};
+      window.history.pushState(
+        { ...currentState, pocketArchivesOverlay: true },
+        "",
+        window.location.href,
+      );
+      overlayHistoryArmed.current = true;
+      return;
+    }
+
+    if (!hasOpenOverlay && overlayHistoryArmed.current) {
+      overlayHistoryArmed.current = false;
+      if (window.history.state?.pocketArchivesOverlay) window.history.back();
+    }
+  }, [hasOpenOverlay]);
+
+  useEffect(() => {
+    const closeOverlayOnBack = () => {
+      if (!overlayHistoryArmed.current) return;
+      overlayHistoryArmed.current = false;
+      setSelected(null);
+      setSelectedReference(null);
+      setSelectedDevelopment(null);
+      setSelectedPanel(null);
+      setTourRoom(null);
+    };
+    window.addEventListener("popstate", closeOverlayOnBack);
+    return () => window.removeEventListener("popstate", closeOverlayOnBack);
+  }, []);
 
   useEffect(() => {
     if (window.location.hostname === "shop.pocketarchives.com") {
