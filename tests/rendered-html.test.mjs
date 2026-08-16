@@ -85,6 +85,13 @@ test("server-renders all batch 04 shop listings with their scanned fronts", asyn
   ]) {
     assert.match(html, new RegExp(set, "i"));
   }
+  assert.match(html, /Expansion Pack \(Japanese Base Set\)<!-- --> · <!-- -->Holo Rare/i);
+  assert.match(html, /Neo Genesis<!-- --> · <!-- -->Rare/i);
+  assert.match(html, /Southern Islands<!-- --> · <!-- -->Promo/i);
+  assert.match(html, />Holo Rare<\/option>/i);
+  assert.match(html, />Rare<\/option>/i);
+  assert.match(html, />Promo<\/option>/i);
+  assert.doesNotMatch(html, /Rarity not listed/i);
 });
 
 test("batch 04 object pages show moderately played condition and revised prices", async () => {

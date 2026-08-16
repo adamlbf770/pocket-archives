@@ -56,11 +56,20 @@ function collectorSetLabel(item: InventoryItem) {
 }
 
 function rarityLabel(item: InventoryItem) {
-  if (item.tags.includes("Illustration Rare")) return "Illustration Rare";
-  if (item.tags.includes("Art Rare")) return "Art Rare";
-  if (item.id === "LIVE-010") return "Rare";
   if (item.category === "Carddass") return "Carddass";
-  return "Common";
+  const recognizedRarities = [
+    "Special Illustration Rare",
+    "Illustration Rare",
+    "Art Rare",
+    "Ultra Rare",
+    "Secret Rare",
+    "Holo Rare",
+    "Rare",
+    "Uncommon",
+    "Common",
+    "Promo",
+  ];
+  return recognizedRarities.find((rarity) => item.tags.includes(rarity)) ?? "Rarity not listed";
 }
 
 export function ShopHeader({ active = "shop" }: { active?: "shop" | "sales" }) {
