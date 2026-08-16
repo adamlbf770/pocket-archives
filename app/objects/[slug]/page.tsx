@@ -4,7 +4,7 @@ import { demoInventory, inventoryBySlug } from "../../shop/catalog";
 import { ArtifactPage } from "../../shop/shop-client";
 
 export function generateStaticParams() {
-  return demoInventory.map((item) => ({ slug: item.slug }));
+  return demoInventory.filter((item) => !item.demo).map((item) => ({ slug: item.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {

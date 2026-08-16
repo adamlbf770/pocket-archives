@@ -558,7 +558,7 @@ export const SHOP_HOME = `${SHOP_ORIGIN}/shop`;
 export const ARCHIVE_ORIGIN = "https://pocketarchives.com";
 
 export function shopObjectUrl(slug: string) { return `${SHOP_ORIGIN}/objects/${slug}`; }
-export function inventoryBySlug(slug: string) { return demoInventory.find((item) => item.slug === slug); }
+export function inventoryBySlug(slug: string) { return demoInventory.find((item) => item.slug === slug && !item.demo); }
 export function inventoryForPokemon(pokemonId: number) { return demoInventory.filter((item) => item.pokemonIds.includes(pokemonId)); }
 export function inventoryForMuseum(museumId: string) { return demoInventory.filter((item) => item.relatedMuseumIds.includes(museumId)); }
 export function statusLabel(status: AvailabilityStatus) {
