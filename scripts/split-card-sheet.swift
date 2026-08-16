@@ -157,7 +157,7 @@ do {
         let frontPath = "\(outputDirectory)/pa-\(number)-front.jpg"
         let backPath = "\(outputDirectory)/pa-\(number)-back.jpg"
         try writeJPEG(correctedCard(from: sideA, observation: sideACards[index].observation, rotate180: true), to: frontPath)
-        try writeJPEG(correctedCard(from: sideB, observation: sideBCards[index].observation, rotate180: false), to: backPath)
+        try writeJPEG(correctedCard(from: sideB, observation: sideBCards[index].observation, rotate180: true), to: backPath)
         print("pa-\(number): \(frontPath), \(backPath)")
     }
 } catch {
