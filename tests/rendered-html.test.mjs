@@ -51,22 +51,40 @@ test("early archive records expose audited provenance without invented plate num
   assert.match(source, /1997 · Parts 3 and 4/);
 });
 
-test("Sword and Shield icons are tightly framed for the archive comparison", async () => {
-  const iconDirectory = new URL(
-    "../public/sprites/sword-shield-icons/",
-    import.meta.url,
+test("the sprite exhibit contains all 151 across the six Game Boy releases", async () => {
+  const manifest = JSON.parse(
+    await readFile(
+      new URL("../public/data/sprite-evolution.json", import.meta.url),
+      "utf8",
+    ),
   );
-  const icons = (await readdir(iconDirectory))
-    .filter((filename) => /^\d{4}\.png$/.test(filename))
-    .sort();
+  const expectedEras = [
+    "red-green-jp",
+    "red-blue-gameboy",
+    "yellow-gameboy",
+    "gold-gameboy",
+    "silver-gameboy",
+    "crystal-gameboy",
+  ];
 
-  assert.equal(icons.length, 151);
-  for (const filename of icons) {
-    const png = await readFile(new URL(filename, iconDirectory));
-    assert.equal(png.toString("ascii", 1, 4), "PNG");
-    const width = png.readUInt32BE(16);
-    const height = png.readUInt32BE(20);
-    assert.ok(width <= 56 && height <= 56, `${filename} still has excess padding`);
+  assert.deepEqual(
+    manifest.eras.map((era) => era.key),
+    expectedEras,
+  );
+  for (const era of expectedEras) {
+    const spriteDirectory = new URL(`../public/sprites/${era}/`, import.meta.url);
+    const sprites = (await readdir(spriteDirectory))
+      .filter((filename) => /^\d{4}\.png$/.test(filename))
+      .sort();
+
+    assert.equal(sprites.length, 151, `${era} is missing sprites`);
+    for (const filename of sprites) {
+      const png = await readFile(new URL(filename, spriteDirectory));
+      assert.equal(png.toString("ascii", 1, 4), "PNG");
+      const width = png.readUInt32BE(16);
+      const height = png.readUInt32BE(20);
+      assert.ok(width <= 56 && height <= 56, `${era}/${filename} is not an original-size sprite`);
+    }
   }
 });
 

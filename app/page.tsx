@@ -2384,18 +2384,18 @@ export default function Home() {
                   >
                     <header>
                       <div>
-                        <span>1996–2016 · Interactive collection</span>
+                        <span>1996–2000 · Interactive collection</span>
                         <h3 id="sprite-evolution-title">
                           The original 151
                           <br />
-                          through nine generations.
+                          through the Game Boy years.
                         </h3>
                       </div>
                       <p>
-                        Choose any of the original 151 and compare its front
-                        battle image from Red and Blue through Sun and Moon,
-                        then follow the medium itself into Sword and Shield box
-                        icons and current-era 3D renders.
+                        Choose any of the original 151 and follow its front
+                        battle sprite from the first Japanese Red and Green
+                        designs through Blue, the international Red and Blue,
+                        Yellow, Gold, Silver, and Crystal.
                       </p>
                     </header>
                     <div className="sprite-picker">
@@ -2435,7 +2435,7 @@ export default function Home() {
                     <div className="sprite-subject">
                       <span>#{String(spriteDex).padStart(3, "0")}</span>
                       <strong>{selectedSpritePokemon?.name}</strong>
-                      <small>Nine generations · medium labeled by era</small>
+                      <small>Six releases · original front sprites</small>
                     </div>
                     <div className="sprite-era-grid">
                       {spriteEvolution.eras.map((era) => (
@@ -2462,15 +2462,14 @@ export default function Home() {
                     </div>
                     <footer>
                       <p>
-                        <b>Collection record.</b> Compiled and numbered by
-                        Reddit user Stooban for the r/beadsprites community.
-                        Gen 8 box icons and current-era HOME renders are
-                        preserved from the PokéAPI sprite repository. Each era
-                        is labeled by medium; original graphics belong to
-                        Nintendo, Game Freak, Creatures, and The Pokémon
-                        Company.
+                        <b>Collection record.</b> Game sprites preserved by
+                        veekun. Japanese Red and Green use the earliest front
+                        sprites; the revised Japanese Blue set was used for the
+                        international Red and Blue releases. Yellow and each
+                        Generation II game are shown separately so design
+                        changes are not collapsed into a generic generation.
                       </p>
-                      <span>1,359 locally preserved views</span>
+                      <span>906 locally preserved views</span>
                     </footer>
                   </section>
                 )}
