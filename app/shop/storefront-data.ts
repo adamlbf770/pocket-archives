@@ -105,7 +105,7 @@ const object = (id: string) => demoInventory.find((item) => item.id === id)!;
 export const catalogItems: CatalogItem[] = [
   { id: "CAT-GIRAFARIG-NEO", title: "Neo Genesis Girafarig 58/111", objectType: "Trading card", set: "Neo Genesis", catalogNumber: "58/111", year: 2000, artist: "Ken Sugimori" },
   { id: "CAT-MARILL-EXPEDITION", title: "Expedition Marill 120/165", objectType: "Trading card", set: "Expedition Base Set", catalogNumber: "120/165", year: 2002, artist: "Satoshi Ohta" },
-  { id: "CAT-DROWZEE-CARDDASS", title: "Bandai Carddass Drowzee 097", objectType: "Collectible card", set: "Pokémon Carddass Part 1 & 2", catalogNumber: "097", year: 1996, artist: "Ken Sugimori" },
+  { id: "CAT-HYPNO-CARDDASS", title: "Pocket Monsters Carddass Hypno File No.097", objectType: "Collectible card", set: "Pocket Monsters Carddass", catalogNumber: "097", year: 1997, artist: null },
   { id: "CAT-SLOWBRO-CARDDASS", title: "Pocket Monsters Carddass Slowbro File No.080", objectType: "Collectible card", set: "Pocket Monsters Carddass", catalogNumber: "080", year: 1997, artist: null },
   { id: "CAT-BULBASAUR-BASE", title: "Base Set Bulbasaur 44/102", objectType: "Trading card", set: "Base Set", catalogNumber: "44/102", year: 1999, artist: "Mitsuhiro Arita" },
   { id: "CAT-HAUNTER-FOSSIL", title: "Fossil Haunter 21/62", objectType: "Trading card", set: "Fossil", catalogNumber: "21/62", year: 1999, artist: "Ken Sugimori" },
@@ -201,7 +201,7 @@ export const physicalCopies: PhysicalCopy[] = [
   },
   {
     id: "PA-COPY-000018",
-    catalogItemId: "CAT-DROWZEE-CARDDASS",
+    catalogItemId: "CAT-HYPNO-CARDDASS",
     publicObjectId: "LIVE-003",
     condition: object("LIVE-003").condition,
     acquisitionCost: null,
