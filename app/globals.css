@@ -2791,11 +2791,14 @@ button {
 }
 .museum-wall-text h2 {
   margin: 0;
-  font-size: clamp(46px, 5vw, 78px);
-  line-height: 0.8;
+  font-size: clamp(40px, 4vw, 64px);
+  line-height: 0.84;
   letter-spacing: -0.075em;
   text-transform: uppercase;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  text-wrap: balance;
 }
 .museum-body {
   margin: 28px 0 20px;
@@ -5284,7 +5287,10 @@ footer p {
   line-height: 0.84;
   letter-spacing: -0.068em;
   text-transform: uppercase;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  text-wrap: balance;
 }
 .artifact-subtitle {
   margin: 0 0 24px;
@@ -5903,7 +5909,10 @@ footer p {
   line-height: 0.8;
   letter-spacing: -0.07em;
   text-transform: uppercase;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  text-wrap: balance;
 }
 .lot-bid-summary {
   margin: 40px 0 0;
@@ -6629,7 +6638,7 @@ footer p {
     padding: 25px 20px 22px;
   }
   .museum-wall-text h2 {
-    font-size: 43px;
+    font-size: clamp(34px, 10.2vw, 40px);
   }
   .museum-body {
     margin: 20px 0 15px;
