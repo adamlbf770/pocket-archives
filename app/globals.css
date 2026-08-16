@@ -2476,11 +2476,14 @@ button {
 }
 .reference-viewer-details h2 {
   margin: 0;
-  font-size: clamp(48px, 5.2vw, 82px);
+  font-size: clamp(40px, 4.6vw, 72px);
   line-height: 0.82;
   letter-spacing: -0.075em;
   text-transform: uppercase;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  hyphens: none;
+  text-wrap: balance;
 }
 .reference-viewer-label {
   margin: 24px 0 10px;
@@ -3170,12 +3173,18 @@ footer p {
   padding-right: 5px;
 }
 .modal-details h2 {
-  font-size: clamp(48px, 5.5vw, 90px);
+  font-size: clamp(40px, 4.8vw, 76px);
   letter-spacing: -0.075em;
   line-height: 0.85;
   text-transform: uppercase;
   margin: 0 0 26px;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  hyphens: none;
+  text-wrap: balance;
+}
+.sketch-viewer-stage > img {
+  mix-blend-mode: multiply;
 }
 .modal-details > p:not(.eyebrow, .key-hint) {
   font-family: Georgia, serif;

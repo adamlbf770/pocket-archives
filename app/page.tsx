@@ -27,6 +27,11 @@ type PokemonGroup = {
   items: PokemonArt[];
 };
 
+type SketchSelection = {
+  group: PokemonGroup;
+  index: number;
+};
+
 type PokemonDetails = {
   genus: string;
   description: string;
@@ -915,6 +920,8 @@ export default function Home() {
   const [setteiDirectory, setSetteiDirectory] = useState<SetteiGroup[]>([]);
   const [selectedReference, setSelectedReference] =
     useState<ReferenceSelection | null>(null);
+  const [selectedSketch, setSelectedSketch] =
+    useState<SketchSelection | null>(null);
   const [selectedDevelopment, setSelectedDevelopment] =
     useState<DevelopmentItem | null>(null);
   const [selectedPanel, setSelectedPanel] = useState<ArchivePanel | null>(null);
@@ -935,6 +942,7 @@ export default function Home() {
   const hasOpenOverlay = Boolean(
     selected ||
       selectedReference ||
+      selectedSketch ||
       selectedDevelopment ||
       selectedPanel ||
       tourRoom !== null,
@@ -967,6 +975,7 @@ export default function Home() {
       overlayHistoryArmed.current = false;
       setSelected(null);
       setSelectedReference(null);
+      setSelectedSketch(null);
       setSelectedDevelopment(null);
       setSelectedPanel(null);
       setTourRoom(null);
@@ -1077,6 +1086,12 @@ export default function Home() {
   );
   const selectedGroup = selected
     ? groupMap.get(groupKey(selected)) || null
+    : null;
+  const selectedSketchSheets =
+    selectedSketch?.group.items.filter((item) => item.category === "design") ||
+    [];
+  const selectedSketchSheet = selectedSketch
+    ? selectedSketchSheets[selectedSketch.index]
     : null;
   const selectedRights = selected ? artworkRights(selected) : null;
   const selectedShopItems = selectedGroup?.dex
@@ -1339,6 +1354,12 @@ export default function Home() {
           moveDevelopment(event.key === "ArrowRight" ? 1 : -1);
         return;
       }
+      if (selectedSketch) {
+        if (event.key === "Escape") setSelectedSketch(null);
+        if (event.key === "ArrowRight" || event.key === "ArrowLeft")
+          moveSketch(event.key === "ArrowRight" ? 1 : -1);
+        return;
+      }
       if (selectedReference) {
         if (event.key === "Escape") setSelectedReference(null);
         if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
@@ -1504,6 +1525,18 @@ export default function Home() {
     setSelectedReference({ group: next.group, index: next.index });
   }
 
+  function moveSketch(direction: number) {
+    if (!selectedSketch) return;
+    const sheets = selectedSketch.group.items.filter(
+      (item) => item.category === "design",
+    );
+    if (!sheets.length) return;
+    setSelectedSketch({
+      group: selectedSketch.group,
+      index: (selectedSketch.index + direction + sheets.length) % sheets.length,
+    });
+  }
+
   function moveDevelopment(direction: number) {
     if (!selectedDevelopment || !developmentResults.length) return;
     const current = developmentResults.findIndex(
@@ -1634,7 +1667,7 @@ export default function Home() {
       <article className="art-card design-card" key={`design-${group.key}`}>
         <button
           className="image-button"
-          onClick={() => setSelected(cover)}
+          onClick={() => setSelectedSketch({ group, index: 0 })}
           aria-label={`Open sketches and design for ${group.title}`}
         >
           <span className="dex-number">
@@ -2938,6 +2971,83 @@ export default function Home() {
               </p>
             </div>
             <p className="key-hint">Use ← → for another sheet · Esc to close</p>
+          </aside>
+        </div>
+      )}
+
+      {selectedSketch && selectedSketchSheet && (
+        <div
+          className="reference-viewer sketch-viewer"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${selectedSketch.group.title} character sketch`}
+          onMouseDown={(event) => {
+            if (event.currentTarget === event.target) setSelectedSketch(null);
+          }}
+        >
+          <button
+            className="reference-viewer-close"
+            onClick={() => setSelectedSketch(null)}
+            aria-label="Close character sketch viewer"
+          >
+            ×
+          </button>
+          <div className="reference-viewer-stage sketch-viewer-stage">
+            <span className="reference-viewer-index">
+              {selectedSketch.group.dex
+                ? `#${String(selectedSketch.group.dex).padStart(4, "0")}`
+                : "ARCHIVE"}{" "}
+              · {selectedSketch.index + 1} of {selectedSketchSheets.length}
+            </span>
+            <img
+              src={selectedSketchSheet.src}
+              alt={`${selectedSketch.group.title} ${selectedSketchSheet.title}`}
+            />
+            {selectedSketchSheets.length > 1 && (
+              <>
+                <button
+                  className="reference-step previous"
+                  onClick={() => moveSketch(-1)}
+                  aria-label="Previous character sketch"
+                >
+                  ←
+                </button>
+                <button
+                  className="reference-step next"
+                  onClick={() => moveSketch(1)}
+                  aria-label="Next character sketch"
+                >
+                  →
+                </button>
+              </>
+            )}
+          </div>
+          <aside className="reference-viewer-details">
+            <p className="eyebrow">
+              <span /> Character sketch
+            </p>
+            <h2>{selectedSketch.group.title}</h2>
+            <p className="reference-viewer-label">
+              {selectedSketchSheet.title}
+            </p>
+            <p className="reference-viewer-description">
+              A preserved character-design or animation-reference drawing from
+              the {selectedSketchSheet.collection} collection.
+            </p>
+            <div className="reference-source">
+              <span>Archive record</span>
+              <b>{selectedSketchSheet.collection}</b>
+              <p>
+                {artworkRights(selectedSketchSheet).originalSource} ·{" "}
+                {artworkRights(selectedSketchSheet).rightsStatus} · Displayed
+                for archival and research context
+              </p>
+            </div>
+            <p className="key-hint">
+              {selectedSketchSheets.length > 1
+                ? "Use ← → for another sketch · Esc to close"
+                : "Esc to close"}
+            </p>
           </aside>
         </div>
       )}
