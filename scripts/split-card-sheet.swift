@@ -22,7 +22,7 @@ enum SplitError: Error, CustomStringConvertible {
     var description: String {
         switch self {
         case .usage:
-            return "Usage: split-card-sheet.swift SIDE_A SIDE_B OUTPUT_DIR START_NUMBER"
+            return "Usage: split-card-sheet.swift SIDE_A SIDE_B OUTPUT_DIR START_NUMBER [SIDE_A_ROTATION] [SIDE_B_ROTATION]"
         case let .unreadableImage(path):
             return "Could not read image: \(path)"
         case let .rectangleCount(path, count):
@@ -44,12 +44,12 @@ func loadImage(_ path: String) throws -> CIImage {
 
 func detectCards(in image: CIImage, path: String) throws -> [CardCrop] {
     let request = VNDetectRectanglesRequest()
-    request.maximumObservations = 8
-    request.minimumConfidence = 0.62
-    request.minimumAspectRatio = 0.62
-    request.maximumAspectRatio = 0.82
+    request.maximumObservations = 12
+    request.minimumConfidence = 0.40
+    request.minimumAspectRatio = 0.58
+    request.maximumAspectRatio = 0.86
     request.minimumSize = 0.19
-    request.quadratureTolerance = 22
+    request.quadratureTolerance = 30
 
     let handler = VNImageRequestHandler(ciImage: image, orientation: .up)
     try handler.perform([request])
@@ -134,14 +134,25 @@ func writeJPEG(_ image: CIImage, to path: String) throws {
 }
 
 do {
-    guard CommandLine.arguments.count == 5,
+    guard (5...7).contains(CommandLine.arguments.count),
           let startNumber = Int(CommandLine.arguments[4]) else {
         throw SplitError.usage
+    }
+
+    func rotationFlag(at index: Int, defaultValue: Bool) throws -> Bool {
+        guard CommandLine.arguments.count > index else { return defaultValue }
+        switch CommandLine.arguments[index] {
+        case "0": return false
+        case "180": return true
+        default: throw SplitError.usage
+        }
     }
 
     let sideAPath = CommandLine.arguments[1]
     let sideBPath = CommandLine.arguments[2]
     let outputDirectory = CommandLine.arguments[3]
+    let rotateSideA = try rotationFlag(at: 5, defaultValue: true)
+    let rotateSideB = try rotationFlag(at: 6, defaultValue: true)
     try FileManager.default.createDirectory(
         atPath: outputDirectory,
         withIntermediateDirectories: true
@@ -156,8 +167,8 @@ do {
         let number = String(format: "%04d", startNumber + index)
         let frontPath = "\(outputDirectory)/pa-\(number)-front.jpg"
         let backPath = "\(outputDirectory)/pa-\(number)-back.jpg"
-        try writeJPEG(correctedCard(from: sideA, observation: sideACards[index].observation, rotate180: true), to: frontPath)
-        try writeJPEG(correctedCard(from: sideB, observation: sideBCards[index].observation, rotate180: true), to: backPath)
+        try writeJPEG(correctedCard(from: sideA, observation: sideACards[index].observation, rotate180: rotateSideA), to: frontPath)
+        try writeJPEG(correctedCard(from: sideB, observation: sideBCards[index].observation, rotate180: rotateSideB), to: backPath)
         print("pa-\(number): \(frontPath), \(backPath)")
     }
 } catch {

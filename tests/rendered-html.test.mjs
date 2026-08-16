@@ -54,3 +54,35 @@ test("server-renders all batch 03 shop listings", async () => {
   assert.match(html, /EX Sandstorm/i);
   assert.match(html, /EX Ruby &amp; Sapphire/i);
 });
+
+test("server-renders all batch 04 shop listings with their scanned fronts", async () => {
+  const response = await render("/shop");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  for (const title of [
+    "Croconaw",
+    "Tentacruel",
+    "Totodile",
+    "Magneton",
+    "Ampharos",
+    "Magby",
+    "Kangaskhan",
+    "Cleffa",
+    "Scizor",
+  ]) {
+    assert.match(html, new RegExp(`>${title}<`, "i"));
+  }
+  for (let catalogNumber = 28; catalogNumber <= 36; catalogNumber += 1) {
+    const filename = `pa-${String(catalogNumber).padStart(4, "0")}-front.jpg`;
+    assert.match(html, new RegExp(filename, "i"));
+  }
+  for (const set of [
+    "Neo Premium File 1",
+    "Southern Islands",
+    "Awakening Legends",
+    "Wizards Black Star Promos",
+  ]) {
+    assert.match(html, new RegExp(set, "i"));
+  }
+});
