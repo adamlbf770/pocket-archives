@@ -127,6 +127,35 @@ button { color:inherit; }
 .archive-index b { margin:auto 0 7px; font-size:18px; line-height:.95; letter-spacing:-.04em; text-transform:uppercase; }
 .archive-index span { color:#77736a; text-transform:uppercase; letter-spacing:.1em; font-size:7px; font-weight:900; }
 .archive-index button.active span { color:#aaa69b; }
+.archive-orientation { margin:24px 0; padding:14px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); display:grid; grid-template-columns:130px minmax(0,1fr); align-items:center; gap:24px; }
+.archive-orientation span { color:var(--orange); text-transform:uppercase; letter-spacing:.13em; font-size:8px; font-weight:900; }
+.archive-orientation p { margin:0; color:#6f6b62; font-family:Georgia,serif; font-size:13px; line-height:1.5; }
+.archive-history { display:flex; flex-direction:column; gap:34px; }
+.archive-history-heading { margin-top:18px; padding-top:16px; border-top:4px solid var(--ink); display:grid; grid-template-columns:minmax(0,1fr) minmax(260px,.45fr); gap:7px 34px; align-items:end; }
+.archive-history-heading > span { grid-column:1 / -1; color:var(--orange); text-transform:uppercase; letter-spacing:.13em; font-size:8px; font-weight:900; }
+.archive-history-heading h3 { margin:0; font-size:clamp(40px,5.5vw,76px); line-height:.82; letter-spacing:-.07em; text-transform:uppercase; }
+.archive-history-heading p { margin:0; color:#706c63; font-family:Georgia,serif; font-size:13px; line-height:1.55; }
+.archive-timeline { position:relative; border-top:1px solid var(--line); }
+.archive-timeline:before { content:""; position:absolute; left:91px; top:0; bottom:0; width:1px; background:var(--line); }
+.archive-timeline > button { width:100%; min-height:150px; border:0; border-bottom:1px solid var(--line); padding:17px 0; background:transparent; color:var(--ink); text-align:left; cursor:pointer; display:grid; grid-template-columns:74px 180px minmax(0,1fr); gap:28px; align-items:center; transition:background .2s ease; }
+.archive-timeline > button:hover { background:rgba(235,230,217,.68); }
+.archive-timeline-year { align-self:start; padding-top:6px; color:var(--orange); font-size:10px; font-weight:900; letter-spacing:.08em; }
+.archive-timeline-image { height:116px; background:#ebe6d9; display:grid; place-items:center; overflow:hidden; }
+.archive-timeline-image img { width:100%; height:100%; padding:8px; object-fit:contain; mix-blend-mode:multiply; }
+.archive-timeline-copy { min-width:0; display:grid; grid-template-columns:1fr auto; gap:6px 20px; align-items:end; }
+.archive-timeline-copy small { grid-column:1 / -1; color:#8a867d; text-transform:uppercase; letter-spacing:.12em; font-size:7px; font-weight:900; }
+.archive-timeline-copy b { font-size:clamp(24px,3vw,44px); line-height:.88; letter-spacing:-.055em; text-transform:uppercase; }
+.archive-timeline-copy p { grid-column:1; margin:2px 0 0; color:#706c63; font-family:Georgia,serif; font-size:12px; line-height:1.45; }
+.archive-timeline-copy em { grid-column:2; grid-row:2 / 4; color:var(--ink); border-bottom:1px solid var(--ink); padding-bottom:6px; text-transform:uppercase; letter-spacing:.1em; font-size:8px; font-weight:900; font-style:normal; white-space:nowrap; }
+.archive-research-strip { margin-top:24px; padding:32px; background:var(--ink); color:#fff; display:grid; grid-template-columns:minmax(260px,.6fr) minmax(0,1.4fr); gap:44px; }
+.archive-research-strip small { color:var(--lime); text-transform:uppercase; letter-spacing:.13em; font-size:8px; font-weight:900; }
+.archive-research-strip h3 { margin:28px 0 14px; font-size:clamp(32px,4vw,56px); line-height:.84; letter-spacing:-.06em; text-transform:uppercase; }
+.archive-research-strip p { margin:0; color:#aaa69b; font-family:Georgia,serif; font-size:12px; line-height:1.55; }
+.archive-research-strip > div:last-child { border-top:1px solid rgba(255,255,255,.18); }
+.archive-research-strip > div:last-child button { width:100%; min-height:58px; border:0; border-bottom:1px solid rgba(255,255,255,.18); padding:10px 0; background:transparent; color:#fff; text-align:left; cursor:pointer; display:grid; grid-template-columns:34px 1fr; align-items:center; gap:10px; }
+.archive-research-strip > div:last-child button:hover b { color:var(--lime); }
+.archive-research-strip > div:last-child span { color:var(--orange); font-size:8px; font-weight:900; }
+.archive-research-strip > div:last-child b { font-size:13px; text-transform:uppercase; letter-spacing:-.02em; transition:color .18s; }
 .production-room, .artist-resources { display:flex; flex-direction:column; gap:25px; }
 .development-archive { display:flex; flex-direction:column; gap:24px; }
 .museum-launch { width:100%; min-height:190px; border:0; padding:30px 34px; background:var(--orange); color:var(--ink); text-align:left; cursor:pointer; display:flex; align-items:stretch; justify-content:space-between; gap:30px; transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s ease,background .2s ease; }
@@ -850,6 +879,10 @@ footer p { font-family:Georgia,serif; color:#888; }
   .archive-index { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; margin-right:-4vw; padding-right:4vw; scrollbar-width:none; }
   .archive-index::-webkit-scrollbar { display:none; }
   .archive-index button { flex:0 0 245px; min-height:120px; scroll-snap-align:start; }
+  .archive-history-heading { grid-template-columns:1fr; }
+  .archive-timeline > button { grid-template-columns:64px 145px minmax(0,1fr); gap:18px; }
+  .archive-timeline:before { left:79px; }
+  .archive-research-strip { grid-template-columns:1fr; }
   .timeline-heading { grid-template-columns:1fr; gap:14px; }
   .museum-visitor-guide { grid-template-columns:1fr; }
   .museum-visitor-guide > div { border-right:0; border-bottom:1px solid var(--line); }
@@ -1023,6 +1056,13 @@ footer p { font-family:Georgia,serif; color:#888; }
   .name-region { display:none; }
   .name-row-main strong { font-size:13px; }
   .reference-library { gap:42px; }
+  .archive-orientation { grid-template-columns:1fr; gap:5px; }
+  .archive-timeline:before { display:none; }
+  .archive-timeline > button { min-height:0; grid-template-columns:58px minmax(0,1fr); gap:12px; align-items:start; }
+  .archive-timeline-image { grid-column:2; width:100%; height:150px; }
+  .archive-timeline-copy { grid-column:2; display:flex; flex-direction:column; align-items:flex-start; gap:7px; }
+  .archive-timeline-copy em { margin-top:7px; }
+  .archive-research-strip { padding:25px 20px; gap:28px; }
   .archive-provenance { padding:28px 22px; margin-left:-20px; margin-right:-20px; }
   .archive-provenance h3 { font-size:38px; }
   .timeline-heading h3 { font-size:44px; }
