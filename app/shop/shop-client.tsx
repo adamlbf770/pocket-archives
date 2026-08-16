@@ -72,6 +72,21 @@ function rarityLabel(item: InventoryItem) {
   return recognizedRarities.find((rarity) => item.tags.includes(rarity)) ?? "Rarity not listed";
 }
 
+const rarityDisplayOrder = [
+  "Special Illustration Rare",
+  "Illustration Rare",
+  "Art Rare",
+  "Ultra Rare",
+  "Secret Rare",
+  "Holo Rare",
+  "Rare",
+  "Promo",
+  "Uncommon",
+  "Common",
+  "Carddass",
+  "Rarity not listed",
+];
+
 export function ShopHeader({ active = "shop" }: { active?: "shop" | "sales" }) {
   return (
     <header className="site-header shop-site-header">
@@ -332,6 +347,16 @@ export function ShopLanding() {
       return galleryItems.indexOf(a) - galleryItems.indexOf(b);
     });
   }, [galleryItems, query, setFilter, rarityFilter, conditionFilter, priceFilter, sort]);
+  const rarityGroups = useMemo(
+    () =>
+      rarityDisplayOrder
+        .map((rarity) => ({
+          rarity,
+          items: filteredItems.filter((item) => rarityLabel(item) === rarity),
+        }))
+        .filter((group) => group.items.length > 0),
+    [filteredItems],
+  );
   const hasFilters = Boolean(query || setFilter !== "all" || rarityFilter !== "all" || conditionFilter !== "all" || priceFilter !== "all" || sort !== "featured");
 
   function clearFilters() {
@@ -385,33 +410,42 @@ export function ShopLanding() {
             {hasFilters && <button type="button" onClick={clearFilters}>Clear all</button>}
           </div>
         </div>
-        <div className="store-gallery-grid">
-          {filteredItems.map((item, index) => (
-            <Link
-              className={`store-gallery-object gallery-object-${index + 1}`}
-              href={shopObjectUrl(item.slug)}
-              key={item.id}
-            >
-              <ObjectVisual item={item} />
-              <span>
-                <small>
-                  {item.set || "Pocket Archives"} · {rarityLabel(item)}
-                </small>
-                <b>{item.title}</b>
-                <em>
-                  {formatPrice(item.price, item.currency)}
-                </em>
-              </span>
-            </Link>
-          ))}
-          {filteredItems.length === 0 && (
-            <div className="store-no-results">
-              <small>No matches</small>
-              <h3>Nothing fits those filters.</h3>
-              <button type="button" onClick={clearFilters}>Clear filters</button>
-            </div>
-          )}
-        </div>
+        {rarityGroups.length > 0 ? (
+          <div className="store-rarity-groups">
+            {rarityGroups.map((group) => (
+              <section className="store-rarity-group" key={group.rarity}>
+                <header className="store-rarity-heading">
+                  <h3>{group.rarity}</h3>
+                  <span>{group.items.length} {group.items.length === 1 ? "card" : "cards"}</span>
+                </header>
+                <div className="store-gallery-grid">
+                  {group.items.map((item) => (
+                    <Link
+                      className="store-gallery-object"
+                      href={shopObjectUrl(item.slug)}
+                      key={item.id}
+                    >
+                      <ObjectVisual item={item} />
+                      <span>
+                        <small>
+                          {item.set || "Pocket Archives"} · {rarityLabel(item)}
+                        </small>
+                        <b>{item.title}</b>
+                        <em>{formatPrice(item.price, item.currency)}</em>
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        ) : (
+          <div className="store-no-results">
+            <small>No matches</small>
+            <h3>Nothing fits those filters.</h3>
+            <button type="button" onClick={clearFilters}>Clear filters</button>
+          </div>
+        )}
       </section>
       <section className="store-collections" id="collections">
         <header className="store-room-heading">

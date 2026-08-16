@@ -112,6 +112,8 @@ test("server-renders all batch 04 shop listings with their scanned fronts", asyn
   assert.match(html, />Rare<\/option>/i);
   assert.match(html, />Promo<\/option>/i);
   assert.doesNotMatch(html, /Rarity not listed/i);
+  assert.match(html, /class="store-rarity-groups"/i);
+  assert.match(html, /class="store-rarity-heading"/i);
 });
 
 test("batch 04 object pages show moderately played condition and revised prices", async () => {
