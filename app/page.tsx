@@ -64,14 +64,37 @@ type ReferenceSelection = { group: SetteiGroup; index: number };
 type DevelopmentItem = {
   id: string;
   year: number;
+  dateLabel?: string;
   title: string;
   kind: string;
   src: string;
   credit: string;
+  creator?: string;
+  illustrator?: string;
+  organization?: string;
+  originalObject?: string;
+  imageSource?: string;
+  provenance?: string;
+  rightsStatus?: string;
+  verificationStatus?:
+    | "VERIFIED"
+    | "PROVISIONALLY VERIFIED"
+    | "ATTRIBUTION UNVERIFIED"
+    | "RESEARCH PENDING";
+  era?: string;
+  recordId?: string;
   sourceUrl: string;
   sourceLabel: string;
   description: string;
 };
+
+function developmentDate(item: DevelopmentItem) {
+  return item.dateLabel || String(item.year);
+}
+
+function developmentCreator(item: DevelopmentItem) {
+  return item.creator || item.credit;
+}
 
 type ArchivePanel = {
   id: string;
@@ -145,70 +168,136 @@ const coreDevelopmentArchive: DevelopmentItem[] = [
   {
     id: "capumon-map",
     year: 1990,
-    title: "Capsule Monsters world study",
-    kind: "Original concept document",
+    dateLabel: "1990",
+    title: "Capsule Monsters Kanto Layout Map",
+    kind: "Pitch document map",
     src: "https://helixchamber.com/wp-content/uploads/2018/09/1990_Capsule_Monsters_00_map_reg.png",
-    credit: "Satoshi Tajiri & Ken Sugimori / Game Freak",
+    credit: "Satoshi Tajiri / Ken Sugimori / Game Freak",
+    creator: "Satoshi Tajiri — concept and planning",
+    illustrator: "Ken Sugimori — pitch-document illustration",
+    organization: "Game Freak",
+    originalObject: "1990 Capsule Monsters pitch document",
+    imageSource: "Helix Chamber enhanced archival scan",
+    provenance: "The pitch cover and Kanto layout map are dated 1990; Helix Chamber re-scanned and enhanced publicly revealed source material.",
+    rightsStatus: "Unverified / research required",
+    verificationStatus: "VERIFIED",
+    era: "Capsule Monsters pitch",
+    recordId: "PA-EARLY-0001",
     sourceUrl: "https://helixchamber.com/2018/09/10/pack-monsters-world/",
     sourceLabel: "Helix Chamber research archive",
     description:
-      "An early map and world-building study from the Capsule Monsters pitch period, before the Pokémon name was finalized.",
+      "A dated layout map from the Capsule Monsters pitch, showing an early Kanto plan before the final town and route structure.",
   },
   {
     id: "capumon-catalog",
     year: 1990,
-    title: "Capsule Monsters creature catalog",
-    kind: "Prototype sprite compilation",
+    dateLabel: "1990 source material · 2019 reconstruction",
+    title: "Capsule Monsters Creature Studies",
+    kind: "Research reconstruction",
     src: "https://helixchamber.com/wp-content/uploads/2018/12/CAPUMON_SPRITESHEET2_final.png",
-    credit: "Game Freak source assets / Helix Chamber assembly",
+    credit: "Game Freak source material",
+    creator: "Game Freak — original game-development material",
+    illustrator: "Ken Sugimori — pitch illustrations; individual sprite artists unverified",
+    organization: "Game Freak",
+    originalObject: "Sprite studies printed in the 1990 Capsule Monsters pitch",
+    imageSource: "Helix Chamber archival reconstruction",
+    provenance: "Helix Chamber assembled this research image from sprite sheets documented in the dated Capsule Monsters pitch; it is not an original 1990 presentation sheet in this assembled form.",
+    rightsStatus: "Unverified / research required",
+    verificationStatus: "PROVISIONALLY VERIFIED",
+    era: "Capsule Monsters pitch / later reconstruction",
+    recordId: "PA-EARLY-0002",
     sourceUrl: "https://helixchamber.com/2019/02/16/what-dreams-may-come/",
     sourceLabel: "Helix Chamber prototype archive",
     description:
-      "A research plate assembling early creature assets associated with the Capsule Monsters and early Red/Green development period.",
+      "A modern research assembly of early creature and sprite evidence associated with the 1990 pitch.",
   },
   {
     id: "capumon-sprites",
     year: 1990,
-    title: "Early Capumon sprite plate",
-    kind: "Prototype sprite compilation",
+    dateLabel: "1990",
+    title: "Early Creature Sprite Studies",
+    kind: "Pitch-document sprite study",
     src: "https://helixchamber.com/wp-content/uploads/2018/08/Capumon_sprites_clean_xsmall_propo-250x300.jpg",
-    credit: "Game Freak source assets / Helix Chamber assembly",
+    credit: "Game Freak source material",
+    creator: "Game Freak — original game-development material",
+    illustrator: "Individual sprite artists unverified",
+    organization: "Game Freak",
+    originalObject: "Sprite sheets printed in the 1990 Capsule Monsters pitch",
+    imageSource: "Helix Chamber re-scan and enhancement",
+    provenance: "Helix Chamber identifies these sprite sheets as pages printed in the 1990 pitch; the displayed image is a later digital preservation copy.",
+    rightsStatus: "Unverified / research required",
+    verificationStatus: "VERIFIED",
+    era: "Capsule Monsters pitch",
+    recordId: "PA-EARLY-0003",
     sourceUrl: "https://helixchamber.com/2018/08/11/index-list/",
     sourceLabel: "Helix Chamber research archive",
     description:
-      "A proportional overview of early monster sprites, including designs that changed substantially or were removed before release.",
+      "Early sprite studies from the pitch, including creatures that changed substantially or did not survive into the released games.",
   },
   {
     id: "early-kanto-1",
-    year: 1995,
-    title: "Early Kanto prototype index I",
-    kind: "Extracted prototype assets",
+    year: 2019,
+    dateLabel: "2019 reconstruction · underlying date unverified",
+    title: "Early Kanto Prototype Index",
+    kind: "Research reconstruction",
     src: "https://helixchamber.com/wp-content/uploads/2019/02/early_kanto.png",
-    credit: "Game Freak prototype data / Helix Chamber documentation",
+    credit: "Helix Chamber research presentation",
+    creator: "Helix Chamber — research reconstruction",
+    illustrator: "Original individual artists unverified",
+    organization: "Original assets attributed to Game Freak",
+    originalObject: "2019 research plate assembled from early prototype evidence",
+    imageSource: "Helix Chamber",
+    provenance: "A Helix Chamber research plate, not a single historical Game Freak document. The underlying assets relate to pre-release Red/Green development, but item-level dates remain uncertain.",
+    rightsStatus: "Unverified / research required",
+    verificationStatus: "PROVISIONALLY VERIFIED",
+    era: "Red/Green prototype research",
+    recordId: "PA-EARLY-0004",
     sourceUrl: "https://helixchamber.com/2019/02/16/what-dreams-may-come/",
     sourceLabel: "Helix Chamber prototype archive",
     description:
-      "Documented early Red/Green assets and surviving back sprites. These are game-development artifacts, not finished Sugimori illustrations.",
+      "A research index of documented prototype assets and surviving back sprites; it should not be read as a contemporaneous Game Freak plate.",
   },
   {
     id: "early-kanto-2",
-    year: 1995,
-    title: "Early Kanto prototype index II",
-    kind: "Extracted prototype assets",
+    year: 2019,
+    dateLabel: "2019 reconstruction · underlying date unverified",
+    title: "Early Kanto Prototype Index — Additional Material",
+    kind: "Research reconstruction",
     src: "https://helixchamber.com/wp-content/uploads/2019/02/early_kanto_2.png",
-    credit: "Game Freak prototype data / Helix Chamber documentation",
+    credit: "Helix Chamber research presentation",
+    creator: "Helix Chamber — research reconstruction",
+    illustrator: "Original individual artists unverified",
+    organization: "Original assets attributed to Game Freak",
+    originalObject: "2019 research plate assembled from early prototype evidence",
+    imageSource: "Helix Chamber",
+    provenance: "A second Helix Chamber research plate assembled from prototype evidence; underlying dates and individual credits are not established at item level.",
+    rightsStatus: "Unverified / research required",
+    verificationStatus: "PROVISIONALLY VERIFIED",
+    era: "Red/Green prototype research",
+    recordId: "PA-EARLY-0005",
     sourceUrl: "https://helixchamber.com/2019/02/16/what-dreams-may-come/",
     sourceLabel: "Helix Chamber prototype archive",
     description:
-      "The second documented plate of early Kanto-era prototype material, including cut and revised creature designs.",
+      "An additional research index of cut and revised creature designs from the long Red/Green development period.",
   },
   {
     id: "prototype-periods",
-    year: 1995,
+    year: 2019,
+    dateLabel: "2019",
     title: "Red & Green development timeline",
     kind: "Research chronology",
     src: "https://helixchamber.com/wp-content/uploads/2019/02/periodization201902.png",
     credit: "Helix Chamber research presentation",
+    creator: "Helix Chamber — research chronology",
+    illustrator: "Not applicable",
+    organization: "Helix Chamber",
+    originalObject: "Modern research chronology of early Pokémon development",
+    imageSource: "Helix Chamber",
+    provenance: "Published by Helix Chamber in 2019 to distinguish proposed periods within the surviving Red/Green evidence; the chronology is an interpretation, not a Game Freak periodization.",
+    rightsStatus: "Unverified / research required",
+    verificationStatus: "VERIFIED",
+    era: "Modern archival research",
+    recordId: "PA-EARLY-0006",
     sourceUrl: "https://helixchamber.com/2019/02/16/what-dreams-may-come/",
     sourceLabel: "Helix Chamber prototype archive",
     description:
@@ -216,11 +305,22 @@ const coreDevelopmentArchive: DevelopmentItem[] = [
   },
   {
     id: "map-comparison",
-    year: 1995,
+    year: 2019,
+    dateLabel: "2019",
     title: "Early map document comparison",
-    kind: "Development-document comparison",
+    kind: "Research comparison",
     src: "https://helixchamber.com/wp-content/uploads/2019/02/MapPageCompare.png",
-    credit: "Game Freak source material / Helix Chamber comparison",
+    credit: "Helix Chamber research presentation",
+    creator: "Helix Chamber — research comparison",
+    illustrator: "Original individual artists unverified",
+    organization: "Underlying material attributed to Game Freak",
+    originalObject: "Modern comparison plate using early map documents",
+    imageSource: "Helix Chamber",
+    provenance: "A modern comparison assembled by Helix Chamber from surviving planning images; it is not a contemporaneous Game Freak document in this layout.",
+    rightsStatus: "Unverified / research required",
+    verificationStatus: "VERIFIED",
+    era: "Modern archival research",
+    recordId: "PA-EARLY-0007",
     sourceUrl: "https://helixchamber.com/2019/02/16/what-dreams-may-come/",
     sourceLabel: "Helix Chamber prototype archive",
     description:
@@ -228,11 +328,22 @@ const coreDevelopmentArchive: DevelopmentItem[] = [
   },
   {
     id: "zukan-comparison",
-    year: 1995,
+    year: 2019,
+    dateLabel: "2019",
     title: "Early monster index comparison",
-    kind: "Development-document comparison",
+    kind: "Research comparison",
     src: "https://helixchamber.com/wp-content/uploads/2019/02/ZukanCompare.png",
-    credit: "Game Freak source material / Helix Chamber comparison",
+    credit: "Helix Chamber research presentation",
+    creator: "Helix Chamber — research comparison",
+    illustrator: "Original individual artists unverified",
+    organization: "Underlying material attributed to Game Freak",
+    originalObject: "Modern comparison plate using prototype monster-index evidence",
+    imageSource: "Helix Chamber",
+    provenance: "A modern comparison assembled by Helix Chamber. It preserves evidence about early internal ordering without asserting that the layout itself is historical.",
+    rightsStatus: "Unverified / research required",
+    verificationStatus: "VERIFIED",
+    era: "Modern archival research",
+    recordId: "PA-EARLY-0008",
     sourceUrl: "https://helixchamber.com/2019/02/16/what-dreams-may-come/",
     sourceLabel: "Helix Chamber prototype archive",
     description:
@@ -241,21 +352,201 @@ const coreDevelopmentArchive: DevelopmentItem[] = [
 ];
 
 const redditConceptFiles = [
-  ["3BIfe.jpg", "Capsule Monsters forest concept"],
-  ["uJZYG.jpg", "Capsule Monsters planning spread"],
-  ["eVFiz.jpg", "A Man Who Created Pokémon source-book view"],
-  ["mPddl.jpg", "Early creature studies"],
-  ["Cz0dP.jpg", "Capsule Monsters planning forms"],
-  ["QcPUq.jpg", "Early capture and item concept"],
-  ["ZAQnI.jpg", "Early town and environment studies"],
-  ["ta7Ec.jpg", "Early shop and field scenes"],
-  ["7xVCR.jpg", "Early game comic advertisement"],
-  ["rZ8VJ.jpg", "Early promotional battle poster"],
-  ["0eXLv.jpg", "Early trainer ensemble illustration"],
-  ["mr195.jpg", "Prototype battle mockup I"],
-  ["PVlMl.jpg", "Prototype battle mockup II"],
-  ["LroBZ.jpg", "Capsule Monsters title and map page"],
-  ["8WJLE.jpg", "A Man Who Created Pokémon cover"],
+  {
+    file: "3BIfe.jpg",
+    year: 1990,
+    dateLabel: "1990 attribution · scan context unconfirmed",
+    title: "Early Environment Concept",
+    kind: "Development-art reproduction",
+    creator: "Game Freak",
+    illustrator: "Ken Sugimori — probable",
+    originalObject: "Capsule Monsters pitch/development material, reproduced in a later publication",
+    provenance: "The image is consistent with material reproduced alongside the 1990 pitch, but the community album does not identify the exact page or first publication.",
+    verificationStatus: "PROVISIONALLY VERIFIED" as const,
+    era: "Capsule Monsters / early development",
+  },
+  {
+    file: "uJZYG.jpg",
+    year: 1990,
+    dateLabel: "1990 attribution · scan context unconfirmed",
+    title: "Environment and Planning Studies",
+    kind: "Development-document reproduction",
+    creator: "Game Freak",
+    illustrator: "Ken Sugimori — probable for illustrated scene",
+    originalObject: "Early Capsule Monsters planning material, reproduced in a later publication",
+    provenance: "A photographed book spread combining an environment drawing and planning forms. The underlying material is associated with Capsule Monsters, but exact page-level provenance remains incomplete.",
+    verificationStatus: "PROVISIONALLY VERIFIED" as const,
+    era: "Capsule Monsters / early development",
+  },
+  {
+    file: "eVFiz.jpg",
+    year: 2004,
+    dateLabel: "2004 · reproducing earlier material",
+    title: "Book Documentation: Capsule Monsters",
+    kind: "Published book page",
+    creator: "Shōtarō Miyā and Satoshi Tajiri — authors",
+    illustrator: "Underlying Capsule Monsters artwork: Ken Sugimori",
+    originalObject: "Page from 田尻智 ポケモンを創った男 (Ohta Publishing, 2004)",
+    provenance: "The National Diet Library verifies the book's title, authors, publisher, and March 2004 publication. The displayed image is a community photograph of a page reproducing earlier material.",
+    verificationStatus: "VERIFIED" as const,
+    era: "Published historical documentation",
+  },
+  {
+    file: "mPddl.jpg",
+    year: 1994,
+    dateLabel: "Early Pocket Monsters development · date unverified",
+    title: "Early Creature and Battle Studies",
+    kind: "Development-art reproduction",
+    creator: "Game Freak development material",
+    illustrator: "Individual artist unverified",
+    originalObject: "Early creature and battle drawings reproduced in a later publication",
+    provenance: "The community photograph supplies no item-level date or credit. The work must not be assigned to 1990 without a documented link to the Capsule Monsters pitch.",
+    verificationStatus: "ATTRIBUTION UNVERIFIED" as const,
+    era: "Early Pocket Monsters development",
+  },
+  {
+    file: "Cz0dP.jpg",
+    year: 1993,
+    dateLabel: "c. 1993",
+    title: "Pokémon Capture Storyboard — Planning Forms",
+    kind: "Development storyboard reproduction",
+    creator: "Game Freak",
+    illustrator: "Ken Sugimori — probable",
+    originalObject: "Early capture-animation storyboard and planning forms",
+    provenance: "Helix Chamber dates the related capture storyboard to circa 1993 and describes Sugimori's authorship as probable. This community photograph appears to reproduce that development sequence.",
+    verificationStatus: "PROVISIONALLY VERIFIED" as const,
+    era: "Early Pocket Monsters development",
+  },
+  {
+    file: "QcPUq.jpg",
+    year: 1993,
+    dateLabel: "c. 1993",
+    title: "Pokémon Capture Storyboard",
+    kind: "Development storyboard reproduction",
+    creator: "Game Freak",
+    illustrator: "Ken Sugimori — probable",
+    originalObject: "Storyboard depicting the animation for catching a Pokémon",
+    provenance: "Helix Chamber dates the storyboard to circa 1993 and attributes the drawing probably to Ken Sugimori; the typed captions belong to the later book reproduction, not the original sheet.",
+    verificationStatus: "PROVISIONALLY VERIFIED" as const,
+    era: "Early Pocket Monsters development",
+  },
+  {
+    file: "ZAQnI.jpg",
+    year: 1994,
+    dateLabel: "Early Pocket Monsters development · date unverified",
+    title: "Town and Environment Studies",
+    kind: "Development-art reproduction",
+    creator: "Game Freak development material",
+    illustrator: "Individual artist unverified",
+    originalObject: "Early town and environment drawings reproduced in a later publication",
+    provenance: "No reliable item-level date was located. The image is retained as early development material without assigning it to the 1990 pitch.",
+    verificationStatus: "ATTRIBUTION UNVERIFIED" as const,
+    era: "Early Pocket Monsters development",
+  },
+  {
+    file: "ta7Ec.jpg",
+    year: 1994,
+    dateLabel: "Early Pocket Monsters development · date unverified",
+    title: "Shop and Field Scene Studies",
+    kind: "Development-art reproduction",
+    creator: "Game Freak development material",
+    illustrator: "Individual artist unverified",
+    originalObject: "Early environment and interaction studies reproduced in a later publication",
+    provenance: "The community album does not establish a precise date, original sheet title, or individual artist.",
+    verificationStatus: "ATTRIBUTION UNVERIFIED" as const,
+    era: "Early Pocket Monsters development",
+  },
+  {
+    file: "7xVCR.jpg",
+    year: 1995,
+    dateLabel: "Pre-release or release era · date unverified",
+    title: "Published Pokémon Promotional Comic",
+    kind: "Promotional print reproduction",
+    creator: "Publisher and artist unverified",
+    illustrator: "Individual artist unverified",
+    originalObject: "Printed promotional comic or advertisement",
+    provenance: "The image is demonstrably printed promotional material, but its publication title, issue, and date are not supplied by the community album.",
+    verificationStatus: "RESEARCH PENDING" as const,
+    era: "Early Pocket Monsters publicity",
+  },
+  {
+    file: "rZ8VJ.jpg",
+    year: 1995,
+    dateLabel: "Early Pocket Monsters era · exact date unknown",
+    title: "Pijotto vs. Lizardon",
+    kind: "Published illustration reproduction",
+    creator: "Game Freak / publication source unverified",
+    illustrator: "Ken Sugimori — attributed",
+    originalObject: "Printed Pocket Monsters battle illustration",
+    provenance: "The printed image carries the Pijotto vs. Lizardon title, but the community copy does not establish its first publication or exact date. It is not labeled as Capsule Monsters material.",
+    verificationStatus: "ATTRIBUTION UNVERIFIED" as const,
+    era: "Early Pocket Monsters era",
+  },
+  {
+    file: "0eXLv.jpg",
+    year: 1995,
+    dateLabel: "Early Pocket Monsters era · exact date unknown",
+    title: "Trainer and Pokémon Ensemble",
+    kind: "Published illustration reproduction",
+    creator: "Game Freak",
+    illustrator: "Ken Sugimori — attributed",
+    originalObject: "Finished Pocket Monsters-era character illustration",
+    provenance: "The image shows developed Red, Green, Pikachu, and Charizard designs and therefore postdates the earliest Capsule Monsters material. Its exact publication remains unverified.",
+    verificationStatus: "ATTRIBUTION UNVERIFIED" as const,
+    era: "Early Pocket Monsters era",
+  },
+  {
+    file: "mr195.jpg",
+    year: 1994,
+    dateLabel: "Early development · date unverified",
+    title: "Prototype Battle Interface Study",
+    kind: "Development interface reproduction",
+    creator: "Game Freak",
+    illustrator: "Individual artist unverified",
+    originalObject: "Prototype battle-interface drawing",
+    provenance: "The source album provides no reliable date or artist. The image is preserved without the former unsupported 1990 attribution.",
+    verificationStatus: "RESEARCH PENDING" as const,
+    era: "Early Pocket Monsters development",
+  },
+  {
+    file: "PVlMl.jpg",
+    year: 1994,
+    dateLabel: "Early development · date unverified",
+    title: "Prototype Battle Status Study",
+    kind: "Development interface reproduction",
+    creator: "Game Freak",
+    illustrator: "Individual artist unverified",
+    originalObject: "Prototype battle-status drawing",
+    provenance: "The source album provides no reliable date or artist. The image is preserved without the former unsupported 1990 attribution.",
+    verificationStatus: "RESEARCH PENDING" as const,
+    era: "Early Pocket Monsters development",
+  },
+  {
+    file: "LroBZ.jpg",
+    year: 1990,
+    dateLabel: "1990",
+    title: "Capsule Monsters Pitch — Title and Kanto Map",
+    kind: "Pitch-document reproduction",
+    creator: "Satoshi Tajiri — concept and planning",
+    illustrator: "Ken Sugimori — pitch-document illustration",
+    originalObject: "1990 Capsule Monsters pitch document",
+    provenance: "The displayed photograph shows the Capsule Monsters title and dated Kanto planning material reproduced in a later publication.",
+    verificationStatus: "VERIFIED" as const,
+    era: "Capsule Monsters pitch",
+  },
+  {
+    file: "8WJLE.jpg",
+    year: 2004,
+    dateLabel: "2004",
+    title: "田尻智 ポケモンを創った男 — Book Cover",
+    kind: "Published book",
+    creator: "Shōtarō Miyā and Satoshi Tajiri — authors",
+    illustrator: "Cover art credit unverified",
+    originalObject: "田尻智 ポケモンを創った男, Ohta Publishing, March 2004",
+    provenance: "Bibliographic details are verified by the National Diet Library; the displayed image is a community-preserved photograph of the book cover.",
+    verificationStatus: "VERIFIED" as const,
+    era: "Published historical documentation",
+  },
 ] as const;
 
 const redditPrototypeFiles = [
@@ -302,44 +593,98 @@ const carddassArchiveFiles = [
   "xsyN9.jpg",
 ] as const;
 
+const prototypeTitles = [
+  "Unidentified Aquatic Creature Study",
+  "Early Pikachu Color Study",
+  "Unidentified Shelled Creature Study",
+  "Published Prototype-Art Feature",
+  "Unidentified Creature Color Study",
+  "Published Development-Art Feature",
+  "Unidentified Pink Creature Study",
+  "Unidentified Giraffe-Like Creature Study",
+  "Unidentified Aquatic Creature Study",
+  "Exhibition Display: Early Pokémon Drawings",
+  "Latias Development Drawing Photograph",
+  "Published Prototype-Art Feature",
+  "Development Sketch Photograph",
+  "Early Trainer and Pokémon Ensemble",
+] as const;
+
 const redditDevelopmentArchive: DevelopmentItem[] = [
-  ...redditConceptFiles.map(([file, title], index) => ({
+  ...redditConceptFiles.map((item, index) => ({
     id: `reddit-concept-${index + 1}`,
-    year: 1990,
-    title,
-    kind:
-      index === 2 || index === 14
-        ? "Source-book documentation of 1990 material"
-        : "Early concept archive scan",
-    src: `https://i.imgur.com/${file}`,
-    credit: "Satoshi Tajiri & Ken Sugimori / Game Freak source material",
+    year: item.year,
+    dateLabel: item.dateLabel,
+    title: item.title,
+    kind: item.kind,
+    src: `https://i.imgur.com/${item.file}`,
+    credit: item.creator,
+    creator: item.creator,
+    illustrator: item.illustrator,
+    organization: item.year === 2004 ? "Ohta Publishing" : "Game Freak",
+    originalObject: item.originalObject,
+    imageSource:
+      "Community-preserved photograph in the Imgur album linked by the Reddit thread",
+    provenance: item.provenance,
+    rightsStatus: "Unverified / research required",
+    verificationStatus: item.verificationStatus,
+    era: item.era,
+    recordId: `PA-EARLY-${String(index + 9).padStart(4, "0")}`,
     sourceUrl: "https://imgur.com/a/7HzFR",
     sourceLabel: "Imgur album preserved through the linked Reddit thread",
-    description:
-      index === 2 || index === 14
-        ? "Documentation from the 2004 book Satoshi Tajiri: A Man Who Created Pokémon, one of the sources through which the 1990 development images circulated."
-        : "A scan or photograph of early Pokémon development material collected in the Reddit thread’s primary Imgur album. The gallery preserves the source order and does not treat later photography as a new original artwork.",
+    description: item.provenance,
   })),
   ...redditPrototypeFiles.map((file, index) => ({
     id: `reddit-prototype-${index + 1}`,
-    year: 1997,
-    title: `Prototype artwork plate ${String(index + 1).padStart(2, "0")}`,
-    kind: "Community-preserved prototype image",
+    year: index === 10 ? 2002 : 1995,
+    dateLabel:
+      index === 10
+        ? "Early 2000s · exact date unverified"
+        : "Development era · date unverified",
+    title: prototypeTitles[index],
+    kind: "Development artwork — date unverified",
     src: `https://i.imgur.com/${file}`,
     credit:
       "Game Freak development material / exact individual credit unverified",
+    creator: "Game Freak development material — attribution unverified",
+    illustrator: "Individual artist unverified",
+    organization: "Game Freak — attributed",
+    originalObject:
+      index === 9
+        ? "Exhibition photograph of early Pokémon drawings"
+        : "Unidentified development artwork; exact publication and object context unverified",
+    imageSource:
+      "Community-preserved image in the prototype-art Imgur album",
+    provenance:
+      "The source album supplies no item-level date, original title, or individual artist credit. Pocket Archives retains the image as research material and assigns only an internal record ID—not a historical plate number.",
+    rightsStatus: "Unverified / research required",
+    verificationStatus: "ATTRIBUTION UNVERIFIED" as const,
+    era: index === 10 ? "Early 2000s development" : "Pokémon development",
+    recordId: `PA-EARLY-${String(index + 24).padStart(4, "0")}`,
     sourceUrl: "https://imgur.com/a/GlGrp",
     sourceLabel: "Prototype-art Imgur album linked by the Reddit poster",
     description:
-      "An early or prototype Pokémon image preserved in the linked album. Because the album does not provide item-level dates or credits, Pocket Archives labels it as community-preserved rather than assigning an unsupported artist attribution.",
+      "A community-preserved development image whose exact date, original title, publication context, and individual artist remain unverified.",
   })),
   ...redditSpriteFiles.map((file, index) => ({
     id: `reddit-beta-sprite-${index + 1}`,
-    year: 1997,
-    title: `Beta sprite specimen ${String(index + 1).padStart(2, "0")}`,
-    kind: "Extracted beta sprite",
+    year: 1995,
+    dateLabel: "Development era · exact date unverified",
+    title: "Unidentified Beta Sprite",
+    kind: "Extracted prototype sprite",
     src: `https://i.imgur.com/${file}`,
     credit: "Game Freak prototype data / individual sprite artist unverified",
+    creator: "Game Freak prototype data — attributed",
+    illustrator: "Individual sprite artist unverified",
+    organization: "Game Freak — attributed",
+    originalObject: "Prototype sprite data; exact build and extraction context unverified",
+    imageSource: "Community-preserved beta-sprite Imgur album",
+    provenance:
+      "The linked album preserves an extracted beta sprite but does not provide a documented build date, internal name, or individual sprite artist.",
+    rightsStatus: "Unverified / research required",
+    verificationStatus: "ATTRIBUTION UNVERIFIED" as const,
+    era: "Pokémon development",
+    recordId: `PA-EARLY-${String(index + 38).padStart(4, "0")}`,
     sourceUrl: "https://imgur.com/a/Go7E0",
     sourceLabel: "Beta-sprite Imgur album linked by the Reddit poster",
     description:
@@ -348,15 +693,28 @@ const redditDevelopmentArchive: DevelopmentItem[] = [
   ...carddassArchiveFiles.map((file, index) => ({
     id: `carddass-action-${index + 1}`,
     year: 1997,
-    title: `Carddass action archive sheet ${String(index + 1).padStart(2, "0")}`,
-    kind: "Carddass Part 3 & 4 illustration sheet",
+    dateLabel: "1997 · Parts 3 and 4",
+    title: "Pocket Monsters Carddass Part 3 & 4 — Grouped Cards",
+    kind: "Community photograph of released cards",
     src: `https://i.imgur.com/${file}`,
     credit: "Ken Sugimori / Bandai Carddass",
+    creator: "Bandai — publisher and manufacturer",
+    illustrator: "Ken Sugimori — set-level attribution",
+    organization: "Bandai",
+    originalObject:
+      "Pocket Monsters Carddass Part 3 and Part 4 cards (Bandai, 1997)",
+    imageSource: "Community-assembled photograph preserved in an Imgur album",
+    provenance:
+      "Parts 3 and 4 were released in April and June 1997 and together cover the original 151 Pokémon. This image is a later community grouping of released cards, not a historical production sheet.",
+    rightsStatus: "Unverified / research required",
+    verificationStatus: "PROVISIONALLY VERIFIED" as const,
+    era: "Release-era licensed material",
+    recordId: `PA-EARLY-${String(index + 44).padStart(4, "0")}`,
     sourceUrl: "https://imgur.com/a/HOPoK",
     sourceLabel:
       "151-Pokémon action-art Imgur album linked through the Reddit discussion",
     description:
-      "A preserved sheet of the 1997 Bandai Carddass Part 3 & 4 illustrations, which depict the original 151 Pokémon performing signature moves. These are release-era licensed illustrations, not beta designs.",
+      "A community photograph grouping released 1997 Bandai Carddass cards. It documents licensed Sugimori artwork, but the grouping itself is modern rather than a historical archive sheet.",
   })),
 ];
 
@@ -1287,7 +1645,7 @@ export default function Home() {
     return developmentArchive.filter(
       (item) =>
         !needle ||
-        `${item.year} ${item.title} ${item.kind} ${item.credit} ${item.sourceLabel} ${item.description} alpha beta prototype capsule monsters capumon reddit imgur carddass early art`
+        `${developmentDate(item)} ${item.title} ${item.kind} ${developmentCreator(item)} ${item.illustrator || ""} ${item.organization || ""} ${item.originalObject || ""} ${item.imageSource || ""} ${item.provenance || ""} ${item.verificationStatus || ""} ${item.sourceLabel} ${item.description} alpha beta prototype capsule monsters capumon reddit imgur carddass early art`
           .toLowerCase()
           .includes(needle),
     );
@@ -2122,7 +2480,7 @@ export default function Home() {
               (!!developmentResults.length ? (
                 <section className="development-archive" id="early-designs">
                   <div className="timeline-heading">
-                    <span>1990–1997 · Earliest material first</span>
+                    <span>1990–2019 · Historical material and modern research</span>
                     <h3>Alpha &amp; beta archive</h3>
                     <p>
                       Original concepts, extracted prototype assets, release-era
@@ -2156,10 +2514,10 @@ export default function Home() {
                           </span>
                           <span className="development-card-copy">
                             <small>
-                              {item.year} · {item.kind}
+                              {developmentDate(item)} · {item.kind}
                             </small>
                             <strong>{item.title}</strong>
-                            <em>{item.credit}</em>
+                            <em>{developmentCreator(item)}</em>
                           </span>
                         </button>
                       </article>
@@ -3057,7 +3415,7 @@ export default function Home() {
           className="reference-viewer development-viewer"
           role="dialog"
           aria-modal="true"
-          aria-label={`${selectedDevelopment.title} early development plate`}
+          aria-label={`${selectedDevelopment.title} archive record`}
           onMouseDown={(event) => {
             if (event.currentTarget === event.target)
               setSelectedDevelopment(null);
@@ -3072,7 +3430,7 @@ export default function Home() {
           </button>
           <div className="reference-viewer-stage development-stage">
             <span className="reference-viewer-index">
-              {selectedDevelopment.year} ·{" "}
+              {developmentDate(selectedDevelopment)} ·{" "}
               {developmentResults.findIndex(
                 (item) => item.id === selectedDevelopment.id,
               ) + 1}{" "}
@@ -3085,14 +3443,14 @@ export default function Home() {
             <button
               className="reference-step previous"
               onClick={() => moveDevelopment(-1)}
-              aria-label="Previous early development plate"
+              aria-label="Previous early development record"
             >
               ←
             </button>
             <button
               className="reference-step next"
               onClick={() => moveDevelopment(1)}
-              aria-label="Next early development plate"
+              aria-label="Next early development record"
             >
               →
             </button>
@@ -3103,25 +3461,49 @@ export default function Home() {
             </p>
             <h2>{selectedDevelopment.title}</h2>
             <p className="reference-viewer-label">
-              {selectedDevelopment.year} · {selectedDevelopment.kind}
+              {developmentDate(selectedDevelopment)} · {selectedDevelopment.kind}
             </p>
-            {!selectedDevelopment.id.startsWith("reddit-") &&
-              !selectedDevelopment.id.startsWith("carddass-") && (
-                <p className="reference-viewer-description">
-                  {selectedDevelopment.description}
-                </p>
-              )}
+            <p className="reference-viewer-description">
+              {selectedDevelopment.description}
+            </p>
             <div className="reference-source">
-              <span>Provenance</span>
-              <b>Original material · {selectedDevelopment.credit}</b>
+              <span>Object record</span>
+              <b>{selectedDevelopment.originalObject || selectedDevelopment.kind}</b>
               <p>
-                Digital preservation source · {selectedDevelopment.sourceLabel}
+                Creator · {developmentCreator(selectedDevelopment)}
                 <br />
-                Rights · respective rights holder · Status · displayed for
-                archival and research context
+                Illustrator · {selectedDevelopment.illustrator || "Unverified"}
+                <br />
+                Organization · {selectedDevelopment.organization || "Unverified"}
               </p>
             </div>
-            <p className="key-hint">Use ← → for another plate · Esc to close</p>
+            <details className="provenance-verification">
+              <summary>
+                <span>Provenance + verification</span>
+                <b>{selectedDevelopment.verificationStatus || "RESEARCH PENDING"}</b>
+              </summary>
+              <div>
+                <p>
+                  <strong>Image source</strong>
+                  {selectedDevelopment.imageSource || selectedDevelopment.sourceLabel}
+                </p>
+                <p>
+                  <strong>Provenance</strong>
+                  {selectedDevelopment.provenance || selectedDevelopment.description}
+                </p>
+                <p>
+                  <strong>Rights status</strong>
+                  {selectedDevelopment.rightsStatus || "Unverified / research required"}
+                </p>
+                <p>
+                  <strong>Pocket Archives record</strong>
+                  {selectedDevelopment.recordId || selectedDevelopment.id}
+                </p>
+              </div>
+            </details>
+            <p className="key-hint">
+              Use ← → for another record · Esc to close
+            </p>
           </aside>
         </div>
       )}

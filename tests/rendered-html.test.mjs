@@ -35,6 +35,22 @@ test("server-renders the Pocket Archives landing page", async () => {
   assert.doesNotMatch(html, /Your site is taking shape|Building your site/i);
 });
 
+test("early archive records expose audited provenance without invented plate numbers", async () => {
+  const source = await readFile(
+    new URL("../app/page.tsx", import.meta.url),
+    "utf8",
+  );
+
+  assert.doesNotMatch(source, /Prototype artwork plate/);
+  assert.doesNotMatch(source, /Carddass action archive sheet/);
+  assert.doesNotMatch(source, /Beta sprite specimen/);
+  assert.match(source, /c\. 1993/);
+  assert.match(source, /Provenance \+ verification/i);
+  assert.match(source, /ATTRIBUTION UNVERIFIED/);
+  assert.match(source, /1990 source material · 2019 reconstruction/);
+  assert.match(source, /1997 · Parts 3 and 4/);
+});
+
 test("Sword and Shield icons are tightly framed for the archive comparison", async () => {
   const iconDirectory = new URL(
     "../public/sprites/sword-shield-icons/",

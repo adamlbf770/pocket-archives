@@ -2528,6 +2528,61 @@ button {
   border-left-color: var(--lime);
   margin-top: -12px;
 }
+.provenance-verification {
+  margin: -12px 0 26px;
+  border-top: 1px solid #3c3b36;
+  border-bottom: 1px solid #3c3b36;
+  color: #aaa69b;
+}
+.provenance-verification summary {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: pointer;
+  list-style: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 8px;
+  font-weight: 900;
+}
+.provenance-verification summary::-webkit-details-marker {
+  display: none;
+}
+.provenance-verification summary::after {
+  content: "+";
+  color: var(--orange);
+  font-size: 15px;
+}
+.provenance-verification[open] summary::after {
+  content: "−";
+}
+.provenance-verification summary b {
+  margin-left: auto;
+  color: var(--lime);
+  font-size: 7px;
+}
+.provenance-verification > div {
+  padding: 0 0 16px;
+}
+.provenance-verification p {
+  margin: 0;
+  padding: 10px 0;
+  border-top: 1px solid #2c2b27;
+  font-family: Georgia, serif;
+  font-size: 10px;
+  line-height: 1.45;
+}
+.provenance-verification p strong {
+  display: block;
+  margin-bottom: 3px;
+  color: #777;
+  font-family: Arial, sans-serif;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
 .reference-viewer.local-info-viewer {
   padding: 7vh 7vw;
   grid-template-columns: 220px minmax(0, 820px);
