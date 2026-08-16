@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import {
   ARCHIVE_ORIGIN,
   SHOP_HOME,
@@ -53,6 +53,14 @@ function collectorSetLabel(item: InventoryItem) {
   if (item.category === "Carddass") return "Bandai Carddass";
   if (item.tags.includes("Meiji")) return "Meiji Get Cards";
   return item.set || "Singles";
+}
+
+function rarityLabel(item: InventoryItem) {
+  if (item.tags.includes("Illustration Rare")) return "Illustration Rare";
+  if (item.tags.includes("Art Rare")) return "Art Rare";
+  if (item.id === "LIVE-010") return "Rare";
+  if (item.category === "Carddass") return "Carddass";
+  return "Common";
 }
 
 export function ShopHeader({ active = "shop" }: { active?: "shop" | "sales" }) {
@@ -257,9 +265,71 @@ function BinderCollectionCard({ collection }: { collection: StoreCollection }) {
 }
 
 export function ShopLanding() {
+  const [query, setQuery] = useState("");
+  const [setFilter, setSetFilter] = useState("all");
+  const [rarityFilter, setRarityFilter] = useState("all");
+  const [conditionFilter, setConditionFilter] = useState("all");
+  const [priceFilter, setPriceFilter] = useState("all");
+  const [sort, setSort] = useState("featured");
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const galleryItems = galleryObjectIds
     .map((id) => demoInventory.find((item) => item.id === id))
     .filter((item): item is InventoryItem => Boolean(item && !item.demo));
+
+  const sets = useMemo(
+    () => [...new Set(galleryItems.map((item) => item.set).filter(Boolean) as string[])].sort(),
+    [galleryItems],
+  );
+  const rarities = useMemo(
+    () => [...new Set(galleryItems.map(rarityLabel))].sort(),
+    [galleryItems],
+  );
+  const conditions = useMemo(
+    () => [...new Set(galleryItems.map((item) => item.condition))].sort(),
+    [galleryItems],
+  );
+  const filteredItems = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    const matchesPrice = (item: InventoryItem) => {
+      if (priceFilter === "all") return true;
+      const price = item.price ?? 0;
+      if (priceFilter === "under-2") return price < 2;
+      if (priceFilter === "2-5") return price >= 2 && price < 5;
+      if (priceFilter === "5-10") return price >= 5 && price < 10;
+      return price >= 10;
+    };
+    const results = galleryItems.filter((item) => {
+      const searchable = [item.title, item.set, item.series, item.cardNumber, item.artist, item.condition, rarityLabel(item), ...item.pokemonNames]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return (
+        (!normalizedQuery || searchable.includes(normalizedQuery)) &&
+        (setFilter === "all" || item.set === setFilter) &&
+        (rarityFilter === "all" || rarityLabel(item) === rarityFilter) &&
+        (conditionFilter === "all" || item.condition === conditionFilter) &&
+        matchesPrice(item)
+      );
+    });
+    return [...results].sort((a, b) => {
+      if (sort === "price-low") return (a.price ?? 0) - (b.price ?? 0);
+      if (sort === "price-high") return (b.price ?? 0) - (a.price ?? 0);
+      if (sort === "oldest") return a.year - b.year;
+      if (sort === "newest") return b.year - a.year;
+      if (sort === "name") return a.title.localeCompare(b.title);
+      return galleryItems.indexOf(a) - galleryItems.indexOf(b);
+    });
+  }, [galleryItems, query, setFilter, rarityFilter, conditionFilter, priceFilter, sort]);
+  const hasFilters = Boolean(query || setFilter !== "all" || rarityFilter !== "all" || conditionFilter !== "all" || priceFilter !== "all" || sort !== "featured");
+
+  function clearFilters() {
+    setQuery("");
+    setSetFilter("all");
+    setRarityFilter("all");
+    setConditionFilter("all");
+    setPriceFilter("all");
+    setSort("featured");
+  }
 
   return (
     <main className="shop-shell physical-shop">
@@ -283,8 +353,28 @@ export function ShopLanding() {
             front and back.
           </p>
         </header>
+        <div className="store-catalog-tools">
+          <label className="store-catalog-search">
+            <span>Search cards</span>
+            <input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Pokémon, set, artist, card number…" />
+          </label>
+          <button type="button" className={`store-filter-toggle ${filtersOpen ? "active" : ""}`} onClick={() => setFiltersOpen((open) => !open)} aria-expanded={filtersOpen} aria-controls="store-filter-controls">
+            Filters <span>{hasFilters ? "•" : "+"}</span>
+          </button>
+          <div className={`store-filter-controls ${filtersOpen ? "open" : ""}`} id="store-filter-controls">
+            <label>Set<select value={setFilter} onChange={(event) => setSetFilter(event.target.value)}><option value="all">All sets</option>{sets.map((set) => <option key={set} value={set}>{set}</option>)}</select></label>
+            <label>Rarity<select value={rarityFilter} onChange={(event) => setRarityFilter(event.target.value)}><option value="all">All rarities</option>{rarities.map((rarity) => <option key={rarity} value={rarity}>{rarity}</option>)}</select></label>
+            <label>Price<select value={priceFilter} onChange={(event) => setPriceFilter(event.target.value)}><option value="all">Any price</option><option value="under-2">Under $2</option><option value="2-5">$2–$4.99</option><option value="5-10">$5–$9.99</option><option value="10-plus">$10+</option></select></label>
+            <label>Condition<select value={conditionFilter} onChange={(event) => setConditionFilter(event.target.value)}><option value="all">Any condition</option>{conditions.map((condition) => <option key={condition} value={condition}>{condition}</option>)}</select></label>
+            <label>Sort<select value={sort} onChange={(event) => setSort(event.target.value)}><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="newest">Newest first</option><option value="oldest">Oldest first</option><option value="name">Name: A–Z</option></select></label>
+          </div>
+          <div className="store-filter-summary" aria-live="polite">
+            <span>{filteredItems.length} {filteredItems.length === 1 ? "card" : "cards"}</span>
+            {hasFilters && <button type="button" onClick={clearFilters}>Clear all</button>}
+          </div>
+        </div>
         <div className="store-gallery-grid">
-          {galleryItems.map((item, index) => (
+          {filteredItems.map((item, index) => (
             <Link
               className={`store-gallery-object gallery-object-${index + 1}`}
               href={shopObjectUrl(item.slug)}
@@ -293,7 +383,7 @@ export function ShopLanding() {
               <ObjectVisual item={item} />
               <span>
                 <small>
-                  Live inventory · Available
+                  {item.set || "Pocket Archives"} · {rarityLabel(item)}
                 </small>
                 <b>{item.title}</b>
                 <em>
@@ -302,6 +392,13 @@ export function ShopLanding() {
               </span>
             </Link>
           ))}
+          {filteredItems.length === 0 && (
+            <div className="store-no-results">
+              <small>No matches</small>
+              <h3>Nothing fits those filters.</h3>
+              <button type="button" onClick={clearFilters}>Clear filters</button>
+            </div>
+          )}
         </div>
       </section>
       <section className="store-collections" id="collections">
