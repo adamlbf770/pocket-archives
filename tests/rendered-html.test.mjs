@@ -86,3 +86,25 @@ test("server-renders all batch 04 shop listings with their scanned fronts", asyn
     assert.match(html, new RegExp(set, "i"));
   }
 });
+
+test("batch 04 object pages show moderately played condition and revised prices", async () => {
+  const listings = [
+    ["croconaw-neo-premium-file-1-no-159", "$2.49"],
+    ["tentacruel-southern-islands-10-18", "$29.99"],
+    ["totodile-neo-premium-file-1-no-158", "$2.49"],
+    ["magneton-japanese-base-set-no-082-holo", "$8.49"],
+    ["ampharos-awakening-legends-no-181-holo", "$14.99"],
+    ["magby-neo-genesis-23-111", "$3.49"],
+    ["kangaskhan-jungle-21-64-unlimited", "$3.49"],
+    ["cleffa-japanese-neo-genesis-no-173", "$3.99"],
+    ["scizor-wizards-black-star-promo-33", "$9.99"],
+  ];
+
+  for (const [slug, price] of listings) {
+    const response = await render(`/objects/${slug}`);
+    assert.equal(response.status, 200);
+    const html = await response.text();
+    assert.match(html, /Moderately Played/i);
+    assert.match(html, new RegExp(price.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  }
+});
