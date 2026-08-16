@@ -95,6 +95,7 @@ type SpriteEra = {
   label: string;
   year: number;
   generation: number;
+  medium?: string;
   sprites: Record<string, string>;
 };
 
@@ -1996,14 +1997,14 @@ export default function Home() {
                         <h3 id="sprite-evolution-title">
                           The original 151
                           <br />
-                          through seven generations.
+                          through nine generations.
                         </h3>
                       </div>
                       <p>
                         Choose any of the original 151 and compare its front
-                        battle image from Red and Blue through Sun and Moon. See
-                        how each design changed as the games moved from small
-                        pixel sprites to 3D renders.
+                        battle image from Red and Blue through Sun and Moon,
+                        then follow the medium itself into Sword and Shield box
+                        icons and current-era 3D renders.
                       </p>
                     </header>
                     <div className="sprite-picker">
@@ -2043,11 +2044,14 @@ export default function Home() {
                     <div className="sprite-subject">
                       <span>#{String(spriteDex).padStart(3, "0")}</span>
                       <strong>{selectedSpritePokemon?.name}</strong>
-                      <small>Seven generations · front battle view</small>
+                      <small>Nine generations · medium labeled by era</small>
                     </div>
                     <div className="sprite-era-grid">
                       {spriteEvolution.eras.map((era) => (
-                        <figure key={era.key}>
+                        <figure
+                          key={era.key}
+                          className={era.medium === "3D render" ? "render" : ""}
+                        >
                           <div>
                             <img
                               src={`/sprites/${era.key}/${String(spriteDex).padStart(4, "0")}.png`}
@@ -2060,6 +2064,7 @@ export default function Home() {
                               Gen {era.generation} · {era.year}
                             </span>
                             <b>{era.label}</b>
+                            {era.medium && <small>{era.medium}</small>}
                           </figcaption>
                         </figure>
                       ))}
@@ -2068,10 +2073,13 @@ export default function Home() {
                       <p>
                         <b>Collection record.</b> Compiled and numbered by
                         Reddit user Stooban for the r/beadsprites community.
-                        Original game graphics belong to Nintendo, Game Freak,
-                        and Creatures.
+                        Gen 8 box icons and current-era HOME renders are
+                        preserved from the PokéAPI sprite repository. Each era
+                        is labeled by medium; original graphics belong to
+                        Nintendo, Game Freak, Creatures, and The Pokémon
+                        Company.
                       </p>
-                      <span>1,057 locally preserved views</span>
+                      <span>1,359 locally preserved views</span>
                     </footer>
                   </section>
                 )}

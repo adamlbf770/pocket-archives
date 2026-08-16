@@ -1412,7 +1412,7 @@ button {
 }
 .sprite-era-grid {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(9, minmax(0, 1fr));
   border-top: 1px solid var(--line);
   border-left: 1px solid var(--line);
 }
@@ -1437,6 +1437,12 @@ button {
   filter: drop-shadow(0 8px 0 rgba(25, 24, 18, 0.06));
   transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
+.sprite-era-grid figure.render img {
+  width: 92%;
+  height: 92%;
+  image-rendering: auto;
+  filter: drop-shadow(0 12px 12px rgba(25, 24, 18, 0.12));
+}
 .sprite-era-grid figure:hover img {
   transform: scale(1.12) translateY(-2px);
 }
@@ -1459,6 +1465,14 @@ button {
 .sprite-era-grid figcaption b {
   font-size: 10px;
   line-height: 1.05;
+  text-transform: uppercase;
+}
+.sprite-era-grid figcaption small {
+  color: #7f7b72;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
   text-transform: uppercase;
 }
 .sprite-evolution > footer {

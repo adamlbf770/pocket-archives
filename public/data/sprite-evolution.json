@@ -1109,7 +1109,22 @@
         "150": "12LWmqDL7oEK52jJ-jpuoCNccFg3bngRu",
         "151": "1qrGzCQF0uVpGB6f_QBSFdS0dJ1cJI4zB"
       }
+    },
+    {
+      "key": "sword-shield-icons",
+      "label": "Sword / Shield",
+      "year": 2019,
+      "generation": 8,
+      "medium": "Box icon",
+      "sprites": {}
+    },
+    {
+      "key": "home-current-renders",
+      "label": "HOME / Current era",
+      "year": 2022,
+      "generation": 9,
+      "medium": "3D render",
+      "sprites": {}
     }
   ]
 }
-
