@@ -3427,6 +3427,19 @@ footer p {
   top: 0;
   z-index: 50;
 }
+.shop-site-header nav .shop-archive-return {
+  margin-left: 10px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0;
+  padding-left: 25px;
+  color: var(--lime);
+}
+.shop-site-header nav .shop-archive-return:hover {
+  color: var(--ink);
+  background: var(--lime);
+  border-left-color: var(--lime);
+  border-radius: 999px;
+}
 .shop-hero {
   min-height: 238px;
   padding: 42px 4vw 46px;
@@ -7268,6 +7281,10 @@ footer p {
     flex: 0 0 auto;
     padding: 8px 12px;
     font-size: 8px;
+  }
+  .shop-site-header nav .shop-archive-return {
+    margin-left: auto;
+    padding-left: 16px;
   }
   .physical-shop-hero {
     min-height: 230px;

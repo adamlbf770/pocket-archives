@@ -84,6 +84,9 @@ export function ShopHeader({ active = "shop" }: { active?: "shop" | "sales" }) {
           Gallery
         </Link>
         <Link href={`${SHOP_HOME}#collections`}>Collections</Link>
+        <Link className="shop-archive-return" href={`${ARCHIVE_ORIGIN}/#archive`}>
+          Archive ↗
+        </Link>
       </nav>
     </header>
   );
