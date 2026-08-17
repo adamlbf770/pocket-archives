@@ -55,7 +55,7 @@ function collectorSetLabel(item: InventoryItem) {
   return item.set || "Singles";
 }
 
-function rarityLabel(item: InventoryItem) {
+function printedRarityLabel(item: InventoryItem) {
   if (item.category === "Carddass") return "Carddass";
   const recognizedRarities = [
     "Special Illustration Rare",
@@ -72,6 +72,17 @@ function rarityLabel(item: InventoryItem) {
   return recognizedRarities.find((rarity) => item.tags.includes(rarity)) ?? "Rarity not listed";
 }
 
+function isFirstEdition(item: InventoryItem) {
+  return [item.edition, item.printing, item.subtitle, ...item.tags]
+    .filter((value): value is string => Boolean(value))
+    .some((value) => /\b(?:1st|first)\s+edition\b/i.test(value));
+}
+
+function rarityLabel(item: InventoryItem) {
+  const rarity = printedRarityLabel(item);
+  return isFirstEdition(item) ? `1st Edition · ${rarity}` : rarity;
+}
+
 const rarityDisplayOrder = [
   "Special Illustration Rare",
   "Illustration Rare",
@@ -86,6 +97,14 @@ const rarityDisplayOrder = [
   "Carddass",
   "Rarity not listed",
 ];
+
+function raritySortRank(label: string) {
+  const firstEdition = label.startsWith("1st Edition · ");
+  const printedRarity = label.replace(/^1st Edition · /, "");
+  const rarityRank = rarityDisplayOrder.indexOf(printedRarity);
+  return (firstEdition ? 0 : rarityDisplayOrder.length) +
+    (rarityRank === -1 ? rarityDisplayOrder.length : rarityRank);
+}
 
 export function ShopHeader({ active = "shop" }: { active?: "shop" | "sales" }) {
   return (
@@ -308,7 +327,7 @@ export function ShopLanding() {
     [galleryItems],
   );
   const rarities = useMemo(
-    () => [...new Set(galleryItems.map(rarityLabel))].sort(),
+    () => [...new Set(galleryItems.map(rarityLabel))].sort((a, b) => raritySortRank(a) - raritySortRank(b)),
     [galleryItems],
   );
   const conditions = useMemo(
@@ -349,13 +368,13 @@ export function ShopLanding() {
   }, [galleryItems, query, setFilter, rarityFilter, conditionFilter, priceFilter, sort]);
   const rarityGroups = useMemo(
     () =>
-      rarityDisplayOrder
+      rarities
         .map((rarity) => ({
           rarity,
           items: filteredItems.filter((item) => rarityLabel(item) === rarity),
         }))
         .filter((group) => group.items.length > 0),
-    [filteredItems],
+    [filteredItems, rarities],
   );
   const hasFilters = Boolean(query || setFilter !== "all" || rarityFilter !== "all" || conditionFilter !== "all" || priceFilter !== "all" || sort !== "featured");
 

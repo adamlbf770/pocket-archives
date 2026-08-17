@@ -174,6 +174,19 @@ test("server-renders all batch 04 shop listings with their scanned fronts", asyn
   assert.match(html, /class="store-rarity-heading"/i);
 });
 
+test("the shop distinguishes first editions without overwriting printed rarity", async () => {
+  const response = await render("/shop");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /1st Edition(?:<!-- -->)? · (?:<!-- -->)?Rare/i);
+  assert.match(html, /1st Edition(?:<!-- -->)? · (?:<!-- -->)?Uncommon/i);
+  assert.match(html, /1st Edition(?:<!-- -->)? · (?:<!-- -->)?Common/i);
+  assert.match(html, />1st Edition · Rare<\/option>/i);
+  assert.match(html, />1st Edition · Uncommon<\/option>/i);
+  assert.match(html, />1st Edition · Common<\/option>/i);
+});
+
 test("batch 04 object pages show moderately played condition and revised prices", async () => {
   const listings = [
     ["croconaw-neo-premium-file-1-no-159", "$2.49"],
