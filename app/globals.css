@@ -2779,6 +2779,25 @@ button {
   font-size: 14px;
   line-height: 1.6;
 }
+.development-viewer .reference-viewer-description {
+  max-width: 520px;
+  color: #c8c4b8;
+  font-size: 17px;
+  line-height: 1.65;
+}
+.development-viewer .provenance-verification {
+  margin: 30px 0 0;
+}
+.development-viewer .provenance-verification + .provenance-verification {
+  margin-top: 0;
+  border-top: 0;
+}
+.development-viewer .provenance-verification summary b {
+  color: #aaa69b;
+  font-size: 7px;
+  max-width: 48%;
+  text-align: right;
+}
 .reference-source {
   border-left: 3px solid var(--orange);
   padding: 3px 0 3px 13px;
