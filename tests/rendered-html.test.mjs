@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
 async function render(pathname = "/") {
@@ -32,6 +33,82 @@ test("server-renders the Pocket Archives landing page", async () => {
   assert.match(html, /Pokémon design history, preserved/i);
   assert.match(html, /From first sketch/i);
   assert.doesNotMatch(html, /Your site is taking shape|Building your site/i);
+});
+
+test("early archive records expose audited provenance without invented plate numbers", async () => {
+  const source = await readFile(
+    new URL("../app/page.tsx", import.meta.url),
+    "utf8",
+  );
+
+  assert.doesNotMatch(source, /Prototype artwork plate/);
+  assert.doesNotMatch(source, /Carddass action archive sheet/);
+  assert.doesNotMatch(source, /Beta sprite specimen/);
+  assert.match(source, /c\. 1993/);
+  assert.match(source, /Provenance \+ verification/i);
+  assert.match(source, /ATTRIBUTION UNVERIFIED/);
+  assert.match(source, /1990 source material · 2019 reconstruction/);
+  assert.match(source, /1997 · Parts 3 and 4/);
+});
+
+test("canonical research registers stay connected to the archive build", async () => {
+  const source = await readFile(
+    new URL("../app/archive/canonical-data.generated.ts", import.meta.url),
+    "utf8",
+  );
+  const response = await render("/");
+  const html = await response.text();
+
+  assert.match(source, /PA-CM-021/);
+  assert.match(source, /PA-A100/);
+  assert.match(source, /1401044258-021/);
+  assert.match(source, /Copyrighted; commercial reuse not cleared/i);
+  assert.match(html, /Canonical research register/i);
+  assert.match(html, /Documented chronology/i);
+});
+
+test("internal research planners are not exposed in production", async () => {
+  for (const pathname of ["/internal", "/internal/acquisitions", "/internal/cgc"]) {
+    const response = await render(pathname);
+    assert.equal(response.status, 404);
+  }
+});
+
+test("the sprite exhibit contains all 151 across the six Game Boy releases", async () => {
+  const manifest = JSON.parse(
+    await readFile(
+      new URL("../public/data/sprite-evolution.json", import.meta.url),
+      "utf8",
+    ),
+  );
+  const expectedEras = [
+    "red-green-jp",
+    "red-blue-gameboy",
+    "yellow-gameboy",
+    "gold-gameboy",
+    "silver-gameboy",
+    "crystal-gameboy",
+  ];
+
+  assert.deepEqual(
+    manifest.eras.map((era) => era.key),
+    expectedEras,
+  );
+  for (const era of expectedEras) {
+    const spriteDirectory = new URL(`../public/sprites/${era}/`, import.meta.url);
+    const sprites = (await readdir(spriteDirectory))
+      .filter((filename) => /^\d{4}\.png$/.test(filename))
+      .sort();
+
+    assert.equal(sprites.length, 151, `${era} is missing sprites`);
+    for (const filename of sprites) {
+      const png = await readFile(new URL(filename, spriteDirectory));
+      assert.equal(png.toString("ascii", 1, 4), "PNG");
+      const width = png.readUInt32BE(16);
+      const height = png.readUInt32BE(20);
+      assert.ok(width <= 56 && height <= 56, `${era}/${filename} is not an original-size sprite`);
+    }
+  }
 });
 
 test("server-renders all batch 03 shop listings", async () => {
@@ -92,6 +169,8 @@ test("server-renders all batch 04 shop listings with their scanned fronts", asyn
   assert.match(html, />Rare<\/option>/i);
   assert.match(html, />Promo<\/option>/i);
   assert.doesNotMatch(html, /Rarity not listed/i);
+  assert.match(html, /class="store-rarity-groups"/i);
+  assert.match(html, /class="store-rarity-heading"/i);
 });
 
 test("batch 04 object pages show moderately played condition and revised prices", async () => {
@@ -132,4 +211,22 @@ test("server-renders batch 05 listings with the verified prices and conditions",
     assert.match(html, new RegExp(price.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
     assert.match(html, /batch-05\/pa-00(?:37|38|39|40)-(?:front|back)\.jpg/i);
   }
+});
+
+test("server-renders all batch 05 shop listings with their submitted scans", async () => {
+  const response = await render("/shop");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  for (const title of ["Vigoroth", "Dark Primeape", "Light Sunflora", "Wigglytuff"]) {
+    assert.match(html, new RegExp(`>${title}<`, "i"));
+  }
+  for (let catalogNumber = 37; catalogNumber <= 40; catalogNumber += 1) {
+    const filename = `pa-${String(catalogNumber).padStart(4, "0")}-front.jpg`;
+    assert.match(html, new RegExp(filename, "i"));
+  }
+  assert.match(html, /Team Rocket/i);
+  assert.match(html, /Neo Destiny/i);
+  assert.match(html, /Bandai Carddass/i);
+  assert.match(html, /Near Mint/i);
 });
