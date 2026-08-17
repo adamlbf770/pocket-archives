@@ -45,7 +45,8 @@ test("early archive records expose audited provenance without invented plate num
   assert.doesNotMatch(source, /Carddass action archive sheet/);
   assert.doesNotMatch(source, /Beta sprite specimen/);
   assert.match(source, /c\. 1993/);
-  assert.match(source, /Provenance \+ verification/i);
+  assert.match(source, /Catalog record/i);
+  assert.match(source, /Early development · date under study/i);
   assert.match(source, /ATTRIBUTION UNVERIFIED/);
   assert.match(source, /1990 source material · 2019 reconstruction/);
   assert.match(source, /1997 · Parts 3 and 4/);

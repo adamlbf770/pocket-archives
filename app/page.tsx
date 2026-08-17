@@ -99,6 +99,48 @@ function developmentCreator(item: DevelopmentItem) {
   return item.creator || item.credit;
 }
 
+function museumDate(item: DevelopmentItem) {
+  const date = developmentDate(item);
+  if (/unconfirmed|unverified|unknown/i.test(date)) {
+    return item.year <= 1995
+      ? "Early development · date under study"
+      : "Date under study";
+  }
+  return date.replace("attribution · ", "");
+}
+
+function museumObjectType(item: DevelopmentItem) {
+  if (/storyboard/i.test(item.kind)) return "Storyboard";
+  if (/sprite/i.test(item.kind)) return "Game-development sprite";
+  if (/map/i.test(item.kind)) return "World study";
+  if (/planning|document/i.test(item.kind)) return "Planning study";
+  if (/carddass|released cards/i.test(`${item.kind} ${item.title}`))
+    return "Released card archive";
+  if (/book|published/i.test(item.kind)) return "Published record";
+  return "Development drawing";
+}
+
+function museumDescription(item: DevelopmentItem) {
+  if (item.sourceReferences?.length) return item.description;
+  const subject = `${item.title} ${item.kind}`.toLowerCase();
+  if (subject.includes("environment") || subject.includes("town"))
+    return "A preserved study of the world surrounding the creatures—terrain, paths, and human spaces taking shape before the released games.";
+  if (subject.includes("battle"))
+    return "A glimpse of the battle system while its visual language was still being worked out.";
+  if (subject.includes("sprite"))
+    return "A surviving game-development image from a roster that was still changing. Its exact build context remains under study.";
+  if (subject.includes("carddass"))
+    return "Released Carddass imagery shows how Pokémon’s visual identity moved from the Game Boy into inexpensive, everyday collecting.";
+  if (subject.includes("storyboard") || subject.includes("capture"))
+    return "A planning image showing how the act of catching a Pokémon was translated into movement, timing, and screen language.";
+  return "A surviving glimpse of Pokémon in formation. It is displayed for what it reveals visually while its exact context remains under study.";
+}
+
+function museumStatus(status?: string) {
+  if (!status) return "Research pending";
+  return status.toLowerCase().replace(/(^|\s)\S/g, (letter) => letter.toUpperCase());
+}
+
 type ArchivePanel = {
   id: string;
   eyebrow: string;
@@ -393,7 +435,7 @@ const redditConceptFiles = [
     file: "3BIfe.jpg",
     year: 1990,
     dateLabel: "1990 attribution · scan context unconfirmed",
-    title: "Early Environment Concept",
+    title: "Landscape Study",
     kind: "Development-art reproduction",
     creator: "Game Freak",
     illustrator: "Ken Sugimori — probable",
@@ -406,7 +448,7 @@ const redditConceptFiles = [
     file: "uJZYG.jpg",
     year: 1990,
     dateLabel: "1990 attribution · scan context unconfirmed",
-    title: "Environment and Planning Studies",
+    title: "Planning the World",
     kind: "Development-document reproduction",
     creator: "Game Freak",
     illustrator: "Ken Sugimori — probable for illustrated scene",
@@ -2573,7 +2615,7 @@ export default function Home() {
                           </span>
                           <span className="development-card-copy">
                             <small>
-                              {developmentDate(item)} · {item.kind}
+                              {museumDate(item)} · {museumObjectType(item)}
                             </small>
                             <strong>{item.title}</strong>
                             <em>{developmentCreator(item)}</em>
@@ -3489,7 +3531,7 @@ export default function Home() {
           </button>
           <div className="reference-viewer-stage development-stage">
             <span className="reference-viewer-index">
-              {developmentDate(selectedDevelopment)} ·{" "}
+              {museumObjectType(selectedDevelopment)} ·{" "}
               {developmentResults.findIndex(
                 (item) => item.id === selectedDevelopment.id,
               ) + 1}{" "}
@@ -3516,32 +3558,37 @@ export default function Home() {
           </div>
           <aside className="reference-viewer-details">
             <p className="eyebrow">
-              <span /> Early development archive
+              <span /> {selectedDevelopment.era || "Early development"}
             </p>
             <h2>{selectedDevelopment.title}</h2>
             <p className="reference-viewer-label">
-              {developmentDate(selectedDevelopment)} · {selectedDevelopment.kind}
+              {museumDate(selectedDevelopment)} · {museumObjectType(selectedDevelopment)}
             </p>
             <p className="reference-viewer-description">
-              {selectedDevelopment.description}
+              {museumDescription(selectedDevelopment)}
             </p>
-            <div className="reference-source">
-              <span>Object record</span>
-              <b>{selectedDevelopment.originalObject || selectedDevelopment.kind}</b>
-              <p>
-                Creator · {developmentCreator(selectedDevelopment)}
-                <br />
-                Illustrator · {selectedDevelopment.illustrator || "Unverified"}
-                <br />
-                Organization · {selectedDevelopment.organization || "Unverified"}
-              </p>
-            </div>
             <details className="provenance-verification">
               <summary>
-                <span>Provenance + verification</span>
-                <b>{selectedDevelopment.verificationStatus || "RESEARCH PENDING"}</b>
+                <span>Catalog record</span>
+                <b>{museumStatus(selectedDevelopment.verificationStatus)}</b>
               </summary>
               <div>
+                <p>
+                  <strong>Original object</strong>
+                  {selectedDevelopment.originalObject || selectedDevelopment.kind}
+                </p>
+                <p>
+                  <strong>Creator / attribution</strong>
+                  {developmentCreator(selectedDevelopment)}
+                </p>
+                <p>
+                  <strong>Illustrator</strong>
+                  {selectedDevelopment.illustrator || "Not identified"}
+                </p>
+                <p>
+                  <strong>Organization</strong>
+                  {selectedDevelopment.organization || "Not identified"}
+                </p>
                 <p>
                   <strong>Image source</strong>
                   {selectedDevelopment.imageSource || selectedDevelopment.sourceLabel}
