@@ -209,6 +209,24 @@ test("batch 04 object pages show moderately played condition and revised prices"
   }
 });
 
+test("server-renders batch 05 listings with the verified prices and conditions", async () => {
+  const listings = [
+    ["vigoroth-ex-ruby-sapphire-47-109", "$0.99", "Moderately Played"],
+    ["dark-primeape-team-rocket-43-82-first-edition", "$3.49", "Moderately Played"],
+    ["light-sunflora-neo-destiny-72-105-first-edition", "$1.49", "Moderately Played"],
+    ["wigglytuff-1996-bandai-carddass-green-040", "$10.99", "Near Mint"],
+  ];
+
+  for (const [slug, price, condition] of listings) {
+    const response = await render(`/objects/${slug}`);
+    assert.equal(response.status, 200);
+    const html = await response.text();
+    assert.match(html, new RegExp(condition, "i"));
+    assert.match(html, new RegExp(price.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.match(html, /batch-05\/pa-00(?:37|38|39|40)-(?:front|back)\.jpg/i);
+  }
+});
+
 test("server-renders all batch 05 shop listings with their submitted scans", async () => {
   const response = await render("/shop");
   assert.equal(response.status, 200);
