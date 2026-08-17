@@ -110,13 +110,15 @@ function museumDate(item: DevelopmentItem) {
 }
 
 function museumObjectType(item: DevelopmentItem) {
-  if (/storyboard/i.test(item.kind)) return "Storyboard";
-  if (/sprite/i.test(item.kind)) return "Game-development sprite";
-  if (/map/i.test(item.kind)) return "World study";
-  if (/planning|document/i.test(item.kind)) return "Planning study";
-  if (/carddass|released cards/i.test(`${item.kind} ${item.title}`))
+  const subject = `${item.title} ${item.kind} ${item.originalObject || ""}`;
+  if (/proposal.*cover|booklet cover/i.test(subject)) return "Proposal cover";
+  if (/storyboard/i.test(subject)) return "Storyboard";
+  if (/sprite/i.test(subject)) return "Game-development sprite";
+  if (/map/i.test(subject)) return "World study";
+  if (/planning|document|proposal|pitch/i.test(subject)) return "Planning study";
+  if (/carddass|released cards/i.test(subject))
     return "Released card archive";
-  if (/book|published/i.test(item.kind)) return "Published record";
+  if (/book|published/i.test(subject)) return "Published record";
   return "Development drawing";
 }
 

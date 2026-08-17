@@ -907,7 +907,7 @@ export const canonicalSources = [
 export const capsuleMonsterRecords = [
   {
     "recordId": "PA-CM-001",
-    "title": "Capsule Monsters proposal cover",
+    "title": "The Proposal That Became Pokémon",
     "date": "1990",
     "objectType": "Capsule Monsters development artifact",
     "era": "Capsule Monsters",
@@ -918,7 +918,7 @@ export const capsuleMonsterRecords = [
     "provenance": "Game Freak proposal shown through later broadcast and archival reproduction",
     "rightsStatus": "Copyrighted; commercial reuse not cleared",
     "verificationStatus": "Verified for depicted page and date; mediated scan",
-    "historicalContext": "Working title; named project role; explicit 1990 object date",
+    "historicalContext": "The cover of Game Freak’s 1990 proposal for the game that became Pokémon. At the time the project was called Capsule Monsters.",
     "unresolvedQuestions": "Verify against NHK frame and any authorized book reproduction",
     "sourceReferences": [
       "PA-SRC-0001",

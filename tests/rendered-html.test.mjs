@@ -68,6 +68,22 @@ test("canonical research registers stay connected to the archive build", async (
   assert.match(html, /Documented chronology/i);
 });
 
+test("the Capsule Monsters proposal is introduced in plain museum language", async () => {
+  const archiveSource = await readFile(
+    new URL("../app/archive/canonical-data.generated.ts", import.meta.url),
+    "utf8",
+  );
+  const pageSource = await readFile(
+    new URL("../app/page.tsx", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(archiveSource, /The Proposal That Became Pokémon/i);
+  assert.match(archiveSource, /At the time the project was called Capsule Monsters/i);
+  assert.match(pageSource, /return "Proposal cover"/i);
+  assert.doesNotMatch(archiveSource, /Working title; named project role; explicit 1990 object date/i);
+});
+
 test("internal research planners are not exposed in production", async () => {
   for (const pathname of ["/internal", "/internal/acquisitions", "/internal/cgc"]) {
     const response = await render(pathname);
