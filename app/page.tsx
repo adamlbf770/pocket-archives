@@ -7,6 +7,11 @@ import {
   shopObjectUrl,
 } from "./shop/catalog";
 import { artworkRights, canDownload } from "./archive-rights";
+import {
+  canonicalSources,
+  canonicalTimeline,
+  capsuleMonsterRecords,
+} from "./archive/canonical-data.generated";
 
 type PokemonArt = {
   id: string;
@@ -76,13 +81,11 @@ type DevelopmentItem = {
   imageSource?: string;
   provenance?: string;
   rightsStatus?: string;
-  verificationStatus?:
-    | "VERIFIED"
-    | "PROVISIONALLY VERIFIED"
-    | "ATTRIBUTION UNVERIFIED"
-    | "RESEARCH PENDING";
+  verificationStatus?: string;
   era?: string;
   recordId?: string;
+  unresolvedQuestions?: string;
+  sourceReferences?: readonly string[];
   sourceUrl: string;
   sourceLabel: string;
   description: string;
@@ -350,6 +353,40 @@ const coreDevelopmentArchive: DevelopmentItem[] = [
       "A comparison plate connecting prototype monster-index evidence with later documented material.",
   },
 ];
+
+const canonicalSourceById = new Map(
+  canonicalSources.map((source) => [source.source_id, source]),
+);
+
+const canonicalCapsuleArchive: DevelopmentItem[] = capsuleMonsterRecords.map(
+  (record) => {
+    const strongestSource = canonicalSourceById.get(record.sourceReferences[0]);
+    return {
+      id: record.recordId.toLowerCase(),
+      recordId: record.recordId,
+      year: Number(record.date.match(/\d{4}/)?.[0] || 1990),
+      dateLabel: record.date,
+      title: record.title,
+      kind: record.objectType,
+      src: record.imageSource,
+      credit: record.creator,
+      creator: record.creator,
+      organization: "Game Freak",
+      originalObject: record.originalObject,
+      imageSource: record.digitalSource,
+      provenance: record.provenance,
+      rightsStatus: record.rightsStatus,
+      verificationStatus: record.verificationStatus,
+      unresolvedQuestions: record.unresolvedQuestions,
+      era: record.era,
+      sourceReferences: record.sourceReferences,
+      sourceUrl:
+        strongestSource?.url_or_location || record.digitalSource,
+      sourceLabel: strongestSource?.title || "Canonical research register",
+      description: record.historicalContext,
+    };
+  },
+);
 
 const redditConceptFiles = [
   {
@@ -719,7 +756,8 @@ const redditDevelopmentArchive: DevelopmentItem[] = [
 ];
 
 const developmentArchive: DevelopmentItem[] = [
-  ...coreDevelopmentArchive,
+  ...canonicalCapsuleArchive,
+  ...coreDevelopmentArchive.filter((item) => !item.id.startsWith("capumon")),
   ...redditDevelopmentArchive,
 ].sort((a, b) => a.year - b.year);
 
@@ -2351,6 +2389,28 @@ export default function Home() {
                     </button>
                   ))}
                 </div>
+                <details className="canonical-timeline-register">
+                  <summary>
+                    <span>
+                      <small>Canonical research register</small>
+                      <b>Documented chronology</b>
+                    </span>
+                    <em>{canonicalTimeline.length} dated entries</em>
+                  </summary>
+                  <div>
+                    {canonicalTimeline.map((entry) => (
+                      <article key={entry.id}>
+                        <time>{entry.date}</time>
+                        <p>{entry.event.replaceAll("*", "")}</p>
+                        <span>{entry.confidence}</span>
+                        <details>
+                          <summary>Evidence</summary>
+                          <p>{entry.evidence.replaceAll("*", "")}</p>
+                        </details>
+                      </article>
+                    ))}
+                  </div>
+                </details>
                 <div
                   className="archive-research-strip"
                   id="archive-design-periods"
@@ -2490,10 +2550,10 @@ export default function Home() {
                   <div className="thread-source-note">
                     <p>
                       <b>Digital preservation source.</b> This room combines
-                      early Game Freak material, prototype research plates, and
-                      52 unique images located through a Reddit/Imgur community
-                      archive. Original provenance is recorded separately and
-                      remains under research where uncertain.
+                      the canonical 21-record Capsule Monsters register with
+                      later prototype research plates and community-preserved
+                      images. Original objects, digital sources, verification,
+                      and rights are kept separate.
                     </p>
                     <span>Oldest to newest</span>
                   </div>
@@ -3498,8 +3558,42 @@ export default function Home() {
                   <strong>Pocket Archives record</strong>
                   {selectedDevelopment.recordId || selectedDevelopment.id}
                 </p>
+                {selectedDevelopment.unresolvedQuestions && (
+                  <p>
+                    <strong>Unresolved</strong>
+                    {selectedDevelopment.unresolvedQuestions}
+                  </p>
+                )}
               </div>
             </details>
+            {!!selectedDevelopment.sourceReferences?.length && (
+              <details className="provenance-verification source-register">
+                <summary>
+                  <span>Sources</span>
+                  <b>{selectedDevelopment.sourceReferences.length}</b>
+                </summary>
+                <div>
+                  {selectedDevelopment.sourceReferences.map((sourceId) => {
+                    const source = canonicalSourceById.get(sourceId);
+                    return source ? (
+                      <p key={sourceId}>
+                        <strong>{sourceId}</strong>
+                        <a
+                          href={source.url_or_location}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {source.title} ↗
+                        </a>
+                        <small>
+                          {source.source_class} · {source.status}
+                        </small>
+                      </p>
+                    ) : null;
+                  })}
+                </div>
+              </details>
+            )}
             <p className="key-hint">
               Use ← → for another record · Esc to close
             </p>

@@ -51,6 +51,29 @@ test("early archive records expose audited provenance without invented plate num
   assert.match(source, /1997 · Parts 3 and 4/);
 });
 
+test("canonical research registers stay connected to the archive build", async () => {
+  const source = await readFile(
+    new URL("../app/archive/canonical-data.generated.ts", import.meta.url),
+    "utf8",
+  );
+  const response = await render("/");
+  const html = await response.text();
+
+  assert.match(source, /PA-CM-021/);
+  assert.match(source, /PA-A100/);
+  assert.match(source, /1401044258-021/);
+  assert.match(source, /Copyrighted; commercial reuse not cleared/i);
+  assert.match(html, /Canonical research register/i);
+  assert.match(html, /Documented chronology/i);
+});
+
+test("internal research planners are not exposed in production", async () => {
+  for (const pathname of ["/internal", "/internal/acquisitions", "/internal/cgc"]) {
+    const response = await render(pathname);
+    assert.equal(response.status, 404);
+  }
+});
+
 test("the sprite exhibit contains all 151 across the six Game Boy releases", async () => {
   const manifest = JSON.parse(
     await readFile(
@@ -170,4 +193,22 @@ test("batch 04 object pages show moderately played condition and revised prices"
     assert.match(html, /Moderately Played/i);
     assert.match(html, new RegExp(price.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }
+});
+
+test("server-renders all batch 05 shop listings with their submitted scans", async () => {
+  const response = await render("/shop");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  for (const title of ["Vigoroth", "Dark Primeape", "Light Sunflora", "Wigglytuff"]) {
+    assert.match(html, new RegExp(`>${title}<`, "i"));
+  }
+  for (let catalogNumber = 37; catalogNumber <= 40; catalogNumber += 1) {
+    const filename = `pa-${String(catalogNumber).padStart(4, "0")}-front.jpg`;
+    assert.match(html, new RegExp(filename, "i"));
+  }
+  assert.match(html, /Team Rocket/i);
+  assert.match(html, /Neo Destiny/i);
+  assert.match(html, /Bandai Carddass/i);
+  assert.match(html, /Near Mint/i);
 });
