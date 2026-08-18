@@ -35,6 +35,14 @@ test("server-renders the Pocket Archives landing page", async () => {
   assert.doesNotMatch(html, /Your site is taking shape|Building your site/i);
 });
 
+test("the public shop links lead to the temporary eBay storefront", async () => {
+  const response = await render("/");
+  const html = await response.text();
+
+  assert.match(html, /https:\/\/www\.ebay\.com\/usr\/pocket-archives/i);
+  assert.doesNotMatch(html, /href="https:\/\/shop\.pocketarchives\.com\/shop"/i);
+});
+
 test("early archive records expose audited provenance without invented plate numbers", async () => {
   const source = await readFile(
     new URL("../app/page.tsx", import.meta.url),

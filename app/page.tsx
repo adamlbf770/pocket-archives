@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
+  EXTERNAL_SHOP_URL,
   inventoryForMuseum,
   inventoryForPokemon,
   shopObjectUrl,
@@ -1426,7 +1427,7 @@ export default function Home() {
 
   useEffect(() => {
     if (window.location.hostname === "shop.pocketarchives.com") {
-      window.location.replace(`/shop${window.location.hash}`);
+      window.location.replace(EXTERNAL_SHOP_URL);
     }
   }, []);
 
@@ -2159,7 +2160,7 @@ export default function Home() {
           >
             Archives
           </button>
-          <a href="https://shop.pocketarchives.com/shop">Shop ↗</a>
+          <a href={EXTERNAL_SHOP_URL}>Shop ↗</a>
         </nav>
         <button className="favorites-link" onClick={openFavorites}>
           <span>♥</span> Favorites <b>{favorites.size}</b>
@@ -2255,7 +2256,7 @@ export default function Home() {
           </button>
           <a
             className="shop-view-tab"
-            href="https://shop.pocketarchives.com/shop"
+            href={EXTERNAL_SHOP_URL}
           >
             <span>02</span> Shop ↗
           </a>

@@ -702,6 +702,7 @@ export const inventoryCollectionOptions = ["New Acquisitions", "From the Archive
 
 export const SHOP_ORIGIN = "https://shop.pocketarchives.com";
 export const SHOP_HOME = `${SHOP_ORIGIN}/shop`;
+export const EXTERNAL_SHOP_URL = "https://www.ebay.com/usr/pocket-archives";
 export const ARCHIVE_ORIGIN = "https://pocketarchives.com";
 
 export function shopObjectUrl(slug: string) { return `${SHOP_ORIGIN}/objects/${slug}`; }

@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import {
   ARCHIVE_ORIGIN,
+  EXTERNAL_SHOP_URL,
   SHOP_HOME,
   demoInventory,
   formatPrice,
@@ -107,6 +108,12 @@ function raritySortRank(label: string) {
 }
 
 export function ShopHeader({ active = "shop" }: { active?: "shop" | "sales" }) {
+  useEffect(() => {
+    if (window.location.hostname === "shop.pocketarchives.com") {
+      window.location.replace(EXTERNAL_SHOP_URL);
+    }
+  }, []);
+
   return (
     <header className="site-header shop-site-header">
       <Link className="brand" href={SHOP_HOME}>
