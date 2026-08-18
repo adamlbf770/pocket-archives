@@ -39,7 +39,7 @@ test("the public shop links lead to the temporary eBay storefront", async () => 
   const response = await render("/");
   const html = await response.text();
 
-  assert.match(html, /https:\/\/www\.ebay\.com\/usr\/pocket-archives/i);
+  assert.match(html, /https:\/\/www\.ebay\.com\/usr\/pocket_archives/i);
   assert.doesNotMatch(html, /href="https:\/\/shop\.pocketarchives\.com\/shop"/i);
 });
 
