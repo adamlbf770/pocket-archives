@@ -2151,6 +2151,7 @@ export default function Home() {
             POCKET
             <br />
             ARCHIVES
+            <small>Independent research archive</small>
           </span>
         </div>
         <nav aria-label="Primary navigation">
@@ -2173,14 +2174,14 @@ export default function Home() {
             <span /> Pokémon design history, preserved
           </p>
           <h1>
-            From first sketch.
+            The art behind
             <br />
-            <em>To finished world.</em>
+            <em>the phenomenon.</em>
           </h1>
           <p className="hero-intro">
-            A visual archive of prototype creatures, character studies,
-            production sheets, and the ideas behind Pokémon’s evolving design
-            language.
+            An independent visual archive tracing Pokémon from early concepts
+            and production drawings to one of the world’s most recognizable
+            design languages.
           </p>
           <button
             className="explore-button"
@@ -2235,14 +2236,14 @@ export default function Home() {
           <div>
             <p className="eyebrow">
               <span />{" "}
-              {view === "favorites" ? "Your collection" : "Pocket Archives"}
+              {view === "favorites" ? "Your collection" : "Explore the collection"}
             </p>
-            <h2>{view === "favorites" ? "Saved for later." : "Archives."}</h2>
+            <h2>{view === "favorites" ? "Saved for later." : "The archive."}</h2>
           </div>
           <p>
             {view === "favorites"
               ? "Every archive record you have favorited on this device, gathered in one place."
-              : "A guided history of Pokémon design—from the earliest concepts to character sketches and production sheets."}
+              : "Move through the history, then explore the surviving concepts, character studies, and production material."}
           </p>
         </div>
         <div className="view-tabs" role="tablist" aria-label="Collection views">
@@ -2359,7 +2360,7 @@ export default function Home() {
               >
                 <small>01</small>
                 <b>History</b>
-                <span>{museumRooms.length} chapters</span>
+                <span>Guided timeline</span>
               </button>
               <button
                 className={archiveSection === "alpha" ? "active" : ""}
@@ -2367,7 +2368,7 @@ export default function Home() {
               >
                 <small>02</small>
                 <b>Early designs</b>
-                <span>{developmentResults.length} records</span>
+                <span>Concept archive</span>
               </button>
               <button
                 className={archiveSection === "sketches" ? "active" : ""}
@@ -2375,7 +2376,7 @@ export default function Home() {
               >
                 <small>03</small>
                 <b>Character sketches</b>
-                <span>{designResults.length} Pokémon</span>
+                <span>Drawing studies</span>
               </button>
               <button
                 className={archiveSection === "references" ? "active" : ""}
@@ -2383,7 +2384,7 @@ export default function Home() {
               >
                 <small>04</small>
                 <b>Production sheets</b>
-                <span>{referenceItems.length} sheets</span>
+                <span>Animation reference</span>
               </button>
             </nav>
             {archiveSection === "history" && (
@@ -3063,7 +3064,7 @@ export default function Home() {
           </h2>
           <div>
             <p>
-              Pocket Archives preserves the working history behind Pokémon:
+              Pocket Archives is an independent research archive preserving the working history behind Pokémon:
               early concepts, prototype creatures, character studies, production
               references, and the research that helps place them in context.
               Artwork and species records remain connected where they clarify a
@@ -3075,10 +3076,11 @@ export default function Home() {
               Nintendo creator interviews · Helix Chamber
             </p>
             <p className="fine-print">
-              A personal, non-commercial fan archive. Pokémon and all related
-              characters are trademarks of Nintendo, Game Freak, and Creatures
-              Inc. Source records remain credited to their original curators and
-              hosts; archive browsing stays inside Pocket Archives.
+              Pocket Archives LLC is an independent archival and collecting
+              project and is not affiliated with Nintendo, Game Freak,
+              Creatures Inc., or The Pokémon Company. Pokémon and related marks
+              belong to their respective owners. Source records remain credited
+              to their original curators and hosts.
             </p>
           </div>
         </div>
@@ -3094,7 +3096,7 @@ export default function Home() {
             ARCHIVES
           </span>
         </div>
-        <p>Gotta archive ’em all.</p>
+        <p>Research · preservation · collecting</p>
       </footer>
 
       {selected && selectedGroup && (
