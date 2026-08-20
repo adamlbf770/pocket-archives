@@ -3871,6 +3871,37 @@ export function ArchiveExperience() {
 }
 
 function LandingPage() {
+  const ebayPreviewListings = [
+    {
+      title: "Kangaskhan",
+      details: "Jungle 21/64 · 1999 · MP",
+      price: "$3.49",
+      image: "/shop/inventory/batch-04/pa-0034-front.jpg",
+      href: "https://www.ebay.com/itm/Pokemon-Kangaskhan-21-64-Jungle-1999-WOTC-Non-Holo-MP-/158195564640",
+    },
+    {
+      title: "Magby",
+      details: "Neo Genesis 23/111 · 2000 · MP",
+      price: "$3.49",
+      image: "/shop/inventory/batch-04/pa-0033-front.jpg",
+      href: "https://www.ebay.com/itm/Pokemon-Magby-23-111-Neo-Genesis-2000-WOTC-Unlimited-MP-/158195564641",
+    },
+    {
+      title: "Magneton",
+      details: "Japanese Base Set · 1996 · Holo · MP",
+      price: "$8.49",
+      image: "/shop/inventory/batch-04/pa-0031-front.jpg",
+      href: "https://www.ebay.com/itm/Japanese-Pokemon-Magneton-No-082-Base-Set-1996-Holo-MP-/158195564643",
+    },
+    {
+      title: "Croconaw",
+      details: "Neo Premium File 1 · 1999 · MP",
+      price: "$2.49",
+      image: "/shop/inventory/batch-04/pa-0028-front.jpg",
+      href: "https://www.ebay.com/itm/Japanese-Pokemon-Croconaw-No-159-Neo-Premium-File-1-1999-MP-/158195564642",
+    },
+  ];
+
   return (
     <main className="landing-page">
       <header className="landing-header">
@@ -3959,12 +3990,29 @@ function LandingPage() {
       </section>
 
       <section className="landing-shop-callout">
-        <div>
-          <small>Current listings</small>
-          <h2>The shop is on eBay for now.</h2>
-          <p>Browse available singles and small lots from Pocket Archives.</p>
+        <div className="landing-shop-callout-head">
+          <div>
+            <small>Current listings</small>
+            <h2>Shop Pocket Archives on eBay.</h2>
+            <p>Prices and availability are confirmed on the eBay listing.</p>
+          </div>
+          <a href={EXTERNAL_SHOP_URL}>View all on eBay ↗</a>
         </div>
-        <a href={EXTERNAL_SHOP_URL}>Open the shop ↗</a>
+        <div className="landing-ebay-preview" aria-label="Selected eBay listings">
+          {ebayPreviewListings.map((listing) => (
+            <a href={listing.href} key={listing.href}>
+              <span className="landing-ebay-image">
+                <img src={listing.image} alt={`${listing.title} card`} loading="lazy" />
+                <small>View on eBay ↗</small>
+              </span>
+              <span className="landing-ebay-details">
+                <b>{listing.title}</b>
+                <em>{listing.details}</em>
+                <strong>{listing.price}</strong>
+              </span>
+            </a>
+          ))}
+        </div>
       </section>
 
       <section className="landing-intro" aria-label="Pocket Archives areas">
