@@ -1334,7 +1334,7 @@ function referenceProvenance(value: string) {
   }
 }
 
-export default function Home() {
+export function ArchiveExperience() {
   const [art, setArt] = useState<PokemonArt[]>([]);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("all");
@@ -2143,7 +2143,7 @@ export default function Home() {
   return (
     <main>
       <header className="site-header">
-        <div className="brand">
+        <a className="brand" href="/" aria-label="Pocket Archives home">
           <span className="brand-mark">
             <img src="/pocket-archives-logo.png" alt="" />
           </span>
@@ -2153,7 +2153,7 @@ export default function Home() {
             ARCHIVES
             <small>Independent research archive</small>
           </span>
-        </div>
+        </a>
         <nav aria-label="Primary navigation">
           <button
             className={view === "references" ? "active" : ""}
@@ -3868,4 +3868,109 @@ export default function Home() {
       )}
     </main>
   );
+}
+
+function LandingPage() {
+  return (
+    <main className="landing-page">
+      <header className="landing-header">
+        <a className="brand" href="/" aria-label="Pocket Archives home">
+          <span className="brand-mark">
+            <img src="/pocket-archives-logo.png" alt="" />
+          </span>
+          <span>
+            POCKET
+            <br />
+            ARCHIVES
+            <small>Independent research archive</small>
+          </span>
+        </a>
+        <nav aria-label="Primary navigation">
+          <a href="/archive">Archive</a>
+          <a className="landing-shop-link" href={EXTERNAL_SHOP_URL}>
+            Shop <span aria-hidden="true">↗</span>
+          </a>
+        </nav>
+      </header>
+
+      <section className="landing-hero">
+        <div className="landing-copy">
+          <p className="eyebrow">
+            <span /> Research · preservation · collecting
+          </p>
+          <h1>
+            Preserving the art
+            <br />
+            behind <em>Pokémon.</em>
+          </h1>
+          <p>
+            Pocket Archives is an independent research archive and collecting
+            studio devoted to the drawings, production material, and objects
+            that shaped Pokémon’s visual history.
+          </p>
+          <div className="landing-actions">
+            <a className="landing-primary" href="/archive">
+              Enter the archive <span>→</span>
+            </a>
+            <a className="landing-secondary" href={EXTERNAL_SHOP_URL}>
+              Visit the shop ↗
+            </a>
+          </div>
+        </div>
+
+        <div className="landing-art" aria-label="Selected production drawings">
+          <figure className="landing-art-primary">
+            <img src="/art/0006.webp" alt="Milotic character production sheet" />
+            <figcaption>
+              <span>Production archive</span>
+              <b>Character design study</b>
+            </figcaption>
+          </figure>
+          <figure className="landing-art-secondary">
+            <img src="/art/0010.webp" alt="Smeargle character production sheet" />
+            <figcaption>Working drawings · preserved for study</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section className="landing-intro" aria-label="Pocket Archives areas">
+        <p>
+          An independent home for the visual record—from early development and
+          animation references to carefully selected pieces of collecting history.
+        </p>
+        <div className="landing-pillars">
+          <a href="/archive">
+            <small>01</small>
+            <b>Research archive</b>
+            <span>History, early concepts, sketches, and production sheets.</span>
+          </a>
+          <a href="/archive#archive-timeline">
+            <small>02</small>
+            <b>Guided history</b>
+            <span>A chronological exhibition from the earliest ideas onward.</span>
+          </a>
+          <a href={EXTERNAL_SHOP_URL}>
+            <small>03</small>
+            <b>Curated shop ↗</b>
+            <span>Selected cards and printed material offered through eBay.</span>
+          </a>
+        </div>
+      </section>
+
+      <footer className="landing-footer">
+        <div>
+          <b>Pocket Archives LLC</b>
+          <span>Independent research and collecting project</span>
+        </div>
+        <p>
+          Not affiliated with Nintendo, Game Freak, Creatures Inc., or The
+          Pokémon Company. Pokémon and related marks belong to their respective owners.
+        </p>
+      </footer>
+    </main>
+  );
+}
+
+export default function Home() {
+  return <LandingPage />;
 }
