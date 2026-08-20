@@ -3882,7 +3882,7 @@ function LandingPage() {
             POCKET
             <br />
             ARCHIVES
-            <small>Independent research archive</small>
+            <small>Cards, art, and collecting history</small>
           </span>
         </a>
         <nav aria-label="Primary navigation">
@@ -3896,24 +3896,24 @@ function LandingPage() {
       <section className="landing-hero">
         <div className="landing-copy">
           <p className="eyebrow">
-            <span /> Independent collector-led shop &amp; archive
+            <span /> Independent trading card shop &amp; archive
           </p>
           <h1>
-            Trading cards.
+            Vintage cards.
             <br />
-            <em>Carefully selected.</em>
+            <em>New finds.</em>
           </h1>
           <p>
-            Pocket Archives brings together vintage singles, small collections,
-            and printed material. Shop the current inventory or explore the
-            research behind it.
+            Pocket Archives is an independent shop for vintage singles, unusual
+            artwork, and small collections. See what is available now or browse
+            the history behind the cards.
           </p>
           <div className="landing-actions">
             <a className="landing-primary" href={EXTERNAL_SHOP_URL}>
-              Shop the collection <span>↗</span>
+              Shop on eBay <span>↗</span>
             </a>
             <a className="landing-secondary" href="/archive">
-              Explore the archive →
+              Browse the archive →
             </a>
           </div>
         </div>
@@ -3954,19 +3954,19 @@ function LandingPage() {
 
       <section className="landing-intro" aria-label="Pocket Archives areas">
         <p>
-          Built for collectors who care about artwork, condition, provenance,
-          and the history behind a card.
+          Pocket Archives has two parts: cards currently for sale, and an archive
+          about the artwork and history behind them.
         </p>
         <div className="landing-pillars">
           <a href={EXTERNAL_SHOP_URL}>
             <small>01</small>
-            <b>Current collection ↗</b>
-            <span>Available singles, small collections, and printed pieces.</span>
+            <b>Shop current cards ↗</b>
+            <span>Singles and small lots available through our eBay shop.</span>
           </a>
           <a href="/archive">
             <small>02</small>
-            <b>Research archive</b>
-            <span>Artwork, production material, and the history behind the collection.</span>
+            <b>Browse the archive</b>
+            <span>Artist notes, early artwork, production material, and card history.</span>
           </a>
         </div>
       </section>
@@ -3974,7 +3974,7 @@ function LandingPage() {
       <footer className="landing-footer">
         <div>
           <b>Pocket Archives LLC</b>
-          <span>Independent collector-led shop and archive</span>
+          <span>Independent trading card shop and archive</span>
         </div>
         <p>
           Pocket Archives is an independent business. All product names,
