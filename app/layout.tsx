@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://pocketarchives.com"),
   title: "Pocket Archives — Curated Trading Cards & Collecting Culture",
   description:
-    "An independent collector-led shop for vintage trading cards, printed material, shows, and the stories behind what we collect.",
+    "An independent collector-led shop for vintage trading cards, printed material, and the stories behind what we collect.",
   icons: { icon: "/favicon.png", shortcut: "/favicon.png" },
 };
 

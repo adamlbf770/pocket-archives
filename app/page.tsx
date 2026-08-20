@@ -3886,8 +3886,6 @@ function LandingPage() {
           </span>
         </a>
         <nav aria-label="Primary navigation">
-          <a href={EXTERNAL_SHOP_URL}>Collection</a>
-          <a href="#shows">Shows</a>
           <a href="/archive">Archive</a>
           <a className="landing-shop-link" href={EXTERNAL_SHOP_URL}>
             Shop <span aria-hidden="true">↗</span>
@@ -3898,17 +3896,17 @@ function LandingPage() {
       <section className="landing-hero">
         <div className="landing-copy">
           <p className="eyebrow">
-            <span /> Curated cards · collections · shows
+            <span /> Independent collector-led shop &amp; archive
           </p>
           <h1>
-            Collected with
+            Trading cards.
             <br />
-            <em>purpose.</em>
+            <em>Carefully selected.</em>
           </h1>
           <p>
-            Pocket Archives is an independent collector-led shop focused on
-            vintage trading cards, printed material, and the stories that make
-            them worth keeping.
+            Pocket Archives brings together vintage singles, small collections,
+            and printed material. Shop the current inventory or explore the
+            research behind it.
           </p>
           <div className="landing-actions">
             <a className="landing-primary" href={EXTERNAL_SHOP_URL}>
@@ -3943,24 +3941,19 @@ function LandingPage() {
 
       <section className="landing-intro" aria-label="Pocket Archives areas">
         <p>
-          A collector-led home for significant cards and printed material—sold
-          thoughtfully, documented carefully, and shared in person.
+          Built for collectors who care about artwork, condition, provenance,
+          and the history behind a card.
         </p>
         <div className="landing-pillars">
           <a href={EXTERNAL_SHOP_URL}>
             <small>01</small>
-            <b>Shop the collection ↗</b>
-            <span>Curated singles, small collections, and unusual printed pieces.</span>
+            <b>Current collection ↗</b>
+            <span>Available singles, small collections, and printed pieces.</span>
           </a>
-          <article id="shows">
-            <small>02</small>
-            <b>Shows &amp; events</b>
-            <span>Meet Pocket Archives in person. Our first show schedule is coming soon.</span>
-          </article>
           <a href="/archive">
-            <small>03</small>
-            <b>Explore the archive</b>
-            <span>The research, artwork, and history behind what we collect.</span>
+            <small>02</small>
+            <b>Research archive</b>
+            <span>Artwork, production material, and the history behind the collection.</span>
           </a>
         </div>
       </section>
