@@ -2151,7 +2151,7 @@ export function ArchiveExperience() {
             POCKET
             <br />
             ARCHIVES
-            <small>Independent research archive</small>
+            <small>Collections · cards · culture</small>
           </span>
         </a>
         <nav aria-label="Primary navigation">
@@ -3886,6 +3886,8 @@ function LandingPage() {
           </span>
         </a>
         <nav aria-label="Primary navigation">
+          <a href={EXTERNAL_SHOP_URL}>Collection</a>
+          <a href="#shows">Shows</a>
           <a href="/archive">Archive</a>
           <a className="landing-shop-link" href={EXTERNAL_SHOP_URL}>
             Shop <span aria-hidden="true">↗</span>
@@ -3896,63 +3898,69 @@ function LandingPage() {
       <section className="landing-hero">
         <div className="landing-copy">
           <p className="eyebrow">
-            <span /> Research · preservation · collecting
+            <span /> Curated cards · collections · shows
           </p>
           <h1>
-            Preserving the art
+            Collected with
             <br />
-            behind <em>Pokémon.</em>
+            <em>purpose.</em>
           </h1>
           <p>
-            Pocket Archives is an independent research archive and collecting
-            studio devoted to the drawings, production material, and objects
-            that shaped Pokémon’s visual history.
+            Pocket Archives is an independent collector-led shop focused on
+            vintage trading cards, printed material, and the stories that make
+            them worth keeping.
           </p>
           <div className="landing-actions">
-            <a className="landing-primary" href="/archive">
-              Enter the archive <span>→</span>
+            <a className="landing-primary" href={EXTERNAL_SHOP_URL}>
+              Shop the collection <span>↗</span>
             </a>
-            <a className="landing-secondary" href={EXTERNAL_SHOP_URL}>
-              Visit the shop ↗
+            <a className="landing-secondary" href="/archive">
+              Explore the archive →
             </a>
           </div>
         </div>
 
-        <div className="landing-art" aria-label="Selected production drawings">
+        <div className="landing-art landing-card-display" aria-label="Selected cards from the collection">
           <figure className="landing-art-primary">
-            <img src="/art/0006.webp" alt="Milotic character production sheet" />
+            <img
+              src="/shop/inventory/batch-03/pa-0024-front.jpg"
+              alt="Vintage Japanese trading card from the Pocket Archives collection"
+            />
             <figcaption>
-              <span>Production archive</span>
-              <b>Character design study</b>
+              <span>Current collection</span>
+              <b>Selected vintage cards</b>
             </figcaption>
           </figure>
           <figure className="landing-art-secondary">
-            <img src="/art/0010.webp" alt="Smeargle character production sheet" />
-            <figcaption>Working drawings · preserved for study</figcaption>
+            <img
+              src="/shop/inventory/batch-05/pa-0039-front.jpg"
+              alt="Vintage trading card from the Pocket Archives collection"
+            />
+            <figcaption>Collected · documented · offered</figcaption>
           </figure>
         </div>
       </section>
 
       <section className="landing-intro" aria-label="Pocket Archives areas">
         <p>
-          An independent home for the visual record—from early development and
-          animation references to carefully selected pieces of collecting history.
+          A collector-led home for significant cards and printed material—sold
+          thoughtfully, documented carefully, and shared in person.
         </p>
         <div className="landing-pillars">
-          <a href="/archive">
-            <small>01</small>
-            <b>Research archive</b>
-            <span>History, early concepts, sketches, and production sheets.</span>
-          </a>
-          <a href="/archive#archive-timeline">
-            <small>02</small>
-            <b>Guided history</b>
-            <span>A chronological exhibition from the earliest ideas onward.</span>
-          </a>
           <a href={EXTERNAL_SHOP_URL}>
+            <small>01</small>
+            <b>Shop the collection ↗</b>
+            <span>Curated singles, small collections, and unusual printed pieces.</span>
+          </a>
+          <article id="shows">
+            <small>02</small>
+            <b>Shows &amp; events</b>
+            <span>Meet Pocket Archives in person. Our first show schedule is coming soon.</span>
+          </article>
+          <a href="/archive">
             <small>03</small>
-            <b>Curated shop ↗</b>
-            <span>Selected cards and printed material offered through eBay.</span>
+            <b>Explore the archive</b>
+            <span>The research, artwork, and history behind what we collect.</span>
           </a>
         </div>
       </section>
@@ -3960,11 +3968,11 @@ function LandingPage() {
       <footer className="landing-footer">
         <div>
           <b>Pocket Archives LLC</b>
-          <span>Independent research and collecting project</span>
+          <span>Independent collector-led shop and archive</span>
         </div>
         <p>
-          Not affiliated with Nintendo, Game Freak, Creatures Inc., or The
-          Pokémon Company. Pokémon and related marks belong to their respective owners.
+          Pocket Archives is an independent business. All product names,
+          characters, and trademarks belong to their respective owners.
         </p>
       </footer>
     </main>

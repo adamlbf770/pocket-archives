@@ -7792,6 +7792,24 @@ footer p {
   object-fit: contain;
   mix-blend-mode: multiply;
 }
+.landing-card-display img {
+  object-fit: contain;
+  mix-blend-mode: normal;
+}
+.landing-card-display .landing-art-primary {
+  width: 57%;
+  height: 82%;
+  right: 7%;
+  top: 0;
+  padding: 22px 22px 68px;
+}
+.landing-card-display .landing-art-secondary {
+  width: 39%;
+  height: 57%;
+  left: 3%;
+  bottom: 1%;
+  padding: 16px 16px 50px;
+}
 .landing-art-primary {
   width: 78%;
   height: 76%;
@@ -7839,7 +7857,8 @@ footer p {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   border-top: 1px solid var(--ink);
 }
-.landing-pillars a {
+.landing-pillars a,
+.landing-pillars article {
   min-height: 240px;
   padding: 24px;
   border-right: 1px solid var(--line);
@@ -7849,10 +7868,12 @@ footer p {
   display: flex;
   flex-direction: column;
 }
-.landing-pillars a:first-child {
+.landing-pillars a:first-child,
+.landing-pillars article:first-child {
   padding-left: 0;
 }
-.landing-pillars a:last-child {
+.landing-pillars a:last-child,
+.landing-pillars article:last-child {
   border-right: 0;
 }
 .landing-pillars small {
@@ -7875,6 +7896,9 @@ footer p {
 }
 .landing-pillars a:hover b {
   color: var(--orange);
+}
+.landing-pillars article {
+  scroll-margin-top: 30px;
 }
 .landing-footer {
   min-height: 170px;
@@ -7927,6 +7951,9 @@ footer p {
   .landing-header nav {
     gap: 12px;
   }
+  .landing-header nav > a:not(.landing-shop-link) {
+    display: none;
+  }
   .landing-header nav a {
     font-size: 8px;
   }
@@ -7958,6 +7985,16 @@ footer p {
     height: 72%;
     padding: 16px 16px 58px;
   }
+  .landing-card-display .landing-art-primary {
+    width: 65%;
+    height: 80%;
+    right: 2%;
+  }
+  .landing-card-display .landing-art-secondary {
+    width: 46%;
+    height: 56%;
+    left: 0;
+  }
   .landing-art-secondary {
     width: 51%;
     height: 42%;
@@ -7974,7 +8011,9 @@ footer p {
     grid-template-columns: 1fr;
   }
   .landing-pillars a,
-  .landing-pillars a:first-child {
+  .landing-pillars article,
+  .landing-pillars a:first-child,
+  .landing-pillars article:first-child {
     min-height: 160px;
     padding: 20px 0;
     border-right: 0;
