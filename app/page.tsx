@@ -3873,6 +3873,20 @@ export function ArchiveExperience() {
 function LandingPage() {
   const ebayPreviewListings = [
     {
+      title: "Hypno",
+      details: "Bandai Carddass File No.097 · 1997 · NM",
+      price: "$12.99",
+      image: "/shop/inventory/batch-01/pa-0014-front.jpg",
+      href: "https://www.ebay.com/itm/Pokemon-Hypno-File-No-097-Carddass-Bandai-Japanese-1997-NM-/158192969141",
+    },
+    {
+      title: "Slowbro",
+      details: "Bandai Carddass File No.080 · 1997 · NM",
+      price: "$15.99",
+      image: "/shop/inventory/batch-01/pa-0015-front.jpg",
+      href: "https://www.ebay.com/itm/Pokemon-Slowbro-File-No-080-Carddass-Bandai-Japanese-1997-NM-/158192971036",
+    },
+    {
       title: "Kangaskhan",
       details: "Jungle 21/64 · 1999 · MP",
       price: "$3.49",
@@ -3885,20 +3899,6 @@ function LandingPage() {
       price: "$3.49",
       image: "/shop/inventory/batch-04/pa-0033-front.jpg",
       href: "https://www.ebay.com/itm/Pokemon-Magby-23-111-Neo-Genesis-2000-WOTC-Unlimited-MP-/158195564641",
-    },
-    {
-      title: "Magneton",
-      details: "Japanese Base Set · 1996 · Holo · MP",
-      price: "$8.49",
-      image: "/shop/inventory/batch-04/pa-0031-front.jpg",
-      href: "https://www.ebay.com/itm/Japanese-Pokemon-Magneton-No-082-Base-Set-1996-Holo-MP-/158195564643",
-    },
-    {
-      title: "Croconaw",
-      details: "Neo Premium File 1 · 1999 · MP",
-      price: "$2.49",
-      image: "/shop/inventory/batch-04/pa-0028-front.jpg",
-      href: "https://www.ebay.com/itm/Japanese-Pokemon-Croconaw-No-159-Neo-Premium-File-1-1999-MP-/158195564642",
     },
   ];
 
