@@ -7887,6 +7887,10 @@ footer p {
 .archive-chapter-more .archive-chapter-body figure img {
   object-position: center;
 }
+.archive-chapter-pokemon .archive-chapter-body figure img {
+  object-fit: contain;
+  background: #e9e4d8;
+}
 .archive-chapter-body figcaption {
   margin-top: 18px;
   color: #6f6b63;
@@ -8309,7 +8313,9 @@ footer p {
   transform: rotate(-4deg);
 }
 .landing-editorial-collage .landing-art-sugimori img {
+  object-fit: contain;
   object-position: center top;
+  background: #eee9dc;
 }
 .landing-editorial-collage .landing-art-magic {
   width: 40%;

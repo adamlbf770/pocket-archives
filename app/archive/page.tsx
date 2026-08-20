@@ -14,10 +14,10 @@ const chapters = [
     years: "1990–present",
     title: "Pokémon",
     subtitle: "From field-guide watercolors to a global illustration archive.",
-    image: "/hero/pokemon-adventures-rgb-volume-1.jpg",
+    image: "/hero/pokemon-rgb-sugimori-watercolor.jpg",
     imageAlt:
-      "Cover of Pokémon Adventures Red and Blue volume one, illustrated by Mato",
-    caption: "Pokémon Adventures: Red & Blue · Mato · 1997",
+      "Early Pokémon watercolor artwork featuring Red, Blue, Pikachu, and Charizard",
+    caption: "Early Red, Green & Blue-era watercolor · Ken Sugimori",
     museumHref: "/archive/pokemon",
     introduction:
       "Pokémon’s earliest visual identity was unusually intimate: compact creature drawings, restrained color, and the feeling of a naturalist’s notebook. As the card game expanded, that single visual language became a platform for hundreds of artists and an extraordinary range of materials.",

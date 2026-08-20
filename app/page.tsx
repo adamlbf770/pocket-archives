@@ -3921,12 +3921,12 @@ function LandingPage() {
         <div className="landing-art landing-editorial-collage" aria-label="Selected artwork across collecting history">
           <figure className="landing-art-piece landing-art-sugimori">
             <img
-              src="/hero/pokemon-adventures-rgb-volume-1.jpg"
-              alt="Cover of Pokémon Adventures Red and Blue volume one, illustrated by Mato"
+              src="/hero/pokemon-rgb-sugimori-watercolor.jpg"
+              alt="Early Pokémon watercolor artwork featuring Red, Blue, Pikachu, and Charizard"
             />
             <figcaption>
-              <span>1997 · Red, Green &amp; Blue manga</span>
-              <b>Pokémon Adventures · Mato</b>
+              <span>Red, Green &amp; Blue era</span>
+              <b>Early Pokémon watercolor · Ken Sugimori</b>
             </figcaption>
           </figure>
           <figure className="landing-art-piece landing-art-magic">
