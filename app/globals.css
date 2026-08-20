@@ -8299,6 +8299,24 @@ footer p {
   gap: 12px;
   align-items: center;
 }
+.landing-art-link {
+  min-width: 0;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.landing-art-link .landing-art-piece {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.landing-art-link:hover .landing-art-piece,
+.landing-art-link:focus-visible .landing-art-piece {
+  transform: translateY(-5px);
+  box-shadow: 0 24px 58px rgba(0, 0, 0, 0.34);
+}
+.landing-art-link:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 5px;
+}
 .landing-editorial-collage .landing-art-piece {
   width: auto;
   height: auto;

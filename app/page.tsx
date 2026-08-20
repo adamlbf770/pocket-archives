@@ -3919,37 +3919,52 @@ function LandingPage() {
         </div>
 
         <div className="landing-art landing-editorial-collage" aria-label="Selected artwork across collecting history">
-          <figure className="landing-art-piece landing-art-sugimori">
-            <img
-              src="/hero/pokemon-rgb-sugimori-watercolor.jpg"
-              alt="Early Pokémon watercolor artwork featuring Red, Blue, Pikachu, and Charizard"
-            />
-            <figcaption>
-              <span>Red, Green &amp; Blue era</span>
-              <b>Early Pokémon watercolor · Ken Sugimori</b>
-            </figcaption>
-          </figure>
-          <figure className="landing-art-piece landing-art-magic">
-            <img
-              src="/hero/mtg-shivan-dragon-alpha.jpg"
-              alt="Shivan Dragon artwork by Melissa A. Benson"
-            />
-            <figcaption>
-              <span>1993 · Magic: The Gathering</span>
-              <b>Shivan Dragon · Melissa A. Benson</b>
-            </figcaption>
-          </figure>
-          <figure className="landing-art-piece landing-art-yugioh">
-            <img
-              src="/hero/yugioh-duel-art-kazuki-takahashi.jpg"
-              alt="Yu-Gi-Oh color illustration of Yugi by series creator Kazuki Takahashi"
-            />
-            <figcaption>
-              <span>1996 onward · Yu-Gi-Oh!</span>
-              <b>Creator illustration · Kazuki Takahashi</b>
-            </figcaption>
-          </figure>
+          <a className="landing-art-link" href="/archive/pokemon" aria-label="Open the Pokémon archive">
+            <figure className="landing-art-piece landing-art-sugimori">
+              <img
+                src="/hero/pokemon-rgb-sugimori-watercolor.jpg"
+                alt="Early Pokémon watercolor artwork featuring Red, Blue, Pikachu, and Charizard"
+              />
+              <figcaption>
+                <span>Red, Green &amp; Blue era</span>
+                <b>Early Pokémon watercolor · Ken Sugimori</b>
+              </figcaption>
+            </figure>
+          </a>
+          <a className="landing-art-link" href="/archive#magic" aria-label="Open the Magic: The Gathering archive">
+            <figure className="landing-art-piece landing-art-magic">
+              <img
+                src="/hero/mtg-shivan-dragon-alpha.jpg"
+                alt="Shivan Dragon artwork by Melissa A. Benson"
+              />
+              <figcaption>
+                <span>1993 · Magic: The Gathering</span>
+                <b>Shivan Dragon · Melissa A. Benson</b>
+              </figcaption>
+            </figure>
+          </a>
+          <a className="landing-art-link" href="/archive#more" aria-label="Open the Yu-Gi-Oh and other traditions archive">
+            <figure className="landing-art-piece landing-art-yugioh">
+              <img
+                src="/hero/yugioh-duel-art-kazuki-takahashi.jpg"
+                alt="Yu-Gi-Oh color illustration of Yugi by series creator Kazuki Takahashi"
+              />
+              <figcaption>
+                <span>1996 onward · Yu-Gi-Oh!</span>
+                <b>Creator illustration · Kazuki Takahashi</b>
+              </figcaption>
+            </figure>
+          </a>
         </div>
+      </section>
+
+      <section className="landing-shop-callout">
+        <div>
+          <small>Current listings</small>
+          <h2>The shop is on eBay for now.</h2>
+          <p>Browse available singles and small lots from Pocket Archives.</p>
+        </div>
+        <a href={EXTERNAL_SHOP_URL}>Open the shop ↗</a>
       </section>
 
       <section className="landing-intro" aria-label="Pocket Archives areas">
@@ -4052,15 +4067,6 @@ function LandingPage() {
             </span>
           </a>
         </div>
-      </section>
-
-      <section className="landing-shop-callout">
-        <div>
-          <small>Current listings</small>
-          <h2>The shop is on eBay for now.</h2>
-          <p>Browse available singles and small lots from Pocket Archives.</p>
-        </div>
-        <a href={EXTERNAL_SHOP_URL}>Open the shop ↗</a>
       </section>
 
       <footer className="landing-footer">
