@@ -14,10 +14,11 @@ const chapters = [
     years: "1990–present",
     title: "Pokémon",
     subtitle: "From field-guide watercolors to a global illustration archive.",
-    image: "/hero/pokemon-mystery-dungeon-sugimori-manga.jpg",
+    image: "/hero/pokemon-adventures-rgb-volume-1.jpg",
     imageAlt:
-      "A page from the Pokémon Mystery Dungeon manga illustrated by Ken Sugimori",
-    caption: "Explorers of Time manga · Ken Sugimori · 2007",
+      "Cover of Pokémon Adventures Red and Blue volume one, illustrated by Mato",
+    caption: "Pokémon Adventures: Red & Blue · Mato · 1997",
+    museumHref: "/archive/pokemon",
     introduction:
       "Pokémon’s earliest visual identity was unusually intimate: compact creature drawings, restrained color, and the feeling of a naturalist’s notebook. As the card game expanded, that single visual language became a platform for hundreds of artists and an extraordinary range of materials.",
     moments: [
@@ -54,6 +55,7 @@ const chapters = [
     image: "/hero/mtg-shivan-dragon-alpha.jpg",
     imageAlt: "Shivan Dragon artwork by Melissa A. Benson",
     caption: "Shivan Dragon · Melissa A. Benson · 1993",
+    museumHref: null,
     introduction:
       "Magic arrived with a different proposition: every card was a fragment of a larger fantasy world. The earliest sets translated original paintings into a very small frame, giving the game the character of a portable illustrated book assembled differently by every player.",
     moments: [
@@ -90,6 +92,7 @@ const chapters = [
     image: "/hero/sorcery-melissa-benson.jpg",
     imageAlt: "Traditional fantasy artwork presented by Sorcery: Contested Realm",
     caption: "Traditional fantasy art · Melissa A. Benson · Sorcery",
+    museumHref: null,
     introduction:
       "Trading-card art is not one linear history. Japanese card games, Western fantasy games, promotional cards, stickers, postcards, and recent independent systems each make different choices about scale, printing, authorship, and the value of the original artwork.",
     moments: [
@@ -194,6 +197,20 @@ export default function ArchivePage() {
               </figure>
 
               <div className="archive-chapter-story">
+                {chapter.museumHref && (
+                  <a className="pokemon-history-entry" href={chapter.museumHref}>
+                    <span>
+                      <small>The complete historical archive</small>
+                      <b>Walk through the history of Pokémon</b>
+                      <em>
+                        The original research, chronological exhibition,
+                        development drawings, sketches, production sheets, and
+                        sprite history are all preserved here.
+                      </em>
+                    </span>
+                    <strong>Enter →</strong>
+                  </a>
+                )}
                 <p className="archive-chapter-introduction">
                   {chapter.introduction}
                 </p>

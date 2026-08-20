@@ -3921,12 +3921,12 @@ function LandingPage() {
         <div className="landing-art landing-editorial-collage" aria-label="Selected artwork across collecting history">
           <figure className="landing-art-piece landing-art-sugimori">
             <img
-              src="/hero/pokemon-mystery-dungeon-sugimori-manga.jpg"
-              alt="A page from the Pokémon Mystery Dungeon manga illustrated by Ken Sugimori"
+              src="/hero/pokemon-adventures-rgb-volume-1.jpg"
+              alt="Cover of Pokémon Adventures Red and Blue volume one, illustrated by Mato"
             />
             <figcaption>
-              <span>2007 · Pokémon manga</span>
-              <b>Explorers of Time · Ken Sugimori</b>
+              <span>1997 · Red, Green &amp; Blue manga</span>
+              <b>Pokémon Adventures · Mato</b>
             </figcaption>
           </figure>
           <figure className="landing-art-piece landing-art-magic">
