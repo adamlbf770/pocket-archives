@@ -3939,14 +3939,14 @@ function LandingPage() {
               <b>Shivan Dragon · Melissa A. Benson</b>
             </figcaption>
           </figure>
-          <figure className="landing-art-piece landing-art-sorcery">
+          <figure className="landing-art-piece landing-art-yugioh">
             <img
-              src="/hero/sorcery-melissa-benson.jpg"
-              alt="Sorcery: Contested Realm artwork by Melissa A. Benson"
+              src="/hero/yugioh-duel-art-kazuki-takahashi.jpg"
+              alt="Yu-Gi-Oh color illustration of Yugi by series creator Kazuki Takahashi"
             />
             <figcaption>
-              <span>Sorcery: Contested Realm</span>
-              <b>Traditional fantasy art · Melissa A. Benson</b>
+              <span>1996 onward · Yu-Gi-Oh!</span>
+              <b>Creator illustration · Kazuki Takahashi</b>
             </figcaption>
           </figure>
         </div>

@@ -7,5 +7,6 @@ These images are presented editorially to identify artists and visual traditions
 - `pokemon-rgb-sugimori-watercolor.jpg` — user-supplied image of early Red, Green, and Blue-era Pokémon watercolor artwork featuring Red, Blue, Pikachu, and Charizard; attributed to Ken Sugimori.
 - `mtg-shivan-dragon-alpha.jpg` — *Shivan Dragon* by Melissa A. Benson, *Magic: The Gathering* Limited Edition Alpha (1993). Card record and image service: Scryfall: https://scryfall.com/card/lea/174/shivan-dragon
 - `sorcery-melissa-benson.jpg` — Melissa A. Benson artist feature artwork for *Sorcery: Contested Realm*. Official source: https://sorcerytcg.com/art/melissa-a-benson
+- `yugioh-duel-art-kazuki-takahashi.jpg` — cover artwork from *Duel Art: Kazuki Takahashi Yu-Gi-Oh! Illustrations*, illustrated by Yu-Gi-Oh! creator Kazuki Takahashi. Official publisher image and record: https://www.simonandschuster.com/books/Duel-Art-Kazuki-Takahashi-Yu-Gi-Oh!-Illustrations/Kazuki-Takahashi/9781927925416
 
 All artwork, characters, game names, and trademarks remain the property of their respective owners.
