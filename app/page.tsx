@@ -3921,12 +3921,12 @@ function LandingPage() {
         <div className="landing-art landing-editorial-collage" aria-label="Selected artwork across collecting history">
           <figure className="landing-art-piece landing-art-sugimori">
             <img
-              src="/hero/ken-sugimori-quinty.png"
-              alt="Quinty artwork by Ken Sugimori"
+              src="/hero/pokemon-mystery-dungeon-sugimori-manga.jpg"
+              alt="A page from the Pokémon Mystery Dungeon manga illustrated by Ken Sugimori"
             />
             <figcaption>
-              <span>1989 · Japan</span>
-              <b>Quinty · Ken Sugimori</b>
+              <span>2007 · Pokémon manga</span>
+              <b>Explorers of Time · Ken Sugimori</b>
             </figcaption>
           </figure>
           <figure className="landing-art-piece landing-art-magic">
