@@ -3971,6 +3971,98 @@ function LandingPage() {
         </div>
       </section>
 
+      <section className="landing-focus" aria-labelledby="landing-focus-title">
+        <div className="landing-section-heading">
+          <p className="eyebrow">
+            <span /> What we look for
+          </p>
+          <p>Not everything has to be rare. It has to be interesting.</p>
+        </div>
+        <div className="landing-focus-list" id="landing-focus-title">
+          <article>
+            <small>01</small>
+            <h2>Early printings</h2>
+            <p>First sets, regional releases, and cards from a game’s formative years.</p>
+          </article>
+          <article>
+            <small>02</small>
+            <h2>Artist-led cards</h2>
+            <p>Cards where the illustrator’s materials, style, and point of view are easy to see.</p>
+          </article>
+          <article>
+            <small>03</small>
+            <h2>Unusual formats</h2>
+            <p>Promos, Carddass, postcards, stickers, inserts, and other printed pieces.</p>
+          </article>
+          <article>
+            <small>04</small>
+            <h2>Small collections</h2>
+            <p>Groups built around an artist, a character, a set, or a moment in the hobby.</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="landing-archive-preview" aria-labelledby="landing-archive-title">
+        <div className="landing-archive-lead">
+          <p className="eyebrow">
+            <span /> From the archive
+          </p>
+          <h2 id="landing-archive-title">The art has a history.</h2>
+          <p>
+            The archive follows how trading-card worlds were drawn, painted,
+            printed, and changed over time.
+          </p>
+          <a href="/archive">Browse every chapter →</a>
+        </div>
+        <div className="landing-archive-cards">
+          <a href="/archive/pokemon">
+            <img
+              src="/hero/pokemon-rgb-sugimori-watercolor.jpg"
+              alt="Early Pokémon watercolor artwork by Ken Sugimori"
+              loading="lazy"
+            />
+            <span>
+              <small>1990–present</small>
+              <b>Pokémon</b>
+              <em>Development drawings, watercolor, manga, and card art.</em>
+            </span>
+          </a>
+          <a href="/archive#magic">
+            <img
+              src="/hero/mtg-shivan-dragon-alpha.jpg"
+              alt="Shivan Dragon artwork by Melissa A. Benson"
+              loading="lazy"
+            />
+            <span>
+              <small>1993–present</small>
+              <b>Magic: The Gathering</b>
+              <em>Early painted fantasy and the artists who built its worlds.</em>
+            </span>
+          </a>
+          <a href="/archive#more">
+            <img
+              src="/hero/sorcery-melissa-benson.jpg"
+              alt="Traditional fantasy artwork presented by Sorcery"
+              loading="lazy"
+            />
+            <span>
+              <small>More traditions</small>
+              <b>Sorcery &amp; beyond</b>
+              <em>Independent games, regional print, and overlooked formats.</em>
+            </span>
+          </a>
+        </div>
+      </section>
+
+      <section className="landing-shop-callout">
+        <div>
+          <small>Current listings</small>
+          <h2>The shop is on eBay for now.</h2>
+          <p>Browse available singles and small lots from Pocket Archives.</p>
+        </div>
+        <a href={EXTERNAL_SHOP_URL}>Open the shop ↗</a>
+      </section>
+
       <footer className="landing-footer">
         <div>
           <b>Pocket Archives LLC</b>
