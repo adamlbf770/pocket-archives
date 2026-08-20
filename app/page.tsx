@@ -3918,23 +3918,36 @@ function LandingPage() {
           </div>
         </div>
 
-        <div className="landing-art landing-card-display" aria-label="Selected cards from the collection">
-          <figure className="landing-art-primary">
+        <div className="landing-art landing-editorial-collage" aria-label="Selected artwork across collecting history">
+          <figure className="landing-art-piece landing-art-sugimori">
             <img
-              src="/shop/inventory/batch-03/pa-0024-front.jpg"
-              alt="Vintage Japanese trading card from the Pocket Archives collection"
+              src="/hero/ken-sugimori-quinty.png"
+              alt="Quinty artwork by Ken Sugimori"
             />
             <figcaption>
-              <span>Current collection</span>
-              <b>Selected vintage cards</b>
+              <span>1989 · Japan</span>
+              <b>Quinty · Ken Sugimori</b>
             </figcaption>
           </figure>
-          <figure className="landing-art-secondary">
+          <figure className="landing-art-piece landing-art-magic">
             <img
-              src="/shop/inventory/batch-05/pa-0039-front.jpg"
-              alt="Vintage trading card from the Pocket Archives collection"
+              src="/hero/mtg-shivan-dragon-alpha.jpg"
+              alt="Shivan Dragon artwork by Melissa A. Benson"
             />
-            <figcaption>Collected · documented · offered</figcaption>
+            <figcaption>
+              <span>1993 · Magic: The Gathering</span>
+              <b>Shivan Dragon · Melissa A. Benson</b>
+            </figcaption>
+          </figure>
+          <figure className="landing-art-piece landing-art-sorcery">
+            <img
+              src="/hero/sorcery-melissa-benson.jpg"
+              alt="Sorcery: Contested Realm artwork by Melissa A. Benson"
+            />
+            <figcaption>
+              <span>Sorcery: Contested Realm</span>
+              <b>Traditional fantasy art · Melissa A. Benson</b>
+            </figcaption>
           </figure>
         </div>
       </section>

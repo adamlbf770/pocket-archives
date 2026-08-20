@@ -7810,6 +7810,57 @@ footer p {
   bottom: 1%;
   padding: 16px 16px 50px;
 }
+.landing-editorial-collage {
+  min-height: 570px;
+}
+.landing-editorial-collage .landing-art-piece {
+  padding: 9px 9px 58px;
+  background: #f7f3e9;
+  overflow: hidden;
+}
+.landing-editorial-collage .landing-art-piece img {
+  object-fit: cover;
+  mix-blend-mode: normal;
+}
+.landing-editorial-collage .landing-art-sugimori {
+  width: 38%;
+  height: 70%;
+  left: 0;
+  top: 8%;
+  z-index: 2;
+  transform: rotate(-4deg);
+}
+.landing-editorial-collage .landing-art-sugimori img {
+  object-position: center top;
+}
+.landing-editorial-collage .landing-art-magic {
+  width: 40%;
+  height: 56%;
+  left: 30%;
+  top: 0;
+  z-index: 1;
+  transform: rotate(3deg);
+}
+.landing-editorial-collage .landing-art-sorcery {
+  width: 43%;
+  height: 68%;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  transform: rotate(4deg);
+}
+.landing-editorial-collage figcaption {
+  left: 14px;
+  right: 14px;
+  bottom: 16px;
+  display: grid;
+  justify-content: initial;
+  gap: 5px;
+  line-height: 1.2;
+}
+.landing-editorial-collage figcaption b {
+  font-size: 8px;
+}
 .landing-art-primary {
   width: 78%;
   height: 76%;
@@ -7994,6 +8045,30 @@ footer p {
     width: 46%;
     height: 56%;
     left: 0;
+  }
+  .landing-editorial-collage {
+    min-height: 410px;
+  }
+  .landing-editorial-collage .landing-art-piece {
+    padding: 6px 6px 48px;
+  }
+  .landing-editorial-collage .landing-art-sugimori {
+    width: 43%;
+    height: 69%;
+    left: 0;
+  }
+  .landing-editorial-collage .landing-art-magic {
+    width: 43%;
+    height: 54%;
+    left: 29%;
+  }
+  .landing-editorial-collage .landing-art-sorcery {
+    width: 46%;
+    height: 66%;
+    right: -1%;
+  }
+  .landing-editorial-collage figcaption b {
+    font-size: 7px;
   }
   .landing-art-secondary {
     width: 51%;
