@@ -8600,6 +8600,7 @@ footer p {
   height: auto;
   object-fit: contain;
   object-position: center;
+  padding: 9px;
   background: #eee9dc;
   mix-blend-mode: normal;
 }
@@ -9001,6 +9002,32 @@ footer p {
   color: #77746c;
   font: 11px/1.5 Georgia, serif;
   text-align: right;
+}
+.landing-image-credits {
+  max-width: 540px;
+  margin-top: 12px;
+  color: #77746c;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.landing-image-credits summary {
+  width: fit-content;
+  cursor: pointer;
+  list-style: none;
+  color: #aaa69b;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 7px;
+  font-weight: 850;
+}
+.landing-image-credits summary::-webkit-details-marker {
+  display: none;
+}
+.landing-image-credits p {
+  margin: 9px 0 0;
+  color: #77746c;
+  font: 10px/1.45 Georgia, serif;
+  text-align: left;
 }
 
 @media (max-width: 980px) {

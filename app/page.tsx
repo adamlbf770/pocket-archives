@@ -3964,36 +3964,36 @@ function LandingPage() {
           <div className="landing-art-link">
             <figure className="landing-art-piece landing-art-sugimori">
               <img
-                src="/hero/pokemon-rgb-sugimori-watercolor.jpg"
-                alt="Early Pokémon watercolor artwork featuring Red, Blue, Pikachu, and Charizard"
+                src="/open-access/yoshikazu-dragon-sumiyoshi.jpg"
+                alt="Nineteenth-century Japanese woodblock print of warriors beneath an immense dragon"
               />
               <figcaption>
-                <span>Red, Green &amp; Blue era</span>
-                <b>Early Pokémon watercolor · Ken Sugimori</b>
+                <span>Japan · ca. 1847–52</span>
+                <b>Dragon at Sumiyoshi · Utagawa Yoshikazu</b>
               </figcaption>
             </figure>
           </div>
           <div className="landing-art-link">
             <figure className="landing-art-piece landing-art-magic">
               <img
-                src="/hero/mtg-shivan-dragon-alpha.jpg"
-                alt="Shivan Dragon artwork by Melissa A. Benson"
+                src="/open-access/yoshitoshi-fuwa-monster.jpg"
+                alt="Japanese woodblock print of Fuwa Bansaku beneath a supernatural black creature"
               />
               <figcaption>
-                <span>1993 · Magic: The Gathering</span>
-                <b>Shivan Dragon · Melissa A. Benson</b>
+                <span>Ghost stories · 1865</span>
+                <b>Fuwa Bansaku · Tsukioka Yoshitoshi</b>
               </figcaption>
             </figure>
           </div>
           <div className="landing-art-link">
             <figure className="landing-art-piece landing-art-yugioh">
               <img
-                src="/hero/yugioh-duel-art-kazuki-takahashi.jpg"
-                alt="Yu-Gi-Oh color illustration of Yugi by series creator Kazuki Takahashi"
+                src="/open-access/norisue-two-playing-cards.jpg"
+                alt="Two Japanese poetry playing cards from the late eighteenth century"
               />
               <figcaption>
-                <span>1996 onward · Yu-Gi-Oh!</span>
-                <b>Creator illustration · Kazuki Takahashi</b>
+                <span>Playing culture · ca. 1790–1800</span>
+                <b>Two playing cards · Arama Norisue</b>
               </figcaption>
             </figure>
           </div>
@@ -4036,8 +4036,8 @@ function LandingPage() {
         <div className="landing-archive-cards">
           <a href="/shop#collections">
             <img
-              src="/hero/pokemon-rgb-sugimori-watercolor.jpg"
-              alt="Early Pokémon watercolor artwork by Ken Sugimori"
+              src="/open-access/norisue-two-playing-cards.jpg"
+              alt="Two Japanese poetry playing cards from the late eighteenth century"
               loading="lazy"
             />
             <span>
@@ -4048,8 +4048,8 @@ function LandingPage() {
           </a>
           <a href="/shop#gallery">
             <img
-              src="/hero/mtg-shivan-dragon-alpha.jpg"
-              alt="Shivan Dragon artwork by Melissa A. Benson"
+              src="/open-access/hiroshige-goyu-postcard.jpg"
+              alt="Early twentieth-century Japanese postcard showing the town of Goyu"
               loading="lazy"
             />
             <span>
@@ -4060,8 +4060,8 @@ function LandingPage() {
           </a>
           <a href="/shop#gallery">
             <img
-              src="/hero/sorcery-melissa-benson.jpg"
-              alt="Traditional fantasy artwork presented by Sorcery"
+              src="/open-access/hiroshige-rakan-dragon.jpg"
+              alt="Japanese surimono print showing a dragon emerging from a bowl"
               loading="lazy"
             />
             <span>
@@ -4077,6 +4077,14 @@ function LandingPage() {
         <div>
           <b>Pocket Archives LLC</b>
           <span>Independent collectibles shop</span>
+          <details className="landing-image-credits">
+            <summary>Open-access image credits +</summary>
+            <p>
+              Utagawa Yoshikazu and Utagawa Hiroshige images: The Met Open
+              Access, CC0. Tsukioka Yoshitoshi, Arama Norisue, and Goyu images:
+              Rijksmuseum, Public Domain.
+            </p>
+          </details>
         </div>
         <p>
           Pocket Archives is an independent business. All product names,
