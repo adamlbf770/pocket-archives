@@ -109,7 +109,7 @@ function raritySortRank(label: string) {
 export function ShopHeader({ active = "shop" }: { active?: "shop" | "sales" }) {
   return (
     <header className="site-header shop-site-header">
-      <Link className="brand" href={SHOP_HOME}>
+      <Link className="brand" href="/" aria-label="Return to Pocket Archives home">
         <span className="brand-mark">
           <img src="/pocket-archives-logo.png" alt="" />
         </span>
@@ -120,6 +120,7 @@ export function ShopHeader({ active = "shop" }: { active?: "shop" | "sales" }) {
         </span>
       </Link>
       <nav aria-label="Shop rooms">
+        <Link href="/">Home</Link>
         <Link
           className={active === "shop" ? "active" : ""}
           href={`${SHOP_HOME}#gallery`}
