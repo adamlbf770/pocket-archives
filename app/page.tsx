@@ -3935,9 +3935,7 @@ function LandingPage() {
             <em>New finds.</em>
           </h1>
           <p>
-            Individual cards live on eBay. Curated collections, vintage
-            material, ephemera, and special groups are offered directly through
-            Pocket Archives.
+            Singles on eBay. Collections and rare finds here.
           </p>
           <div className="landing-actions">
             <a className="landing-primary" href={EXTERNAL_SHOP_URL}>
@@ -3994,7 +3992,6 @@ function LandingPage() {
           <div>
             <small>Individual cards</small>
             <h2>Singles are on eBay.</h2>
-            <p>Prices and availability are confirmed on the eBay listing.</p>
           </div>
           <a href={EXTERNAL_SHOP_URL}>View all on eBay ↗</a>
         </div>
@@ -4015,65 +4012,12 @@ function LandingPage() {
         </div>
       </section>
 
-      <section className="landing-intro" aria-label="Pocket Archives areas">
-        <p>
-          Two places to shop, with a clear purpose for each one.
-        </p>
-        <div className="landing-pillars">
-          <a href={EXTERNAL_SHOP_URL}>
-            <small>01</small>
-            <b>Individual cards on eBay ↗</b>
-            <span>Singles, straightforward listings, and familiar eBay checkout.</span>
-          </a>
-          <a href="/shop">
-            <small>02</small>
-            <b>Shop Pocket Archives</b>
-            <span>Curated collections, ephemera, vintage highlights, and grouped offerings.</span>
-          </a>
-        </div>
-      </section>
-
-      <section className="landing-focus" aria-labelledby="landing-focus-title">
-        <div className="landing-section-heading">
-          <p className="eyebrow">
-            <span /> What we look for
-          </p>
-          <p>Not everything has to be rare. It has to be interesting.</p>
-        </div>
-        <div className="landing-focus-list" id="landing-focus-title">
-          <article>
-            <small>01</small>
-            <h2>Early printings</h2>
-            <p>First sets, regional releases, and cards from a game’s formative years.</p>
-          </article>
-          <article>
-            <small>02</small>
-            <h2>Artist-led cards</h2>
-            <p>Cards where the illustrator’s materials, style, and point of view are easy to see.</p>
-          </article>
-          <article>
-            <small>03</small>
-            <h2>Unusual formats</h2>
-            <p>Promos, Carddass, postcards, stickers, inserts, and other printed pieces.</p>
-          </article>
-          <article>
-            <small>04</small>
-            <h2>Small collections</h2>
-            <p>Groups built around an artist, a character, a set, or a moment in the hobby.</p>
-          </article>
-        </div>
-      </section>
-
       <section className="landing-archive-preview" aria-labelledby="landing-archive-title">
         <div className="landing-archive-lead">
           <p className="eyebrow">
             <span /> The website shop
           </p>
-          <h2 id="landing-archive-title">Built as collections, not inventory dumps.</h2>
-          <p>
-            The website is reserved for material that benefits from a fuller
-            presentation and a stronger relationship between pieces.
-          </p>
+          <h2 id="landing-archive-title">Collected with purpose.</h2>
           <a href="/shop">Enter the curated shop →</a>
         </div>
         <div className="landing-archive-cards">
@@ -4086,7 +4030,7 @@ function LandingPage() {
             <span>
               <small>Grouped with purpose</small>
               <b>Curated collections</b>
-              <em>Artists, characters, eras, and complete small sets.</em>
+              <em>Artists, characters, eras.</em>
             </span>
           </a>
           <a href="/shop#gallery">
@@ -4098,7 +4042,7 @@ function LandingPage() {
             <span>
               <small>Paper culture</small>
               <b>Ephemera &amp; print</b>
-              <em>Postcards, stickers, inserts, magazines, and promotional material.</em>
+              <em>Postcards, inserts, magazines.</em>
             </span>
           </a>
           <a href="/shop#gallery">
@@ -4110,7 +4054,7 @@ function LandingPage() {
             <span>
               <small>Chosen individually</small>
               <b>Vintage highlights</b>
-              <em>Selected cards and pieces with artwork or history worth presenting.</em>
+              <em>Older pieces worth a closer look.</em>
             </span>
           </a>
         </div>

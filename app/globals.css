@@ -4414,8 +4414,8 @@ footer p {
   background: var(--cream);
 }
 .physical-shop-hero {
-  min-height: 148px;
-  padding: 22px 4vw 25px;
+  min-height: 230px;
+  padding: 42px 6vw 52px;
   background: var(--ink);
   color: #fff;
   display: grid;
@@ -4452,10 +4452,10 @@ footer p {
 .store-gallery,
 .store-collections,
 .store-private-sale {
-  padding: 58px 4vw 66px;
+  padding: 100px 6vw 120px;
 }
 .store-room-heading {
-  margin-bottom: 25px;
+  margin-bottom: 52px;
   padding-top: 12px;
   border-top: 3px solid var(--ink);
   display: grid;
@@ -4710,8 +4710,8 @@ footer p {
   border-bottom: 1px solid var(--ink);
 }
 .curated-storefront-grid article {
-  min-height: 310px;
-  padding: 22px 24px 26px;
+  min-height: 360px;
+  padding: 32px 34px 36px;
   border-right: 1px solid var(--line);
   display: flex;
   flex-direction: column;
@@ -4748,8 +4748,8 @@ footer p {
   line-height: 1.55;
 }
 .curated-storefront-status {
-  margin-top: 24px;
-  padding: 28px;
+  margin-top: 48px;
+  padding: 42px;
   background: var(--ink);
   color: #fff;
 }
@@ -8327,11 +8327,11 @@ footer p {
   color: #fff;
 }
 .landing-hero {
-  min-height: 650px;
-  padding: clamp(58px, 7vh, 82px) 4vw 72px;
+  min-height: 720px;
+  padding: clamp(76px, 9vh, 112px) 6vw 96px;
   display: grid;
   grid-template-columns: minmax(380px, 0.95fr) minmax(480px, 1.05fr);
-  gap: 4vw;
+  gap: 7vw;
   align-items: center;
   background: var(--ink);
   color: #fff;
@@ -8354,13 +8354,13 @@ footer p {
   font-style: normal;
 }
 .landing-copy > p:not(.eyebrow) {
-  max-width: 540px;
-  margin: 30px 0 0;
+  max-width: 430px;
+  margin: 38px 0 0;
   color: #c1bdb1;
   font: 17px/1.55 Georgia, serif;
 }
 .landing-actions {
-  margin-top: 30px;
+  margin-top: 40px;
   display: flex;
   align-items: center;
   gap: 26px;
@@ -8426,10 +8426,12 @@ footer p {
   padding: 16px 16px 50px;
 }
 .landing-editorial-collage {
+  width: min(100%, 760px);
+  justify-self: end;
   min-height: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  gap: 22px;
   align-items: center;
 }
 .landing-art-link {
@@ -8454,14 +8456,14 @@ footer p {
   width: auto;
   height: auto;
   min-width: 0;
-  padding: 8px 8px 52px;
+  padding: 10px 10px 54px;
   background: #f7f3e9;
   overflow: hidden;
   transform: none;
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
 }
 .landing-editorial-collage .landing-art-piece img {
-  height: clamp(210px, 22vw, 300px);
+  height: clamp(190px, 19vw, 270px);
   object-fit: cover;
   mix-blend-mode: normal;
 }
@@ -8636,10 +8638,10 @@ footer p {
   font: 15px/1.52 Georgia, serif;
 }
 .landing-archive-preview {
-  padding: 92px 4vw 104px;
+  padding: 124px 6vw 136px;
   display: grid;
   grid-template-columns: minmax(260px, 0.55fr) minmax(620px, 1.45fr);
-  gap: 6vw;
+  gap: 8vw;
   background: var(--ink);
   color: #fff;
 }
@@ -8673,12 +8675,12 @@ footer p {
 .landing-archive-cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  gap: 22px;
 }
 .landing-archive-cards a {
   min-width: 0;
   display: grid;
-  grid-template-rows: minmax(230px, 1fr) auto;
+  grid-template-rows: minmax(210px, 1fr) auto;
   background: #f2eee3;
   color: var(--ink);
   text-decoration: none;
@@ -8695,8 +8697,8 @@ footer p {
   background: #e8e3d7;
 }
 .landing-archive-cards a > span {
-  min-height: 150px;
-  padding: 16px;
+  min-height: 132px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
 }
@@ -8723,12 +8725,12 @@ footer p {
   color: var(--orange);
 }
 .landing-shop-callout {
-  padding: 50px 4vw 66px;
+  padding: 82px 6vw 96px;
   background: var(--orange);
   color: #fff;
 }
 .landing-shop-callout-head {
-  margin-bottom: 34px;
+  margin-bottom: 48px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -8769,7 +8771,7 @@ footer p {
 .landing-ebay-preview {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
+  gap: 22px;
 }
 .landing-ebay-preview > a {
   min-width: 0;
@@ -8904,8 +8906,8 @@ footer p {
   }
   .landing-hero {
     min-height: auto;
-    padding: 48px 20px 48px;
-    gap: 32px;
+    padding: 60px 20px 66px;
+    gap: 46px;
   }
   .landing-copy h1 {
     font-size: clamp(48px, 14vw, 66px);
@@ -8939,7 +8941,7 @@ footer p {
   }
   .landing-editorial-collage {
     min-height: 0;
-    gap: 7px;
+    gap: 10px;
   }
   .landing-editorial-collage .landing-art-piece {
     width: auto;
@@ -9009,8 +9011,8 @@ footer p {
     font-size: 13px;
   }
   .landing-archive-preview {
-    padding: 64px 20px 72px;
-    gap: 38px;
+    padding: 82px 20px 92px;
+    gap: 50px;
   }
   .landing-archive-lead h2 {
     font-size: clamp(46px, 14vw, 64px);
@@ -9037,7 +9039,7 @@ footer p {
     font-size: 11px;
   }
   .landing-shop-callout {
-    padding: 52px 20px;
+    padding: 68px 20px 78px;
   }
   .landing-shop-callout-head {
     margin-bottom: 30px;
@@ -9496,12 +9498,12 @@ footer p {
   .store-gallery,
   .store-collections,
   .store-private-sale {
-    padding: 48px 20px 56px;
+    padding: 68px 20px 82px;
   }
   .store-room-heading {
     grid-template-columns: 1fr;
     gap: 11px;
-    margin-bottom: 20px;
+    margin-bottom: 34px;
   }
   .store-room-heading h2,
   .binder-intro h2 {
@@ -9565,8 +9567,8 @@ footer p {
     grid-template-columns: 1fr;
   }
   .curated-storefront-grid article {
-    min-height: 240px;
-    padding: 20px 0 24px;
+    min-height: 260px;
+    padding: 28px 0 34px;
     border-right: 0;
     border-bottom: 1px solid var(--line);
   }
@@ -9574,7 +9576,8 @@ footer p {
     border-bottom: 0;
   }
   .curated-storefront-status {
-    padding: 24px 20px;
+    margin-top: 34px;
+    padding: 32px 24px;
   }
   .collections-coming-soon {
     min-height: 380px;

@@ -394,8 +394,7 @@ export function ShopLanding() {
         <p>POCKET ARCHIVES / SHOP</p>
         <h1>Selected with a reason.</h1>
         <span>
-          Curated groups, vintage material, ephemera, and printed pieces. Each
-          offering is assembled and documented by Pocket Archives.
+          Collections. Ephemera. Vintage finds.
         </span>
       </section>
       <section className="store-gallery curated-storefront" id="gallery">
@@ -405,8 +404,7 @@ export function ShopLanding() {
             <h2>Curated offerings</h2>
           </div>
           <p>
-            Collections and material with a shared artist, era, character, or
-            story will be offered here.
+            Small releases, assembled by Pocket Archives.
           </p>
         </header>
         <div className="curated-storefront-grid">
@@ -414,49 +412,24 @@ export function ShopLanding() {
             <span>01</span>
             <small>Curated collections</small>
             <h3>Cards that belong together.</h3>
-            <p>Artist studies, character groups, vintage runs, and complete small sets.</p>
+            <p>Artists, characters, and complete small sets.</p>
           </article>
           <article>
             <span>02</span>
             <small>Ephemera &amp; print</small>
             <h3>More than the card game.</h3>
-            <p>Postcards, stickers, inserts, magazines, promotional pieces, and unusual formats.</p>
+            <p>Postcards, inserts, magazines, and promos.</p>
           </article>
           <article>
             <span>03</span>
             <small>Vintage highlights</small>
             <h3>Selected pieces with context.</h3>
-            <p>Older cards and objects offered when their artwork, origin, or history merits a closer presentation.</p>
+            <p>Older material worth a closer presentation.</p>
           </article>
         </div>
         <div className="curated-storefront-status">
           <small>First release in preparation</small>
-          <h3>Website collections are being assembled now.</h3>
-          <p>Every offering will use photographs of the exact material and clear condition notes.</p>
-        </div>
-      </section>
-      <section className="store-collections" id="collections">
-        <header className="store-room-heading">
-          <div>
-            <small>Room 02 · Browse by idea</small>
-            <h2>Collections</h2>
-          </div>
-          <p>
-            Complete groups built around artists, characters, eras, and visual
-            ideas.
-          </p>
-        </header>
-        <div className="collections-coming-soon">
-          <span aria-hidden="true">02</span>
-          <div>
-            <small>Coming soon</small>
-            <h3>Collections, built slowly.</h3>
-            <p>
-              Artist binders, character studies, vintage groups, and printed
-              material will appear here when each real collection is ready.
-            </p>
-          </div>
-          <p>Artist binders · Character studies · Historical sets</p>
+          <h3>Coming soon.</h3>
         </div>
       </section>
       <footer className="shop-footer physical-shop-footer">
