@@ -1,0 +1,21 @@
+import { readFile } from "node:fs/promises";
+import { resolve, join } from "node:path";
+import { ebayRequest } from "./api.mjs";
+
+const apply = process.argv.includes("--apply");
+const root = resolve(import.meta.dirname, "../..");
+const sku = "PA-0209-0220-LOT";
+const targetPrice = "2.49";
+const record = JSON.parse(await readFile(join(root, "data/ebay/drafts", `${sku}.json`), "utf8"));
+const offer = await ebayRequest(`/sell/inventory/v1/offer/${encodeURIComponent(record.offerId)}`);
+if (offer.sku !== sku || offer.status !== "PUBLISHED") throw new Error("Safety stop: unexpected Sorcery lot offer.");
+const currentPrice = offer.pricingSummary?.price?.value;
+console.log(JSON.stringify({ sku, listingId: record.listingId, currentPrice, targetPrice, action: apply ? "update" : "dry-run" }, null, 2));
+if (!apply || currentPrice === targetPrice) process.exit(0);
+const payload = structuredClone(offer);
+for (const field of ["offerId", "status", "listing", "listingId"]) delete payload[field];
+payload.pricingSummary = { price: { currency: "USD", value: targetPrice } };
+await ebayRequest(`/sell/inventory/v1/offer/${encodeURIComponent(record.offerId)}`, { method: "PUT", body: JSON.stringify(payload) });
+const verified = await ebayRequest(`/sell/inventory/v1/offer/${encodeURIComponent(record.offerId)}`);
+if (verified.pricingSummary?.price?.value !== targetPrice) throw new Error("Sorcery lot price verification failed.");
+console.log(`Updated ${sku} to $${targetPrice}.`);

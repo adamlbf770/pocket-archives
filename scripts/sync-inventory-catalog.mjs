@@ -85,6 +85,7 @@ function displayStatus(status) {
 }
 
 const storage = JSON.parse(await readFile(resolve(inventoryRoot, "Storage Locations.json"), "utf8"));
+const boxLabelById = new Map(storage.boxes.map((box) => [box.id, box.label]));
 const imageAttachments = JSON.parse(await readFile(resolve(root, "data/ebay/image-attachments.json"), "utf8"));
 const activeExport = JSON.parse(await readFile(resolve(root, "data/ebay/active-listings.json"), "utf8"));
 
@@ -136,8 +137,10 @@ const records = storage.assignments.map((assignment) => {
     condition: first(manifest, "condition") || "Not recorded",
     rarity: first(manifest, "rarity") || "Not recorded",
     boxId: assignment.boxId,
-    box: assignment.inventoryLocation || assignment.boxId.replace("BOX-", "Box "),
-    status: displayStatus(assignment.status || first(manifest, "status", "ebayStatus", "listingStatus")),
+    box: assignment.inventoryLocation || boxLabelById.get(assignment.boxId) || assignment.boxId,
+    status: active
+      ? "Listed"
+      : displayStatus(assignment.status || first(manifest, "status", "ebayStatus", "listingStatus")),
     price: Number.isFinite(price) && price > 0 ? price : null,
     listingId: active?.itemId || listingId || null,
     listingUrl: active?.viewItemUrl || first(manifest, "ebayUrl") || null,
