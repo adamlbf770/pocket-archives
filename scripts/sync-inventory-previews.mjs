@@ -8,6 +8,7 @@ const publicRoot = resolve(root, "public");
 const outputRoot = resolve(publicRoot, "inventory-previews");
 const storagePath = resolve(inventoryRoot, "Storage Locations.json");
 const attachmentsPath = resolve(root, "data/ebay/image-attachments.json");
+const forceRefresh = process.env.INVENTORY_PREVIEWS_FORCE === "1";
 
 try {
   await access(storagePath);
@@ -60,7 +61,7 @@ for (const record of needsPreview) {
       stat(source),
       stat(output).catch(() => null),
     ]);
-    if (outputInfo && outputInfo.mtimeMs >= sourceInfo.mtimeMs) {
+    if (!forceRefresh && outputInfo && outputInfo.mtimeMs >= sourceInfo.mtimeMs) {
       preserved += 1;
       continue;
     }
