@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { requireChatGPTUser } from "../chatgpt-auth";
 import InventoryCatalog from "./inventory-catalog";
-import { inventoryBoxes, inventoryRecords, inventoryUpdatedAt } from "./catalog.generated";
+import { inventoryBoxes, inventoryRecords } from "./catalog.generated";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +23,6 @@ export default async function InventoryPage() {
     <InventoryCatalog
       boxes={inventoryBoxes}
       records={inventoryRecords}
-      updatedAt={inventoryUpdatedAt}
       ownerName={user.fullName || user.displayName}
     />
   );

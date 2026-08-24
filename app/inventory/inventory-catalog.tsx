@@ -33,12 +33,10 @@ type Record = {
 export default function InventoryCatalog({
   boxes,
   records,
-  updatedAt,
   ownerName,
 }: {
   boxes: readonly Box[];
   records: readonly Record[];
-  updatedAt: string;
   ownerName: string;
 }) {
   const [query, setQuery] = useState("");
@@ -76,14 +74,6 @@ export default function InventoryCatalog({
         </div>
         <div className="inventory-owner"><span>Signed in as</span><b>{ownerName}</b></div>
       </header>
-
-      <section className="inventory-hero">
-        <div>
-          <p>COLLECTION CONTROL · {new Date(updatedAt + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }).toUpperCase()}</p>
-          <h1>Find any card.<br />Know its box.</h1>
-        </div>
-        <div className="inventory-total"><strong>{records.length.toLocaleString()}</strong><span>cards indexed</span></div>
-      </section>
 
       <section className="inventory-boxes" aria-label="Storage boxes">
         {boxes.map((item) => (
