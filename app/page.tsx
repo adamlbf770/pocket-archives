@@ -3904,7 +3904,7 @@ function LandingPage() {
 
   return (
     <main className="landing-page">
-      <header className="landing-header">
+      <header className="landing-header" id="top">
         <a className="brand" href="/" aria-label="Pocket Archives home">
           <span className="brand-mark">
             <img src="/pocket-archives-logo.png" alt="" />
@@ -3916,15 +3916,28 @@ function LandingPage() {
             <small>Cards, art, and collecting history</small>
           </span>
         </a>
-        <nav aria-label="Primary navigation">
-          <a href="/shop">Curated shop</a>
-          <a className="landing-shop-link" href={EXTERNAL_SHOP_URL}>
-            Cards on eBay <span aria-hidden="true">↗</span>
-          </a>
+        <nav className="landing-desktop-nav" aria-label="Primary navigation">
+          <a href="#top">Home</a>
+          <a href="#about">About</a>
+          <a href="#cards">Cards</a>
+          <a href="#collections">Collections</a>
         </nav>
+        <details className="landing-mobile-menu">
+          <summary aria-label="Open navigation menu">
+            <span />
+            <span />
+            <span />
+          </summary>
+          <nav aria-label="Mobile navigation">
+            <a href="#top">Home</a>
+            <a href="#about">About</a>
+            <a href="#cards">Cards</a>
+            <a href="#collections">Collections</a>
+          </nav>
+        </details>
       </header>
 
-      <section className="landing-hero">
+      <section className="landing-hero" id="about">
         <div className="landing-copy">
           <p className="eyebrow">
             <span /> Independent collectibles shop
@@ -3987,7 +4000,7 @@ function LandingPage() {
         </div>
       </section>
 
-      <section className="landing-shop-callout">
+      <section className="landing-shop-callout" id="cards">
         <div className="landing-shop-callout-head">
           <div>
             <small>Individual cards</small>
@@ -4012,7 +4025,7 @@ function LandingPage() {
         </div>
       </section>
 
-      <section className="landing-archive-preview" aria-labelledby="landing-archive-title">
+      <section className="landing-archive-preview" id="collections" aria-labelledby="landing-archive-title">
         <div className="landing-archive-lead">
           <p className="eyebrow">
             <span /> The website shop

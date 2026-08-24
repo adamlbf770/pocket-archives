@@ -7805,6 +7805,7 @@ footer p {
 .landing-page {
   min-height: 100vh;
   background: var(--cream);
+  scroll-behavior: smooth;
 }
 
 /* Public art-history archive */
@@ -8289,6 +8290,8 @@ footer p {
   }
 }
 .landing-header {
+  position: relative;
+  z-index: 20;
   height: 78px;
   padding: 0 max(28px, 4vw);
   display: flex;
@@ -8313,6 +8316,9 @@ footer p {
 }
 .landing-header nav a:hover {
   color: #fff;
+}
+.landing-mobile-menu {
+  display: none;
 }
 .landing-header .landing-shop-link {
   padding: 11px 17px;
@@ -8886,17 +8892,60 @@ footer p {
     height: 68px;
     padding-inline: 18px;
   }
-  .landing-header nav {
-    gap: 12px;
-  }
-  .landing-header nav > a:not(.landing-shop-link) {
+  .landing-header .landing-desktop-nav {
     display: none;
   }
-  .landing-header nav a {
-    font-size: 8px;
+  .landing-mobile-menu {
+    display: block;
+    position: relative;
   }
-  .landing-header .landing-shop-link {
-    padding: 9px 12px;
+  .landing-mobile-menu summary {
+    width: 44px;
+    height: 44px;
+    padding: 12px 10px;
+    display: grid;
+    align-content: center;
+    gap: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 50%;
+    cursor: pointer;
+    list-style: none;
+  }
+  .landing-mobile-menu summary::-webkit-details-marker {
+    display: none;
+  }
+  .landing-mobile-menu summary span {
+    height: 1px;
+    display: block;
+    background: #fff;
+    transition: transform 160ms ease, opacity 160ms ease;
+  }
+  .landing-mobile-menu[open] summary span:first-child {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .landing-mobile-menu[open] summary span:nth-child(2) {
+    opacity: 0;
+  }
+  .landing-mobile-menu[open] summary span:last-child {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+  .landing-mobile-menu nav {
+    position: absolute;
+    top: 52px;
+    right: -18px;
+    width: min(78vw, 290px);
+    padding: 12px 18px 18px;
+    display: grid;
+    gap: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    background: var(--ink);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.34);
+  }
+  .landing-mobile-menu nav a {
+    padding: 15px 2px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 11px;
   }
   .landing-hero {
     min-height: auto;
