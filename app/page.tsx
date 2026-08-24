@@ -3917,8 +3917,8 @@ function LandingPage() {
           </span>
         </a>
         <nav className="landing-desktop-nav" aria-label="Primary navigation">
-          <a href="#top">Home</a>
-          <a href="#about">About</a>
+          <a href="/">Home</a>
+          <a href="/about">About</a>
           <a href="#cards">Cards</a>
           <a href="#collections">Collections</a>
         </nav>
@@ -3929,8 +3929,8 @@ function LandingPage() {
             <span />
           </summary>
           <nav aria-label="Mobile navigation">
-            <a href="#top">Home</a>
-            <a href="#about">About</a>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
             <a href="#cards">Cards</a>
             <a href="#collections">Collections</a>
           </nav>

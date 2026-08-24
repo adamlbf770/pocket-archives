@@ -8317,8 +8317,219 @@ footer p {
 .landing-header nav a:hover {
   color: #fff;
 }
+.landing-header nav a[aria-current="page"] {
+  color: #fff;
+}
 .landing-mobile-menu {
   display: none;
+}
+
+/* About */
+.about-page {
+  min-height: 100vh;
+  background: var(--cream);
+  color: var(--ink);
+}
+.about-hero {
+  min-height: 650px;
+  padding: clamp(82px, 10vh, 130px) 6vw 96px;
+  display: grid;
+  grid-template-columns: minmax(500px, 1.3fr) minmax(320px, 0.7fr);
+  align-items: end;
+  gap: 8vw;
+  background: var(--ink);
+  color: #fff;
+}
+.about-hero h1 {
+  margin: 28px 0 0;
+  font-size: clamp(72px, 8vw, 132px);
+  font-weight: 400;
+  line-height: 0.78;
+  letter-spacing: -0.075em;
+  text-transform: uppercase;
+}
+.about-hero h1 em {
+  color: var(--orange);
+  font-style: normal;
+}
+.about-hero > p {
+  margin: 0 0 8px;
+  color: #c9c4b8;
+  font: 20px/1.55 Georgia, serif;
+}
+.about-object {
+  padding: 110px 6vw;
+  display: grid;
+  grid-template-columns: minmax(420px, 1.05fr) minmax(360px, 0.95fr);
+  align-items: center;
+  gap: 8vw;
+}
+.about-object figure {
+  margin: 0;
+  aspect-ratio: 1;
+  padding: 24px;
+  display: grid;
+  place-items: center;
+  background: #e7e1d5;
+}
+.about-object img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+.about-object small,
+.about-principles span {
+  color: var(--orange);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.about-object h2 {
+  margin: 24px 0 30px;
+  max-width: 720px;
+  font-size: clamp(44px, 5vw, 76px);
+  font-weight: 500;
+  line-height: 0.93;
+  letter-spacing: -0.055em;
+}
+.about-object p,
+.about-principles p {
+  color: #666157;
+  font: 16px/1.65 Georgia, serif;
+}
+.about-principles {
+  padding: 0 6vw 120px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid #cbc4b7;
+}
+.about-principles article {
+  min-height: 390px;
+  padding: 42px 34px 34px 0;
+  border-right: 1px solid #cbc4b7;
+}
+.about-principles article + article {
+  padding-left: 34px;
+}
+.about-principles article:last-child {
+  border-right: 0;
+}
+.about-principles h2 {
+  margin: 52px 0 22px;
+  font-size: clamp(30px, 3vw, 46px);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+}
+.about-statement {
+  padding: 110px 6vw 125px;
+  background: var(--orange);
+  color: #fff;
+}
+.about-statement p {
+  margin: 0;
+  font-size: clamp(64px, 8vw, 128px);
+  font-weight: 400;
+  line-height: 0.82;
+  letter-spacing: -0.075em;
+  text-transform: uppercase;
+}
+.about-statement em {
+  color: var(--ink);
+  font-style: normal;
+}
+.about-next {
+  padding: 80px 6vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  background: var(--ink);
+  color: #fff;
+}
+.about-next p {
+  margin: 0;
+  font: 22px/1.4 Georgia, serif;
+}
+.about-next div {
+  display: flex;
+  gap: 12px;
+}
+.about-next a {
+  padding: 16px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 9px;
+  font-weight: 900;
+}
+.about-next a:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+@media (max-width: 900px) {
+  .about-hero {
+    min-height: auto;
+    padding: 80px 24px 76px;
+    grid-template-columns: 1fr;
+    gap: 52px;
+  }
+  .about-hero h1 {
+    font-size: clamp(60px, 16vw, 94px);
+  }
+  .about-hero > p {
+    max-width: 620px;
+    font-size: 18px;
+  }
+  .about-object {
+    padding: 72px 24px 84px;
+    grid-template-columns: 1fr;
+    gap: 54px;
+  }
+  .about-object figure {
+    padding: 14px;
+  }
+  .about-object h2 {
+    font-size: clamp(42px, 12vw, 64px);
+  }
+  .about-principles {
+    padding: 0 24px 84px;
+    grid-template-columns: 1fr;
+  }
+  .about-principles article,
+  .about-principles article + article {
+    min-height: 0;
+    padding: 38px 0 42px;
+    border-right: 0;
+    border-bottom: 1px solid #cbc4b7;
+  }
+  .about-principles article:last-child {
+    border-bottom: 0;
+  }
+  .about-principles h2 {
+    margin-top: 32px;
+  }
+  .about-statement {
+    padding: 84px 24px 92px;
+  }
+  .about-statement p {
+    font-size: clamp(48px, 14vw, 78px);
+  }
+  .about-next {
+    padding: 58px 24px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .about-next div {
+    width: 100%;
+    flex-direction: column;
+  }
+  .about-next a {
+    text-align: center;
+  }
 }
 .landing-header .landing-shop-link {
   padding: 11px 17px;
