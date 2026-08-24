@@ -64,8 +64,9 @@ for (const record of needsPreview) {
       preserved += 1;
       continue;
     }
+    const rotation = /Batch (10|15)\b/.test(record.source) ? ["-r", "180"] : [];
     const result = spawnSync("sips", [
-      "-Z", "1000", "-s", "format", "jpeg", "-s", "formatOptions", "55",
+      ...rotation, "-Z", "1000", "-s", "format", "jpeg", "-s", "formatOptions", "55",
       source, "--out", output,
     ], { stdio: "ignore" });
     if (result.status !== 0) throw new Error(`Could not create web preview for ${record.sku} ${side}`);
