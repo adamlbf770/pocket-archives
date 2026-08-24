@@ -3917,9 +3917,9 @@ function LandingPage() {
           </span>
         </a>
         <nav aria-label="Primary navigation">
-          <a href="/archive">Archive</a>
+          <a href="/shop">Curated shop</a>
           <a className="landing-shop-link" href={EXTERNAL_SHOP_URL}>
-            Shop <span aria-hidden="true">↗</span>
+            Cards on eBay <span aria-hidden="true">↗</span>
           </a>
         </nav>
       </header>
@@ -3927,7 +3927,7 @@ function LandingPage() {
       <section className="landing-hero">
         <div className="landing-copy">
           <p className="eyebrow">
-            <span /> Independent trading card shop &amp; archive
+            <span /> Independent collectibles shop
           </p>
           <h1>
             Vintage cards.
@@ -3935,22 +3935,22 @@ function LandingPage() {
             <em>New finds.</em>
           </h1>
           <p>
-            Pocket Archives is an independent shop for vintage singles, unusual
-            artwork, and small collections. See what is available now or browse
-            the history behind the cards.
+            Individual cards live on eBay. Curated collections, vintage
+            material, ephemera, and special groups are offered directly through
+            Pocket Archives.
           </p>
           <div className="landing-actions">
             <a className="landing-primary" href={EXTERNAL_SHOP_URL}>
-              Shop on eBay <span>↗</span>
+              Browse cards on eBay <span>↗</span>
             </a>
-            <a className="landing-secondary" href="/archive">
-              Browse the archive →
+            <a className="landing-secondary" href="/shop">
+              Visit the curated shop →
             </a>
           </div>
         </div>
 
         <div className="landing-art landing-editorial-collage" aria-label="Selected artwork across collecting history">
-          <a className="landing-art-link" href="/archive/pokemon" aria-label="Open the Pokémon archive">
+          <a className="landing-art-link" href="/shop#collections" aria-label="Explore curated collections">
             <figure className="landing-art-piece landing-art-sugimori">
               <img
                 src="/hero/pokemon-rgb-sugimori-watercolor.jpg"
@@ -3962,7 +3962,7 @@ function LandingPage() {
               </figcaption>
             </figure>
           </a>
-          <a className="landing-art-link" href="/archive#magic" aria-label="Open the Magic: The Gathering archive">
+          <a className="landing-art-link" href="/shop#gallery" aria-label="Explore vintage material">
             <figure className="landing-art-piece landing-art-magic">
               <img
                 src="/hero/mtg-shivan-dragon-alpha.jpg"
@@ -3974,7 +3974,7 @@ function LandingPage() {
               </figcaption>
             </figure>
           </a>
-          <a className="landing-art-link" href="/archive#more" aria-label="Open the Yu-Gi-Oh and other traditions archive">
+          <a className="landing-art-link" href="/shop#gallery" aria-label="Explore printed material and ephemera">
             <figure className="landing-art-piece landing-art-yugioh">
               <img
                 src="/hero/yugioh-duel-art-kazuki-takahashi.jpg"
@@ -3992,8 +3992,8 @@ function LandingPage() {
       <section className="landing-shop-callout">
         <div className="landing-shop-callout-head">
           <div>
-            <small>Current listings</small>
-            <h2>Shop Pocket Archives on eBay.</h2>
+            <small>Individual cards</small>
+            <h2>Singles are on eBay.</h2>
             <p>Prices and availability are confirmed on the eBay listing.</p>
           </div>
           <a href={EXTERNAL_SHOP_URL}>View all on eBay ↗</a>
@@ -4017,19 +4017,18 @@ function LandingPage() {
 
       <section className="landing-intro" aria-label="Pocket Archives areas">
         <p>
-          Pocket Archives has two parts: cards currently for sale, and an archive
-          about the artwork and history behind them.
+          Two places to shop, with a clear purpose for each one.
         </p>
         <div className="landing-pillars">
           <a href={EXTERNAL_SHOP_URL}>
             <small>01</small>
-            <b>Shop current cards ↗</b>
-            <span>Singles and small lots available through our eBay shop.</span>
+            <b>Individual cards on eBay ↗</b>
+            <span>Singles, straightforward listings, and familiar eBay checkout.</span>
           </a>
-          <a href="/archive">
+          <a href="/shop">
             <small>02</small>
-            <b>Browse the archive</b>
-            <span>Artist notes, early artwork, production material, and card history.</span>
+            <b>Shop Pocket Archives</b>
+            <span>Curated collections, ephemera, vintage highlights, and grouped offerings.</span>
           </a>
         </div>
       </section>
@@ -4068,50 +4067,50 @@ function LandingPage() {
       <section className="landing-archive-preview" aria-labelledby="landing-archive-title">
         <div className="landing-archive-lead">
           <p className="eyebrow">
-            <span /> From the archive
+            <span /> The website shop
           </p>
-          <h2 id="landing-archive-title">The art has a history.</h2>
+          <h2 id="landing-archive-title">Built as collections, not inventory dumps.</h2>
           <p>
-            The archive follows how trading-card worlds were drawn, painted,
-            printed, and changed over time.
+            The website is reserved for material that benefits from a fuller
+            presentation and a stronger relationship between pieces.
           </p>
-          <a href="/archive">Browse every chapter →</a>
+          <a href="/shop">Enter the curated shop →</a>
         </div>
         <div className="landing-archive-cards">
-          <a href="/archive/pokemon">
+          <a href="/shop#collections">
             <img
               src="/hero/pokemon-rgb-sugimori-watercolor.jpg"
               alt="Early Pokémon watercolor artwork by Ken Sugimori"
               loading="lazy"
             />
             <span>
-              <small>1990–present</small>
-              <b>Pokémon</b>
-              <em>Development drawings, watercolor, manga, and card art.</em>
+              <small>Grouped with purpose</small>
+              <b>Curated collections</b>
+              <em>Artists, characters, eras, and complete small sets.</em>
             </span>
           </a>
-          <a href="/archive#magic">
+          <a href="/shop#gallery">
             <img
               src="/hero/mtg-shivan-dragon-alpha.jpg"
               alt="Shivan Dragon artwork by Melissa A. Benson"
               loading="lazy"
             />
             <span>
-              <small>1993–present</small>
-              <b>Magic: The Gathering</b>
-              <em>Early painted fantasy and the artists who built its worlds.</em>
+              <small>Paper culture</small>
+              <b>Ephemera &amp; print</b>
+              <em>Postcards, stickers, inserts, magazines, and promotional material.</em>
             </span>
           </a>
-          <a href="/archive#more">
+          <a href="/shop#gallery">
             <img
               src="/hero/sorcery-melissa-benson.jpg"
               alt="Traditional fantasy artwork presented by Sorcery"
               loading="lazy"
             />
             <span>
-              <small>More traditions</small>
-              <b>Sorcery &amp; beyond</b>
-              <em>Independent games, regional print, and overlooked formats.</em>
+              <small>Chosen individually</small>
+              <b>Vintage highlights</b>
+              <em>Selected cards and pieces with artwork or history worth presenting.</em>
             </span>
           </a>
         </div>
@@ -4120,7 +4119,7 @@ function LandingPage() {
       <footer className="landing-footer">
         <div>
           <b>Pocket Archives LLC</b>
-          <span>Independent trading card shop and archive</span>
+          <span>Independent collectibles shop</span>
         </div>
         <p>
           Pocket Archives is an independent business. All product names,

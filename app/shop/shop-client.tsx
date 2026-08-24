@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import {
-  ARCHIVE_ORIGIN,
   EXTERNAL_SHOP_URL,
   SHOP_HOME,
   demoInventory,
@@ -108,12 +107,6 @@ function raritySortRank(label: string) {
 }
 
 export function ShopHeader({ active = "shop" }: { active?: "shop" | "sales" }) {
-  useEffect(() => {
-    if (window.location.hostname === "shop.pocketarchives.com") {
-      window.location.replace(EXTERNAL_SHOP_URL);
-    }
-  }, []);
-
   return (
     <header className="site-header shop-site-header">
       <Link className="brand" href={SHOP_HOME}>
@@ -131,12 +124,12 @@ export function ShopHeader({ active = "shop" }: { active?: "shop" | "sales" }) {
           className={active === "shop" ? "active" : ""}
           href={`${SHOP_HOME}#gallery`}
         >
-          Gallery
+          Curated shop
         </Link>
         <Link href={`${SHOP_HOME}#collections`}>Collections</Link>
-        <Link className="shop-archive-return" href={`${ARCHIVE_ORIGIN}/#archive`}>
-          Archive ↗
-        </Link>
+        <a className="shop-archive-return" href={EXTERNAL_SHOP_URL}>
+          Cards on eBay ↗
+        </a>
       </nav>
     </header>
   );
@@ -399,79 +392,48 @@ export function ShopLanding() {
       <ShopHeader />
       <section className="physical-shop-hero">
         <p>POCKET ARCHIVES / SHOP</p>
-        <h1>Collect what matters.</h1>
+        <h1>Selected with a reason.</h1>
         <span>
-          A curated shop for distinctive cards, collectible pieces, and
-          thoughtful sets—chosen for their art, history, and character.
+          Curated groups, vintage material, ephemera, and printed pieces. Each
+          offering is assembled and documented by Pocket Archives.
         </span>
       </section>
-      <section className="store-gallery" id="gallery">
+      <section className="store-gallery curated-storefront" id="gallery">
         <header className="store-room-heading">
           <div>
-            <small>Room 01 · Curated picks</small>
-            <h2>The Gallery</h2>
+            <small>Website shop</small>
+            <h2>Curated offerings</h2>
           </div>
           <p>
-            Every piece shown is real Pocket Archives inventory, photographed
-            front and back.
+            Collections and material with a shared artist, era, character, or
+            story will be offered here.
           </p>
         </header>
-        <div className="store-catalog-tools">
-          <label className="store-catalog-search">
-            <span>Search cards</span>
-            <input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Pokémon, set, artist, card number…" />
-          </label>
-          <button type="button" className={`store-filter-toggle ${filtersOpen ? "active" : ""}`} onClick={() => setFiltersOpen((open) => !open)} aria-expanded={filtersOpen} aria-controls="store-filter-controls">
-            Filters <span>{hasFilters ? "•" : "+"}</span>
-          </button>
-          <div className={`store-filter-controls ${filtersOpen ? "open" : ""}`} id="store-filter-controls">
-            <label>Set<select value={setFilter} onChange={(event) => setSetFilter(event.target.value)}><option value="all">All sets</option>{sets.map((set) => <option key={set} value={set}>{set}</option>)}</select></label>
-            <label>Rarity<select value={rarityFilter} onChange={(event) => setRarityFilter(event.target.value)}><option value="all">All rarities</option>{rarities.map((rarity) => <option key={rarity} value={rarity}>{rarity}</option>)}</select></label>
-            <label>Price<select value={priceFilter} onChange={(event) => setPriceFilter(event.target.value)}><option value="all">Any price</option><option value="under-2">Under $2</option><option value="2-5">$2–$4.99</option><option value="5-10">$5–$9.99</option><option value="10-plus">$10+</option></select></label>
-            <label>Condition<select value={conditionFilter} onChange={(event) => setConditionFilter(event.target.value)}><option value="all">Any condition</option>{conditions.map((condition) => <option key={condition} value={condition}>{condition}</option>)}</select></label>
-            <label>Sort<select value={sort} onChange={(event) => setSort(event.target.value)}><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="newest">Newest first</option><option value="oldest">Oldest first</option><option value="name">Name: A–Z</option></select></label>
-          </div>
-          <div className="store-filter-summary" aria-live="polite">
-            <span>{filteredItems.length} {filteredItems.length === 1 ? "card" : "cards"}</span>
-            {hasFilters && <button type="button" onClick={clearFilters}>Clear all</button>}
-          </div>
+        <div className="curated-storefront-grid">
+          <article>
+            <span>01</span>
+            <small>Curated collections</small>
+            <h3>Cards that belong together.</h3>
+            <p>Artist studies, character groups, vintage runs, and complete small sets.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <small>Ephemera &amp; print</small>
+            <h3>More than the card game.</h3>
+            <p>Postcards, stickers, inserts, magazines, promotional pieces, and unusual formats.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <small>Vintage highlights</small>
+            <h3>Selected pieces with context.</h3>
+            <p>Older cards and objects offered when their artwork, origin, or history merits a closer presentation.</p>
+          </article>
         </div>
-        {rarityGroups.length > 0 ? (
-          <div className="store-rarity-groups">
-            {rarityGroups.map((group) => (
-              <section className="store-rarity-group" key={group.rarity}>
-                <header className="store-rarity-heading">
-                  <h3>{group.rarity}</h3>
-                  <span>{group.items.length} {group.items.length === 1 ? "card" : "cards"}</span>
-                </header>
-                <div className="store-gallery-grid">
-                  {group.items.map((item) => (
-                    <Link
-                      className="store-gallery-object"
-                      href={shopObjectUrl(item.slug)}
-                      key={item.id}
-                    >
-                      <ObjectVisual item={item} />
-                      <span>
-                        <small>
-                          {item.set || "Pocket Archives"} · {rarityLabel(item)}
-                        </small>
-                        <b>{item.title}</b>
-                        <em>{formatPrice(item.price, item.currency)}</em>
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              </section>
-            ))}
-          </div>
-        ) : (
-          <div className="store-no-results">
-            <small>No matches</small>
-            <h3>Nothing fits those filters.</h3>
-            <button type="button" onClick={clearFilters}>Clear filters</button>
-          </div>
-        )}
+        <div className="curated-storefront-status">
+          <small>First release in preparation</small>
+          <h3>Website collections are being assembled now.</h3>
+          <p>Every offering will use photographs of the exact material and clear condition notes.</p>
+        </div>
       </section>
       <section className="store-collections" id="collections">
         <header className="store-room-heading">
@@ -480,8 +442,8 @@ export function ShopLanding() {
             <h2>Collections</h2>
           </div>
           <p>
-            Thoughtful groups built around artists, characters, eras, and
-            visual ideas.
+            Complete groups built around artists, characters, eras, and visual
+            ideas.
           </p>
         </header>
         <div className="collections-coming-soon">
@@ -490,8 +452,8 @@ export function ShopLanding() {
             <small>Coming soon</small>
             <h3>Collections, built slowly.</h3>
             <p>
-              Artist binders, character studies, and historically meaningful
-              sets will appear here only when the real cards are ready.
+              Artist binders, character studies, vintage groups, and printed
+              material will appear here when each real collection is ready.
             </p>
           </div>
           <p>Artist binders · Character studies · Historical sets</p>
@@ -500,8 +462,8 @@ export function ShopLanding() {
       <footer className="shop-footer physical-shop-footer">
         <DemoNotice />
         <p>
-          <Link href={`${ARCHIVE_ORIGIN}/#archive`}>Archive ↗</Link>
-          <Link href={`${ARCHIVE_ORIGIN}/#museum`}>Museum ↗</Link>
+          <Link href="/">Pocket Archives</Link>
+          <a href={EXTERNAL_SHOP_URL}>Individual cards on eBay ↗</a>
         </p>
       </footer>
     </main>
@@ -771,18 +733,7 @@ export function ArtifactPage({ item }: { item: InventoryItem }) {
                     {collection.title} →
                   </Link>
                 ))}
-                {item.pokemonNames.map((name, index) => (
-                  <Link
-                    key={name}
-                    href={`${ARCHIVE_ORIGIN}/#pokemon-${item.pokemonIds[index]}`}
-                  >
-                    {name} ↗
-                  </Link>
-                ))}
-                {item.relatedMuseumIds.length > 0 && (
-                  <Link href={`${ARCHIVE_ORIGIN}/#museum`}>Museum ↗</Link>
-                )}
-                <Link href={`${ARCHIVE_ORIGIN}/#archive`}>Archive ↗</Link>
+                <Link href={SHOP_HOME}>Continue shopping →</Link>
               </p>
             </div>
           </div>

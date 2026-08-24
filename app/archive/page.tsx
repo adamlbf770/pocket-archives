@@ -1,11 +1,4 @@
-import type { Metadata } from "next";
-import { EXTERNAL_SHOP_URL } from "../shop/catalog";
-
-export const metadata: Metadata = {
-  title: "Art History — Pocket Archives",
-  description:
-    "A collector-led history of the artists, materials, and visual traditions behind Pokémon, Magic: The Gathering, Sorcery, and other trading-card worlds.",
-};
+import { redirect } from "next/navigation";
 
 const chapters = [
   {
@@ -118,6 +111,7 @@ const chapters = [
 ];
 
 export default function ArchivePage() {
+  redirect("/");
   return (
     <main className="art-history-page">
       <header className="archive-public-header">

@@ -50,6 +50,11 @@ const worker = {
       request = new Request(url, request);
     }
 
+    if (url.hostname === "inventory.pocketarchives.com" && url.pathname === "/") {
+      url.pathname = "/inventory";
+      request = new Request(url, request);
+    }
+
     return handler.fetch(request, env, ctx);
   },
 };

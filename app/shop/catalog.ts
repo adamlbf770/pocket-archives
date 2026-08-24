@@ -700,12 +700,12 @@ export const demoCuratedCollections: CuratedCollection[] = [
 
 export const inventoryCollectionOptions = ["New Acquisitions", "From the Archive", "Sugimori", "Vintage Japanese", "Carddass", "Promos", "Cards", "Ephemera", "Printed Matter", "Curated Collections", "Archived / Sold"] as const;
 
-export const SHOP_ORIGIN = "https://shop.pocketarchives.com";
-export const SHOP_HOME = `${SHOP_ORIGIN}/shop`;
+export const SHOP_ORIGIN = "https://pocketarchives.com";
+export const SHOP_HOME = "/shop";
 export const EXTERNAL_SHOP_URL = "https://www.ebay.com/usr/pocket_archives";
 export const ARCHIVE_ORIGIN = "https://pocketarchives.com";
 
-export function shopObjectUrl(slug: string) { return `${SHOP_ORIGIN}/objects/${slug}`; }
+export function shopObjectUrl(slug: string) { return `/objects/${slug}`; }
 export function inventoryBySlug(slug: string) { return demoInventory.find((item) => item.slug === slug && !item.demo); }
 export function inventoryForPokemon(pokemonId: number) { return demoInventory.filter((item) => item.pokemonIds.includes(pokemonId)); }
 export function inventoryForMuseum(museumId: string) { return demoInventory.filter((item) => item.relatedMuseumIds.includes(museumId)); }
