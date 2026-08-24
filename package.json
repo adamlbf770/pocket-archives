@@ -7,7 +7,7 @@
   },
   "scripts": {
     "sync:research": "node scripts/sync-research-archive.mjs",
-    "sync:inventory": "node scripts/sync-inventory-catalog.mjs",
+    "sync:inventory": "node scripts/sync-inventory-previews.mjs && node scripts/sync-inventory-catalog.mjs",
     "ebay": "node scripts/ebay/cli.mjs",
     "ebay:doctor": "node scripts/ebay/cli.mjs doctor",
     "ebay:sync": "node scripts/ebay/cli.mjs sync-config",

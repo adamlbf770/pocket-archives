@@ -109,7 +109,7 @@ export default function InventoryCatalog({
         {filtered.slice(0, visible).map((record) => (
           <button className="inventory-card" key={record.sku} onClick={() => setSelected(record)}>
             <div className="inventory-card-image">
-              {record.frontImage ? <img src={record.frontImage} alt={`${record.name} card front`} loading="lazy" /> : <span>SCAN<br />PENDING</span>}
+              {record.frontImage ? <img src={record.frontImage} alt={`${record.name} card front`} loading="lazy" /> : <span>IMAGE<br />NOT SYNCED</span>}
               <i>{record.box}</i>
             </div>
             <div className="inventory-card-copy">

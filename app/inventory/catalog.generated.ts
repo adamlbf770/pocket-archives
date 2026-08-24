@@ -155,8 +155,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0013_front.jpg",
+    "backImage": "/inventory-previews/PA-0013_back.jpg"
   },
   {
     "sku": "PA-0014",
@@ -175,8 +175,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0014_front.jpg",
+    "backImage": "/inventory-previews/PA-0014_back.jpg"
   },
   {
     "sku": "PA-0015",
@@ -195,8 +195,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0015_front.jpg",
+    "backImage": "/inventory-previews/PA-0015_back.jpg"
   },
   {
     "sku": "PA-0020",
@@ -215,8 +215,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0020_front.jpg",
+    "backImage": "/inventory-previews/PA-0020_back.jpg"
   },
   {
     "sku": "PA-0021",
@@ -235,8 +235,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0021_front.jpg",
+    "backImage": "/inventory-previews/PA-0021_back.jpg"
   },
   {
     "sku": "PA-0022",
@@ -255,8 +255,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0022_front.jpg",
+    "backImage": "/inventory-previews/PA-0022_back.jpg"
   },
   {
     "sku": "PA-0023",
@@ -275,8 +275,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0023_front.jpg",
+    "backImage": "/inventory-previews/PA-0023_back.jpg"
   },
   {
     "sku": "PA-0026",
@@ -295,8 +295,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0026_front.jpg",
+    "backImage": "/inventory-previews/PA-0026_back.jpg"
   },
   {
     "sku": "PA-0027",
@@ -315,8 +315,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0027_front.jpg",
+    "backImage": "/inventory-previews/PA-0027_back.jpg"
   },
   {
     "sku": "PA-0028",
@@ -335,8 +335,8 @@ export const inventoryRecords = [
     "price": 2.49,
     "listingId": "158195564642",
     "listingUrl": "https://www.ebay.com/itm/Japanese-Pokemon-Croconaw-No-159-Neo-Premium-File-1-1999-MP-/158195564642",
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0028_front.jpg",
+    "backImage": "/inventory-previews/PA-0028_back.jpg"
   },
   {
     "sku": "PA-0030",
@@ -355,8 +355,8 @@ export const inventoryRecords = [
     "price": 2.49,
     "listingId": "158195564645",
     "listingUrl": "https://www.ebay.com/itm/Japanese-Pokemon-Totodile-No-158-Neo-Premium-File-1-1999-MP-/158195564645",
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0030_front.jpg",
+    "backImage": "/inventory-previews/PA-0030_back.jpg"
   },
   {
     "sku": "PA-0033",
@@ -375,8 +375,8 @@ export const inventoryRecords = [
     "price": 3.49,
     "listingId": "158195564641",
     "listingUrl": "https://www.ebay.com/itm/Pokemon-Magby-23-111-Neo-Genesis-2000-WOTC-Unlimited-MP-/158195564641",
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0033_front.jpg",
+    "backImage": "/inventory-previews/PA-0033_back.jpg"
   },
   {
     "sku": "PA-0034",
@@ -395,8 +395,8 @@ export const inventoryRecords = [
     "price": 3.49,
     "listingId": "158195564640",
     "listingUrl": "https://www.ebay.com/itm/Pokemon-Kangaskhan-21-64-Jungle-1999-WOTC-Non-Holo-MP-/158195564640",
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0034_front.jpg",
+    "backImage": "/inventory-previews/PA-0034_back.jpg"
   },
   {
     "sku": "PA-0037",
@@ -415,8 +415,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0037_front.jpg",
+    "backImage": "/inventory-previews/PA-0037_back.jpg"
   },
   {
     "sku": "PA-0038",
@@ -435,8 +435,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0038_front.jpg",
+    "backImage": "/inventory-previews/PA-0038_back.jpg"
   },
   {
     "sku": "PA-0039",
@@ -455,8 +455,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0039_front.jpg",
+    "backImage": "/inventory-previews/PA-0039_back.jpg"
   },
   {
     "sku": "PA-0040",
@@ -475,8 +475,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0040_front.jpg",
+    "backImage": "/inventory-previews/PA-0040_back.jpg"
   },
   {
     "sku": "PA-0190",
@@ -4215,8 +4215,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1454_front.jpg",
+    "backImage": "/inventory-previews/PA-1454_back.jpg"
   },
   {
     "sku": "PA-1780",
@@ -4255,8 +4255,8 @@ export const inventoryRecords = [
     "price": 0.99,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0209_front.jpg",
+    "backImage": "/inventory-previews/PA-0209_back.jpg"
   },
   {
     "sku": "PA-0210",
@@ -4275,8 +4275,8 @@ export const inventoryRecords = [
     "price": 0.99,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0210_front.jpg",
+    "backImage": "/inventory-previews/PA-0210_back.jpg"
   },
   {
     "sku": "PA-0211",
@@ -4295,8 +4295,8 @@ export const inventoryRecords = [
     "price": 0.99,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0211_front.jpg",
+    "backImage": "/inventory-previews/PA-0211_back.jpg"
   },
   {
     "sku": "PA-0212",
@@ -4315,8 +4315,8 @@ export const inventoryRecords = [
     "price": 0.99,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0212_front.jpg",
+    "backImage": "/inventory-previews/PA-0212_back.jpg"
   },
   {
     "sku": "PA-0213",
@@ -4335,8 +4335,8 @@ export const inventoryRecords = [
     "price": 0.99,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0213_front.jpg",
+    "backImage": "/inventory-previews/PA-0213_back.jpg"
   },
   {
     "sku": "PA-0214",
@@ -4355,8 +4355,8 @@ export const inventoryRecords = [
     "price": 0.99,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0214_front.jpg",
+    "backImage": "/inventory-previews/PA-0214_back.jpg"
   },
   {
     "sku": "PA-0215",
@@ -4375,8 +4375,8 @@ export const inventoryRecords = [
     "price": 0.99,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0215_front.jpg",
+    "backImage": "/inventory-previews/PA-0215_back.jpg"
   },
   {
     "sku": "PA-0216",
@@ -4395,8 +4395,8 @@ export const inventoryRecords = [
     "price": 0.99,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0216_front.jpg",
+    "backImage": "/inventory-previews/PA-0216_back.jpg"
   },
   {
     "sku": "PA-0217",
@@ -4415,8 +4415,8 @@ export const inventoryRecords = [
     "price": 0.99,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0217_front.jpg",
+    "backImage": "/inventory-previews/PA-0217_back.jpg"
   },
   {
     "sku": "PA-0218",
@@ -4435,8 +4435,8 @@ export const inventoryRecords = [
     "price": 0.99,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0218_front.jpg",
+    "backImage": "/inventory-previews/PA-0218_back.jpg"
   },
   {
     "sku": "PA-0219",
@@ -4455,8 +4455,8 @@ export const inventoryRecords = [
     "price": 0.99,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0219_front.jpg",
+    "backImage": "/inventory-previews/PA-0219_back.jpg"
   },
   {
     "sku": "PA-0220",
@@ -4475,8 +4475,8 @@ export const inventoryRecords = [
     "price": 0.99,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0220_front.jpg",
+    "backImage": "/inventory-previews/PA-0220_back.jpg"
   },
   {
     "sku": "PA-0852",
@@ -5895,8 +5895,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1354_front.jpg",
+    "backImage": "/inventory-previews/PA-1354_back.jpg"
   },
   {
     "sku": "PA-1355",
@@ -5915,8 +5915,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1355_front.jpg",
+    "backImage": "/inventory-previews/PA-1355_back.jpg"
   },
   {
     "sku": "PA-1356",
@@ -5935,8 +5935,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1356_front.jpg",
+    "backImage": "/inventory-previews/PA-1356_back.jpg"
   },
   {
     "sku": "PA-1357",
@@ -5955,8 +5955,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1357_front.jpg",
+    "backImage": "/inventory-previews/PA-1357_back.jpg"
   },
   {
     "sku": "PA-1358",
@@ -5975,8 +5975,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1358_front.jpg",
+    "backImage": "/inventory-previews/PA-1358_back.jpg"
   },
   {
     "sku": "PA-1359",
@@ -5995,8 +5995,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1359_front.jpg",
+    "backImage": "/inventory-previews/PA-1359_back.jpg"
   },
   {
     "sku": "PA-1360",
@@ -6015,8 +6015,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1360_front.jpg",
+    "backImage": "/inventory-previews/PA-1360_back.jpg"
   },
   {
     "sku": "PA-1361",
@@ -6035,8 +6035,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1361_front.jpg",
+    "backImage": "/inventory-previews/PA-1361_back.jpg"
   },
   {
     "sku": "PA-1362",
@@ -6055,8 +6055,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1362_front.jpg",
+    "backImage": "/inventory-previews/PA-1362_back.jpg"
   },
   {
     "sku": "PA-1363",
@@ -6075,8 +6075,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1363_front.jpg",
+    "backImage": "/inventory-previews/PA-1363_back.jpg"
   },
   {
     "sku": "PA-1364",
@@ -6095,8 +6095,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1364_front.jpg",
+    "backImage": "/inventory-previews/PA-1364_back.jpg"
   },
   {
     "sku": "PA-1365",
@@ -6115,8 +6115,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1365_front.jpg",
+    "backImage": "/inventory-previews/PA-1365_back.jpg"
   },
   {
     "sku": "PA-1366",
@@ -6135,8 +6135,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1366_front.jpg",
+    "backImage": "/inventory-previews/PA-1366_back.jpg"
   },
   {
     "sku": "PA-1367",
@@ -6155,8 +6155,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1367_front.jpg",
+    "backImage": "/inventory-previews/PA-1367_back.jpg"
   },
   {
     "sku": "PA-1368",
@@ -6175,8 +6175,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1368_front.jpg",
+    "backImage": "/inventory-previews/PA-1368_back.jpg"
   },
   {
     "sku": "PA-1369",
@@ -6195,8 +6195,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1369_front.jpg",
+    "backImage": "/inventory-previews/PA-1369_back.jpg"
   },
   {
     "sku": "PA-1370",
@@ -6215,8 +6215,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1370_front.jpg",
+    "backImage": "/inventory-previews/PA-1370_back.jpg"
   },
   {
     "sku": "PA-1371",
@@ -6235,8 +6235,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1371_front.jpg",
+    "backImage": "/inventory-previews/PA-1371_back.jpg"
   },
   {
     "sku": "PA-1372",
@@ -6255,8 +6255,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1372_front.jpg",
+    "backImage": "/inventory-previews/PA-1372_back.jpg"
   },
   {
     "sku": "PA-1373",
@@ -6275,8 +6275,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1373_front.jpg",
+    "backImage": "/inventory-previews/PA-1373_back.jpg"
   },
   {
     "sku": "PA-1374",
@@ -6295,8 +6295,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1374_front.jpg",
+    "backImage": "/inventory-previews/PA-1374_back.jpg"
   },
   {
     "sku": "PA-1375",
@@ -6315,8 +6315,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1375_front.jpg",
+    "backImage": "/inventory-previews/PA-1375_back.jpg"
   },
   {
     "sku": "PA-1376",
@@ -6335,8 +6335,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1376_front.jpg",
+    "backImage": "/inventory-previews/PA-1376_back.jpg"
   },
   {
     "sku": "PA-1377",
@@ -6355,8 +6355,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1377_front.jpg",
+    "backImage": "/inventory-previews/PA-1377_back.jpg"
   },
   {
     "sku": "PA-1378",
@@ -6375,8 +6375,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1378_front.jpg",
+    "backImage": "/inventory-previews/PA-1378_back.jpg"
   },
   {
     "sku": "PA-1379",
@@ -6395,8 +6395,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1379_front.jpg",
+    "backImage": "/inventory-previews/PA-1379_back.jpg"
   },
   {
     "sku": "PA-1380",
@@ -6415,8 +6415,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1380_front.jpg",
+    "backImage": "/inventory-previews/PA-1380_back.jpg"
   },
   {
     "sku": "PA-1381",
@@ -6435,8 +6435,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1381_front.jpg",
+    "backImage": "/inventory-previews/PA-1381_back.jpg"
   },
   {
     "sku": "PA-1382",
@@ -6455,8 +6455,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1382_front.jpg",
+    "backImage": "/inventory-previews/PA-1382_back.jpg"
   },
   {
     "sku": "PA-1383",
@@ -6475,8 +6475,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1383_front.jpg",
+    "backImage": "/inventory-previews/PA-1383_back.jpg"
   },
   {
     "sku": "PA-1384",
@@ -6495,8 +6495,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1384_front.jpg",
+    "backImage": "/inventory-previews/PA-1384_back.jpg"
   },
   {
     "sku": "PA-1385",
@@ -6515,8 +6515,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1385_front.jpg",
+    "backImage": "/inventory-previews/PA-1385_back.jpg"
   },
   {
     "sku": "PA-1386",
@@ -6535,8 +6535,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1386_front.jpg",
+    "backImage": "/inventory-previews/PA-1386_back.jpg"
   },
   {
     "sku": "PA-1387",
@@ -6555,8 +6555,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1387_front.jpg",
+    "backImage": "/inventory-previews/PA-1387_back.jpg"
   },
   {
     "sku": "PA-1388",
@@ -6575,8 +6575,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1388_front.jpg",
+    "backImage": "/inventory-previews/PA-1388_back.jpg"
   },
   {
     "sku": "PA-1389",
@@ -6595,8 +6595,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1389_front.jpg",
+    "backImage": "/inventory-previews/PA-1389_back.jpg"
   },
   {
     "sku": "PA-1390",
@@ -6615,8 +6615,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1390_front.jpg",
+    "backImage": "/inventory-previews/PA-1390_back.jpg"
   },
   {
     "sku": "PA-1391",
@@ -6635,8 +6635,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1391_front.jpg",
+    "backImage": "/inventory-previews/PA-1391_back.jpg"
   },
   {
     "sku": "PA-1392",
@@ -6655,8 +6655,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1392_front.jpg",
+    "backImage": "/inventory-previews/PA-1392_back.jpg"
   },
   {
     "sku": "PA-1393",
@@ -6675,8 +6675,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1393_front.jpg",
+    "backImage": "/inventory-previews/PA-1393_back.jpg"
   },
   {
     "sku": "PA-1394",
@@ -6695,8 +6695,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1394_front.jpg",
+    "backImage": "/inventory-previews/PA-1394_back.jpg"
   },
   {
     "sku": "PA-1395",
@@ -6715,8 +6715,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1395_front.jpg",
+    "backImage": "/inventory-previews/PA-1395_back.jpg"
   },
   {
     "sku": "PA-1396",
@@ -6735,8 +6735,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1396_front.jpg",
+    "backImage": "/inventory-previews/PA-1396_back.jpg"
   },
   {
     "sku": "PA-1397",
@@ -6755,8 +6755,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1397_front.jpg",
+    "backImage": "/inventory-previews/PA-1397_back.jpg"
   },
   {
     "sku": "PA-1398",
@@ -6775,8 +6775,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1398_front.jpg",
+    "backImage": "/inventory-previews/PA-1398_back.jpg"
   },
   {
     "sku": "PA-1399",
@@ -6795,8 +6795,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1399_front.jpg",
+    "backImage": "/inventory-previews/PA-1399_back.jpg"
   },
   {
     "sku": "PA-1400",
@@ -6815,8 +6815,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1400_front.jpg",
+    "backImage": "/inventory-previews/PA-1400_back.jpg"
   },
   {
     "sku": "PA-1401",
@@ -6835,8 +6835,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1401_front.jpg",
+    "backImage": "/inventory-previews/PA-1401_back.jpg"
   },
   {
     "sku": "PA-1402",
@@ -6855,8 +6855,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1402_front.jpg",
+    "backImage": "/inventory-previews/PA-1402_back.jpg"
   },
   {
     "sku": "PA-1403",
@@ -6875,8 +6875,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1403_front.jpg",
+    "backImage": "/inventory-previews/PA-1403_back.jpg"
   },
   {
     "sku": "PA-1404",
@@ -6895,8 +6895,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1404_front.jpg",
+    "backImage": "/inventory-previews/PA-1404_back.jpg"
   },
   {
     "sku": "PA-1405",
@@ -6915,8 +6915,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1405_front.jpg",
+    "backImage": "/inventory-previews/PA-1405_back.jpg"
   },
   {
     "sku": "PA-1406",
@@ -6935,8 +6935,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1406_front.jpg",
+    "backImage": "/inventory-previews/PA-1406_back.jpg"
   },
   {
     "sku": "PA-1407",
@@ -6955,8 +6955,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1407_front.jpg",
+    "backImage": "/inventory-previews/PA-1407_back.jpg"
   },
   {
     "sku": "PA-1408",
@@ -6975,8 +6975,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1408_front.jpg",
+    "backImage": "/inventory-previews/PA-1408_back.jpg"
   },
   {
     "sku": "PA-1409",
@@ -6995,8 +6995,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1409_front.jpg",
+    "backImage": "/inventory-previews/PA-1409_back.jpg"
   },
   {
     "sku": "PA-1410",
@@ -7015,8 +7015,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1410_front.jpg",
+    "backImage": "/inventory-previews/PA-1410_back.jpg"
   },
   {
     "sku": "PA-1411",
@@ -7035,8 +7035,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1411_front.jpg",
+    "backImage": "/inventory-previews/PA-1411_back.jpg"
   },
   {
     "sku": "PA-1412",
@@ -7055,8 +7055,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1412_front.jpg",
+    "backImage": "/inventory-previews/PA-1412_back.jpg"
   },
   {
     "sku": "PA-1413",
@@ -7075,8 +7075,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1413_front.jpg",
+    "backImage": "/inventory-previews/PA-1413_back.jpg"
   },
   {
     "sku": "PA-1414",
@@ -7095,8 +7095,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1414_front.jpg",
+    "backImage": "/inventory-previews/PA-1414_back.jpg"
   },
   {
     "sku": "PA-1415",
@@ -7115,8 +7115,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1415_front.jpg",
+    "backImage": "/inventory-previews/PA-1415_back.jpg"
   },
   {
     "sku": "PA-1416",
@@ -7135,8 +7135,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1416_front.jpg",
+    "backImage": "/inventory-previews/PA-1416_back.jpg"
   },
   {
     "sku": "PA-1417",
@@ -7155,8 +7155,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1417_front.jpg",
+    "backImage": "/inventory-previews/PA-1417_back.jpg"
   },
   {
     "sku": "PA-1418",
@@ -7175,8 +7175,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1418_front.jpg",
+    "backImage": "/inventory-previews/PA-1418_back.jpg"
   },
   {
     "sku": "PA-1419",
@@ -7195,8 +7195,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1419_front.jpg",
+    "backImage": "/inventory-previews/PA-1419_back.jpg"
   },
   {
     "sku": "PA-1420",
@@ -7215,8 +7215,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1420_front.jpg",
+    "backImage": "/inventory-previews/PA-1420_back.jpg"
   },
   {
     "sku": "PA-1421",
@@ -7235,8 +7235,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1421_front.jpg",
+    "backImage": "/inventory-previews/PA-1421_back.jpg"
   },
   {
     "sku": "PA-1422",
@@ -7255,8 +7255,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1422_front.jpg",
+    "backImage": "/inventory-previews/PA-1422_back.jpg"
   },
   {
     "sku": "PA-1423",
@@ -7275,8 +7275,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1423_front.jpg",
+    "backImage": "/inventory-previews/PA-1423_back.jpg"
   },
   {
     "sku": "PA-1424",
@@ -7295,8 +7295,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1424_front.jpg",
+    "backImage": "/inventory-previews/PA-1424_back.jpg"
   },
   {
     "sku": "PA-1425",
@@ -7315,8 +7315,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1425_front.jpg",
+    "backImage": "/inventory-previews/PA-1425_back.jpg"
   },
   {
     "sku": "PA-1426",
@@ -7335,8 +7335,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1426_front.jpg",
+    "backImage": "/inventory-previews/PA-1426_back.jpg"
   },
   {
     "sku": "PA-1427",
@@ -7355,8 +7355,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1427_front.jpg",
+    "backImage": "/inventory-previews/PA-1427_back.jpg"
   },
   {
     "sku": "PA-1428",
@@ -7375,8 +7375,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1428_front.jpg",
+    "backImage": "/inventory-previews/PA-1428_back.jpg"
   },
   {
     "sku": "PA-1429",
@@ -7395,8 +7395,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1429_front.jpg",
+    "backImage": "/inventory-previews/PA-1429_back.jpg"
   },
   {
     "sku": "PA-1430",
@@ -7415,8 +7415,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1430_front.jpg",
+    "backImage": "/inventory-previews/PA-1430_back.jpg"
   },
   {
     "sku": "PA-1431",
@@ -7435,8 +7435,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1431_front.jpg",
+    "backImage": "/inventory-previews/PA-1431_back.jpg"
   },
   {
     "sku": "PA-1432",
@@ -7455,8 +7455,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1432_front.jpg",
+    "backImage": "/inventory-previews/PA-1432_back.jpg"
   },
   {
     "sku": "PA-1433",
@@ -7475,8 +7475,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1433_front.jpg",
+    "backImage": "/inventory-previews/PA-1433_back.jpg"
   },
   {
     "sku": "PA-1434",
@@ -7495,8 +7495,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1434_front.jpg",
+    "backImage": "/inventory-previews/PA-1434_back.jpg"
   },
   {
     "sku": "PA-1435",
@@ -7515,8 +7515,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1435_front.jpg",
+    "backImage": "/inventory-previews/PA-1435_back.jpg"
   },
   {
     "sku": "PA-1436",
@@ -7535,8 +7535,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1436_front.jpg",
+    "backImage": "/inventory-previews/PA-1436_back.jpg"
   },
   {
     "sku": "PA-1437",
@@ -7555,8 +7555,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1437_front.jpg",
+    "backImage": "/inventory-previews/PA-1437_back.jpg"
   },
   {
     "sku": "PA-1438",
@@ -7575,8 +7575,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1438_front.jpg",
+    "backImage": "/inventory-previews/PA-1438_back.jpg"
   },
   {
     "sku": "PA-1439",
@@ -7595,8 +7595,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1439_front.jpg",
+    "backImage": "/inventory-previews/PA-1439_back.jpg"
   },
   {
     "sku": "PA-1440",
@@ -7615,8 +7615,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1440_front.jpg",
+    "backImage": "/inventory-previews/PA-1440_back.jpg"
   },
   {
     "sku": "PA-1441",
@@ -7635,8 +7635,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1441_front.jpg",
+    "backImage": "/inventory-previews/PA-1441_back.jpg"
   },
   {
     "sku": "PA-1442",
@@ -7655,8 +7655,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1442_front.jpg",
+    "backImage": "/inventory-previews/PA-1442_back.jpg"
   },
   {
     "sku": "PA-1443",
@@ -7675,8 +7675,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1443_front.jpg",
+    "backImage": "/inventory-previews/PA-1443_back.jpg"
   },
   {
     "sku": "PA-1444",
@@ -7695,8 +7695,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1444_front.jpg",
+    "backImage": "/inventory-previews/PA-1444_back.jpg"
   },
   {
     "sku": "PA-1445",
@@ -7715,8 +7715,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1445_front.jpg",
+    "backImage": "/inventory-previews/PA-1445_back.jpg"
   },
   {
     "sku": "PA-1446",
@@ -7735,8 +7735,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1446_front.jpg",
+    "backImage": "/inventory-previews/PA-1446_back.jpg"
   },
   {
     "sku": "PA-1447",
@@ -7755,8 +7755,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1447_front.jpg",
+    "backImage": "/inventory-previews/PA-1447_back.jpg"
   },
   {
     "sku": "PA-1448",
@@ -7775,8 +7775,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1448_front.jpg",
+    "backImage": "/inventory-previews/PA-1448_back.jpg"
   },
   {
     "sku": "PA-1449",
@@ -7795,8 +7795,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1449_front.jpg",
+    "backImage": "/inventory-previews/PA-1449_back.jpg"
   },
   {
     "sku": "PA-1450",
@@ -7815,8 +7815,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1450_front.jpg",
+    "backImage": "/inventory-previews/PA-1450_back.jpg"
   },
   {
     "sku": "PA-1451",
@@ -7835,8 +7835,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1451_front.jpg",
+    "backImage": "/inventory-previews/PA-1451_back.jpg"
   },
   {
     "sku": "PA-1452",
@@ -7855,8 +7855,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-1452_front.jpg",
+    "backImage": "/inventory-previews/PA-1452_back.jpg"
   },
   {
     "sku": "PA-0016",
@@ -7875,8 +7875,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0016_front.jpg",
+    "backImage": "/inventory-previews/PA-0016_back.jpg"
   },
   {
     "sku": "PA-0017",
@@ -7895,8 +7895,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0017_front.jpg",
+    "backImage": "/inventory-previews/PA-0017_back.jpg"
   },
   {
     "sku": "PA-0019",
@@ -7915,8 +7915,8 @@ export const inventoryRecords = [
     "price": null,
     "listingId": null,
     "listingUrl": null,
-    "frontImage": null,
-    "backImage": null
+    "frontImage": "/inventory-previews/PA-0019_front.jpg",
+    "backImage": "/inventory-previews/PA-0019_back.jpg"
   },
   {
     "sku": "PA-0053",

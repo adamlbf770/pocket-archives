@@ -111,12 +111,17 @@ const activeBySku = new Map(
   activeExport.activeListings.filter((item) => item.sku).map((item) => [item.sku, item]),
 );
 const activeById = new Map(activeExport.activeListings.map((item) => [item.itemId, item]));
+const localPreviewFiles = new Set(
+  await readdir(resolve(root, "public/inventory-previews")).catch(() => []),
+);
 
 const records = storage.assignments.map((assignment) => {
   const manifest = manifestBySku.get(assignment.sku) ?? {};
   const listingId = first(manifest, "listingId", "ebayListingId");
   const active = activeBySku.get(assignment.sku) ?? activeById.get(listingId);
   const images = imageAttachments[assignment.sku]?.imageUrls ?? [];
+  const localFront = `${assignment.sku}_front.jpg`;
+  const localBack = `${assignment.sku}_back.jpg`;
   const priceText = active?.price ?? first(manifest, "price", "proposedPrice");
   const price = Number(priceText);
   return {
@@ -136,8 +141,8 @@ const records = storage.assignments.map((assignment) => {
     price: Number.isFinite(price) && price > 0 ? price : null,
     listingId: active?.itemId || listingId || null,
     listingUrl: active?.viewItemUrl || first(manifest, "ebayUrl") || null,
-    frontImage: images[0] || null,
-    backImage: images[1] || null,
+    frontImage: images[0] || (localPreviewFiles.has(localFront) ? `/inventory-previews/${localFront}` : null),
+    backImage: images[1] || (localPreviewFiles.has(localBack) ? `/inventory-previews/${localBack}` : null),
   };
 });
 
