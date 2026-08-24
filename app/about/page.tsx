@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Pocket Archives — Objects Worth Holding",
+  title: "About Pocket Archives",
   description:
     "Pocket Archives is an independent collectibles shop centered on physical objects, trading, thoughtful collections, curation, and art.",
 };
@@ -51,15 +51,12 @@ export default function AboutPage() {
       <section className="about-hero">
         <div>
           <p className="eyebrow"><span /> About Pocket Archives</p>
-          <h1>Objects worth<br /><em>holding.</em></h1>
+          <h1>Built from<br /><em>passion.</em></h1>
         </div>
-        <p>
-          Pocket Archives is built around the physical side of collecting—the surface of a card,
-          the weight of printed paper, and the traces left by the people who kept it before us.
-        </p>
+        <p>Collecting is personal. Pocket Archives is too.</p>
       </section>
 
-      <section className="about-object" aria-label="A physical archive">
+      <section className="about-object" aria-label="Our story">
         <figure>
           <img
             src="/hero/pokemon-rgb-sugimori-watercolor.jpg"
@@ -67,51 +64,25 @@ export default function AboutPage() {
           />
         </figure>
         <div>
-          <small>01 · The physical archive</small>
-          <h2>A scan shows the image. The object tells the rest.</h2>
+          <small>Our story</small>
+          <h2>The things we keep stay with us.</h2>
           <p>
-            Scale, texture, printing, edges, wear, and provenance all belong to the story. We care
-            about what an item looks like, but also how it was made, circulated, traded, and kept.
+            I started Pocket Archives out of a lifelong attachment to the objects that make
+            collecting feel personal. A card is never only an image: it has weight, texture,
+            edges, wear, and a history of being opened, handled, traded, and kept. That physical
+            connection is what turns nostalgia into something you can actually hold.
           </p>
-        </div>
-      </section>
-
-      <section className="about-principles" aria-label="What guides Pocket Archives">
-        <article>
-          <span>02</span>
-          <h2>Trading keeps collections alive.</h2>
           <p>
-            A collection should move. Trading connects people, changes what a collection means,
-            and gives overlooked pieces another life.
+            My ambition is to build a thoughtful home for that feeling—one shaped by passion
+            rather than volume. Pocket Archives brings together cards, art, ephemera, and curated
+            collections chosen for the stories they carry and the people they connect. Whether a
+            piece is being added, traded, or passed on, I want it to feel considered, honest, and
+            worth caring about.
           </p>
-        </article>
-        <article>
-          <span>03</span>
-          <h2>Curation over volume.</h2>
-          <p>
-            More is not always better. We group pieces by artist, character, era, printing history,
-            or a shared visual idea—then let the connection do the talking.
-          </p>
-        </article>
-        <article>
-          <span>04</span>
-          <h2>The art comes first.</h2>
-          <p>
-            Cards, postcards, inserts, and other ephemera are small-format works of art. The image,
-            paper, typography, and production choices are why they remain worth revisiting.
-          </p>
-        </article>
-      </section>
-
-      <section className="about-statement">
-        <p>Collected carefully.<br />Traded honestly.<br /><em>Kept with purpose.</em></p>
-      </section>
-
-      <section className="about-next">
-        <p>Start with what interests you.</p>
-        <div>
-          <a href="/#cards">Browse cards →</a>
-          <a href="/#collections">Explore collections →</a>
+          <div className="about-story-actions">
+            <a href="/#cards">Browse cards →</a>
+            <a href="/#collections">Explore collections →</a>
+          </div>
         </div>
       </section>
 

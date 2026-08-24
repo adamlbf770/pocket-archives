@@ -8394,79 +8394,30 @@ footer p {
   line-height: 0.93;
   letter-spacing: -0.055em;
 }
-.about-object p,
-.about-principles p {
+.about-object p {
   color: #666157;
   font: 16px/1.65 Georgia, serif;
 }
-.about-principles {
-  padding: 0 6vw 120px;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-top: 1px solid #cbc4b7;
+.about-object p + p {
+  margin-top: 22px;
 }
-.about-principles article {
-  min-height: 390px;
-  padding: 42px 34px 34px 0;
-  border-right: 1px solid #cbc4b7;
-}
-.about-principles article + article {
-  padding-left: 34px;
-}
-.about-principles article:last-child {
-  border-right: 0;
-}
-.about-principles h2 {
-  margin: 52px 0 22px;
-  font-size: clamp(30px, 3vw, 46px);
-  line-height: 0.96;
-  letter-spacing: -0.05em;
-}
-.about-statement {
-  padding: 110px 6vw 125px;
-  background: var(--orange);
-  color: #fff;
-}
-.about-statement p {
-  margin: 0;
-  font-size: clamp(64px, 8vw, 128px);
-  font-weight: 400;
-  line-height: 0.82;
-  letter-spacing: -0.075em;
-  text-transform: uppercase;
-}
-.about-statement em {
-  color: var(--ink);
-  font-style: normal;
-}
-.about-next {
-  padding: 80px 6vw;
+.about-story-actions {
+  margin-top: 38px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-  background: var(--ink);
-  color: #fff;
-}
-.about-next p {
-  margin: 0;
-  font: 22px/1.4 Georgia, serif;
-}
-.about-next div {
-  display: flex;
+  flex-wrap: wrap;
   gap: 12px;
 }
-.about-next a {
-  padding: 16px 20px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #fff;
+.about-story-actions a {
+  padding: 14px 18px;
+  border: 1px solid #aaa397;
+  color: var(--ink);
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: 9px;
   font-weight: 900;
 }
-.about-next a:hover {
+.about-story-actions a:hover {
   border-color: var(--orange);
   color: var(--orange);
 }
@@ -8495,39 +8446,10 @@ footer p {
   .about-object h2 {
     font-size: clamp(42px, 12vw, 64px);
   }
-  .about-principles {
-    padding: 0 24px 84px;
-    grid-template-columns: 1fr;
-  }
-  .about-principles article,
-  .about-principles article + article {
-    min-height: 0;
-    padding: 38px 0 42px;
-    border-right: 0;
-    border-bottom: 1px solid #cbc4b7;
-  }
-  .about-principles article:last-child {
-    border-bottom: 0;
-  }
-  .about-principles h2 {
-    margin-top: 32px;
-  }
-  .about-statement {
-    padding: 84px 24px 92px;
-  }
-  .about-statement p {
-    font-size: clamp(48px, 14vw, 78px);
-  }
-  .about-next {
-    padding: 58px 24px;
-    align-items: flex-start;
+  .about-story-actions {
     flex-direction: column;
   }
-  .about-next div {
-    width: 100%;
-    flex-direction: column;
-  }
-  .about-next a {
+  .about-story-actions a {
     text-align: center;
   }
 }
