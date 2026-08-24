@@ -42,6 +42,7 @@ export default function InventoryCatalog({
   ownerName: string;
 }) {
   const [query, setQuery] = useState("");
+  const [setFilter, setSetFilter] = useState("");
   const [box, setBox] = useState("all");
   const [game, setGame] = useState("all");
   const [status, setStatus] = useState("all");
@@ -52,13 +53,15 @@ export default function InventoryCatalog({
   const statuses = useMemo(() => [...new Set(records.map((record) => record.status))].sort(), [records]);
   const filtered = useMemo(() => {
     const needle = query.trim().toLowerCase();
+    const setNeedle = setFilter.trim().toLowerCase();
     return records.filter((record) => {
-      const matchesQuery = !needle || [record.name, record.sku, record.set, record.number, record.game, record.box]
+      const matchesQuery = !needle || [record.name, record.sku, record.number]
         .some((value) => value.toLowerCase().includes(needle));
-      return matchesQuery && (box === "all" || record.boxId === box) &&
+      const matchesSet = !setNeedle || record.set.toLowerCase().includes(setNeedle);
+      return matchesQuery && matchesSet && (box === "all" || record.boxId === box) &&
         (game === "all" || record.game === game) && (status === "all" || record.status === status);
     });
-  }, [records, query, box, game, status]);
+  }, [records, query, setFilter, box, game, status]);
 
   function resetLimit() {
     setVisible(60);
@@ -92,14 +95,15 @@ export default function InventoryCatalog({
 
       <section className="inventory-controls">
         <label className="inventory-search">
-          <span>SEARCH</span>
-          <input value={query} onChange={(event) => { setQuery(event.target.value); resetLimit(); }} placeholder="Pikachu, PA-0182, Base Set…" autoComplete="off" />
+          <span>CARD NAME, SKU, OR NUMBER</span>
+          <input value={query} onChange={(event) => { setQuery(event.target.value); resetLimit(); }} placeholder="Pikachu, PA-0182, 58/102…" autoComplete="off" />
         </label>
+        <label><span>SET</span><input value={setFilter} onChange={(event) => { setSetFilter(event.target.value); resetLimit(); }} placeholder="Base Set, Jungle…" autoComplete="off" /></label>
         <label><span>GAME</span><select value={game} onChange={(event) => { setGame(event.target.value); resetLimit(); }}><option value="all">All games</option>{games.map((value) => <option key={value}>{value}</option>)}</select></label>
         <label><span>STATUS</span><select value={status} onChange={(event) => { setStatus(event.target.value); resetLimit(); }}><option value="all">All statuses</option>{statuses.map((value) => <option key={value}>{value}</option>)}</select></label>
       </section>
 
-      <div className="inventory-results-heading"><b>{filtered.length.toLocaleString()} MATCHES</b><span>Searches name, SKU, set, card number, game, and box</span></div>
+      <div className="inventory-results-heading"><b>{filtered.length.toLocaleString()} MATCHES</b><span>Card search and set search are separated for accurate matches</span></div>
 
       <section className="inventory-grid">
         {filtered.slice(0, visible).map((record) => (
