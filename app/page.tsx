@@ -3948,7 +3948,7 @@ function LandingPage() {
         </div>
 
         <div className="landing-art landing-editorial-collage" aria-label="Selected artwork across collecting history">
-          <a className="landing-art-link" href="/shop#collections" aria-label="Explore curated collections">
+          <div className="landing-art-link">
             <figure className="landing-art-piece landing-art-sugimori">
               <img
                 src="/hero/pokemon-rgb-sugimori-watercolor.jpg"
@@ -3959,8 +3959,8 @@ function LandingPage() {
                 <b>Early Pokémon watercolor · Ken Sugimori</b>
               </figcaption>
             </figure>
-          </a>
-          <a className="landing-art-link" href="/shop#gallery" aria-label="Explore vintage material">
+          </div>
+          <div className="landing-art-link">
             <figure className="landing-art-piece landing-art-magic">
               <img
                 src="/hero/mtg-shivan-dragon-alpha.jpg"
@@ -3971,8 +3971,8 @@ function LandingPage() {
                 <b>Shivan Dragon · Melissa A. Benson</b>
               </figcaption>
             </figure>
-          </a>
-          <a className="landing-art-link" href="/shop#gallery" aria-label="Explore printed material and ephemera">
+          </div>
+          <div className="landing-art-link">
             <figure className="landing-art-piece landing-art-yugioh">
               <img
                 src="/hero/yugioh-duel-art-kazuki-takahashi.jpg"
@@ -3983,7 +3983,7 @@ function LandingPage() {
                 <b>Creator illustration · Kazuki Takahashi</b>
               </figcaption>
             </figure>
-          </a>
+          </div>
         </div>
       </section>
 
