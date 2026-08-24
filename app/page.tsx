@@ -3964,24 +3964,24 @@ function LandingPage() {
           <div className="landing-art-link">
             <figure className="landing-art-piece landing-art-sugimori">
               <img
-                src="/open-access/yoshikazu-dragon-sumiyoshi.jpg"
-                alt="Nineteenth-century Japanese woodblock print of warriors beneath an immense dragon"
+                src="/shop/cards/carddass-pikachu.jpg"
+                alt="Vintage Japanese Pocket Monsters Carddass Pikachu card"
               />
               <figcaption>
-                <span>Japan · ca. 1847–52</span>
-                <b>Dragon at Sumiyoshi · Utagawa Yoshikazu</b>
+                <span>Japan · 1997</span>
+                <b>Carddass · Pocket Monsters</b>
               </figcaption>
             </figure>
           </div>
           <div className="landing-art-link">
             <figure className="landing-art-piece landing-art-magic">
               <img
-                src="/open-access/yoshitoshi-fuwa-monster.jpg"
-                alt="Japanese woodblock print of Fuwa Bansaku beneath a supernatural black creature"
+                src="/hero/mtg-shivan-dragon-alpha.jpg"
+                alt="Shivan Dragon artwork from early Magic: The Gathering"
               />
               <figcaption>
-                <span>Ghost stories · 1865</span>
-                <b>Fuwa Bansaku · Tsukioka Yoshitoshi</b>
+                <span>Magic · 1993</span>
+                <b>Shivan Dragon · Melissa A. Benson</b>
               </figcaption>
             </figure>
           </div>
@@ -4078,11 +4078,12 @@ function LandingPage() {
           <b>Pocket Archives LLC</b>
           <span>Independent collectibles shop</span>
           <details className="landing-image-credits">
-            <summary>Open-access image credits +</summary>
+            <summary>Image notes +</summary>
             <p>
-              Utagawa Yoshikazu and Utagawa Hiroshige images: The Met Open
-              Access, CC0. Tsukioka Yoshitoshi, Arama Norisue, and Goyu images:
-              Rijksmuseum, Public Domain.
+              Arama Norisue and Goyu images: Rijksmuseum, Public Domain.
+              Utagawa Hiroshige image: The Met Open Access, CC0. Magic: The
+              Gathering imagery is unofficial fan content; portions are ©
+              Wizards of the Coast LLC.
             </p>
           </details>
         </div>
