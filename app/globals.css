@@ -8463,8 +8463,11 @@ footer p {
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
 }
 .landing-editorial-collage .landing-art-piece img {
-  height: clamp(190px, 19vw, 270px);
-  object-fit: cover;
+  aspect-ratio: 1;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+  background: #eee9dc;
   mix-blend-mode: normal;
 }
 .landing-editorial-collage .landing-art-sugimori {
@@ -8472,9 +8475,7 @@ footer p {
   height: auto;
 }
 .landing-editorial-collage .landing-art-sugimori img {
-  object-fit: contain;
-  object-position: center top;
-  background: #eee9dc;
+  object-position: center;
 }
 .landing-editorial-collage .landing-art-magic {
   width: auto;
@@ -8680,20 +8681,19 @@ footer p {
 .landing-archive-cards a {
   min-width: 0;
   display: grid;
-  grid-template-rows: minmax(210px, 1fr) auto;
+  grid-template-rows: auto auto;
   background: #f2eee3;
   color: var(--ink);
   text-decoration: none;
 }
 .landing-archive-cards img {
   width: 100%;
-  height: 100%;
-  min-height: 230px;
+  aspect-ratio: 1;
+  height: auto;
+  min-height: 0;
   display: block;
-  object-fit: cover;
-}
-.landing-archive-cards a:first-child img {
   object-fit: contain;
+  object-position: center;
   background: #e8e3d7;
 }
 .landing-archive-cards a > span {
@@ -8949,7 +8949,7 @@ footer p {
     padding: 5px 5px 34px;
   }
   .landing-editorial-collage .landing-art-piece img {
-    height: clamp(112px, 34vw, 160px);
+    height: auto;
   }
   .landing-editorial-collage figcaption {
     left: 8px;
@@ -9026,7 +9026,7 @@ footer p {
     grid-template-rows: none;
   }
   .landing-archive-cards img {
-    min-height: 150px;
+    min-height: 0;
   }
   .landing-archive-cards a > span {
     min-height: 150px;
