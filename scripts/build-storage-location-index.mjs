@@ -177,7 +177,10 @@ const counterfeitExclusions = fs.existsSync(counterfeitExclusionsPath)
 const excludedSkus = new Set((counterfeitExclusions.items || []).map((item) => item.sku).filter(Boolean));
 
 const cardsBySku = new Map([...manifestCards, ...legacyCards].map((card) => [card.sku, card]));
-const box1Cards = [...cardsBySku.values()]
+const explicitBox1Cards = allManifestCards
+  .filter((card) => card.inventoryLocation === "Box 1")
+  .filter((card) => !/(sold|shipped|removed|excluded|do not list)/i.test(card.status));
+const box1Cards = [...new Map([...cardsBySku.values(), ...explicitBox1Cards].map((card) => [card.sku, card])).values()]
   .filter((card) => !soldAndShippedSkus.has(card.sku))
   .filter((card) => !excludedSkus.has(card.sku))
   .sort((a, b) => a.sku.localeCompare(b.sku));
@@ -239,6 +242,7 @@ const box3LegacyCards = [
 
 const box3ManifestCards = allManifestCards
   .filter((card) => card.inventoryLocation !== "Box 5")
+  .filter((card) => card.inventoryLocation !== "Box 1")
   .filter((card) => card.inventoryLocation !== "Ultrarare Box")
   .filter((card) => isPokemonGame(card.game))
   .filter((card) => card.year >= 2004)
@@ -252,6 +256,7 @@ const box3Cards = [
 
 const box4Cards = allManifestCards
   .filter((card) => card.inventoryLocation !== "Box 5")
+  .filter((card) => card.inventoryLocation !== "Box 1")
   .filter((card) => card.inventoryLocation !== "Ultrarare Box")
   .filter((card) => isPokemonGame(card.game))
   .filter((card) => card.year >= 2004)
