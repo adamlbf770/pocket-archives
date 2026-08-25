@@ -319,6 +319,9 @@ export function ShopLanding() {
   const [priceFilter, setPriceFilter] = useState("all");
   const [sort, setSort] = useState("featured");
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const firstCollectionEntry = demoInventory.find(
+    (item) => item.id === "LIVE-003",
+  );
   const galleryItems = galleryObjectIds
     .map((id) => demoInventory.find((item) => item.id === id))
     .filter((item): item is InventoryItem => Boolean(item && !item.demo));
@@ -429,10 +432,52 @@ export function ShopLanding() {
           </article>
         </div>
         <div className="curated-storefront-status">
-          <small>First release in preparation</small>
-          <h3>Coming soon.</h3>
+          <small>Small releases · selected with context</small>
+          <h3>The collection begins below.</h3>
         </div>
       </section>
+      {firstCollectionEntry && (
+        <section className="store-collections live-collection" id="collections">
+          <header className="store-room-heading">
+            <div>
+              <small>Pocket Archives collection · 001</small>
+              <h2>Hypno.</h2>
+            </div>
+            <p>One physical piece. Front and back documented.</p>
+          </header>
+          <Link
+            className="live-collection-entry"
+            href={shopObjectUrl(firstCollectionEntry.slug)}
+          >
+            <span className="live-collection-images">
+              {firstCollectionEntry.images.slice(0, 2).map((image) => (
+                <img src={image.src} alt={image.caption} key={image.src} />
+              ))}
+            </span>
+            <span className="live-collection-copy">
+              <small>1997 · Bandai Carddass · File No.097</small>
+              <h3>{firstCollectionEntry.title}</h3>
+              <p>{firstCollectionEntry.culturalSignificance}</p>
+              <dl>
+                <div>
+                  <dt>Condition</dt>
+                  <dd>{firstCollectionEntry.condition}</dd>
+                </div>
+                <div>
+                  <dt>Price</dt>
+                  <dd>
+                    {formatPrice(
+                      firstCollectionEntry.price,
+                      firstCollectionEntry.currency,
+                    )}
+                  </dd>
+                </div>
+              </dl>
+              <b>View the full record →</b>
+            </span>
+          </Link>
+        </section>
+      )}
       <footer className="shop-footer physical-shop-footer">
         <DemoNotice />
         <p>
