@@ -319,8 +319,8 @@ export function ShopLanding() {
   const [priceFilter, setPriceFilter] = useState("all");
   const [sort, setSort] = useState("featured");
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const firstCollectionEntry = demoInventory.find(
-    (item) => item.id === "LIVE-003",
+  const collectionEntries = demoInventory.filter(
+    (item) => !item.demo && item.category === "Carddass",
   );
   const galleryItems = galleryObjectIds
     .map((id) => demoInventory.find((item) => item.id === id))
@@ -436,7 +436,7 @@ export function ShopLanding() {
           <h3>The collection begins below.</h3>
         </div>
       </section>
-      {firstCollectionEntry && (
+      {collectionEntries.length > 0 && (
         <section className="store-collections live-collection" id="collections">
           <header className="store-room-heading">
             <div>
@@ -445,28 +445,26 @@ export function ShopLanding() {
             </div>
           </header>
           <div className="collection-product-grid">
-            <Link
-              className="collection-product-card"
-              href={shopObjectUrl(firstCollectionEntry.slug)}
-            >
-              <span className="collection-product-image">
-                <img
-                  src={firstCollectionEntry.images[0].src}
-                  alt={firstCollectionEntry.images[0].caption}
-                />
-              </span>
-              <span className="collection-product-copy">
-                <small>1997 · Carddass · No.097</small>
-                <b>{firstCollectionEntry.title} — Bandai Carddass File No.097</b>
-                <em>{firstCollectionEntry.condition}</em>
-                <strong>
-                  {formatPrice(
-                    firstCollectionEntry.price,
-                    firstCollectionEntry.currency,
-                  )}
-                </strong>
-              </span>
-            </Link>
+            {collectionEntries.map((item) => (
+              <Link
+                className="collection-product-card"
+                href={shopObjectUrl(item.slug)}
+                key={item.id}
+              >
+                <span className="collection-product-image">
+                  <img
+                    src={item.images[0].src}
+                    alt={item.images[0].caption}
+                  />
+                </span>
+                <span className="collection-product-copy">
+                  <small>{item.year} · Carddass · {item.cardNumber}</small>
+                  <b>{item.title} — {item.subtitle}</b>
+                  <em>{item.condition}</em>
+                  <strong>{formatPrice(item.price, item.currency)}</strong>
+                </span>
+              </Link>
+            ))}
           </div>
         </section>
       )}
