@@ -23,6 +23,7 @@ import {
   type StoreCollection,
 } from "./storefront-data";
 import { useMobileReturn } from "./use-mobile-return";
+import { GlobalHeader } from "../site-navigation";
 
 const sampleDescriptions: Record<string, string> = {
   "DEMO-001":
@@ -107,33 +108,7 @@ function raritySortRank(label: string) {
 }
 
 export function ShopHeader({ active = "shop" }: { active?: "shop" | "sales" }) {
-  return (
-    <header className="site-header shop-site-header">
-      <Link className="brand" href="/" aria-label="Return to Pocket Archives home">
-        <span className="brand-mark">
-          <img src="/pocket-archives-logo.png" alt="" />
-        </span>
-        <span>
-          POCKET ARCHIVES
-          <br />
-          SHOP
-        </span>
-      </Link>
-      <nav aria-label="Shop rooms">
-        <Link href="/">Home</Link>
-        <Link
-          className={active === "shop" ? "active" : ""}
-          href={`${SHOP_HOME}#gallery`}
-        >
-          Curated shop
-        </Link>
-        <Link href={`${SHOP_HOME}#collections`}>Collections</Link>
-        <a className="shop-archive-return" href={EXTERNAL_SHOP_URL}>
-          Cards on eBay ↗
-        </a>
-      </nav>
-    </header>
-  );
+  return <GlobalHeader active={active === "shop" ? "shop" : undefined} />;
 }
 
 function DemoNotice() {

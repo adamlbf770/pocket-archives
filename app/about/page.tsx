@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GlobalHeader } from "../site-navigation";
 
 export const metadata: Metadata = {
   title: "About Pocket Archives",
@@ -7,40 +8,7 @@ export const metadata: Metadata = {
 };
 
 function AboutHeader() {
-  return (
-    <header className="landing-header" id="top">
-      <a className="brand" href="/" aria-label="Pocket Archives home">
-        <span className="brand-mark">
-          <img src="/pocket-archives-logo.png" alt="" />
-        </span>
-        <span>
-          POCKET
-          <br />
-          ARCHIVES
-          <small>Cards, art, and collecting history</small>
-        </span>
-      </a>
-      <nav className="landing-desktop-nav" aria-label="Primary navigation">
-        <a href="/">Home</a>
-        <a href="/about" aria-current="page">About</a>
-        <a href="/#cards">Cards</a>
-        <a href="/#collections">Collections</a>
-      </nav>
-      <details className="landing-mobile-menu">
-        <summary aria-label="Open navigation menu">
-          <span />
-          <span />
-          <span />
-        </summary>
-        <nav aria-label="Mobile navigation">
-          <a href="/">Home</a>
-          <a href="/about" aria-current="page">About</a>
-          <a href="/#cards">Cards</a>
-          <a href="/#collections">Collections</a>
-        </nav>
-      </details>
-    </header>
-  );
+  return <GlobalHeader active="about" />;
 }
 
 export default function AboutPage() {

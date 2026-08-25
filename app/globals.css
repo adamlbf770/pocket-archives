@@ -8404,6 +8404,175 @@ footer p {
   display: none;
 }
 
+/* Shared storefront navigation */
+.global-header {
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  min-height: 76px;
+  padding: 0 clamp(18px, 4vw, 64px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--ink);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+.global-header::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--orange) 0 19%, transparent 19% 80%, var(--lime) 80%);
+  opacity: 0.72;
+  pointer-events: none;
+}
+.global-brand {
+  min-width: max-content;
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.global-brand > span:last-child {
+  display: grid;
+  gap: 4px;
+}
+.global-brand strong {
+  font-size: 12px;
+  line-height: 0.9;
+  letter-spacing: -0.025em;
+}
+.global-brand small {
+  color: #8f8b82;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  font-size: 6px;
+  font-weight: 850;
+}
+.global-desktop-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+.global-header nav a {
+  min-height: 38px;
+  padding: 0 13px;
+  border-radius: 999px;
+  color: #aaa69b;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-size: 9px;
+  font-weight: 850;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+.global-header nav a:hover,
+.global-header nav a[aria-current="page"] {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+.global-header nav a:hover {
+  transform: translateY(-1px);
+}
+.global-header nav .global-ebay-link {
+  margin-left: 10px;
+  padding-inline: 17px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+.global-header nav .global-ebay-link:hover {
+  border-color: var(--lime);
+  background: var(--lime);
+  color: var(--ink);
+}
+.global-mobile-menu {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .global-header {
+    min-height: 68px;
+    padding-inline: 18px;
+  }
+  .global-desktop-nav {
+    display: none;
+  }
+  .global-brand small {
+    display: none;
+  }
+  .global-mobile-menu {
+    display: block;
+    position: relative;
+  }
+  .global-mobile-menu summary {
+    width: 44px;
+    height: 44px;
+    padding: 12px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 50%;
+    cursor: pointer;
+    list-style: none;
+    display: grid;
+    align-content: center;
+    gap: 5px;
+  }
+  .global-mobile-menu summary::-webkit-details-marker {
+    display: none;
+  }
+  .global-mobile-menu summary span {
+    height: 1px;
+    background: #fff;
+    transition: transform 160ms ease, opacity 160ms ease;
+  }
+  .global-mobile-menu[open] summary span:first-child {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .global-mobile-menu[open] summary span:nth-child(2) {
+    opacity: 0;
+  }
+  .global-mobile-menu[open] summary span:last-child {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+  .global-mobile-menu nav {
+    position: absolute;
+    top: 52px;
+    right: -18px;
+    width: min(84vw, 310px);
+    padding: 9px 18px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    background: var(--ink);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.34);
+    display: grid;
+  }
+  .global-header .global-mobile-menu nav a {
+    min-height: 47px;
+    padding: 0 2px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0;
+    justify-content: flex-start;
+    color: #fff;
+    font-size: 10px;
+  }
+  .global-header .global-mobile-menu nav .global-ebay-link {
+    margin: 10px 0 0;
+    padding: 0 14px;
+    border: 1px solid var(--lime);
+    border-radius: 999px;
+    justify-content: center;
+    color: var(--lime);
+  }
+}
+
 /* About */
 .about-page {
   min-height: 100vh;

@@ -13,6 +13,7 @@ import {
   canonicalTimeline,
   capsuleMonsterRecords,
 } from "./archive/canonical-data.generated";
+import { GlobalHeader } from "./site-navigation";
 
 type PokemonArt = {
   id: string;
@@ -3873,23 +3874,23 @@ export function ArchiveExperience() {
 function LandingPage() {
   const ebayPreviewListings = [
     {
-      title: "Hypno",
-      details: "Bandai Carddass File No.097 · 1997 · NM",
-      price: "$12.99",
-      image: "/shop/inventory/batch-01/pa-0014-front.jpg",
-      href: "https://www.ebay.com/itm/Pokemon-Hypno-File-No-097-Carddass-Bandai-Japanese-1997-NM-/158192969141",
+      title: "Vileplume",
+      details: "Jungle 31/64 · 1999 · 1st Edition · MP",
+      price: "$9.99",
+      image: "/shop/inventory/batch-02/pa-0021-front.jpg",
+      href: "https://www.ebay.com/itm/158192885731",
     },
     {
-      title: "Slowbro",
-      details: "Bandai Carddass File No.080 · 1997 · NM",
-      price: "$15.99",
-      image: "/shop/inventory/batch-01/pa-0015-front.jpg",
-      href: "https://www.ebay.com/itm/Pokemon-Slowbro-File-No-080-Carddass-Bandai-Japanese-1997-NM-/158192971036",
+      title: "Ledyba",
+      details: "Neo Genesis 63/111 · 2000 · 1st Edition · MP",
+      price: "$2.99",
+      image: "/shop/inventory/batch-02/pa-0020-front.jpg",
+      href: "https://www.ebay.com/itm/158192889649",
     },
     {
       title: "Kangaskhan",
       details: "Jungle 21/64 · 1999 · MP",
-      price: "$3.49",
+      price: "$4.99",
       image: "/shop/inventory/batch-04/pa-0034-front.jpg",
       href: "https://www.ebay.com/itm/Pokemon-Kangaskhan-21-64-Jungle-1999-WOTC-Non-Holo-MP-/158195564640",
     },
@@ -3904,38 +3905,7 @@ function LandingPage() {
 
   return (
     <main className="landing-page">
-      <header className="landing-header" id="top">
-        <a className="brand" href="/" aria-label="Pocket Archives home">
-          <span className="brand-mark">
-            <img src="/pocket-archives-logo.png" alt="" />
-          </span>
-          <span>
-            POCKET
-            <br />
-            ARCHIVES
-            <small>Cards, art, and collecting history</small>
-          </span>
-        </a>
-        <nav className="landing-desktop-nav" aria-label="Primary navigation">
-          <a href="/">Home</a>
-          <a href="/about">About</a>
-          <a href="#cards">Cards</a>
-          <a href="#collections">Collections</a>
-        </nav>
-        <details className="landing-mobile-menu">
-          <summary aria-label="Open navigation menu">
-            <span />
-            <span />
-            <span />
-          </summary>
-          <nav aria-label="Mobile navigation">
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-            <a href="#cards">Cards</a>
-            <a href="#collections">Collections</a>
-          </nav>
-        </details>
-      </header>
+      <GlobalHeader active="home" />
 
       <section className="landing-hero" id="about">
         <div className="landing-copy">
