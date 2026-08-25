@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { EXTERNAL_SHOP_URL } from "./shop/catalog";
 
-type NavigationPage = "home" | "shop" | "collections" | "about";
+type NavigationPage = "home" | "shop" | "about";
 
 export function GlobalHeader({ active }: { active?: NavigationPage }) {
   const current = (page: NavigationPage) =>
@@ -11,7 +11,6 @@ export function GlobalHeader({ active }: { active?: NavigationPage }) {
     <>
       <Link href="/" aria-current={current("home")}>Home</Link>
       <Link href="/shop" aria-current={current("shop")}>Shop</Link>
-      <Link href="/shop#collections" aria-current={current("collections")}>Collections</Link>
       <Link href="/about" aria-current={current("about")}>About</Link>
       <a className="global-ebay-link" href={EXTERNAL_SHOP_URL}>
         Cards on eBay <span aria-hidden="true">↗</span>
