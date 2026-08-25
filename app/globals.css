@@ -4789,6 +4789,10 @@ footer p {
   border: 0;
   background: transparent;
   color: var(--ink);
+}
+.collection-product-detail {
+  display: block;
+  color: inherit;
   text-decoration: none;
 }
 .collection-product-image {
@@ -4809,7 +4813,7 @@ footer p {
   filter: drop-shadow(0 6px 8px rgba(25, 24, 18, 0.14));
   transition: transform 180ms ease;
 }
-.collection-product-card:hover .collection-product-image img {
+.collection-product-detail:hover .collection-product-image img {
   transform: scale(1.035);
 }
 .collection-product-copy {
@@ -4840,6 +4844,34 @@ footer p {
 .collection-product-copy strong {
   margin-top: 1px;
   font-size: 14px;
+}
+.collection-product-buy {
+  min-height: 34px;
+  margin-top: 9px;
+  padding: 0 10px;
+  border: 1px solid var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font: 800 7px/1 Arial, Helvetica, sans-serif;
+  transition: background 160ms ease, color 160ms ease;
+}
+.collection-product-buy:hover,
+.collection-product-buy:focus-visible {
+  background: var(--orange);
+  border-color: var(--orange);
+}
+.checkout-success {
+  margin: 0 0 28px;
+  padding: 16px 18px;
+  background: var(--ink);
+  color: #fff;
+  font: 700 12px/1.45 Arial, Helvetica, sans-serif;
 }
 .collections-coming-soon {
   min-height: 330px;
@@ -5961,7 +5993,8 @@ footer p {
   font-size: 22px;
   font-weight: normal;
 }
-.artifact-offer button {
+.artifact-offer button,
+.artifact-purchase {
   min-height: 44px;
   border: 1px solid var(--ink);
   border-radius: 999px;
@@ -5973,6 +6006,12 @@ footer p {
   letter-spacing: 0.09em;
   font-size: 8px;
   font-weight: 900;
+}
+.artifact-purchase {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 .artifact-offer button:disabled {
   cursor: default;
@@ -7586,7 +7625,8 @@ footer p {
     align-items: stretch;
     flex-direction: column;
   }
-  .artifact-offer button {
+  .artifact-offer button,
+  .artifact-purchase {
     width: 100%;
   }
   .artifact-key-facts,

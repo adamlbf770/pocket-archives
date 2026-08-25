@@ -25,6 +25,16 @@ import {
 import { useMobileReturn } from "./use-mobile-return";
 import { GlobalHeader } from "../site-navigation";
 
+const STRIPE_CHECKOUT_LINKS: Record<string, string> = {
+  "PA-0014": "https://buy.stripe.com/5kQaEQ2i22Xl2Ayeum6g800",
+  "PA-0015": "https://buy.stripe.com/14AaEQe0KfK71wu85Y6g801",
+  "PA-0040": "https://buy.stripe.com/8x2dR2cWG9lJejg9a26g802",
+};
+
+function stripeCheckoutUrl(item: InventoryItem) {
+  return STRIPE_CHECKOUT_LINKS[item.accessionNumber];
+}
+
 const sampleDescriptions: Record<string, string> = {
   "DEMO-001":
     "A sample listing for a 1999 Base Set Bulbasaur. The final listing will use photos and notes from the actual card.",
@@ -294,6 +304,7 @@ export function ShopLanding() {
   const [priceFilter, setPriceFilter] = useState("all");
   const [sort, setSort] = useState("featured");
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [checkoutComplete, setCheckoutComplete] = useState(false);
   const collectionEntries = demoInventory.filter(
     (item) => !item.demo && item.category === "Carddass",
   );
@@ -357,6 +368,12 @@ export function ShopLanding() {
   );
   const hasFilters = Boolean(query || setFilter !== "all" || rarityFilter !== "all" || conditionFilter !== "all" || priceFilter !== "all" || sort !== "featured");
 
+  useEffect(() => {
+    setCheckoutComplete(
+      new URLSearchParams(window.location.search).get("checkout") === "success",
+    );
+  }, []);
+
   function clearFilters() {
     setQuery("");
     setSetFilter("all");
@@ -413,6 +430,11 @@ export function ShopLanding() {
       </section>
       {collectionEntries.length > 0 && (
         <section className="store-collections live-collection" id="collections">
+          {checkoutComplete && (
+            <p className="checkout-success" role="status">
+              Purchase complete. Thank you — Pocket Archives will prepare your piece for shipment.
+            </p>
+          )}
           <header className="store-room-heading">
             <div>
               <small>Curated collections</small>
@@ -420,26 +442,35 @@ export function ShopLanding() {
             </div>
           </header>
           <div className="collection-product-grid">
-            {collectionEntries.map((item) => (
-              <Link
-                className="collection-product-card"
-                href={shopObjectUrl(item.slug)}
-                key={item.id}
-              >
-                <span className="collection-product-image">
-                  <img
-                    src={item.images[0].src}
-                    alt={item.images[0].caption}
-                  />
-                </span>
-                <span className="collection-product-copy">
-                  <small>{item.year} · Carddass · {item.cardNumber}</small>
-                  <b>{item.title} — {item.subtitle}</b>
-                  <em>{item.condition}</em>
-                  <strong>{formatPrice(item.price, item.currency)}</strong>
-                </span>
-              </Link>
-            ))}
+            {collectionEntries.map((item) => {
+              const checkoutUrl = stripeCheckoutUrl(item);
+              return (
+                <article className="collection-product-card" key={item.id}>
+                  <Link
+                    className="collection-product-detail"
+                    href={shopObjectUrl(item.slug)}
+                  >
+                    <span className="collection-product-image">
+                      <img
+                        src={item.images[0].src}
+                        alt={item.images[0].caption}
+                      />
+                    </span>
+                    <span className="collection-product-copy">
+                      <small>{item.year} · Carddass · {item.cardNumber}</small>
+                      <b>{item.title} — {item.subtitle}</b>
+                      <em>{item.condition}</em>
+                      <strong>{formatPrice(item.price, item.currency)}</strong>
+                    </span>
+                  </Link>
+                  {checkoutUrl && (
+                    <a className="collection-product-buy" href={checkoutUrl}>
+                      Buy securely
+                    </a>
+                  )}
+                </article>
+              );
+            })}
           </div>
         </section>
       )}
@@ -468,6 +499,7 @@ export function ArtifactPage({ item }: { item: InventoryItem }) {
     item.commerceMode === "fixedPrice" &&
     item.availabilityStatus === "available" &&
     item.quantity > 0;
+  const checkoutUrl = stripeCheckoutUrl(item);
   const description = item.demo
     ? sampleDescriptions[item.id] || item.description
     : item.description;
@@ -535,6 +567,10 @@ export function ArtifactPage({ item }: { item: InventoryItem }) {
             </div>
             {privateSale ? (
               <button disabled>Request details</button>
+            ) : canAcquire && checkoutUrl ? (
+              <a className="artifact-purchase" href={checkoutUrl}>
+                Buy securely
+              </a>
             ) : canAcquire ? (
               <button disabled>Inquiries opening soon</button>
             ) : (
