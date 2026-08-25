@@ -440,10 +440,9 @@ export function ShopLanding() {
         <section className="store-collections live-collection" id="collections">
           <header className="store-room-heading">
             <div>
-              <small>Pocket Archives</small>
-              <h2>The collection.</h2>
+              <small>Curated collections</small>
+              <h2>All pieces</h2>
             </div>
-            <p>Click any piece for full-size front and back scans.</p>
           </header>
           <div className="collection-product-grid">
             <Link
@@ -455,11 +454,10 @@ export function ShopLanding() {
                   src={firstCollectionEntry.images[0].src}
                   alt={firstCollectionEntry.images[0].caption}
                 />
-                <i>View larger</i>
               </span>
               <span className="collection-product-copy">
                 <small>1997 · Carddass · No.097</small>
-                <b>{firstCollectionEntry.title}</b>
+                <b>{firstCollectionEntry.title} — Bandai Carddass File No.097</b>
                 <em>{firstCollectionEntry.condition}</em>
                 <strong>
                   {formatPrice(
