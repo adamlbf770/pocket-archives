@@ -117,6 +117,7 @@ const allManifestCards = walk(inventoryRoot)
 
 const manifestCards = allManifestCards
   .filter((card) => card.inventoryLocation !== "Box 5")
+  .filter((card) => card.inventoryLocation !== "Ultrarare Box")
   .filter((card) => isPokemonGame(card.game))
   .filter((card) => card.language === "English" || card.language === "Japanese")
   .filter((card) => card.year >= 1996 && card.year <= 2003)
@@ -238,6 +239,7 @@ const box3LegacyCards = [
 
 const box3ManifestCards = allManifestCards
   .filter((card) => card.inventoryLocation !== "Box 5")
+  .filter((card) => card.inventoryLocation !== "Ultrarare Box")
   .filter((card) => isPokemonGame(card.game))
   .filter((card) => card.year >= 2004)
   .filter((card) => isFoil(card.finish))
@@ -250,6 +252,7 @@ const box3Cards = [
 
 const box4Cards = allManifestCards
   .filter((card) => card.inventoryLocation !== "Box 5")
+  .filter((card) => card.inventoryLocation !== "Ultrarare Box")
   .filter((card) => isPokemonGame(card.game))
   .filter((card) => card.year >= 2004)
   .filter((card) => isNonHolo(card.finish))
@@ -279,8 +282,15 @@ const box7Cards = allManifestCards
   .filter((card) => !excludedSkus.has(card.sku))
   .sort((a, b) => a.sku.localeCompare(b.sku));
 
+const ultrarareCards = allManifestCards
+  .filter((card) => card.inventoryLocation === "Ultrarare Box")
+  .filter((card) => !/(sold|shipped|removed|excluded|do not list)/i.test(card.status))
+  .filter((card) => !physicallyDepartedSkus.has(card.sku))
+  .filter((card) => !excludedSkus.has(card.sku))
+  .sort((a, b) => a.sku.localeCompare(b.sku));
+
 const assignedSkus = new Set(
-  [...box1Cards, ...box2Cards, ...box3Cards, ...box4Cards, ...box5Cards, ...box6Cards, ...box7Cards].map((card) => card.sku),
+  [...box1Cards, ...box2Cards, ...box3Cards, ...box4Cards, ...box5Cards, ...box6Cards, ...box7Cards, ...ultrarareCards].map((card) => card.sku),
 );
 const unassignedCards = allManifestCards
   .filter((card) => !assignedSkus.has(card.sku))
@@ -391,6 +401,19 @@ const output = {
       cardCount: box7Cards.length,
     },
     {
+      id: "BOX-ULTRARARE",
+      label: "Ultrarare Box",
+      description: "Selected ultra-rare, vintage holo, and premium collectible Pokémon cards",
+      physicalSort: "SKU order unless physically reorganized",
+      inclusionRule: {
+        skus: { from: "PA-3640", through: "PA-3645" },
+        games: ["Pokemon TCG", "Pokemon collectible cards"],
+        finishes: ["All"],
+        excluded: ["Sold, shipped, removed, or explicitly excluded inventory"],
+      },
+      cardCount: ultrarareCards.length,
+    },
+    {
       id: "BOX-UNASSIGNED",
       label: "Unassigned",
       description: "Cataloged inventory awaiting a confirmed physical box",
@@ -411,6 +434,7 @@ const output = {
     ...box5Cards.map((card) => ({ ...card, boxId: "BOX-5" })),
     ...box6Cards.map((card) => ({ ...card, boxId: "BOX-6" })),
     ...box7Cards.map((card) => ({ ...card, boxId: "BOX-7" })),
+    ...ultrarareCards.map((card) => ({ ...card, boxId: "BOX-ULTRARARE" })),
     ...unassignedCards.map((card) => ({ ...card, boxId: "BOX-UNASSIGNED" })),
   ],
 };
@@ -418,5 +442,5 @@ const output = {
 const outputPath = path.join(inventoryRoot, "Storage Locations.json");
 fs.writeFileSync(outputPath, `${JSON.stringify(output, null, 2)}\n`);
 console.log(
-  `Wrote ${box1Cards.length} Box 1, ${box2Cards.length} Box 2, ${box3Cards.length} Box 3, ${box4Cards.length} Box 4, ${box5Cards.length} Box 5, ${box6Cards.length} Box 6, ${box7Cards.length} Box 7, and ${unassignedCards.length} unassigned records to ${path.relative(root, outputPath)}`,
+  `Wrote ${box1Cards.length} Box 1, ${box2Cards.length} Box 2, ${box3Cards.length} Box 3, ${box4Cards.length} Box 4, ${box5Cards.length} Box 5, ${box6Cards.length} Box 6, ${box7Cards.length} Box 7, ${ultrarareCards.length} Ultrarare Box, and ${unassignedCards.length} unassigned records to ${path.relative(root, outputPath)}`,
 );
