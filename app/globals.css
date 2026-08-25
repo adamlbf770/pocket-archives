@@ -9863,7 +9863,7 @@ footer p {
     padding: 32px 24px;
   }
   .collection-product-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(120px, 150px));
     gap: 28px 12px;
   }
   .collection-product-image {
