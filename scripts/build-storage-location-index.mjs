@@ -272,8 +272,15 @@ const box6Cards = allManifestCards
   .filter((card) => !excludedSkus.has(card.sku))
   .sort((a, b) => a.sku.localeCompare(b.sku));
 
+const box7Cards = allManifestCards
+  .filter((card) => card.inventoryLocation === "Box 7")
+  .filter((card) => !/(sold|shipped|removed|excluded|do not list)/i.test(card.status))
+  .filter((card) => !physicallyDepartedSkus.has(card.sku))
+  .filter((card) => !excludedSkus.has(card.sku))
+  .sort((a, b) => a.sku.localeCompare(b.sku));
+
 const assignedSkus = new Set(
-  [...box1Cards, ...box2Cards, ...box3Cards, ...box4Cards, ...box5Cards, ...box6Cards].map((card) => card.sku),
+  [...box1Cards, ...box2Cards, ...box3Cards, ...box4Cards, ...box5Cards, ...box6Cards, ...box7Cards].map((card) => card.sku),
 );
 const unassignedCards = allManifestCards
   .filter((card) => !assignedSkus.has(card.sku))
@@ -371,6 +378,19 @@ const output = {
       cardCount: box6Cards.length,
     },
     {
+      id: "BOX-7",
+      label: "Box 7",
+      description: "Batch 20 — PA-3409 through PA-3639",
+      physicalSort: "Batch/SKU order unless physically reorganized",
+      inclusionRule: {
+        skus: { from: "PA-3409", through: "PA-3639" },
+        games: ["Pokemon TCG"],
+        finishes: ["All"],
+        excluded: ["Sold, shipped, removed, or explicitly excluded inventory"],
+      },
+      cardCount: box7Cards.length,
+    },
+    {
       id: "BOX-UNASSIGNED",
       label: "Unassigned",
       description: "Cataloged inventory awaiting a confirmed physical box",
@@ -390,6 +410,7 @@ const output = {
     ...box4Cards.map((card) => ({ ...card, boxId: "BOX-4" })),
     ...box5Cards.map((card) => ({ ...card, boxId: "BOX-5" })),
     ...box6Cards.map((card) => ({ ...card, boxId: "BOX-6" })),
+    ...box7Cards.map((card) => ({ ...card, boxId: "BOX-7" })),
     ...unassignedCards.map((card) => ({ ...card, boxId: "BOX-UNASSIGNED" })),
   ],
 };
@@ -397,5 +418,5 @@ const output = {
 const outputPath = path.join(inventoryRoot, "Storage Locations.json");
 fs.writeFileSync(outputPath, `${JSON.stringify(output, null, 2)}\n`);
 console.log(
-  `Wrote ${box1Cards.length} Box 1, ${box2Cards.length} Box 2, ${box3Cards.length} Box 3, ${box4Cards.length} Box 4, ${box5Cards.length} Box 5, ${box6Cards.length} Box 6, and ${unassignedCards.length} unassigned records to ${path.relative(root, outputPath)}`,
+  `Wrote ${box1Cards.length} Box 1, ${box2Cards.length} Box 2, ${box3Cards.length} Box 3, ${box4Cards.length} Box 4, ${box5Cards.length} Box 5, ${box6Cards.length} Box 6, ${box7Cards.length} Box 7, and ${unassignedCards.length} unassigned records to ${path.relative(root, outputPath)}`,
 );
