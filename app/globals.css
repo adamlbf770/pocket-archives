@@ -4764,88 +4764,83 @@ footer p {
 .live-collection {
   scroll-margin-top: 78px;
 }
-.live-collection-entry {
-  min-height: 620px;
+.collection-product-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.16fr) minmax(360px, 0.84fr);
-  background: var(--ink);
-  color: #fff;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 290px));
+  gap: 18px;
+}
+.collection-product-card {
+  min-width: 0;
+  border: 1px solid rgba(25, 24, 18, 0.18);
+  background: var(--cream);
+  color: var(--ink);
   text-decoration: none;
   overflow: hidden;
 }
-.live-collection-images {
-  min-width: 0;
-  padding: 52px;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 30px;
-  align-items: center;
-  background: #dcd6c9;
-}
-.live-collection-images img {
-  width: 100%;
-  max-height: 510px;
-  object-fit: contain;
-  filter: drop-shadow(0 22px 22px rgba(25, 24, 18, 0.2));
-  transition: transform 220ms ease;
-}
-.live-collection-entry:hover .live-collection-images img:first-child {
-  transform: translateY(-5px) rotate(-1deg);
-}
-.live-collection-entry:hover .live-collection-images img:last-child {
-  transform: translateY(-5px) rotate(1deg);
-}
-.live-collection-copy {
-  padding: 54px 48px;
+.collection-product-image {
+  aspect-ratio: 1 / 1.03;
+  position: relative;
+  padding: 20px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ddd7ca;
 }
-.live-collection-copy > small,
-.live-collection-copy dt {
+.collection-product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 14px rgba(25, 24, 18, 0.18));
+  transition: transform 180ms ease;
+}
+.collection-product-image i {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 7px 9px;
+  background: var(--ink);
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 6px;
+  font-style: normal;
+  font-weight: 900;
+}
+.collection-product-card:hover .collection-product-image img {
+  transform: scale(1.035);
+}
+.collection-product-copy {
+  min-height: 120px;
+  padding: 14px 15px 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 7px 12px;
+  align-items: end;
+}
+.collection-product-copy small {
+  grid-column: 1 / -1;
   color: var(--orange);
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  font-size: 8px;
+  font-size: 7px;
   font-weight: 900;
 }
-.live-collection-copy h3 {
-  margin: auto 0 24px;
-  font-size: clamp(68px, 8vw, 128px);
-  line-height: 0.76;
-  letter-spacing: -0.08em;
+.collection-product-copy b {
+  font-size: 25px;
+  line-height: 0.9;
+  letter-spacing: -0.045em;
   text-transform: uppercase;
 }
-.live-collection-copy > p {
-  max-width: 460px;
-  margin: 0;
-  color: #aaa69c;
-  font: 15px/1.6 Georgia, serif;
+.collection-product-copy em {
+  grid-column: 1;
+  color: #706c63;
+  font: 11px/1.2 Georgia, serif;
+  font-style: normal;
 }
-.live-collection-copy dl {
-  margin: 46px 0 30px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-.live-collection-copy dl div {
-  padding: 15px 12px 15px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-.live-collection-copy dt,
-.live-collection-copy dd {
-  margin: 0;
-}
-.live-collection-copy dd {
-  margin-top: 8px;
-  font: 18px/1.2 Georgia, serif;
-}
-.live-collection-copy > b {
-  width: fit-content;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #77736a;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 8px;
+.collection-product-copy strong {
+  grid-column: 2;
+  grid-row: 2 / 4;
+  font-size: 15px;
 }
 .collections-coming-soon {
   min-height: 330px;
@@ -9868,28 +9863,19 @@ footer p {
     margin-top: 34px;
     padding: 32px 24px;
   }
-  .live-collection-entry {
-    min-height: 0;
-    grid-template-columns: 1fr;
+  .collection-product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
-  .live-collection-images {
-    min-height: 460px;
-    padding: 28px 20px;
-    gap: 14px;
+  .collection-product-image {
+    padding: 12px;
   }
-  .live-collection-images img {
-    max-height: 390px;
+  .collection-product-copy {
+    min-height: 110px;
+    padding: 11px 12px 13px;
   }
-  .live-collection-copy {
-    min-height: 440px;
-    padding: 34px 24px 38px;
-  }
-  .live-collection-copy h3 {
-    margin-top: auto;
-    font-size: 21vw;
-  }
-  .live-collection-copy dl {
-    margin-top: 34px;
+  .collection-product-copy b {
+    font-size: 20px;
   }
   .collections-coming-soon {
     min-height: 380px;

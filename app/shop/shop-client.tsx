@@ -440,42 +440,36 @@ export function ShopLanding() {
         <section className="store-collections live-collection" id="collections">
           <header className="store-room-heading">
             <div>
-              <small>Pocket Archives collection · 001</small>
-              <h2>Hypno.</h2>
+              <small>Pocket Archives</small>
+              <h2>The collection.</h2>
             </div>
-            <p>One physical piece. Front and back documented.</p>
+            <p>Click any piece for full-size front and back scans.</p>
           </header>
-          <Link
-            className="live-collection-entry"
-            href={shopObjectUrl(firstCollectionEntry.slug)}
-          >
-            <span className="live-collection-images">
-              {firstCollectionEntry.images.slice(0, 2).map((image) => (
-                <img src={image.src} alt={image.caption} key={image.src} />
-              ))}
-            </span>
-            <span className="live-collection-copy">
-              <small>1997 · Bandai Carddass · File No.097</small>
-              <h3>{firstCollectionEntry.title}</h3>
-              <p>{firstCollectionEntry.culturalSignificance}</p>
-              <dl>
-                <div>
-                  <dt>Condition</dt>
-                  <dd>{firstCollectionEntry.condition}</dd>
-                </div>
-                <div>
-                  <dt>Price</dt>
-                  <dd>
-                    {formatPrice(
-                      firstCollectionEntry.price,
-                      firstCollectionEntry.currency,
-                    )}
-                  </dd>
-                </div>
-              </dl>
-              <b>View the full record →</b>
-            </span>
-          </Link>
+          <div className="collection-product-grid">
+            <Link
+              className="collection-product-card"
+              href={shopObjectUrl(firstCollectionEntry.slug)}
+            >
+              <span className="collection-product-image">
+                <img
+                  src={firstCollectionEntry.images[0].src}
+                  alt={firstCollectionEntry.images[0].caption}
+                />
+                <i>View larger</i>
+              </span>
+              <span className="collection-product-copy">
+                <small>1997 · Carddass · No.097</small>
+                <b>{firstCollectionEntry.title}</b>
+                <em>{firstCollectionEntry.condition}</em>
+                <strong>
+                  {formatPrice(
+                    firstCollectionEntry.price,
+                    firstCollectionEntry.currency,
+                  )}
+                </strong>
+              </span>
+            </Link>
+          </div>
         </section>
       )}
       <footer className="shop-footer physical-shop-footer">
