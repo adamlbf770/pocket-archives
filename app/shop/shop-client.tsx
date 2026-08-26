@@ -297,7 +297,7 @@ export function ShopLanding() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [checkoutComplete, setCheckoutComplete] = useState(false);
   const collectionEntries = demoInventory.filter(
-    (item) => !item.demo && item.category === "Carddass",
+    (item) => !item.demo && Boolean(stripeCheckoutUrl(item)),
   );
   const galleryItems = galleryObjectIds
     .map((id) => demoInventory.find((item) => item.id === id))
@@ -448,7 +448,7 @@ export function ShopLanding() {
                       />
                     </span>
                     <span className="collection-product-copy">
-                      <small>{item.year} · Carddass · {item.cardNumber}</small>
+                      <small>{[item.year, item.category, item.cardNumber].filter(Boolean).join(" · ")}</small>
                       <b>{item.title} — {item.subtitle}</b>
                       <em>{item.condition}</em>
                       <strong>{formatPrice(item.price, item.currency)}</strong>
@@ -501,15 +501,19 @@ export function ArtifactPage({ item }: { item: InventoryItem }) {
     ? "Waiting for photos from the live inventory."
     : item.sourceMetadata;
   const relatedLot = lotForObject(item.id);
+  const usesCardViewer = ["Cards", "Carddass", "Promos"].includes(item.category);
+  const galleryImages = usesCardViewer
+    ? item.images.map((image, index) => ({ image, index })).filter(({ image }) => image.view !== "back")
+    : item.images.map((image, index) => ({ image, index }));
   return (
     <main className="shop-shell">
       <ShopHeader />
       <section className="artifact-detail">
         <div className="artifact-gallery">
-          {item.category === "Curated Collections" ? <ObjectVisual item={item} imageIndex={imageIndex} detail /> : <CardViewer item={item} imageIndex={imageIndex} />}
-          {item.images.filter((image) => image.view !== "back").length > 1 && (
+          {usesCardViewer ? <CardViewer item={item} imageIndex={imageIndex} /> : <ObjectVisual item={item} imageIndex={imageIndex} detail />}
+          {galleryImages.length > 1 && (
             <div className="artifact-thumbnails">
-              {item.images.map((image, index) => ({ image, index })).filter(({ image }) => image.view !== "back").map(({ image, index }) => (
+              {galleryImages.map(({ image, index }) => (
                 <button
                   className={index === imageIndex ? "active" : ""}
                   key={`${image.src}-${index}`}
@@ -618,6 +622,7 @@ export function ArtifactPage({ item }: { item: InventoryItem }) {
           <section className="archival-note">
             <h2>Why it matters</h2>
             <p>{item.archivalNote}</p>
+            <p>{item.culturalSignificance}</p>
           </section>
           <div className="object-record-sections">
             <details open>

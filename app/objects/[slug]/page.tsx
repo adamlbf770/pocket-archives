@@ -11,7 +11,8 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const item = inventoryBySlug(slug);
-  return item ? { title: `${item.accessionNumber} · ${item.title} — Pocket Archives Shop`, description: item.description, openGraph: { images: ["/og-shop.png"] }, twitter: { card: "summary_large_image", images: ["/og-shop.png"] } } : {};
+  const previewImage = item?.images[0]?.src || "/og-shop.png";
+  return item ? { title: `${item.accessionNumber} · ${item.title} — Pocket Archives Shop`, description: item.description, openGraph: { images: [previewImage] }, twitter: { card: "summary_large_image", images: [previewImage] } } : {};
 }
 
 export default async function ObjectPage({ params }: { params: Promise<{ slug: string }> }) {
