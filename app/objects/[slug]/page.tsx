@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { demoInventory, EXTERNAL_SHOP_URL, inventoryBySlug } from "../../shop/catalog";
+import { stripeCheckoutUrl } from "../../shop/checkout";
 import { ArtifactPage } from "../../shop/shop-client";
 
 export function generateStaticParams() {
@@ -17,7 +18,10 @@ export default async function ObjectPage({ params }: { params: Promise<{ slug: s
   const { slug } = await params;
   const item = inventoryBySlug(slug);
   if (!item) notFound();
-  if (["Cards", "Carddass", "Promos"].includes(item.category)) {
+  if (
+    ["Cards", "Carddass", "Promos"].includes(item.category) &&
+    !stripeCheckoutUrl(item)
+  ) {
     redirect(EXTERNAL_SHOP_URL);
   }
   return <ArtifactPage item={item} />;
