@@ -379,10 +379,13 @@ export function ShopLanding() {
       <ShopHeader />
       <section className="physical-shop-hero">
         <p>POCKET ARCHIVES / SHOP</p>
-        <h1>Selected with a reason.</h1>
-        <span>
-          Collections. Ephemera. Vintage finds.
-        </span>
+        <h1>
+          Selected with <em>a reason.</em>
+        </h1>
+        <div className="physical-shop-hero-note">
+          <span>Vintage cards, print, and collected pieces.</span>
+          <a href="#collections">Explore the shop ↓</a>
+        </div>
       </section>
       <section className="store-gallery curated-storefront" id="gallery">
         <header className="store-room-heading">
