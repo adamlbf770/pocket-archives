@@ -3929,45 +3929,6 @@ function LandingPage() {
             </a>
           </div>
         </div>
-
-        <div className="landing-art landing-editorial-collage" aria-label="Selected artwork across collecting history">
-          <div className="landing-art-link">
-            <figure className="landing-art-piece landing-art-sugimori">
-              <img
-                src="/shop/cards/carddass-pikachu.jpg"
-                alt="Vintage Japanese Pocket Monsters Carddass Pikachu card"
-              />
-              <figcaption>
-                <span>Japan · 1997</span>
-                <b>Carddass · Pocket Monsters</b>
-              </figcaption>
-            </figure>
-          </div>
-          <div className="landing-art-link">
-            <figure className="landing-art-piece landing-art-magic">
-              <img
-                src="/hero/mtg-shivan-dragon-alpha.jpg"
-                alt="Shivan Dragon artwork from early Magic: The Gathering"
-              />
-              <figcaption>
-                <span>Magic · 1993</span>
-                <b>Shivan Dragon · Melissa A. Benson</b>
-              </figcaption>
-            </figure>
-          </div>
-          <div className="landing-art-link">
-            <figure className="landing-art-piece landing-art-yugioh">
-              <img
-                src="/open-access/norisue-two-playing-cards.jpg"
-                alt="Two Japanese poetry playing cards from the late eighteenth century"
-              />
-              <figcaption>
-                <span>Playing culture · ca. 1790–1800</span>
-                <b>Two playing cards · Arama Norisue</b>
-              </figcaption>
-            </figure>
-          </div>
-        </div>
       </section>
 
       <section className="landing-shop-callout" id="cards">
@@ -4000,44 +3961,32 @@ function LandingPage() {
           <p className="eyebrow">
             <span /> The website shop
           </p>
-          <h2 id="landing-archive-title">Collected with purpose.</h2>
-          <a href="/shop">Enter the curated shop →</a>
+          <h2 id="landing-archive-title">Available in the shop.</h2>
+          <a href="/shop">View the full shop →</a>
         </div>
         <div className="landing-archive-cards">
-          <a href="/shop#collections">
+          <a href="/objects/pokemon-pocket-monsters-volume-7-anakubo-1999">
             <img
-              src="/open-access/norisue-two-playing-cards.jpg"
-              alt="Two Japanese poetry playing cards from the late eighteenth century"
+              src="/shop/inventory/pokemon-pocket-monsters-vol-7/cover.jpg"
+              alt="Pokémon Pocket Monsters Volume 7 Japanese manga cover"
               loading="lazy"
             />
             <span>
-              <small>Grouped with purpose</small>
-              <b>Curated collections</b>
-              <em>Artists, characters, eras.</em>
+              <small>1999 · Japanese manga</small>
+              <b>Pokémon Pocket Monsters, Vol. 7</b>
+              <em>Kosaku Anakubo · Good · $15.99</em>
             </span>
           </a>
-          <a href="/shop#gallery">
+          <a href="/objects/pokemon-classic-adventure-collection-scholastic-2021">
             <img
-              src="/open-access/hiroshige-goyu-postcard.jpg"
-              alt="Early twentieth-century Japanese postcard showing the town of Goyu"
+              src="/shop/inventory/pokemon-classic-adventure-collection/cover.jpg"
+              alt="Pokémon Classic Adventure Collection boxed book set"
               loading="lazy"
             />
             <span>
-              <small>Paper culture</small>
-              <b>Ephemera &amp; print</b>
-              <em>Postcards, inserts, magazines.</em>
-            </span>
-          </a>
-          <a href="/shop#gallery">
-            <img
-              src="/open-access/hiroshige-rakan-dragon.jpg"
-              alt="Japanese surimono print showing a dragon emerging from a bowl"
-              loading="lazy"
-            />
-            <span>
-              <small>Chosen individually</small>
-              <b>Vintage highlights</b>
-              <em>Older pieces worth a closer look.</em>
+              <small>2021 · Scholastic boxed set</small>
+              <b>Pokémon Classic Adventure Collection</b>
+              <em>8 books · 16 stories · Good · $17.99</em>
             </span>
           </a>
         </div>
@@ -4047,15 +3996,6 @@ function LandingPage() {
         <div>
           <b>Pocket Archives LLC</b>
           <span>Independent collectibles shop</span>
-          <details className="landing-image-credits">
-            <summary>Image notes +</summary>
-            <p>
-              Arama Norisue and Goyu images: Rijksmuseum, Public Domain.
-              Utagawa Hiroshige image: The Met Open Access, CC0. Magic: The
-              Gathering imagery is unofficial fan content; portions are ©
-              Wizards of the Coast LLC.
-            </p>
-          </details>
         </div>
         <p>
           Pocket Archives is an independent business. All product names,

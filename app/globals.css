@@ -8752,8 +8752,7 @@ footer p {
   min-height: 720px;
   padding: clamp(76px, 9vh, 112px) 6vw 96px;
   display: grid;
-  grid-template-columns: minmax(380px, 0.95fr) minmax(480px, 1.05fr);
-  gap: 7vw;
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   background: var(--ink);
   color: #fff;
@@ -8762,7 +8761,7 @@ footer p {
 .landing-copy {
   position: relative;
   z-index: 2;
-  max-width: 760px;
+  max-width: 900px;
 }
 .landing-copy h1 {
   margin: 0;
@@ -9098,7 +9097,7 @@ footer p {
 }
 .landing-archive-cards {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 22px;
 }
 .landing-archive-cards a {
@@ -9111,7 +9110,7 @@ footer p {
 }
 .landing-archive-cards img {
   width: 100%;
-  aspect-ratio: 1;
+  aspect-ratio: 4 / 5;
   height: auto;
   min-height: 0;
   display: block;
