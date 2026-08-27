@@ -5580,7 +5580,9 @@ footer p {
   font-size: 10px;
   line-height: 1.4;
 }
-.artifact-primary img {
+.artifact-primary > img {
+  position: absolute;
+  inset: 8% 10%;
   width: 80%;
   height: 84%;
   max-width: none;
