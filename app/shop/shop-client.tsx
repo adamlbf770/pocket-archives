@@ -289,6 +289,7 @@ function BinderCollectionCard({ collection }: { collection: StoreCollection }) {
 
 export function ShopLanding() {
   const [query, setQuery] = useState("");
+  const [pieceCategory, setPieceCategory] = useState("all");
   const [setFilter, setSetFilter] = useState("all");
   const [rarityFilter, setRarityFilter] = useState("all");
   const [conditionFilter, setConditionFilter] = useState("all");
@@ -296,9 +297,39 @@ export function ShopLanding() {
   const [sort, setSort] = useState("featured");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [checkoutComplete, setCheckoutComplete] = useState(false);
-  const collectionEntries = demoInventory.filter(
-    (item) => !item.demo && Boolean(stripeCheckoutUrl(item)),
+  const collectionEntries = useMemo(
+    () => demoInventory.filter((item) => !item.demo && Boolean(stripeCheckoutUrl(item))),
+    [],
   );
+  const pieceCategories = useMemo(
+    () => [...new Set(collectionEntries.map((item) => item.category))],
+    [collectionEntries],
+  );
+  const visibleCollectionEntries = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    return collectionEntries.filter((item) => {
+      const searchable = [
+        item.title,
+        item.subtitle,
+        item.category,
+        item.year,
+        item.set,
+        item.series,
+        item.artist,
+        item.condition,
+        item.cardNumber,
+        ...item.pokemonNames,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return (
+        (pieceCategory === "all" || item.category === pieceCategory) &&
+        (!normalizedQuery || searchable.includes(normalizedQuery))
+      );
+    });
+  }, [collectionEntries, pieceCategory, query]);
   const galleryItems = galleryObjectIds
     .map((id) => demoInventory.find((item) => item.id === id))
     .filter((item): item is InventoryItem => Boolean(item && !item.demo));
@@ -380,46 +411,11 @@ export function ShopLanding() {
       <section className="physical-shop-hero">
         <p>POCKET ARCHIVES / SHOP</p>
         <h1>
-          Selected with <em>a reason.</em>
+          All <em>pieces.</em>
         </h1>
         <div className="physical-shop-hero-note">
           <span>Vintage cards, print, and collected pieces.</span>
-          <a href="#collections">Explore the shop ↓</a>
-        </div>
-      </section>
-      <section className="store-gallery curated-storefront" id="gallery">
-        <header className="store-room-heading">
-          <div>
-            <small>Website shop</small>
-            <h2>Curated offerings</h2>
-          </div>
-          <p>
-            Small releases, assembled by Pocket Archives.
-          </p>
-        </header>
-        <div className="curated-storefront-grid">
-          <article>
-            <span>01</span>
-            <small>Curated collections</small>
-            <h3>Cards that belong together.</h3>
-            <p>Artists, characters, and complete small sets.</p>
-          </article>
-          <article>
-            <span>02</span>
-            <small>Ephemera &amp; print</small>
-            <h3>More than the card game.</h3>
-            <p>Postcards, inserts, magazines, and promos.</p>
-          </article>
-          <article>
-            <span>03</span>
-            <small>Vintage highlights</small>
-            <h3>Selected pieces with context.</h3>
-            <p>Older material worth a closer presentation.</p>
-          </article>
-        </div>
-        <div className="curated-storefront-status">
-          <small>Small releases · selected with context</small>
-          <h3>The collection begins below.</h3>
+          <a href="#collections">Browse the shop ↓</a>
         </div>
       </section>
       {collectionEntries.length > 0 && (
@@ -429,14 +425,44 @@ export function ShopLanding() {
               Purchase complete. Thank you — Pocket Archives will prepare your piece for shipment.
             </p>
           )}
-          <header className="store-room-heading">
-            <div>
-              <small>Curated collections</small>
-              <h2>All pieces</h2>
-            </div>
-          </header>
+          <div className="shop-discovery-bar">
+            <label className="shop-piece-search">
+              <span>Search all pieces</span>
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Title, artist, year, or category"
+                aria-label="Search shop pieces"
+              />
+            </label>
+            <nav className="shop-piece-nav" aria-label="Shop categories">
+              <button
+                type="button"
+                className={pieceCategory === "all" ? "active" : ""}
+                aria-pressed={pieceCategory === "all"}
+                onClick={() => setPieceCategory("all")}
+              >
+                All
+              </button>
+              {pieceCategories.map((category) => (
+                <button
+                  type="button"
+                  key={category}
+                  className={pieceCategory === category ? "active" : ""}
+                  aria-pressed={pieceCategory === category}
+                  onClick={() => setPieceCategory(category)}
+                >
+                  {category}
+                </button>
+              ))}
+            </nav>
+            <small className="shop-piece-count">
+              {visibleCollectionEntries.length} {visibleCollectionEntries.length === 1 ? "piece" : "pieces"}
+            </small>
+          </div>
           <div className="collection-product-grid">
-            {collectionEntries.map((item) => {
+            {visibleCollectionEntries.map((item) => {
               const checkoutUrl = stripeCheckoutUrl(item);
               return (
                 <article className="collection-product-card" key={item.id}>
@@ -465,9 +491,53 @@ export function ShopLanding() {
                 </article>
               );
             })}
+            {visibleCollectionEntries.length === 0 && (
+              <div className="store-no-results">
+                <small>No matches</small>
+                <h3>Try another search.</h3>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setQuery("");
+                    setPieceCategory("all");
+                  }}
+                >
+                  Clear search
+                </button>
+              </div>
+            )}
           </div>
         </section>
       )}
+      <section className="store-gallery curated-storefront" id="gallery">
+        <header className="store-room-heading">
+          <div>
+            <small>Website shop</small>
+            <h2>Curated offerings</h2>
+          </div>
+          <p>Small releases, assembled by Pocket Archives.</p>
+        </header>
+        <div className="curated-storefront-grid">
+          <article>
+            <span>01</span>
+            <small>Curated collections</small>
+            <h3>Cards that belong together.</h3>
+            <p>Artists, characters, and complete small sets.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <small>Ephemera &amp; print</small>
+            <h3>More than the card game.</h3>
+            <p>Postcards, inserts, magazines, and promos.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <small>Vintage highlights</small>
+            <h3>Selected pieces with context.</h3>
+            <p>Older material worth a closer presentation.</p>
+          </article>
+        </div>
+      </section>
       <footer className="shop-footer physical-shop-footer">
         <DemoNotice />
         <p>

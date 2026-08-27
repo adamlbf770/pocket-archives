@@ -4797,6 +4797,79 @@ footer p {
 .store-collections.live-collection {
   padding: 44px 4vw 68px;
 }
+.shop-discovery-bar {
+  margin-bottom: 32px;
+  padding: 0 0 22px;
+  border-bottom: 1px solid var(--ink);
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) auto auto;
+  align-items: end;
+  gap: 18px 28px;
+}
+.shop-piece-search {
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+}
+.shop-piece-search span,
+.shop-piece-count {
+  color: #77736a;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 7px;
+  font-weight: 900;
+}
+.shop-piece-search input {
+  width: 100%;
+  padding: 0 0 8px;
+  border: 0;
+  border-bottom: 1px solid #aaa69c;
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: Georgia, serif;
+  font-size: 14px;
+}
+.shop-piece-search input:focus {
+  border-color: var(--orange);
+}
+.shop-piece-search input::placeholder {
+  color: #8d897f;
+}
+.shop-piece-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.shop-piece-nav button {
+  min-height: 34px;
+  padding: 0 13px;
+  border: 1px solid #aaa69c;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-size: 7px;
+  font-weight: 900;
+  transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+.shop-piece-nav button:hover,
+.shop-piece-nav button:focus-visible {
+  border-color: var(--ink);
+}
+.shop-piece-nav button.active {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #fff;
+}
+.shop-piece-count {
+  padding-bottom: 10px;
+  white-space: nowrap;
+}
 .live-collection .store-room-heading {
   margin-bottom: 24px;
   padding-top: 12px;
@@ -10121,6 +10194,25 @@ footer p {
   .collection-product-grid {
     grid-template-columns: repeat(auto-fill, minmax(120px, 150px));
     gap: 28px 12px;
+  }
+  .shop-discovery-bar {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+  }
+  .shop-piece-nav {
+    width: calc(100% + 40px);
+    margin: 0 -20px;
+    padding: 0 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .shop-piece-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .shop-piece-count {
+    padding-bottom: 0;
   }
   .collection-product-image {
     padding: 12px;
