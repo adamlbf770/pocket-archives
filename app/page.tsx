@@ -3929,19 +3929,12 @@ function LandingPage() {
             </a>
           </div>
         </div>
-        <div className="landing-hero-visual" aria-hidden="true">
-          <div className="landing-hero-emblem">
-            <img src="/pocket-archives-logo.png" alt="" />
-          </div>
+        <div className="landing-hero-photo" aria-hidden="true">
+          <img src="/hero-collector-table-v2.jpg" alt="" />
           <p>
-            <span>Collect</span>
-            <span>Study</span>
-            <span>Keep</span>
+            <span>The collector&apos;s table</span>
+            <span>Cards · art · print</span>
           </p>
-        </div>
-        <div className="landing-hero-foot" aria-hidden="true">
-          <span>Cards · art · print · culture</span>
-          <span>New York · Est. 2026</span>
         </div>
       </section>
 
