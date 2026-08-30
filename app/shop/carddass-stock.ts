@@ -98,6 +98,5 @@ function carddassItem({
 
 export const carddassShopStock: InventoryItem[] = [
   carddassItem({ accessionNumber: "PA-3642", id: "LIVE-032", slug: "chansey-bandai-carddass-file-113-pa-3642", title: "Chansey", fileNumber: "113", pokemonId: 113, price: 19.99 }),
-  carddassItem({ accessionNumber: "PA-3644", id: "LIVE-034", slug: "hypno-bandai-carddass-file-097-pa-3644", title: "Hypno", fileNumber: "097", pokemonId: 97, price: 13.49 }),
   carddassItem({ accessionNumber: "PA-3645", id: "LIVE-035", slug: "marowak-bandai-carddass-file-105-pa-3645", title: "Marowak", fileNumber: "105", pokemonId: 105, price: 9.49 }),
 ];
