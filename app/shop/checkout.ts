@@ -9,6 +9,7 @@ const STRIPE_CHECKOUT_LINKS: Record<string, string> = {
   "PA-3642": "https://buy.stripe.com/5kQfZa2i2eG31wueum6g805",
   "PA-3644": "https://buy.stripe.com/28E00c6yigOb5MK1HA6g807",
   "PA-3645": "https://buy.stripe.com/9B6dR2aOydBZejg9a26g808",
+  "PA-TOPPS-028": "https://buy.stripe.com/14A28k6yi41p2Ayae66g809",
 };
 
 export function stripeCheckoutUrl(item: InventoryItem) {
