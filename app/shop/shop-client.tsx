@@ -5,13 +5,13 @@ import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointer
 import {
   EXTERNAL_SHOP_URL,
   SHOP_HOME,
-  demoInventory,
   formatPrice,
   recordStateLabel,
   shopObjectUrl,
   statusLabel,
   type InventoryItem,
 } from "./catalog";
+import { shopInventory as demoInventory } from "./all-inventory";
 import { lotForObject } from "../sales/sale-data";
 import {
   collectionTypeLabel,

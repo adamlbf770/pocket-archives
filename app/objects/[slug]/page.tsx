@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
-import { demoInventory, EXTERNAL_SHOP_URL, inventoryBySlug } from "../../shop/catalog";
+import { EXTERNAL_SHOP_URL } from "../../shop/catalog";
+import { shopInventory as demoInventory, shopInventoryBySlug as inventoryBySlug } from "../../shop/all-inventory";
 import { stripeCheckoutUrl } from "../../shop/checkout";
 import { ArtifactPage } from "../../shop/shop-client";
 
