@@ -55,6 +55,10 @@ let preserved = 0;
 for (const record of needsPreview) {
   for (const side of ["front", "back"]) {
     const source = findSource(record.sku, side);
+    if (!source && side === "back" && /back scan pending/i.test(record.status ?? "")) {
+      console.log(`Skipping intentionally pending back scan for ${record.sku}.`);
+      continue;
+    }
     if (!source) throw new Error(`Missing local ${side} scan for ${record.sku}`);
     const output = resolve(outputRoot, `${record.sku}_${side}.jpg`);
     const [sourceInfo, outputInfo] = await Promise.all([

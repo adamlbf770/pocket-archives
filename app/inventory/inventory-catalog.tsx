@@ -20,6 +20,7 @@ type Record = {
   finish: string;
   condition: string;
   rarity: string;
+  artist: string;
   boxId: string;
   box: string;
   status: string;
@@ -53,7 +54,7 @@ export default function InventoryCatalog({
     const needle = query.trim().toLowerCase();
     const setNeedle = setFilter.trim().toLowerCase();
     return records.filter((record) => {
-      const matchesQuery = !needle || [record.name, record.sku, record.number]
+      const matchesQuery = !needle || [record.name, record.sku, record.number, record.artist]
         .some((value) => value.toLowerCase().includes(needle));
       const matchesSet = !setNeedle || record.set.toLowerCase().includes(setNeedle);
       return matchesQuery && matchesSet && (box === "all" || record.boxId === box) &&
@@ -85,8 +86,8 @@ export default function InventoryCatalog({
 
       <section className="inventory-controls">
         <label className="inventory-search">
-          <span>CARD NAME, SKU, OR NUMBER</span>
-          <input value={query} onChange={(event) => { setQuery(event.target.value); resetLimit(); }} placeholder="Pikachu, PA-0182, 58/102…" autoComplete="off" />
+          <span>CARD NAME, ARTIST, SKU, OR NUMBER</span>
+          <input value={query} onChange={(event) => { setQuery(event.target.value); resetLimit(); }} placeholder="Pikachu, Yuka Morii, PA-0182…" autoComplete="off" />
         </label>
         <label><span>SET</span><input value={setFilter} onChange={(event) => { setSetFilter(event.target.value); resetLimit(); }} placeholder="Base Set, Jungle…" autoComplete="off" /></label>
         <label><span>GAME</span><select value={game} onChange={(event) => { setGame(event.target.value); resetLimit(); }}><option value="all">All games</option>{games.map((value) => <option key={value}>{value}</option>)}</select></label>
@@ -129,6 +130,7 @@ export default function InventoryCatalog({
                 <div><dt>Game</dt><dd>{selected.game}</dd></div><div><dt>Year</dt><dd>{selected.year || "—"}</dd></div>
                 <div><dt>Condition</dt><dd>{selected.condition}</dd></div><div><dt>Finish</dt><dd>{selected.finish}</dd></div>
                 <div><dt>Language</dt><dd>{selected.language}</dd></div><div><dt>Status</dt><dd>{selected.status}</dd></div>
+                <div><dt>Artist</dt><dd>{selected.artist}</dd></div><div><dt>Rarity</dt><dd>{selected.rarity}</dd></div>
               </dl>
               {selected.listingUrl && <a href={selected.listingUrl} target="_blank" rel="noreferrer">OPEN EBAY LISTING ↗</a>}
             </div>

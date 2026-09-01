@@ -118,12 +118,12 @@ const localPreviewFiles = new Set(
 
 const records = storage.assignments.map((assignment) => {
   const manifest = manifestBySku.get(assignment.sku) ?? {};
-  const listingId = first(manifest, "listingId", "ebayListingId");
+  const listingId = first(manifest, "listingId", "ebayListingId") || assignment.listingId || "";
   const active = activeBySku.get(assignment.sku) ?? activeById.get(listingId);
   const images = imageAttachments[assignment.sku]?.imageUrls ?? [];
   const localFront = `${assignment.sku}_front.jpg`;
   const localBack = `${assignment.sku}_back.jpg`;
-  const priceText = active?.price ?? first(manifest, "price", "proposedPrice");
+  const priceText = active?.price ?? (first(manifest, "price", "proposedPrice") || assignment.price);
   const price = Number(priceText);
   return {
     sku: assignment.sku,
@@ -136,6 +136,7 @@ const records = storage.assignments.map((assignment) => {
     finish: assignment.finish || first(manifest, "finish", "variantFinish") || "Unknown",
     condition: first(manifest, "condition") || "Not recorded",
     rarity: first(manifest, "rarity") || "Not recorded",
+    artist: assignment.artist || first(manifest, "artist", "illustrator") || "Not recorded",
     boxId: assignment.boxId,
     box: assignment.inventoryLocation || boxLabelById.get(assignment.boxId) || assignment.boxId,
     status: active
@@ -143,7 +144,7 @@ const records = storage.assignments.map((assignment) => {
       : displayStatus(assignment.status || first(manifest, "status", "ebayStatus", "listingStatus")),
     price: Number.isFinite(price) && price > 0 ? price : null,
     listingId: active?.itemId || listingId || null,
-    listingUrl: active?.viewItemUrl || first(manifest, "ebayUrl") || null,
+    listingUrl: active?.viewItemUrl || first(manifest, "ebayUrl") || assignment.listingUrl || null,
     frontImage: images[0] || (localPreviewFiles.has(localFront) ? `/inventory-previews/${localFront}` : null),
     backImage: images[1] || (localPreviewFiles.has(localBack) ? `/inventory-previews/${localBack}` : null),
   };
