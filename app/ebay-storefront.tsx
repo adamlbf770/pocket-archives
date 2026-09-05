@@ -41,10 +41,7 @@ export function StorefrontHome({ hero, categories, counts, total }: { hero: Publ
           </div>
         </div>
         <a className="ebay-hero-feature" href={hero.listingUrl} target="_blank" rel="noreferrer" aria-label={`View ${hero.name} on eBay`}>
-          <span><img src={hero.frontImage} alt={`${hero.name} — ${hero.set}`} /></span>
-          <small>Featured now · {hero.game}</small>
-          <div><b>{hero.name}</b><strong>{money(hero.price)}</strong></div>
-          <i>View listing ↗</i>
+          <img src={hero.frontImage} alt={`${hero.name} — ${hero.set}`} />
         </a>
       </section>
 
