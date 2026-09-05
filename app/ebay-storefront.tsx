@@ -26,7 +26,8 @@ function ProductCard({ item, priority = false }: { item: PublicEbayListing; prio
   );
 }
 
-export function StorefrontHome({ featured, latest, counts, total }: { featured: PublicEbayListing[]; latest: PublicEbayListing[]; counts: Record<string, number>; total: number }) {
+export function StorefrontHome({ hero, categories, counts, total }: { hero: PublicEbayListing; categories: PublicEbayListing[]; counts: Record<string, number>; total: number }) {
+  const categoryOrder = ["Pokémon", "Dragon Ball Super", "Magic: The Gathering", "Riftbound"];
   return (
     <>
       <section className="ebay-home-hero">
@@ -39,9 +40,12 @@ export function StorefrontHome({ featured, latest, counts, total }: { featured: 
             <Link className="ebay-text-action" href="/shop">Browse the storefront →</Link>
           </div>
         </div>
-        <div className="ebay-hero-cards" aria-label="Featured listings">
-          {featured.slice(0, 4).map((item, index) => <ProductCard key={item.sku} item={item} priority={index < 2} />)}
-        </div>
+        <a className="ebay-hero-feature" href={hero.listingUrl} target="_blank" rel="noreferrer" aria-label={`View ${hero.name} on eBay`}>
+          <span><img src={hero.frontImage} alt={`${hero.name} — ${hero.set}`} /></span>
+          <small>Featured now · {hero.game}</small>
+          <div><b>{hero.name}</b><strong>{money(hero.price)}</strong></div>
+          <i>View listing ↗</i>
+        </a>
       </section>
 
       <section className="ebay-trust-strip" aria-label="Shopping information">
@@ -52,11 +56,28 @@ export function StorefrontHome({ featured, latest, counts, total }: { featured: 
 
       <section className="ebay-home-section">
         <header className="ebay-section-heading">
-          <div><small>Recently listed</small><h2>Fresh from the shop.</h2></div>
-          <Link href="/shop">See every listing →</Link>
+          <div><small>Fresh from the shop</small><h2>Pick your game.</h2></div>
+          <Link href="/shop">Browse the catalog →</Link>
         </header>
-        <div className="ebay-product-grid ebay-home-grid">
-          {latest.slice(0, 8).map((item) => <ProductCard key={item.sku} item={item} />)}
+        <div className="ebay-category-grid">
+          {categoryOrder.map((game) => {
+            const item = categories.find((candidate) => candidate.game === game);
+            return item ? (
+              <Link key={game} href={`/shop?game=${encodeURIComponent(game)}`} className="ebay-category-card">
+                <span><img src={item.frontImage} alt="" loading="lazy" /></span>
+                <small>{counts[game]?.toLocaleString() || 0} live listings</small>
+                <div><b>{game === "Dragon Ball Super" ? "Dragon Ball" : game.replace(": The Gathering", "")}</b><i>Browse →</i></div>
+              </Link>
+            ) : null;
+          })}
+          <div className="ebay-category-card ebay-category-coming">
+            <small>Expanding the archive</small>
+            <div><b>Sorcery</b><i>Coming soon</i></div>
+          </div>
+          <a className="ebay-category-card ebay-category-all" href={EXTERNAL_SHOP_URL} target="_blank" rel="noreferrer">
+            <small>The complete shop</small>
+            <div><b>All {total.toLocaleString()}</b><i>Open eBay ↗</i></div>
+          </a>
         </div>
       </section>
 
