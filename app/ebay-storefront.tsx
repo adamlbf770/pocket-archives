@@ -27,7 +27,7 @@ function ProductCard({ item, priority = false }: { item: PublicEbayListing; prio
 }
 
 export function StorefrontHome({ featured, categories, counts, total }: { featured: PublicEbayListing[]; categories: PublicEbayListing[]; counts: Record<string, number>; total: number }) {
-  const categoryOrder = ["Pokémon", "Dragon Ball Super", "Magic: The Gathering", "Riftbound"];
+  const categoryOrder = ["Pokémon", "One Piece Card Game", "Dragon Ball Super", "Magic: The Gathering", "Riftbound"];
   const [activeFeature, setActiveFeature] = useState(0);
   const [carouselPaused, setCarouselPaused] = useState(false);
   const hero = featured[activeFeature] || featured[0];
@@ -86,7 +86,7 @@ export function StorefrontHome({ featured, categories, counts, total }: { featur
               <Link key={game} href={`/shop?game=${encodeURIComponent(game)}`} className="ebay-category-card">
                 <span><img src={item.frontImage} alt="" loading="lazy" /></span>
                 <small>{counts[game]?.toLocaleString() || 0} live listings</small>
-                <div><b>{game === "Dragon Ball Super" ? "Dragon Ball" : game.replace(": The Gathering", "")}</b><i>Browse →</i></div>
+                <div><b>{game === "Dragon Ball Super" ? "Dragon Ball" : game === "One Piece Card Game" ? "One Piece" : game.replace(": The Gathering", "")}</b><i>Browse →</i></div>
               </Link>
             ) : null;
           })}

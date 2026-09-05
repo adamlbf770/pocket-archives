@@ -8,7 +8,7 @@ export default function HomePage() {
     .filter((item): item is (typeof publicEbayListings)[number] => Boolean(item))
     .filter((item, index, items) => items.findIndex((candidate) => candidate.sku === item.sku) === index)
     .slice(0, 6);
-  const categories = ["Pokémon", "Dragon Ball Super", "Magic: The Gathering", "Riftbound"]
+  const categories = ["Pokémon", "One Piece Card Game", "Dragon Ball Super", "Magic: The Gathering", "Riftbound"]
     .map((game) => publicEbayListings.find((item) => item.game === game))
     .filter((item): item is (typeof publicEbayListings)[number] => Boolean(item));
 
