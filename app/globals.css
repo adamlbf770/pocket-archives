@@ -103,8 +103,17 @@
   box-shadow: 22px 22px 0 var(--orange);
   transition: transform .2s ease, box-shadow .2s ease;
 }
+.ebay-hero-carousel { width: 100%; display: grid; justify-items: center; gap: 28px; }
 .ebay-hero-feature:hover { transform: translate(-5px, -5px); box-shadow: 30px 30px 0 var(--orange); }
-.ebay-hero-feature img { width: 100%; height: 100%; display: block; object-fit: contain; }
+.ebay-hero-feature img { width: 100%; height: 100%; display: block; object-fit: contain; animation: ebay-card-arrive .42s ease both; }
+.ebay-carousel-controls { min-width: 260px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.ebay-carousel-controls > button { width: 38px; height: 38px; border: 1px solid #6d6a62; border-radius: 50%; background: transparent; color: var(--paper); cursor: pointer; font-size: 17px; }
+.ebay-carousel-controls > button:hover, .ebay-carousel-controls > button:focus-visible { border-color: var(--orange); color: var(--orange); }
+.ebay-carousel-controls > span { display: flex; gap: 8px; }
+.ebay-carousel-controls > span button { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; background: #69665e; cursor: pointer; }
+.ebay-carousel-controls > span button.is-active { width: 22px; border-radius: 8px; background: var(--orange); }
+@keyframes ebay-card-arrive { from { opacity: 0; transform: translateY(10px) scale(.985); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .ebay-hero-feature img { animation: none; } }
 .ebay-trust-strip {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

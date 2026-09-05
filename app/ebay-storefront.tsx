@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { PublicEbayListing } from "./ebay-storefront-data";
 import { EXTERNAL_SHOP_URL } from "./shop/catalog";
 
@@ -26,8 +26,24 @@ function ProductCard({ item, priority = false }: { item: PublicEbayListing; prio
   );
 }
 
-export function StorefrontHome({ hero, categories, counts, total }: { hero: PublicEbayListing; categories: PublicEbayListing[]; counts: Record<string, number>; total: number }) {
+export function StorefrontHome({ featured, categories, counts, total }: { featured: PublicEbayListing[]; categories: PublicEbayListing[]; counts: Record<string, number>; total: number }) {
   const categoryOrder = ["Pokémon", "Dragon Ball Super", "Magic: The Gathering", "Riftbound"];
+  const [activeFeature, setActiveFeature] = useState(0);
+  const [carouselPaused, setCarouselPaused] = useState(false);
+  const hero = featured[activeFeature] || featured[0];
+
+  useEffect(() => {
+    if (carouselPaused || featured.length < 2) return;
+    const timer = window.setInterval(() => {
+      setActiveFeature((current) => (current + 1) % featured.length);
+    }, 6500);
+    return () => window.clearInterval(timer);
+  }, [carouselPaused, featured.length]);
+
+  function moveFeature(direction: number) {
+    setActiveFeature((current) => (current + direction + featured.length) % featured.length);
+  }
+
   return (
     <>
       <section className="ebay-home-hero">
@@ -40,9 +56,16 @@ export function StorefrontHome({ hero, categories, counts, total }: { hero: Publ
             <Link className="ebay-text-action" href="/shop">Browse the storefront →</Link>
           </div>
         </div>
-        <a className="ebay-hero-feature" href={hero.listingUrl} target="_blank" rel="noreferrer" aria-label={`View ${hero.name} on eBay`}>
-          <img src={hero.frontImage} alt={`${hero.name} — ${hero.set}`} />
-        </a>
+        <div className="ebay-hero-carousel" onMouseEnter={() => setCarouselPaused(true)} onMouseLeave={() => setCarouselPaused(false)} onFocusCapture={() => setCarouselPaused(true)} onBlurCapture={() => setCarouselPaused(false)}>
+          <a className="ebay-hero-feature" href={hero.listingUrl} target="_blank" rel="noreferrer" aria-label={`View ${hero.name} on eBay`}>
+            <img key={hero.sku} src={hero.frontImage} alt={`${hero.name} — ${hero.set}`} />
+          </a>
+          <div className="ebay-carousel-controls" aria-label="Featured listing carousel">
+            <button type="button" onClick={() => moveFeature(-1)} aria-label="Previous featured card">←</button>
+            <span>{featured.map((item, index) => <button key={item.sku} type="button" className={index === activeFeature ? "is-active" : ""} onClick={() => setActiveFeature(index)} aria-label={`Show ${item.name}`} />)}</span>
+            <button type="button" onClick={() => moveFeature(1)} aria-label="Next featured card">→</button>
+          </div>
+        </div>
       </section>
 
       <section className="ebay-trust-strip" aria-label="Shopping information">
