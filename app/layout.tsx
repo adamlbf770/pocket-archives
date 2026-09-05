@@ -3,9 +3,9 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://pocketarchives.com"),
-  title: "Pocket Archives — Curated Trading Cards & Collecting Culture",
+  title: "Pocket Archives — Independent Collectibles on eBay",
   description:
-    "An independent shop for trading cards, curated collections, vintage material, and collectible ephemera.",
+    "Browse current Pocket Archives eBay listings: vintage trading cards, Japanese collectibles, graded cards, and new finds photographed individually.",
   icons: { icon: "/favicon.png", shortcut: "/favicon.png" },
 };
 

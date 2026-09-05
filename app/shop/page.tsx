@@ -1,13 +1,22 @@
 import type { Metadata } from "next";
-import { ShopLanding } from "./shop-client";
+import { GlobalHeader } from "../site-navigation";
+import { EbayCatalog } from "../ebay-storefront";
+import { publicEbayListings, storefrontCatalogListings } from "../ebay-storefront-data";
 
 export const metadata: Metadata = {
   title: "Shop — Pocket Archives",
-  description: "Curated collections, vintage material, ephemera, and special grouped offerings from Pocket Archives.",
-  openGraph: { title: "Pocket Archives Shop", description: "Curated collections and collectible material, selected with a reason.", images: ["/og-shop.png"] },
-  twitter: { card: "summary_large_image", title: "Pocket Archives Shop", description: "Curated collections and collectible material, selected with a reason.", images: ["/og-shop.png"] },
+  description: "Browse the current Pocket Archives eBay inventory by card, set, game, artist, condition, and price.",
+  openGraph: { title: "Pocket Archives eBay Storefront", description: "Vintage cards, new finds, and actual-item photography from Pocket Archives.", images: ["/og-shop.png"] },
+  twitter: { card: "summary_large_image", title: "Pocket Archives eBay Storefront", description: "Vintage cards, new finds, and actual-item photography from Pocket Archives.", images: ["/og-shop.png"] },
 };
 
-export default function ShopPage() {
-  return <ShopLanding />;
+export default async function ShopPage({ searchParams }: { searchParams?: Promise<{ game?: string }> }) {
+  const params = searchParams ? await searchParams : {};
+  return (
+    <main className="ebay-storefront">
+      <GlobalHeader active="shop" />
+      <EbayCatalog listings={storefrontCatalogListings()} total={publicEbayListings.length} initialGame={params.game || "all"} />
+      <footer className="ebay-footer"><b>POCKET ARCHIVES</b><span>Purchases are completed securely on eBay.</span></footer>
+    </main>
+  );
 }

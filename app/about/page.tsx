@@ -48,8 +48,8 @@ export default function AboutPage() {
             worth caring about.
           </p>
           <div className="about-story-actions">
-            <a href="/#cards">Browse cards →</a>
-            <a href="/#collections">Explore collections →</a>
+            <a href="/shop">Browse the catalog →</a>
+            <a href="https://www.ebay.com/str/pocketarchives" target="_blank" rel="noreferrer">Visit the eBay store ↗</a>
           </div>
         </div>
       </section>

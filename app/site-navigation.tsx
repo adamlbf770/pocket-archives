@@ -10,10 +10,10 @@ export function GlobalHeader({ active }: { active?: NavigationPage }) {
   const links = (
     <>
       <Link href="/" aria-current={current("home")}>Home</Link>
-      <Link href="/shop" aria-current={current("shop")}>Shop</Link>
+      <Link href="/shop" aria-current={current("shop")}>Browse</Link>
       <Link href="/about" aria-current={current("about")}>About</Link>
       <a className="global-ebay-link" href={EXTERNAL_SHOP_URL}>
-        Cards on eBay <span aria-hidden="true">↗</span>
+        eBay Store <span aria-hidden="true">↗</span>
       </a>
     </>
   );
@@ -26,7 +26,7 @@ export function GlobalHeader({ active }: { active?: NavigationPage }) {
         </span>
         <span>
           <strong>POCKET ARCHIVES</strong>
-          <small>Collectibles · collections · culture</small>
+          <small>Independent collectibles shop</small>
         </span>
       </Link>
       <nav className="global-desktop-nav" aria-label="Primary navigation">
