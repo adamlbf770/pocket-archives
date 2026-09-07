@@ -917,6 +917,39 @@ body {
 .source-health-details .source-health-table > article { min-height: 120px; padding: 19px 12px; }
 .source-health-details .source-health-table p { font-family: Arial, Helvetica, sans-serif; font-size: 10px; }
 .source-health-app .source-health-footer { padding: 18px 2px; font-family: Arial, Helvetica, sans-serif; font-size: 9px; }
+.market-dashboard-grid { margin-top: 28px; display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(300px, .85fr); gap: 12px; }
+.market-panel { min-width: 0; padding: 20px; border: 1px solid var(--app-line); border-radius: 14px; background: var(--app-panel); box-shadow: 0 5px 18px rgba(25, 43, 36, .025); }
+.market-panel > header { min-height: 42px; margin-bottom: 18px; display: flex; align-items: start; justify-content: space-between; gap: 16px; }
+.market-panel > header div { display: grid; gap: 4px; }
+.market-panel > header small { color: #89938f; font-size: 8px; font-weight: 800; letter-spacing: .14em; }
+.market-panel > header h2 { margin: 0; font-size: 17px; letter-spacing: -.03em; }
+.market-panel > header > span, .market-panel > header > a { color: #89938f; font-size: 9px; text-decoration: none; }
+.market-sales-panel { grid-column: 1; }
+.market-line-chart svg { width: 100%; height: auto; overflow: visible; }
+.market-line-chart > div { margin-top: -2px; display: flex; justify-content: space-between; color: #8b9591; font-size: 8px; }
+.market-gridline { stroke: #e8ecea; stroke-width: 1; }
+.market-trend-line { fill: none; stroke: #2e7651; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.market-trend-dot { fill: #d9ff72; stroke: #1e563b; stroke-width: 3; }
+.market-position-score { min-height: 94px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: center; border-bottom: 1px solid var(--app-line); }
+.market-position-score b { font-size: 36px; letter-spacing: -.06em; }
+.market-position-score span { max-width: 145px; color: #7d8984; font-size: 9px; line-height: 1.4; }
+.market-position-bars, .market-game-bars { margin-top: 18px; display: grid; gap: 14px; }
+.market-position-bars > div, .market-game-bars > div { display: grid; gap: 7px; }
+.market-position-bars span, .market-game-bars span { display: flex; justify-content: space-between; gap: 12px; font-size: 9px; }
+.market-position-bars em, .market-game-bars em { color: #7d8884; font-style: normal; }
+.market-position-bars > div::after, .market-game-bars > div::after { content: ""; height: 6px; grid-area: 2 / 1; border-radius: 99px; background: #edf0ee; }
+.market-position-bars i, .market-game-bars i { z-index: 1; height: 6px; grid-area: 2 / 1; border-radius: 99px; background: #7caaa2; }
+.market-position-bars i.is-good { background: #57bd77; }.market-position-bars i.is-high { background: #f0ae55; }.market-position-bars i.is-low { background: #74a1d2; }
+.market-position-panel > p { margin: 18px 0 0; color: #8a9490; font-size: 8px; line-height: 1.45; }
+.market-game-panel, .market-source-panel, .market-sales-mix, .market-top-listings { min-height: 280px; }
+.market-game-bars i { background: #316d59; }
+.market-source-row { min-height: 66px; display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; gap: 12px; align-items: center; border-top: 1px solid var(--app-line); }
+.market-source-row > i { width: 8px; height: 8px; border-radius: 50%; background: #aab2af; }.market-source-row.is-connected > i { background: #55c57b; }.market-source-row.is-warning > i { background: #efa84f; }.market-source-row.is-locked > i { background: #8d9692; }
+.market-source-row > span { display: grid; gap: 4px; }.market-source-row b { font-size: 10px; }.market-source-row small { color: #818c88; font-size: 8px; line-height: 1.35; }.market-source-row em { color: #73807a; font-size: 8px; font-style: normal; font-weight: 700; text-transform: uppercase; }
+.market-sales-mix > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.market-sales-mix > div > span { min-height: 64px; padding: 12px; display: grid; align-content: center; gap: 5px; border-radius: 9px; background: #f4f7f5; }.market-sales-mix b { font-size: 10px; }.market-sales-mix em { color: #79857f; font-size: 8px; font-style: normal; }
+.market-top-listings > div { display: grid; }.market-top-listings a { min-height: 57px; padding: 9px 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; border-top: 1px solid var(--app-line); color: inherit; text-decoration: none; }.market-top-listings a > span { min-width: 0; display: grid; gap: 4px; }.market-top-listings a b { overflow: hidden; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }.market-top-listings a small { color: #8a9490; font-size: 8px; }.market-top-listings a em { font-size: 10px; font-style: normal; font-weight: 800; }
+.market-footer { padding: 24px 2px 0; color: #89938f; font-size: 8px; }
 @media (max-width: 980px) {
   .inventory-app-shell { grid-template-columns: 76px minmax(0, 1fr); }
   .inventory-sidebar { padding-inline: 10px; }
@@ -936,7 +969,7 @@ body {
   .inventory-app-shell { display: block; padding-bottom: 64px; }
   .inventory-sidebar { min-height: 0; height: 62px; position: fixed; z-index: 20; inset: auto 0 0; padding: 7px 12px; display: block; }
   .inventory-app-brand, .inventory-sidebar-footer { display: none; }
-  .inventory-sidebar nav { height: 48px; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  .inventory-sidebar nav { height: 48px; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
   .inventory-sidebar nav a { min-height: 48px; display: grid; place-items: center; gap: 0; font-size: 8px; }
   .inventory-sidebar nav a > span { line-height: 1; font-size: 18px; }
   .inventory-workspace { padding: 22px 14px 40px; }
@@ -958,6 +991,8 @@ body {
   .source-health-compact-lock { align-items: flex-start; flex-direction: column; }
   .source-health-details .source-health-table > header { display: none; }
   .source-health-details .source-health-table > article { grid-template-columns: 1fr 1fr; }
+  .market-dashboard-grid { grid-template-columns: 1fr; }
+  .market-sales-panel { grid-column: auto; }
 }
 @media (max-width: 900px) { .source-health-heading { grid-template-columns: 1fr; min-height: 500px; } .source-health-scoreboard { grid-template-columns: repeat(2, 1fr); } .source-health-table > header { display: none; } .source-health-table > article { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 760px) {

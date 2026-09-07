@@ -57,6 +57,7 @@ export default async function SourceHealthPage() {
         <nav aria-label="Pocket Archives app">
           <Link href="/inventory"><span aria-hidden="true">⌂</span>Dashboard</Link>
           <Link href="/inventory#card-search"><span aria-hidden="true">⌕</span>Find a card</Link>
+          <Link href="/market"><span aria-hidden="true">↗</span>Market</Link>
           <Link className="is-active" href="/source-health"><span aria-hidden="true">◉</span>Source health</Link>
         </nav>
         <div className="inventory-sidebar-footer"><span>{user.fullName || user.displayName}</span></div>
