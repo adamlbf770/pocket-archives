@@ -839,6 +839,12 @@ body {
 .inventory-app-header h1 { margin: 5px 0 0; font-size: 30px; font-weight: 650; letter-spacing: -.045em; }
 .inventory-live-status { padding: 8px 11px; display: flex; align-items: center; gap: 7px; border: 1px solid var(--app-line); border-radius: 99px; background: var(--app-panel); color: #63706b; font-size: 10px; font-weight: 700; }
 .inventory-live-status i { width: 7px; height: 7px; border-radius: 50%; background: #5bc982; box-shadow: 0 0 0 3px #e3f7e9; }
+.inventory-sync-control { display: flex; align-items: center; gap: 12px; }
+.inventory-sync-control > button { min-height: 42px; padding: 0 15px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid rgba(25, 24, 18, .12); border-radius: 10px; background: var(--app-accent); color: var(--app-ink); cursor: pointer; font-size: 10px; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
+.inventory-sync-control > button:hover { filter: brightness(1.03); }
+.inventory-sync-control > button:disabled { cursor: wait; opacity: .68; }
+.inventory-sync-control > button span { font-size: 17px; line-height: 1; }
+.inventory-sync-message { margin: 14px 0 -10px; padding: 11px 14px; border: 1px solid rgba(25, 24, 18, .1); border-radius: 10px; background: rgba(220, 233, 79, .22); color: #52605b; font-size: 11px; line-height: 1.4; }
 .inventory-stat-grid { margin-top: 25px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .inventory-stat-grid article { min-height: 128px; padding: 19px 20px; display: grid; align-content: start; border: 1px solid var(--app-line); border-radius: 14px; background: var(--app-panel); box-shadow: 0 5px 18px rgba(25, 43, 36, .025); }
 .inventory-stat-grid article > span { color: var(--app-muted); font-size: 11px; font-weight: 650; }
@@ -986,7 +992,11 @@ body {
   .inventory-sidebar nav a { min-height: 48px; display: grid; place-items: center; gap: 0; font-size: 8px; }
   .inventory-sidebar nav a > span { line-height: 1; font-size: 18px; }
   .inventory-workspace { padding: 22px 14px 40px; }
+  .inventory-app-header { align-items: flex-start; flex-direction: column; gap: 14px; }
   .inventory-app-header h1 { font-size: 26px; }
+  .inventory-sync-control { width: 100%; justify-content: space-between; }
+  .inventory-sync-control > button { min-height: 46px; padding-inline: 14px; }
+  .inventory-sync-message { margin-top: 12px; }
   .inventory-stat-grid { margin-top: 18px; gap: 8px; }
   .inventory-stat-grid article { min-height: 106px; padding: 15px; }
   .inventory-stat-grid article b { font-size: 25px; }

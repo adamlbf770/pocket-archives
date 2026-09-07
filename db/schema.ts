@@ -182,3 +182,27 @@ export const auditEvents = sqliteTable("audit_event", {
   approvalReference: text("approval_reference"),
   rollbackReference: text("rollback_reference"),
 }, (table) => [index("idx_audit_event_entity_time").on(table.entityType, table.entityId, table.occurredAt)]);
+
+export const inventoryLiveState = sqliteTable("inventory_live_state", {
+  sku: text("sku").primaryKey(),
+  status: text("status").notNull(),
+  price: real("price"),
+  listingId: text("listing_id"),
+  listingUrl: text("listing_url"),
+  quantityAvailable: integer("quantity_available").notNull().default(0),
+  soldAt: text("sold_at"),
+  lastSeenActiveAt: text("last_seen_active_at"),
+  updatedAt: text("updated_at").notNull(),
+}, (table) => [
+  index("idx_inventory_live_state_status").on(table.status),
+  index("idx_inventory_live_state_listing_id").on(table.listingId),
+]);
+
+export const inventorySyncState = sqliteTable("inventory_sync_state", {
+  source: text("source").primaryKey(),
+  updatedAt: text("updated_at").notNull(),
+  activeCount: integer("active_count").notNull().default(0),
+  soldCount: integer("sold_count").notNull().default(0),
+  recordsWritten: integer("records_written").notNull().default(0),
+  error: text("error"),
+});
