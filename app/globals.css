@@ -899,6 +899,19 @@ body {
 .inventory-drawer-copy dl div { padding: 13px 0; display: grid; gap: 5px; border-bottom: 1px solid var(--app-line); }
 .inventory-drawer-copy dt { color: #8c9692; font-size: 8px; text-transform: uppercase; }
 .inventory-drawer-copy dd { margin: 0; font-size: 11px; font-weight: 700; }
+.inventory-market-card { margin: 0 0 22px; padding: 17px; border: 1px solid #dce4df; border-radius: 12px; background: #f7faf8; }
+.inventory-market-card > header { margin-bottom: 13px; display: flex; align-items: start; justify-content: space-between; gap: 14px; }
+.inventory-market-card > header div { display: grid; gap: 4px; }
+.inventory-market-card > header small { color: #7d8b85; font-size: 7px; font-weight: 850; letter-spacing: .14em; }
+.inventory-market-card > header h3 { margin: 0; color: var(--app-ink); font-size: 15px; font-weight: 750; letter-spacing: -.025em; }
+.inventory-market-card > header > span { color: #89938f; font-size: 8px; white-space: nowrap; }
+.inventory-market-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.inventory-market-metrics article { min-height: 92px; padding: 12px; display: grid; align-content: start; border: 1px solid #e0e7e3; border-radius: 9px; background: #fff; }
+.inventory-market-metrics article > span { color: #77847f; font-size: 8px; font-weight: 700; text-transform: uppercase; }
+.inventory-market-metrics article b { margin: 9px 0 6px; font-size: 21px; letter-spacing: -.04em; }
+.inventory-market-metrics article small { color: #8b9691; font-size: 8px; line-height: 1.35; }
+.inventory-market-card > footer { margin-top: 12px; display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #8a9590; font-size: 8px; line-height: 1.35; }
+.inventory-market-card > footer a { flex: none; color: #2e6550; font-weight: 750; text-decoration: none; }
 .inventory-drawer-copy > a { display: inline-flex; padding: 12px 15px; border-radius: 8px; background: #17221f; color: #fff; text-decoration: none; font-size: 10px; font-weight: 700; }
 .source-health-compact-lock { margin-top: 28px; padding: 17px 20px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border: 1px solid #dce4df; border-radius: 12px; background: #edf8f0; }
 .source-health-compact-lock > span { display: flex; align-items: center; gap: 8px; color: #247045; font-size: 11px; font-weight: 800; }
@@ -988,6 +1001,7 @@ body {
   .inventory-list-state { justify-self: end; }
   .inventory-drawer-images { min-height: 320px; padding-inline: 18px; }
   .inventory-drawer-copy { padding-inline: 22px; }
+  .inventory-market-card > header, .inventory-market-card > footer { align-items: flex-start; flex-direction: column; }
   .source-health-compact-lock { align-items: flex-start; flex-direction: column; }
   .source-health-details .source-health-table > header { display: none; }
   .source-health-details .source-health-table > article { grid-template-columns: 1fr 1fr; }

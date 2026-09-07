@@ -8,10 +8,20 @@ type Record = {
   year: number | null; language: string; finish: string; condition: string;
   rarity: string; artist: string; boxId: string; box: string; status: string;
   price: number | null; listingId: string | null; listingUrl: string | null;
+  market: null | {
+    currentPrice: number | null; currentPriceKind: string | null; source: string | null;
+    updatedAt: string | null; activeCompMedian: number | null;
+    activeCompLow: number | null; activeCompHigh: number | null; activeCompCount: number;
+    lastSoldPrice: number | null; lastSoldAt: string | null; lastSoldQuantity: number | null;
+  };
   frontImage: string | null; backImage: string | null;
 };
 
 const skuNumber = (sku: string) => Number(sku.replace(/\D/g, "")) || 0;
+const money = (value: number | null) => value === null ? "—" : `$${value.toFixed(2)}`;
+const shortDate = (value: string | null) => value
+  ? new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(value))
+  : "—";
 
 function searchRank(record: Record, needle: string) {
   if (!needle) return 0;
@@ -147,6 +157,44 @@ export default function InventoryCatalog({ boxes, records, ownerName }: {
                 <div><dt>Language</dt><dd>{selected.language}</dd></div><div><dt>Status</dt><dd>{selected.status}</dd></div>
                 <div><dt>Artist</dt><dd>{selected.artist || "—"}</dd></div><div><dt>Rarity</dt><dd>{selected.rarity || "—"}</dd></div>
               </dl>
+              <section className="inventory-market-card" aria-label="Market snapshot">
+                <header>
+                  <div><small>MARKET SNAPSHOT</small><h3>Pricing intelligence</h3></div>
+                  <span>{selected.market?.updatedAt ? `Updated ${shortDate(selected.market.updatedAt)}` : "No price refresh yet"}</span>
+                </header>
+                <div className="inventory-market-metrics">
+                  <article>
+                    <span>Current market</span>
+                    <b>{money(selected.market?.currentPrice ?? null)}</b>
+                    <small>{selected.market?.currentPriceKind || "No matched market source"}</small>
+                  </article>
+                  <article>
+                    <span>Your asking price</span>
+                    <b>{money(selected.price)}</b>
+                    <small>{selected.market?.currentPrice && selected.price
+                      ? `${selected.price >= selected.market.currentPrice ? "+" : ""}${(selected.price - selected.market.currentPrice).toFixed(2)} vs market`
+                      : "No comparison available"}</small>
+                  </article>
+                  <article>
+                    <span>eBay comp median</span>
+                    <b>{money(selected.market?.activeCompMedian ?? null)}</b>
+                    <small>{selected.market?.activeCompCount
+                      ? `${selected.market.activeCompCount} exact active comps${selected.market.activeCompLow && selected.market.activeCompHigh ? ` · ${money(selected.market.activeCompLow)}–${money(selected.market.activeCompHigh)}` : ""}`
+                      : "No exact active comps"}</small>
+                  </article>
+                  <article>
+                    <span>Last sold here</span>
+                    <b>{money(selected.market?.lastSoldPrice ?? null)}</b>
+                    <small>{selected.market?.lastSoldAt
+                      ? `${shortDate(selected.market.lastSoldAt)}${selected.market.lastSoldQuantity && selected.market.lastSoldQuantity > 1 ? ` · qty ${selected.market.lastSoldQuantity}` : ""}`
+                      : "No matching Pocket Archives sale"}</small>
+                  </article>
+                </div>
+                <footer>
+                  <span>Active eBay comps are asking prices, not realized sales.</span>
+                  {selected.market?.source && <a href={selected.market.source} target="_blank" rel="noreferrer">Open price source ↗</a>}
+                </footer>
+              </section>
               {selected.listingUrl && <a href={selected.listingUrl} target="_blank" rel="noreferrer">Open eBay listing ↗</a>}
             </div>
           </article>
