@@ -23,9 +23,8 @@ export default function HomePage() {
         total={publicEbayListings.length}
       />
       <footer className="archive-footer">
-        <div><b>POCKET ARCHIVES</b><p>Individually scanned trading cards, cataloged in New York and sold through eBay.</p></div>
+        <div><b>POCKET ARCHIVES</b><p>Trading cards, cataloged in New York.</p></div>
         <nav aria-label="Footer navigation"><a href="/shop">Browse cards</a><a href="/about">About the archive</a><a href={EXTERNAL_SHOP_URL} target="_blank" rel="noreferrer">eBay store ↗</a></nav>
-        <small>Actual cards. Actual scans. Straightforward condition notes.</small>
       </footer>
     </main>
   );

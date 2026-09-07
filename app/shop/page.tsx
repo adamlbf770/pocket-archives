@@ -10,12 +10,12 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title: "Pocket Archives eBay Storefront", description: "Vintage cards, new finds, and actual-item photography from Pocket Archives.", images: ["/og-shop.png"] },
 };
 
-export default async function ShopPage({ searchParams }: { searchParams?: Promise<{ game?: string }> }) {
+export default async function ShopPage({ searchParams }: { searchParams?: Promise<{ game?: string; q?: string }> }) {
   const params = searchParams ? await searchParams : {};
   return (
     <main className="ebay-storefront">
       <GlobalHeader active="shop" />
-      <EbayCatalog listings={storefrontCatalogListings()} total={publicEbayListings.length} initialGame={params.game || "all"} />
+      <EbayCatalog listings={storefrontCatalogListings()} total={publicEbayListings.length} initialGame={params.game || "all"} initialQuery={params.q || ""} />
       <footer className="ebay-footer"><b>POCKET ARCHIVES</b><span>Purchases are completed securely on eBay.</span></footer>
     </main>
   );

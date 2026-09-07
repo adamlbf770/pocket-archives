@@ -49,24 +49,37 @@ export function StorefrontHome({ featured, categories, counts, total }: { featur
   return (
     <>
       <div className="archive-home">
+        <nav className="archive-quick-nav" aria-label="Browse the archive by game">
+          <Link href="/shop"><span>All cards</span><b>{total.toLocaleString()}</b></Link>
+          {categoryOrder.map((game) => (
+            <Link key={game} href={`/shop?game=${encodeURIComponent(game)}`}>
+              <span>{game === "One Piece Card Game" ? "One Piece" : game === "Dragon Ball Super" ? "Dragon Ball" : game.replace(": The Gathering", "")}</span>
+              <b>{counts[game]?.toLocaleString() || 0}</b>
+            </Link>
+          ))}
+        </nav>
         <section className="archive-hero">
           <div className="archive-hero-copy">
-            <p className="archive-eyebrow">Pocket Archives · Individually scanned cards</p>
-            <h1>Every card.<br /><em>Fully seen.</em></h1>
-            <p className="archive-hero-deck">Collect with confidence. Explore {total.toLocaleString()} cards photographed front and back, identified carefully, and described without the hype.</p>
+            <p className="archive-eyebrow">Pocket Archives</p>
+            <h1>A curated archive of trading cards.</h1>
+            <p className="archive-hero-deck">Each card is photographed front and back, cataloged, and available through our eBay store.</p>
+            <form className="archive-search" action="/shop">
+              <label htmlFor="archive-home-search">Search the archive</label>
+              <div><input id="archive-home-search" name="q" type="search" placeholder="Card, set, artist, or number" /><button type="submit">Search</button></div>
+            </form>
             <div className="archive-hero-actions">
-              <Link className="archive-button archive-button-bright" href="/shop">Browse the catalog <span>→</span></Link>
-              <a className="archive-button archive-button-quiet" href={EXTERNAL_SHOP_URL} target="_blank" rel="noreferrer">Shop on eBay <span>↗</span></a>
+              <Link className="archive-button archive-button-bright" href="/shop">Browse cards <span>→</span></Link>
+              <a className="archive-button archive-button-quiet" href={EXTERNAL_SHOP_URL} target="_blank" rel="noreferrer">Visit eBay <span>↗</span></a>
             </div>
             <dl className="archive-hero-facts">
-              <div><dt>Available now</dt><dd>{total.toLocaleString()} cards</dd></div>
-              <div><dt>Every listing</dt><dd>Front + back</dd></div>
-              <div><dt>Checkout</dt><dd>Protected by eBay</dd></div>
+              <div><dt>Available</dt><dd>{total.toLocaleString()}</dd></div>
+              <div><dt>Games</dt><dd>{Object.keys(counts).length}</dd></div>
+              <div><dt>Photos</dt><dd>Front + back</dd></div>
             </dl>
           </div>
 
           <div className="archive-feature" onMouseEnter={() => setCarouselPaused(true)} onMouseLeave={() => setCarouselPaused(false)} onFocusCapture={() => setCarouselPaused(true)} onBlurCapture={() => setCarouselPaused(false)}>
-            <div className="archive-feature-index"><span>Featured from the archive</span><b>{String(activeFeature + 1).padStart(2, "0")} / {String(featured.length).padStart(2, "0")}</b></div>
+            <div className="archive-feature-index"><span>Featured</span><b>{String(activeFeature + 1).padStart(2, "0")} / {String(featured.length).padStart(2, "0")}</b></div>
             <div className="archive-feature-stage">
               <img className="archive-feature-ghost archive-feature-ghost-left" src={previousHero.frontImage} alt="" aria-hidden="true" />
               <a className="archive-feature-card" href={hero.listingUrl} target="_blank" rel="noreferrer" aria-label={`View ${hero.name} on eBay`}>
@@ -86,23 +99,17 @@ export function StorefrontHome({ featured, categories, counts, total }: { featur
           </div>
         </section>
 
-        <section className="archive-assurances" aria-label="Pocket Archives buying standards">
-          <article><span>01</span><div><b>The listed card, not a stock photo</b><p>Every listing is built from photographs of the exact card offered for sale.</p></div></article>
-          <article><span>02</span><div><b>Condition described plainly</b><p>Wear stays visible in the scans and uncertain details are called out rather than repaired or hidden.</p></div></article>
-          <article><span>03</span><div><b>Protected checkout</b><p>Purchases, payment, and buyer protection are handled through the Pocket Archives eBay store.</p></div></article>
-        </section>
-
         <section className="archive-section archive-new-arrivals">
           <header className="archive-section-header">
-            <div><p className="archive-eyebrow">Selected from the current catalog</p><h2>On the archive desk.</h2></div>
-            <Link href="/shop">See all listings <span>→</span></Link>
+            <div><h2>Recently added</h2></div>
+            <Link href="/shop">View all <span>→</span></Link>
           </header>
           <div className="ebay-product-grid ebay-home-grid">{featured.slice(0, 4).map((item, index) => <ProductCard key={item.sku} item={item} priority={index < 2} />)}</div>
         </section>
 
         <section className="archive-section archive-games">
           <header className="archive-section-header">
-            <div><p className="archive-eyebrow">Explore the shelves</p><h2>Collected across games and eras.</h2></div>
+            <div><h2>Browse by game</h2></div>
           </header>
           <div className="ebay-category-grid">
           {categoryOrder.map((game) => {
@@ -126,27 +133,13 @@ export function StorefrontHome({ featured, categories, counts, total }: { featur
           </div>
         </section>
 
-        <section className="archive-standard">
-          <div className="archive-standard-intro"><p className="archive-eyebrow">The Pocket Archives standard</p><h2>Details first. Hype last.</h2><p>From vintage Pokémon to current One Piece, every card enters the same record: identity, set, language, finish, condition, location, and the actual images used for sale.</p></div>
-          <div className="archive-standard-list">
-            <article><span>Scan</span><div><b>Front and back retained</b><p>Edges and corners stay visible so condition can be judged from the card itself.</p></div></article>
-            <article><span>Record</span><div><b>Cataloged beyond the title</b><p>Set, card number, year, language, rarity, artist, and meaningful variants are recorded when verifiable.</p></div></article>
-            <article><span>Ship</span><div><b>Organized to fulfill accurately</b><p>Systematic SKUs and storage locations help the correct card reach the correct collector.</p></div></article>
-          </div>
-        </section>
-
-        <section className="archive-final-cta">
-          <p className="archive-eyebrow">The shelves are always changing</p>
-          <h2>Find the card that makes you stop scrolling.</h2>
-          <div><Link className="archive-button archive-button-dark" href="/shop">Browse Pocket Archives <span>→</span></Link><a href={EXTERNAL_SHOP_URL} target="_blank" rel="noreferrer">Visit the eBay store ↗</a></div>
-        </section>
       </div>
     </>
   );
 }
 
-export function EbayCatalog({ listings, total, initialGame = "all" }: { listings: PublicEbayListing[]; total: number; initialGame?: string }) {
-  const [query, setQuery] = useState("");
+export function EbayCatalog({ listings, total, initialGame = "all", initialQuery = "" }: { listings: PublicEbayListing[]; total: number; initialGame?: string; initialQuery?: string }) {
+  const [query, setQuery] = useState(initialQuery);
   const [game, setGame] = useState(initialGame);
   const [condition, setCondition] = useState("all");
   const [sort, setSort] = useState("newest");
