@@ -48,73 +48,55 @@ export default async function SourceHealthPage() {
   const { summary, sources, generatedAt } = sourceHealthSnapshot;
 
   return (
-    <main className="source-health-shell">
-      <header className="operations-header">
-        <Link className="operations-brand" href="/inventory">
+    <main className="inventory-app-shell source-health-app">
+      <aside className="inventory-sidebar">
+        <Link className="inventory-app-brand" href="/inventory">
           <span className="inventory-mark" aria-hidden="true"><i /></span>
-          <span><b>POCKET ARCHIVES</b><small>INTELLIGENCE</small></span>
+          <span><b>Pocket Archives</b><small>Inventory OS</small></span>
         </Link>
-        <nav aria-label="Pocket Archives operations">
-          <Link href="/inventory">Inventory</Link>
-          <Link className="is-active" href="/source-health">Source Health</Link>
+        <nav aria-label="Pocket Archives app">
+          <Link href="/inventory"><span aria-hidden="true">⌂</span>Dashboard</Link>
+          <Link href="/inventory#card-search"><span aria-hidden="true">⌕</span>Find a card</Link>
+          <Link className="is-active" href="/source-health"><span aria-hidden="true">◉</span>Source health</Link>
         </nav>
-        <div className="inventory-owner"><span>Signed in as</span><b>{user.fullName || user.displayName}</b></div>
-      </header>
+        <div className="inventory-sidebar-footer"><span>{user.fullName || user.displayName}</span></div>
+      </aside>
 
-      <section className="source-health-heading">
-        <div>
-          <p>READ-ONLY FOUNDATION · PHASE 1</p>
-          <h1>Source<br />Health</h1>
-        </div>
-        <p>
-          Market values are only as trustworthy as their evidence. This page shows what is
-          actually connected, when it last updated, and which sources are manual or blocked.
-        </p>
+      <section className="inventory-workspace">
+        <header className="inventory-app-header">
+          <div><small>SYSTEM</small><h1>Source health</h1></div>
+          <span className="inventory-live-status"><i /> Read only</span>
+        </header>
+
+        <section className="inventory-stat-grid" aria-label="Source health summary">
+          <article><span>Canonical SKUs</span><b>{summary.uniqueInventorySkus.toLocaleString()}</b><small>Inventory remains authoritative</small></article>
+          <article><span>Active listings</span><b>{summary.activeListings.toLocaleString()}</b><small>{summary.activeListingsMissingSku} missing SKU</small></article>
+          <article><span>Connected feeds</span><b>{summary.connected}</b><small>{summary.attention} still need access</small></article>
+          <article><span>Realized comps</span><b>{summary.realizedMarketComps}</b><small>Pricing stays locked without evidence</small></article>
+        </section>
+
+        <section className="source-health-compact-lock">
+          <span><i /> Safety lock active</span>
+          <p>No automatic repricing, publishing, deletion, buying, or offer acceptance.</p>
+        </section>
+
+        <details className="source-health-details">
+          <summary><span><b>Data connections</b><small>See freshness, access, and confidence for all {sources.length} sources</small></span><i>+</i></summary>
+          <section className="source-health-table" aria-label="Market source registry">
+            <header><span>Source</span><span>Access</span><span>Last update</span><span>Confidence</span></header>
+            {sources.map((source) => (
+              <article key={source.id} className={`status-${source.status}`}>
+                <div><small>{source.kind}</small><b>{source.name}</b><p>{source.note}</p></div>
+                <div><span className="source-status">{statusLabel(source.status)}</span><small>{source.integrationType}</small></div>
+                <div><b>{formatTimestamp(source.lastSuccessAt)}</b><small>{formatAge(source.lastSuccessAt)}</small><small>{source.detail}</small></div>
+                <div><strong>{source.confidence}</strong><small>{source.capabilities.length ? source.capabilities.join(" · ") : "No approved capabilities"}</small></div>
+              </article>
+            ))}
+          </section>
+        </details>
+
+        <footer className="source-health-footer">Snapshot generated {formatTimestamp(generatedAt)}</footer>
       </section>
-
-      <section className="source-health-scoreboard" aria-label="Source health summary">
-        <article><small>Canonical SKUs</small><b>{summary.uniqueInventorySkus.toLocaleString()}</b><span>File-backed inventory remains authoritative</span></article>
-        <article><small>Active listings</small><b>{summary.activeListings.toLocaleString()}</b><span>{summary.activeListingsMissingSku} missing SKU</span></article>
-        <article><small>Connected feeds</small><b>{summary.connected}</b><span>{summary.attention} require manual work or access</span></article>
-        <article className="is-warning"><small>Realized comps</small><b>{summary.realizedMarketComps}</b><span>High-confidence pricing stays locked</span></article>
-      </section>
-
-      <section className="source-health-notice">
-        <b>Production write lock</b>
-        <span>Market intelligence is read-only. No automated repricing, publishing, deletion, buying, or offer acceptance.</span>
-      </section>
-
-      <section className="source-health-table" aria-label="Market source registry">
-        <header><span>Source</span><span>Access</span><span>Last successful update</span><span>Confidence</span></header>
-        {sources.map((source) => (
-          <article key={source.id} className={`status-${source.status}`}>
-            <div>
-              <small>{source.kind}</small>
-              <b>{source.name}</b>
-              <p>{source.note}</p>
-            </div>
-            <div>
-              <span className="source-status">{statusLabel(source.status)}</span>
-              <small>{source.integrationType}</small>
-              <small>Rate limit: {source.rateLimitStatus}</small>
-            </div>
-            <div>
-              <b>{formatTimestamp(source.lastSuccessAt)}</b>
-              <small>{formatAge(source.lastSuccessAt)}</small>
-              <small>{source.detail}</small>
-              {source.lastError && <small>Error: {source.lastError}</small>}
-            </div>
-            <div>
-              <strong>{source.confidence}</strong>
-              <small>{source.capabilities.length ? source.capabilities.join(" · ") : "No approved capabilities"}</small>
-            </div>
-          </article>
-        ))}
-      </section>
-
-      <footer className="source-health-footer">
-        Snapshot generated {formatTimestamp(generatedAt)} · Current app remains the inventory source of truth.
-      </footer>
     </main>
   );
 }
