@@ -92,6 +92,7 @@ export default async function MarketPage() {
             <header><div><small>DATA FEEDS</small><h2>Market coverage</h2></div><Link href="/source-health">All sources</Link></header>
             <div className={`market-source-row ${sources.tcgcsv?.status === "connected" ? "is-connected" : "is-warning"}`}><i /><span><b>TCGCSV</b><small>{sources.tcgcsv?.detail || "Awaiting first read"}</small></span><em>{sources.tcgcsv?.status === "connected" ? "Connected" : "Attention"}</em></div>
             <div className={`market-source-row ${sources.pokemonTcgApi?.status === "connected" ? "is-connected" : "is-warning"}`}><i /><span><b>Pokémon TCG API</b><small>{sources.pokemonTcgApi?.detail || "Connection unavailable"}</small></span><em>{sources.pokemonTcgApi?.status === "connected" ? "Connected" : "Degraded"}</em></div>
+            <div className={`market-source-row ${sources.scryfall?.status === "connected" ? "is-connected" : "is-warning"}`}><i /><span><b>Scryfall</b><small>{sources.scryfall?.detail || "Connection unavailable"}</small></span><em>{sources.scryfall?.status === "connected" ? "Connected" : "Attention"}</em></div>
             <div className="market-source-row is-locked"><i /><span><b>Card Ladder</b><small>Manual only until licensed API access exists</small></span><em>Protected</em></div>
           </article>
 

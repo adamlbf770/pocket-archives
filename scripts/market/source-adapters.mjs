@@ -17,10 +17,11 @@ export const sourceAdapters = {
   tcgcsv: {
     sourceId: "tcgcsv",
     async probe(options = {}) {
-      const payload = await fetchJson("https://tcgcsv.com/tcgplayer/3/groups", options);
+      const payload = await fetchJson("https://tcgcsv.com/tcgplayer/categories", options);
       const records = Array.isArray(payload?.results) ? payload.results.length : 0;
-      if (!payload?.success || records === 0) throw new Error("No Pokémon groups returned");
-      return { records, detail: `${records.toLocaleString()} Pokémon sets available in the daily cache` };
+      if (!payload?.success || records === 0) throw new Error("No trading-card categories returned");
+      const supported = payload.results.filter((item) => [1, 2, 3, 23, 27, 68, 77, 80, 85, 89].includes(Number(item.categoryId)));
+      return { records: supported.length, detail: `${supported.length} supported game catalogs available in the daily cache` };
     },
   },
   pokemonTcgApi: {
@@ -30,6 +31,14 @@ export const sourceAdapters = {
       const records = Array.isArray(payload?.data) ? payload.data.length : 0;
       if (records !== 1) throw new Error("Reference set lookup failed");
       return { records, detail: "English card identity and set lookup is reachable" };
+    },
+  },
+  scryfall: {
+    sourceId: "scryfall",
+    async probe(options = {}) {
+      const payload = await fetchJson("https://api.scryfall.com/cards/named?exact=Black+Lotus", options);
+      if (payload?.object !== "card" || !payload?.name) throw new Error("Reference card lookup failed");
+      return { records: 1, detail: "Exact Magic printing and USD price lookup is reachable" };
     },
   },
 };

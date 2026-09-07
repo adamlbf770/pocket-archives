@@ -49,6 +49,18 @@ type SyncPayload = {
   summary?: { activeCount: number; soldCount: number; updatedAt: string };
 };
 
+type LivePriceSource = {
+  id: string; name: string; status: "matched" | "no_match" | "unavailable";
+  market: number | null; low: number | null; mid: number | null; high: number | null;
+  currency: string; variant: string | null; updatedAt: string | null;
+  url: string | null; detail: string;
+};
+
+type LiveMarket = {
+  sku: string; fetchedAt: string; consensusMarket: number | null;
+  matchedSources: number; sources: LivePriceSource[]; warning: string; cached?: boolean;
+};
+
 export default function InventoryCatalog({ boxes, records, ownerName }: {
   boxes: readonly Box[];
   records: readonly Record[];
@@ -64,6 +76,8 @@ export default function InventoryCatalog({ boxes, records, ownerName }: {
   const [syncing, setSyncing] = useState(false);
   const [syncAt, setSyncAt] = useState<string | null>(null);
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
+  const [liveMarkets, setLiveMarkets] = useState<{ [sku: string]: LiveMarket }>({});
+  const [marketLoadingSku, setMarketLoadingSku] = useState<string | null>(null);
 
   const games = useMemo(() => [...new Set(inventory.map((record) => record.game))].sort(), [inventory]);
   const statuses = useMemo(() => [...new Set(inventory.map((record) => record.status))].sort(), [inventory]);
@@ -84,6 +98,11 @@ export default function InventoryCatalog({ boxes, records, ownerName }: {
       .catch(() => null);
     return () => { active = false; };
   }, []);
+
+  useEffect(() => {
+    if (!selected || liveMarkets[selected.sku]) return;
+    void loadLiveMarket(selected.sku, false);
+  }, [selected?.sku]);
 
   const filtered = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -138,6 +157,23 @@ export default function InventoryCatalog({ boxes, records, ownerName }: {
       setSyncMessage(error instanceof Error ? error.message : "Refresh failed.");
     } finally {
       setSyncing(false);
+    }
+  }
+
+  async function loadLiveMarket(sku: string, force: boolean) {
+    setMarketLoadingSku(sku);
+    try {
+      const response = await fetch(`/api/market/card?sku=${encodeURIComponent(sku)}${force ? "&refresh=1" : ""}`, { cache: "no-store" });
+      const payload = await response.json() as LiveMarket & { error?: string };
+      if (!response.ok) throw new Error(payload.error || "Market lookup failed.");
+      setLiveMarkets((current) => ({ ...current, [sku]: payload }));
+    } catch (error) {
+      setLiveMarkets((current) => ({ ...current, [sku]: {
+        sku, fetchedAt: new Date().toISOString(), consensusMarket: null, matchedSources: 0, sources: [],
+        warning: error instanceof Error ? error.message : "Market lookup failed.",
+      } }));
+    } finally {
+      setMarketLoadingSku((current) => current === sku ? null : current);
     }
   }
 
@@ -228,6 +264,10 @@ export default function InventoryCatalog({ boxes, records, ownerName }: {
               {[selected.frontImage, selected.backImage].filter(Boolean).map((image, index) => <img key={image} src={image!} alt={`${selected.name} card ${index ? "back" : "front"}`} />)}
             </div>
             <div className="inventory-drawer-copy">
+              {(() => {
+                const live = liveMarkets[selected.sku];
+                const displayMarket = live?.consensusMarket ?? selected.market?.currentPrice ?? null;
+                return <>
               <span className="inventory-drawer-location">{selected.box}</span>
               <p>{selected.sku} · {selected.game}</p><h2>{selected.name}</h2><h3>{selected.set}{selected.number ? ` · ${selected.number}` : ""}</h3>
               <dl>
@@ -243,14 +283,14 @@ export default function InventoryCatalog({ boxes, records, ownerName }: {
                 <div className="inventory-market-metrics">
                   <article>
                     <span>Current market</span>
-                    <b>{money(selected.market?.currentPrice ?? null)}</b>
-                    <small>{selected.market?.currentPriceKind || "No matched market source"}</small>
+                    <b>{money(displayMarket)}</b>
+                    <small>{live?.matchedSources ? `${live.matchedSources} live source${live.matchedSources === 1 ? "" : "s"}` : selected.market?.currentPriceKind || "No matched market source"}</small>
                   </article>
                   <article>
                     <span>Your asking price</span>
                     <b>{money(selected.price)}</b>
-                    <small>{selected.market?.currentPrice && selected.price
-                      ? `${selected.price >= selected.market.currentPrice ? "+" : ""}${(selected.price - selected.market.currentPrice).toFixed(2)} vs market`
+                    <small>{displayMarket && selected.price
+                      ? `${selected.price >= displayMarket ? "+" : ""}${(selected.price - displayMarket).toFixed(2)} vs market`
                       : "No comparison available"}</small>
                   </article>
                   <article>
@@ -272,8 +312,25 @@ export default function InventoryCatalog({ boxes, records, ownerName }: {
                   <span>Active eBay comps are asking prices, not realized sales.</span>
                   {selected.market?.source && <a href={selected.market.source} target="_blank" rel="noreferrer">Open price source ↗</a>}
                 </footer>
+                <div className="inventory-live-market-sources">
+                  <div className="inventory-live-market-heading">
+                    <span><b>Live source checks</b><small>{live ? `${live.matchedSources} exact price match${live.matchedSources === 1 ? "" : "es"} · ${shortDate(live.fetchedAt)}` : "Runs when this card opens"}</small></span>
+                    <button type="button" onClick={() => void loadLiveMarket(selected.sku, true)} disabled={marketLoadingSku === selected.sku}>{marketLoadingSku === selected.sku ? "Checking…" : "Refresh market"}</button>
+                  </div>
+                  {marketLoadingSku === selected.sku && !live && <p>Checking TCGplayer-derived catalogs and specialist sources…</p>}
+                  {live?.sources.filter((source) => source.status !== "no_match" || source.id === "tcgcsv").map((source) => (
+                    <article key={source.id} className={`is-${source.status}`}>
+                      <span><b>{source.name}</b><small>{source.detail}{source.variant ? ` · ${source.variant}` : ""}</small></span>
+                      <strong>{source.status === "matched" ? money(source.market) : source.status === "unavailable" ? "Offline" : "No match"}</strong>
+                      {source.url && <a href={source.url} target="_blank" rel="noreferrer" aria-label={`Open ${source.name}`}>↗</a>}
+                    </article>
+                  ))}
+                  {live && <p>{live.warning}</p>}
+                </div>
               </section>
               {selected.listingUrl && <a href={selected.listingUrl} target="_blank" rel="noreferrer">Open eBay listing ↗</a>}
+                </>;
+              })()}
             </div>
           </article>
         </div>

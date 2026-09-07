@@ -136,6 +136,7 @@ const snapshot = {
   sources: {
     tcgcsv: probes.sources?.tcgcsv ?? null,
     pokemonTcgApi: probes.sources?.["pokemon-tcg-api"] ?? null,
+    scryfall: probes.sources?.scryfall ?? null,
   },
   topActive: activeRows.slice().sort((a, b) => Number(b.price) - Number(a.price)).slice(0, 8).map((row) => ({
     sku: row.sku || "No SKU", title: row.title, price: money(row.price), url: row.viewItemUrl,

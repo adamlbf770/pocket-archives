@@ -55,6 +55,13 @@ const dynamic = {
     status: sourceProbes.sources["pokemon-tcg-api"].status === "connected" ? "connected" : "not_configured",
     lastError: sourceProbes.sources["pokemon-tcg-api"].error,
   } : null,
+  "scryfall": sourceProbes.sources?.scryfall ? {
+    lastSuccessAt: sourceProbes.sources.scryfall.status === "connected" ? sourceProbes.sources.scryfall.checkedAt : null,
+    records: sourceProbes.sources.scryfall.records ?? 0,
+    detail: sourceProbes.sources.scryfall.detail,
+    status: sourceProbes.sources.scryfall.status === "connected" ? "connected" : "not_configured",
+    lastError: sourceProbes.sources.scryfall.error,
+  } : null,
 };
 
 const sources = registry.sources.map((source) => ({

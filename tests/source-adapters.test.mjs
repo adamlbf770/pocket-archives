@@ -5,12 +5,19 @@ import { probeSource, sourceAdapters } from "../scripts/market/source-adapters.m
 test("TCGCSV probe accepts a successful non-empty market response", async () => {
   const fetchImpl = async () => ({
     ok: true,
-    json: async () => ({ success: true, results: [{ groupId: 1 }, { groupId: 2 }] }),
+    json: async () => ({ success: true, results: [{ categoryId: 1 }, { categoryId: 3 }, { categoryId: 999 }] }),
   });
   const result = await probeSource(sourceAdapters.tcgcsv, { fetchImpl });
   assert.equal(result.status, "connected");
   assert.equal(result.records, 2);
   assert.equal(result.error, null);
+});
+
+test("Scryfall probe recognizes an exact card response", async () => {
+  const fetchImpl = async () => ({ ok: true, json: async () => ({ object: "card", name: "Black Lotus" }) });
+  const result = await probeSource(sourceAdapters.scryfall, { fetchImpl });
+  assert.equal(result.status, "connected");
+  assert.equal(result.records, 1);
 });
 
 test("source probe reports failures without throwing", async () => {

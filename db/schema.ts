@@ -206,3 +206,10 @@ export const inventorySyncState = sqliteTable("inventory_sync_state", {
   recordsWritten: integer("records_written").notNull().default(0),
   error: text("error"),
 });
+
+export const cardMarketCache = sqliteTable("card_market_cache", {
+  sku: text("sku").primaryKey(),
+  payloadJson: text("payload_json").notNull(),
+  fetchedAt: text("fetched_at").notNull(),
+  expiresAt: text("expires_at").notNull(),
+}, (table) => [index("idx_card_market_cache_expires").on(table.expiresAt)]);
