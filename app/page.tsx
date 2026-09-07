@@ -1,6 +1,7 @@
 import { GlobalHeader } from "./site-navigation";
 import { featuredEbayListings, publicEbayListings, storefrontCounts } from "./ebay-storefront-data";
 import { StorefrontHome } from "./ebay-storefront";
+import { EXTERNAL_SHOP_URL } from "./shop/catalog";
 
 export default function HomePage() {
   const featured = featuredEbayListings();
@@ -21,7 +22,11 @@ export default function HomePage() {
         counts={storefrontCounts()}
         total={publicEbayListings.length}
       />
-      <footer className="ebay-footer"><b>POCKET ARCHIVES</b><span>Independent collectibles shop · New York</span></footer>
+      <footer className="archive-footer">
+        <div><b>POCKET ARCHIVES</b><p>Individually scanned trading cards, cataloged in New York and sold through eBay.</p></div>
+        <nav aria-label="Footer navigation"><a href="/shop">Browse cards</a><a href="/about">About the archive</a><a href={EXTERNAL_SHOP_URL} target="_blank" rel="noreferrer">eBay store ↗</a></nav>
+        <small>Actual cards. Actual scans. Straightforward condition notes.</small>
+      </footer>
     </main>
   );
 }

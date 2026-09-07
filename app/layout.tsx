@@ -4,9 +4,9 @@ import PwaRegister from "./pwa-register";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://pocketarchives.com"),
-  title: "Pocket Archives — Independent Collectibles on eBay",
+  title: "Pocket Archives — Individually Scanned Trading Cards",
   description:
-    "Browse current Pocket Archives eBay listings: vintage trading cards, Japanese collectibles, graded cards, and new finds photographed individually.",
+    "Browse individually scanned Pokémon, One Piece, Magic, Dragon Ball, and other trading cards from Pocket Archives. Actual photos, careful identification, and straightforward condition notes.",
   applicationName: "Pocket Archives Inventory",
   appleWebApp: {
     capable: true,
