@@ -326227,7 +326227,7 @@ export const inventoryRecords = [
     "status": "Listed",
     "price": 21.99,
     "market": {
-      "currentPrice": 20,
+      "currentPrice": 18,
       "currentPriceKind": "Guide market",
       "source": "https://www.pricecharting.com/game/pokemon-expedition/diglett-reverse-holo-106",
       "updatedAt": "2026-09-04T15:57:23.223Z",

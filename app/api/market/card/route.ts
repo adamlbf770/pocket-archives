@@ -10,6 +10,7 @@ export const dynamic = "force-dynamic";
 type CatalogRecord = {
   sku: string; name: string; game: string; set: string; number: string;
   language: string; finish: string; condition: string;
+  market?: { currentPrice?: number | null } | null;
 };
 
 type PriceSource = {
@@ -59,9 +60,18 @@ async function fetchJson(url: string, timeoutMs = 8_000) {
   return response.json();
 }
 
+function canonicalSet(value: string) {
+  let result = normalize(value)
+    .replace(/^[a-z0-9]{2,10}\s+/, "")
+    .replace(/\b(?:sv|swsh|sm|xy|bw|dp|ex|m)[a-z0-9]*\b/g, "")
+    .trim();
+  if (result.endsWith(" base set") && result.split(" ").length > 2) result = result.slice(0, -9).trim();
+  return result;
+}
+
 function setScore(candidate: string, wanted: string) {
-  const a = normalize(candidate).replace(/^[a-z0-9]{2,10}\s+/, "");
-  const b = normalize(wanted).replace(/\b(?:sv|swsh|sm|xy|bw|dp|ex|m)[a-z0-9]*\b/g, "").trim();
+  const a = canonicalSet(candidate);
+  const b = canonicalSet(wanted);
   if (!a || !b) return 0;
   if (a === b) return 100;
   if (a.endsWith(b) || b.endsWith(a)) return 88;
@@ -201,11 +211,17 @@ async function buildSnapshot(card: CatalogRecord) {
   ]);
   const matched = sources.filter((source) => source.status === "matched" && source.market !== null);
   const markets = matched.map((source) => source.market!).sort((a, b) => a - b);
-  const consensus = markets.length ? markets[Math.floor(markets.length / 2)] : null;
+  const reviewedMarket = numberValue(card.market?.currentPrice);
+  const automatedConsensus = markets.length ? markets[Math.floor(markets.length / 2)] : null;
+  const consensus = reviewedMarket ?? automatedConsensus;
+  const hasWideDisagreement = Boolean(reviewedMarket && markets.some((value) => value > reviewedMarket * 2.5 || value < reviewedMarket * .4));
   return {
+    schemaVersion: 2,
     sku: card.sku, card: { name: card.name, set: card.set, number: card.number, language: card.language, finish: card.finish, condition: card.condition },
     fetchedAt: new Date().toISOString(), consensusMarket: consensus, matchedSources: matched.length, sources,
-    warning: matched.length ? "Guide prices are supporting evidence. Condition and exact variant still control the final listing price." : "No automated exact match. Manual comp research is required.",
+    warning: hasWideDisagreement
+      ? "An automated guide disagrees sharply with the reviewed condition-aware value, so it was not allowed to replace it."
+      : matched.length ? "Guide prices are supporting evidence. Condition and exact variant still control the final listing price." : "No automated exact match. Manual comp research is required.",
   };
 }
 
@@ -226,7 +242,8 @@ export async function GET(request: NextRequest) {
   if (!force) {
     const cached = await db.select().from(cardMarketCache).where(eq(cardMarketCache.sku, sku)).get();
     if (cached && new Date(cached.expiresAt).getTime() > Date.now()) {
-      return NextResponse.json({ ...JSON.parse(cached.payloadJson), cached: true });
+      const payload = JSON.parse(cached.payloadJson);
+      if (payload.schemaVersion === 2) return NextResponse.json({ ...payload, cached: true });
     }
   }
 

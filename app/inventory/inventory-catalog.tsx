@@ -234,7 +234,7 @@ export default function InventoryCatalog({ boxes, records, summary, games, statu
             <div className="inventory-drawer-copy">
               {(() => {
                 const live = liveMarkets[selected.sku];
-                const displayMarket = live?.consensusMarket ?? selected.market?.currentPrice ?? null;
+                const displayMarket = selected.market?.currentPrice ?? live?.consensusMarket ?? null;
                 return <>
               <span className="inventory-drawer-location">{selected.box}</span>
               <p>{selected.sku} · {selected.game}</p><h2>{selected.name}</h2><h3>{selected.set}{selected.number ? ` · ${selected.number}` : ""}</h3>
