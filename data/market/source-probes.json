@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-09-07T04:01:25.782Z",
+  "readOnly": true,
+  "sources": {
+    "tcgcsv": {
+      "sourceId": "tcgcsv",
+      "status": "connected",
+      "checkedAt": "2026-09-07T04:01:25.496Z",
+      "records": 220,
+      "detail": "220 Pokémon sets available in the daily cache",
+      "error": null
+    },
+    "pokemon-tcg-api": {
+      "sourceId": "pokemon-tcg-api",
+      "status": "attention",
+      "checkedAt": "2026-09-07T04:01:25.592Z",
+      "records": 0,
+      "detail": "Connection check failed",
+      "error": "HTTP 500"
+    }
+  }
+}

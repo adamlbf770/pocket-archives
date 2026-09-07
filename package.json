@@ -9,6 +9,7 @@
     "sync:research": "node scripts/sync-research-archive.mjs",
     "sync:inventory": "node scripts/sync-inventory-previews.mjs && node scripts/sync-inventory-catalog.mjs",
     "sync:intelligence": "node scripts/sync-source-health.mjs",
+    "market:probe": "node scripts/market/probe-sources.mjs && npm run sync:intelligence",
     "ebay": "node scripts/ebay/cli.mjs",
     "ebay:doctor": "node scripts/ebay/cli.mjs doctor",
     "ebay:sync": "node scripts/ebay/cli.mjs sync-config",
