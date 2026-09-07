@@ -47,7 +47,7 @@ export async function GET() {
   }
 }
 
-export async function POST() {
+export async function POST(request: Request) {
   const auth = await authorizeOwner();
   if (auth) return auth;
 
@@ -59,6 +59,13 @@ export async function POST() {
       fetchRecentPaidOrders(token, startedAt),
     ]);
     await writeSnapshot(active, sold, startedAt);
+    const compact = new URL(request.url).searchParams.get("compact") === "1";
+    if (compact) {
+      return Response.json({
+        sync: { updatedAt: startedAt },
+        summary: { activeCount: active.length, soldCount: sold.length, updatedAt: startedAt },
+      }, { headers: { "Cache-Control": "no-store" } });
+    }
     const snapshot = await readInventoryLiveState();
     return Response.json({
       ...snapshot,

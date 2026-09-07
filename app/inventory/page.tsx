@@ -22,7 +22,15 @@ export default async function InventoryPage() {
   return (
     <InventoryCatalog
       boxes={inventoryBoxes}
-      records={inventoryRecords}
+      records={inventoryRecords.slice().sort((a, b) => Number(b.sku.replace(/\D/g, "")) - Number(a.sku.replace(/\D/g, ""))).slice(0, 30)}
+      summary={{
+        totalCards: inventoryRecords.length,
+        listed: inventoryRecords.filter((record) => record.status === "Listed").length,
+        unlisted: inventoryRecords.filter((record) => record.status !== "Listed").length,
+        listedValue: inventoryRecords.filter((record) => record.status === "Listed").reduce((sum, record) => sum + (record.price ?? 0), 0),
+      }}
+      games={[...new Set(inventoryRecords.map((record) => record.game))].sort()}
+      statuses={[...new Set(inventoryRecords.map((record) => record.status))].sort()}
       ownerName={user.fullName || user.displayName}
     />
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Box = { id: string; label: string; description: string; cardCount: number };
 type Record = {
@@ -17,25 +17,10 @@ type Record = {
   frontImage: string | null; backImage: string | null;
 };
 
-const skuNumber = (sku: string) => Number(sku.replace(/\D/g, "")) || 0;
 const money = (value: number | null) => value === null ? "—" : `$${value.toFixed(2)}`;
 const shortDate = (value: string | null) => value
   ? new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(value))
   : "—";
-
-function searchRank(record: Record, needle: string) {
-  if (!needle) return 0;
-  const name = record.name.toLowerCase();
-  if (name === needle) return 100;
-  if (name.startsWith(needle)) return 80;
-  if (name.includes(needle)) return 60;
-  if (record.sku.toLowerCase() === needle) return 55;
-  if (record.sku.toLowerCase().includes(needle)) return 45;
-  if (record.number.toLowerCase() === needle) return 40;
-  if (record.artist.toLowerCase().includes(needle)) return 30;
-  if (record.set.toLowerCase().includes(needle)) return 20;
-  return -1;
-}
 
 type LiveUpdate = {
   sku: string; status: string; price: number | null;
@@ -61,9 +46,12 @@ type LiveMarket = {
   matchedSources: number; sources: LivePriceSource[]; warning: string; cached?: boolean;
 };
 
-export default function InventoryCatalog({ boxes, records, ownerName }: {
+export default function InventoryCatalog({ boxes, records, summary, games, statuses, ownerName }: {
   boxes: readonly Box[];
   records: readonly Record[];
+  summary: { totalCards: number; listed: number; unlisted: number; listedValue: number };
+  games: readonly string[];
+  statuses: readonly string[];
   ownerName: string;
 }) {
   const [inventory, setInventory] = useState<readonly Record[]>(records);
@@ -78,81 +66,61 @@ export default function InventoryCatalog({ boxes, records, ownerName }: {
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
   const [liveMarkets, setLiveMarkets] = useState<{ [sku: string]: LiveMarket }>({});
   const [marketLoadingSku, setMarketLoadingSku] = useState<string | null>(null);
-
-  const games = useMemo(() => [...new Set(inventory.map((record) => record.game))].sort(), [inventory]);
-  const statuses = useMemo(() => [...new Set(inventory.map((record) => record.status))].sort(), [inventory]);
-  const listed = useMemo(() => inventory.filter((record) => record.status === "Listed"), [inventory]);
-  const unlisted = inventory.length - listed.length;
-  const listedValue = useMemo(() => listed.reduce((sum, record) => sum + (record.price ?? 0), 0), [listed]);
+  const [inventorySummary, setInventorySummary] = useState(summary);
+  const [totalResults, setTotalResults] = useState(summary.totalCards);
+  const [searching, setSearching] = useState(false);
+  const [searchRevision, setSearchRevision] = useState(0);
+  const firstSearch = useRef(true);
   const hasFilters = Boolean(query.trim()) || box !== "all" || game !== "all" || status !== "all";
 
   useEffect(() => {
-    let active = true;
-    fetch("/api/inventory/sync", { cache: "no-store" })
-      .then((response) => response.json() as Promise<SyncPayload>)
-      .then((payload) => {
-        if (!active) return;
-        applyUpdates(payload.rows ?? []);
-        setSyncAt(payload.sync?.updatedAt ?? null);
-      })
-      .catch(() => null);
-    return () => { active = false; };
-  }, []);
+    if (firstSearch.current && !query && box === "all" && game === "all" && status === "all" && visible === 30 && searchRevision === 0) {
+      firstSearch.current = false;
+      return;
+    }
+    firstSearch.current = false;
+    const controller = new AbortController();
+    const timer = window.setTimeout(async () => {
+      setSearching(true);
+      try {
+        const parameters = new URLSearchParams({ q: query, box, game, status, limit: String(visible) });
+        if (searchRevision) parameters.set("fresh", "1");
+        const response = await fetch(`/api/inventory/search?${parameters}`, { cache: "no-store", signal: controller.signal });
+        const payload = await response.json() as { records?: Record[]; total?: number; summary?: typeof summary; error?: string };
+        if (!response.ok) throw new Error(payload.error || "Search failed.");
+        setInventory(payload.records ?? []);
+        setTotalResults(payload.total ?? 0);
+        if (payload.summary) setInventorySummary(payload.summary);
+      } catch (error) {
+        if (!(error instanceof DOMException && error.name === "AbortError")) setSyncMessage(error instanceof Error ? error.message : "Search failed.");
+      } finally {
+        if (!controller.signal.aborted) setSearching(false);
+      }
+    }, query.trim() ? 220 : 0);
+    return () => { window.clearTimeout(timer); controller.abort(); };
+  }, [query, box, game, status, visible, searchRevision]);
 
   useEffect(() => {
     if (!selected || liveMarkets[selected.sku]) return;
     void loadLiveMarket(selected.sku, false);
   }, [selected?.sku]);
 
-  const filtered = useMemo(() => {
-    const needle = query.trim().toLowerCase();
-    return inventory
-      .map((record) => ({ record, rank: searchRank(record, needle) }))
-      .filter(({ record, rank }) => rank >= 0 && (box === "all" || record.boxId === box) &&
-        (game === "all" || record.game === game) && (status === "all" || record.status === status))
-      .sort((a, b) => needle ? b.rank - a.rank || skuNumber(b.record.sku) - skuNumber(a.record.sku) : skuNumber(b.record.sku) - skuNumber(a.record.sku))
-      .map(({ record }) => record);
-  }, [inventory, query, box, game, status]);
+  const filtered = inventory;
 
   function resetLimit() { setVisible(30); }
   function clearFilters() { setQuery(""); setBox("all"); setGame("all"); setStatus("all"); resetLimit(); }
-
-  function applyUpdates(rows: LiveUpdate[]) {
-    const updates = new Map(rows.map((row) => [row.sku, row]));
-    setInventory((current) => current.map((record) => {
-      const update = updates.get(record.sku);
-      return update ? {
-        ...record,
-        status: update.status,
-        price: update.price ?? record.price,
-        listingId: update.listingId ?? record.listingId,
-        listingUrl: update.listingUrl ?? record.listingUrl,
-      } : record;
-    }));
-    setSelected((current) => {
-      if (!current) return current;
-      const update = updates.get(current.sku);
-      return update ? {
-        ...current,
-        status: update.status,
-        price: update.price ?? current.price,
-        listingId: update.listingId ?? current.listingId,
-        listingUrl: update.listingUrl ?? current.listingUrl,
-      } : current;
-    });
-  }
 
   async function refreshInventory() {
     setSyncing(true);
     setSyncMessage(null);
     try {
-      const response = await fetch("/api/inventory/sync", { method: "POST", cache: "no-store" });
+      const response = await fetch("/api/inventory/sync?compact=1", { method: "POST", cache: "no-store" });
       const payload = await response.json() as SyncPayload;
       if (!response.ok) throw new Error(payload.error || "Refresh failed.");
-      applyUpdates(payload.rows ?? []);
       const updatedAt = payload.summary?.updatedAt ?? new Date().toISOString();
       setSyncAt(updatedAt);
       setSyncMessage(`Synced ${payload.summary?.activeCount.toLocaleString() ?? 0} active listings and ${payload.summary?.soldCount.toLocaleString() ?? 0} recent sold cards.`);
+      setSearchRevision((value) => value + 1);
     } catch (error) {
       setSyncMessage(error instanceof Error ? error.message : "Refresh failed.");
     } finally {
@@ -209,10 +177,10 @@ export default function InventoryCatalog({ boxes, records, ownerName }: {
         {syncMessage && <div className="inventory-sync-message" role="status">{syncMessage}</div>}
 
         <section className="inventory-stat-grid" aria-label="Inventory summary">
-          <article><span>Total cards</span><b>{inventory.length.toLocaleString()}</b><small>Across {boxes.length} storage locations</small></article>
-          <article><span>Listed</span><b>{listed.length.toLocaleString()}</b><small>{Math.round((listed.length / inventory.length) * 100)}% of inventory</small></article>
-          <article><span>Not listed</span><b>{unlisted.toLocaleString()}</b><small>Available to review</small></article>
-          <article><span>Listed value</span><b>{"$"}{listedValue.toLocaleString("en-US", { maximumFractionDigits: 0 })}</b><small>Current asking-price total</small></article>
+          <article><span>Total cards</span><b>{inventorySummary.totalCards.toLocaleString()}</b><small>Across {boxes.length} storage locations</small></article>
+          <article><span>Listed</span><b>{inventorySummary.listed.toLocaleString()}</b><small>{Math.round((inventorySummary.listed / inventorySummary.totalCards) * 100)}% of inventory</small></article>
+          <article><span>Not listed</span><b>{inventorySummary.unlisted.toLocaleString()}</b><small>Available to review</small></article>
+          <article><span>Listed value</span><b>{"$"}{inventorySummary.listedValue.toLocaleString("en-US", { maximumFractionDigits: 0 })}</b><small>Current asking-price total</small></article>
         </section>
 
         <section className="inventory-search-panel" id="card-search">
@@ -235,11 +203,11 @@ export default function InventoryCatalog({ boxes, records, ownerName }: {
 
         <section className="inventory-result-panel">
           <header>
-            <div><h2>{hasFilters ? "Search results" : "Recently cataloged"}</h2><span>{hasFilters ? `${filtered.length.toLocaleString()} matches` : "Newest inventory first"}</span></div>
-            {!hasFilters && <a href="#card-search">Search all {inventory.length.toLocaleString()} cards</a>}
+            <div><h2>{hasFilters ? "Search results" : "Recently cataloged"}</h2><span>{searching ? "Searching…" : hasFilters ? `${totalResults.toLocaleString()} matches` : "Newest inventory first"}</span></div>
+            {!hasFilters && <a href="#card-search">Search all {inventorySummary.totalCards.toLocaleString()} cards</a>}
           </header>
           <div className="inventory-list" role="list">
-            {filtered.slice(0, visible).map((record) => (
+            {filtered.map((record) => (
               <button className="inventory-list-row" key={record.sku} onClick={() => setSelected(record)} role="listitem">
                 <span className="inventory-list-image">{record.frontImage ? <img src={record.frontImage} alt="" loading="lazy" /> : <i>No image</i>}</span>
                 <span className="inventory-list-primary"><b>{record.name}</b><small>{record.set}{record.number ? ` · ${record.number}` : ""}</small></span>
@@ -251,8 +219,8 @@ export default function InventoryCatalog({ boxes, records, ownerName }: {
               </button>
             ))}
           </div>
-          {!filtered.length && <div className="inventory-empty"><b>No cards found</b><span>Try a shorter name, SKU, or clear the filters.</span><button type="button" onClick={clearFilters}>Clear filters</button></div>}
-          {visible < filtered.length && <button className="inventory-more" onClick={() => setVisible((count) => count + 30)}>Load 30 more</button>}
+          {!searching && !filtered.length && <div className="inventory-empty"><b>No cards found</b><span>Try a shorter name, SKU, or clear the filters.</span><button type="button" onClick={clearFilters}>Clear filters</button></div>}
+          {visible < totalResults && <button className="inventory-more" onClick={() => setVisible((count) => count + 30)}>{searching ? "Loading…" : "Load 30 more"}</button>}
         </section>
       </section>
 
