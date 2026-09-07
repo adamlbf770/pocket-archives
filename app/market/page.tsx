@@ -41,6 +41,9 @@ export default async function MarketPage() {
   if (user.email.toLowerCase() !== ownerEmail) notFound();
   const { summary, dailySales, listingValueByGame, salesByGame, marketPosition, sources, generatedAt, topActive } = marketSnapshot;
   const maxGameValue = Math.max(1, ...listingValueByGame.map((item) => item.value));
+  const thirtyDayRevenue = dailySales.reduce((total, point) => total + point.revenue, 0);
+  const activeSalesDays = dailySales.filter((point) => point.revenue > 0).length;
+  const compCoverage = summary.activeListings ? Math.round(summary.comparableListings / summary.activeListings * 100) : 0;
   const positionRows = [
     ["Competitive", marketPosition.counts.competitive ?? 0, "good"],
     ["Priced high", marketPosition.counts["priced-high"] ?? 0, "high"],
@@ -61,26 +64,36 @@ export default async function MarketPage() {
       </aside>
 
       <section className="inventory-workspace">
-        <header className="inventory-app-header"><div><small>INTELLIGENCE</small><h1>Market</h1></div><span className="inventory-live-status"><i /> Read only</span></header>
+        <header className="inventory-app-header market-page-header">
+          <div><small>MARKET INTELLIGENCE</small><h1>Know what the shelves are worth.</h1><p>Sales, listing value, price position, and source coverage in one read-only view.</p></div>
+          <div className="market-header-status"><span className="inventory-live-status"><i /> Read only</span><small>Updated {new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeStyle: "short", timeZone: "America/New_York" }).format(new Date(generatedAt))}</small></div>
+        </header>
 
         <section className="inventory-stat-grid market-stat-grid" aria-label="Market summary">
-          <article><span>Listed value</span><b>{dollars(summary.listedValue)}</b><small>{number(summary.activeListings)} active listings</small></article>
-          <article><span>Sales revenue</span><b>{dollars(summary.salesRevenue)}</b><small>{number(summary.paidOrders)} paid orders recorded</small></article>
-          <article><span>Average order</span><b>{dollars(summary.averageOrderValue)}</b><small>{number(summary.soldUnits)} cards sold</small></article>
-          <article><span>Last 7 days</span><b>{dollars(summary.sevenDayRevenue)}</b><small>{summary.sevenDayChangePct === null ? "No prior-week baseline" : `${summary.sevenDayChangePct >= 0 ? "+" : ""}${summary.sevenDayChangePct}% vs prior 7 days`}</small></article>
+          <article className="is-primary"><span>Listed inventory value</span><b>{dollars(summary.listedValue)}</b><small>{number(summary.activeListings)} active listings</small></article>
+          <article><span>Recorded revenue</span><b>{dollars(summary.salesRevenue)}</b><small>{number(summary.paidOrders)} paid orders · {number(summary.soldUnits)} units</small></article>
+          <article><span>Average order value</span><b>{dollars(summary.averageOrderValue)}</b><small>Across all paid orders recorded</small></article>
+          <article className={summary.sevenDayChangePct !== null && summary.sevenDayChangePct < 0 ? "is-caution" : "is-positive"}><span>Revenue · last 7 days</span><b>{dollars(summary.sevenDayRevenue)}</b><small>{summary.sevenDayChangePct === null ? "No prior-week baseline" : `${summary.sevenDayChangePct >= 0 ? "+" : ""}${summary.sevenDayChangePct}% compared with prior 7 days`}</small></article>
+        </section>
+
+        <section className="market-context-strip" aria-label="Market data context">
+          <span><b>{compCoverage}%</b> of active listings have comparable market data</span>
+          <span><b>{number(summary.unshippedOrders)}</b> unshipped {summary.unshippedOrders === 1 ? "order" : "orders"}</span>
+          <span><b>{summary.marketPremiumPct === null ? "—" : `${summary.marketPremiumPct > 0 ? "+" : ""}${summary.marketPremiumPct}%`}</b> aggregate premium versus comparable median</span>
         </section>
 
         <section className="market-dashboard-grid">
           <article className="market-panel market-sales-panel">
             <header><div><small>SALES TREND</small><h2>Daily revenue</h2></div><span>Last 30 days</span></header>
+            <div className="market-chart-summary"><span><small>30-day revenue</small><b>{dollars(thirtyDayRevenue)}</b></span><span><small>Days with sales</small><b>{activeSalesDays} / {dailySales.length}</b></span></div>
             <SalesChart points={dailySales} />
           </article>
 
           <article className="market-panel market-position-panel">
             <header><div><small>PRICE POSITION</small><h2>Current competitiveness</h2></div><span>{number(summary.comparableListings)} covered</span></header>
-            <div className="market-position-score"><b>{summary.marketPremiumPct === null ? "—" : `${summary.marketPremiumPct > 0 ? "+" : ""}${summary.marketPremiumPct}%`}</b><span>aggregate premium vs comparable median</span></div>
+            <div className="market-position-score"><b>{summary.marketPremiumPct === null ? "—" : `${summary.marketPremiumPct > 0 ? "+" : ""}${summary.marketPremiumPct}%`}</b><span>aggregate premium versus the comparable median</span></div>
             <div className="market-position-bars">{positionRows.map(([label, count, tone]) => <div key={label}><span><b>{label}</b><em>{number(count)}</em></span><i className={`is-${tone}`} style={{ width: `${summary.comparableListings ? Math.max(2, count / summary.comparableListings * 100) : 0}%` }} /></div>)}</div>
-            <p>Directional screen from the latest full comp sweep. It does not treat active asking prices as realized sales.</p>
+            <p>Directional view from the latest full comp sweep. Active asking prices are never treated as realized sales.</p>
           </article>
 
           <article className="market-panel market-game-panel">

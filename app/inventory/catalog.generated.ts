@@ -12422,7 +12422,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158220859172",
-    "listingUrl": "https://www.ebay.com/itm/Pokemon-Scoop-Up-107-130-Base-Set-2-MP-/158220859172",
+    "listingUrl": null,
     "frontImage": "https://i.ebayimg.com/00/s/MTA0MFg3NDQ=/z/nw4AAeSwRvdqjR1R/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTAzOVg3NDU=/z/fl4AAeSwzbZqjR1R/$_12.JPG?set_id=880000500F"
   },
@@ -24716,7 +24716,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158213661954",
-    "listingUrl": "https://www.ebay.com/itm/Pokemon-Superior-Energy-Retrieval-277-193-Paldea-Evolved-Holo-NM-/158213661954",
+    "listingUrl": null,
     "frontImage": "https://i.ebayimg.com/00/s/MTYwMFgxMTUw/z/ZuoAAeSwxZRqiOLn/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTYwMFgxMTU0/z/XHcAAeSw0FZqiOLm/$_12.JPG?set_id=880000500F"
   },
@@ -39921,8 +39921,8 @@ export const inventoryRecords = [
       "lastSoldAt": null,
       "lastSoldQuantity": null
     },
-    "listingId": "158244095224",
-    "listingUrl": "https://www.ebay.com/itm/Pokemon-Marnie-s-Grimmsnarl-ex-136-182-Destined-Rivals-Holo-LP-/158244095224",
+    "listingId": "158268135252",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Marnie-s-Grimmsnarl-ex-136-182-Destined-Rivals-Holo-LP-/158268135252",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzOVg3NDc=/z/YUsAAeSwptdqlf2B/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0Mlg3NDc=/z/~8MAAeSwAnRqlf2B/$_12.JPG?set_id=880000500F"
   },
@@ -40131,8 +40131,8 @@ export const inventoryRecords = [
       "lastSoldAt": null,
       "lastSoldQuantity": null
     },
-    "listingId": "158244095704",
-    "listingUrl": "https://www.ebay.com/itm/Pokemon-Froslass-53-167-Twilight-Masquerade-Reverse-Holo-LP-Makura-Tami-/158244095704",
+    "listingId": "158268135425",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Froslass-53-167-Twilight-Masquerade-Reverse-Holo-LP-Makura-Tami-/158268135425",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzOFg3NDk=/z/MNgAAeSwqlBqlf2F/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTAzOFg3NDg=/z/4FYAAeSwG9Fqlf2F/$_12.JPG?set_id=880000500F"
   },
@@ -41199,8 +41199,8 @@ export const inventoryRecords = [
     "status": "Listed",
     "price": 1.49,
     "market": null,
-    "listingId": "158215097275",
-    "listingUrl": "https://www.ebay.com/itm/Pokemon-Marnie-s-Morgrem-135-182-Destined-Rivals-NM-/158215097275",
+    "listingId": "158268135180",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Marnie-s-Morgrem-135-182-Destined-Rivals-NM-/158268135180",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzN1g3NDU=/z/5sAAAeSwFLNqijeh/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0Mlg3NDY=/z/6J0AAeSw1Pxqijeh/$_12.JPG?set_id=880000500F"
   },
@@ -41375,8 +41375,8 @@ export const inventoryRecords = [
     "status": "Listed",
     "price": 1.49,
     "market": null,
-    "listingId": "158215097888",
-    "listingUrl": "https://www.ebay.com/itm/Pokemon-Marnie-s-Impidimp-134-182-Destined-Rivals-NM-/158215097888",
+    "listingId": "158268135062",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Marnie-s-Impidimp-134-182-Destined-Rivals-NM-/158268135062",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzOFg3NDM=/z/U2gAAeSw9XJqijes/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0MVg3NDU=/z/RYYAAeSw5B5qijes/$_12.JPG?set_id=880000500F"
   },
@@ -41639,8 +41639,8 @@ export const inventoryRecords = [
     "status": "Listed",
     "price": 1.49,
     "market": null,
-    "listingId": "158215098637",
-    "listingUrl": "https://www.ebay.com/itm/Pokemon-Marnie-s-Impidimp-134-182-Destined-Rivals-NM-/158215098637",
+    "listingId": "158268135144",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Marnie-s-Impidimp-134-182-Destined-Rivals-NM-/158268135144",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzOFg3NDQ=/z/QdsAAeSwiipqije9/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0MFg3NDQ=/z/GC8AAeSwjPFqije9/$_12.JPG?set_id=880000500F"
   },
@@ -65590,7 +65590,7 @@ export const inventoryRecords = [
     "price": 1.49,
     "market": null,
     "listingId": "158216120939",
-    "listingUrl": "https://www.ebay.com/itm/Pokemon-Gengar-57-91-Paldean-Fates-NM-Nelnal-/158216120939",
+    "listingUrl": null,
     "frontImage": "https://i.ebayimg.com/00/s/MTAzN1g3NDU=/z/yQ0AAeSw7Slqix6z/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0MFg3NDc=/z/se0AAeSwie9qix6z/$_12.JPG?set_id=880000500F"
   },
@@ -81749,7 +81749,7 @@ export const inventoryRecords = [
     },
     "listingId": "158237854435",
     "listingUrl": "https://www.ebay.com/itm/Pokemon-Applin-16-182-Destined-Rivals-NM-/158237854435",
-    "frontImage": "https://i.ebayimg.com/00/s/MTA0MFg3NDA=/z/HboAAeSwv9Nqk3z3/$_12.JPG?set_id=880000500F",
+    "frontImage": "https://i.ebayimg.com/00/s/MTA0MFg3NDA=/z/FcAAAeSwqQBqntwa/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0M1g3NDQ=/z/OWUAAeSwptdqk3z3/$_12.JPG?set_id=880000500F"
   },
   {
@@ -81851,7 +81851,7 @@ export const inventoryRecords = [
     },
     "listingId": "158237854445",
     "listingUrl": "https://www.ebay.com/itm/Pokemon-Fletchling-94-114-Steam-Siege-NM-TOKIYA-/158237854445",
-    "frontImage": "https://i.ebayimg.com/00/s/MTAzOFg3NDE=/z/nBQAAeSww99qk3z4/$_12.JPG?set_id=880000500F",
+    "frontImage": "https://i.ebayimg.com/00/s/MTAzOFg3NDE=/z/KvYAAeSwXHtqntwe/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0Mlg3NDE=/z/HtQAAeSwGEZqk3z4/$_12.JPG?set_id=880000500F"
   },
   {
@@ -90839,7 +90839,7 @@ export const inventoryRecords = [
     },
     "listingId": "158237858447",
     "listingUrl": "https://www.ebay.com/itm/Pokemon-Golduck-55-165-151-NM-Taira-Akitsu-/158237858447",
-    "frontImage": "https://i.ebayimg.com/00/s/MTAzOVg3NDI=/z/D9UAAeSwPgVqk316/$_12.JPG?set_id=880000500F",
+    "frontImage": "https://i.ebayimg.com/00/s/MTAzOVg3NDI=/z/3EIAAeSwanZqntwj/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0Mlg3NDY=/z/FDoAAeSwieZqk316/$_12.JPG?set_id=880000500F"
   },
   {
@@ -95855,7 +95855,7 @@ export const inventoryRecords = [
     },
     "listingId": "158237860447",
     "listingUrl": "https://www.ebay.com/itm/Pokemon-Shuppet-67-185-Vivid-Voltage-NM-Miki-Tanaka-/158237860447",
-    "frontImage": "https://i.ebayimg.com/00/s/MTA0MFg3NDM=/z/rJsAAeSwRUZqk329/$_12.JPG?set_id=880000500F",
+    "frontImage": "https://i.ebayimg.com/00/s/MTA0MFg3NDM=/z/3CkAAeSwoiJqntwn/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0Mlg3NDc=/z/Q7cAAeSwvEZqk329/$_12.JPG?set_id=880000500F"
   },
   {
@@ -102805,8 +102805,8 @@ export const inventoryRecords = [
       "lastSoldAt": null,
       "lastSoldQuantity": null
     },
-    "listingId": "158237871406",
-    "listingUrl": "https://www.ebay.com/itm/Pokemon-Marnie-s-Morgrem-135-182-Destined-Rivals-NM-/158237871406",
+    "listingId": "158268135208",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Marnie-s-Morgrem-135-182-Destined-Rivals-NM-/158268135208",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzOFg3NDY=/z/raIAAeSwHO1qk34h/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0M1g3NDU=/z/q4AAAeSwA-tqk34h/$_12.JPG?set_id=880000500F"
   },
@@ -116711,8 +116711,8 @@ export const inventoryRecords = [
     "status": "Listed",
     "price": 1.49,
     "market": null,
-    "listingId": "158241550860",
-    "listingUrl": "https://www.ebay.com/itm/Pokemon-Snorunt-46-217-Ascended-Heroes-LP-Wintr-Wandr-/158241550860",
+    "listingId": "158268135278",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Snorunt-46-217-Ascended-Heroes-LP-Wintr-Wandr-/158268135278",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzOFg3NDQ=/z/gCIAAeSw6RlqlPQk/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0NVg3NDc=/z/cPEAAeSwLrNqlPQk/$_12.JPG?set_id=880000500F"
   },
@@ -248897,7 +248897,7 @@ export const inventoryRecords = [
     },
     "listingId": "158252265017",
     "listingUrl": "https://www.ebay.com/itm/MTG-Dragonbroods-Relic-140-TDM-Tarkir-Dragonstorm-Foil-NM-Racrufi-/158252265017",
-    "frontImage": "https://i.ebayimg.com/00/s/OTI3WDY4NA==/z/~AEAAeSwuVhqmPsc/$_12.JPG?set_id=880000500F",
+    "frontImage": "https://i.ebayimg.com/00/s/OTI3WDY4NA==/z/5N0AAeSwGDRqnt0j/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/NTkzWDcyOQ==/z/PAsAAeSwS7ZqmPsc/$_12.JPG?set_id=880000500F"
   },
   {
@@ -265782,7 +265782,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158258608095",
-    "listingUrl": "https://www.ebay.com/itm/Pokemon-Pikachu-V-SWSH285-SWSH285-SWSH-Black-Star-Promos-Holo-NM-You-Iribi-/158258608095",
+    "listingUrl": "https://www.ebay.com/itm/158258608095",
     "frontImage": "https://i.ebayimg.com/00/s/MTAyMVg3MjI=/z/vhUAAeSwM89qm0vu/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA1M1g3OTc=/z/phsAAeSwRHNqm0vu/$_12.JPG?set_id=880000500F"
   },
@@ -290990,7 +290990,7 @@ export const inventoryRecords = [
     "artist": "Dsuke",
     "boxId": "BOX-3",
     "box": "Box 3",
-    "status": "Listed",
+    "status": "Unlisted",
     "price": 2.49,
     "market": {
       "currentPrice": 1,
@@ -291006,7 +291006,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158262926048",
-    "listingUrl": "https://www.ebay.com/itm/Pokemon-Alolan-Dugtrio-0103-07-CBB6C-S-Chinese-Glitter-Foil-NM-Dsuke-/158262926048",
+    "listingUrl": "https://www.ebay.com/itm/158262926048",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzN1g3NDY=/z/QTcAAeSwpN5qnNst/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/OTk4WDY2OQ==/z/U8gAAeSwIR1qnNst/$_12.JPG?set_id=880000500F"
   },
@@ -293098,7 +293098,7 @@ export const inventoryRecords = [
     "artist": "Taiga Kayama",
     "boxId": "BOX-3",
     "box": "Box 3",
-    "status": "Listed",
+    "status": "Unlisted",
     "price": 2.49,
     "market": {
       "currentPrice": 1,
@@ -293114,7 +293114,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158262926485",
-    "listingUrl": "https://www.ebay.com/itm/Pokemon-Meltan-2406-07-CBB4C-S-Chinese-Stamped-NM-Taiga-Kayama-/158262926485",
+    "listingUrl": "https://www.ebay.com/itm/158262926485",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzMlg3NDQ=/z/M6AAAeSw9ZdqnNtL/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/OTk2WDY3MA==/z/ASsAAeSw69pqnNtL/$_12.JPG?set_id=880000500F"
   },
@@ -325356,7 +325356,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511861",
-    "listingUrl": "https://www.ebay.com/itm/158265511861",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Nymble-082-080-Inferno-X-Japanese-Holo-NM-Nakamura-Ippan-/158265511861",
     "frontImage": "https://i.ebayimg.com/00/s/MTA1Mlg3NDI=/z/SfUAAeSwva1qnfPi/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTAzN1g3ODY=/z/jV0AAeSwY0JqnfPi/$_12.JPG?set_id=880000500F"
   },
@@ -325390,7 +325390,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511863",
-    "listingUrl": "https://www.ebay.com/itm/158265511863",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Probopass-076-066-Crimson-Haze-Japanese-Holo-NM-Kariya-/158265511863",
     "frontImage": "https://i.ebayimg.com/00/s/MTA0MFg3NDQ=/z/GfgAAeSwMk1qnfPi/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0OFg3ODc=/z/SrMAAeSw131qnfPi/$_12.JPG?set_id=880000500F"
   },
@@ -325424,7 +325424,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511862",
-    "listingUrl": "https://www.ebay.com/itm/158265511862",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Ethan-s-Magcargo-197-193-MEGA-Dream-ex-Japanese-Holo-NM-Hideki-Ishikawa-/158265511862",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzN1g3NDM=/z/rFIAAeSw61RqnfPi/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA1MVg3ODY=/z/rdwAAeSw0NBqnfPi/$_12.JPG?set_id=880000500F"
   },
@@ -325458,7 +325458,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511851",
-    "listingUrl": "https://www.ebay.com/itm/158265511851",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Passimian-TG08-TG30-Silver-Tempest-TG-Holo-NM-nagimiso-/158265511851",
     "frontImage": "https://i.ebayimg.com/00/s/MTA0OVg3NDM=/z/TnYAAeSwkBNqnfPj/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA1MFg3ODc=/z/HXEAAeSw-JRqnfPk/$_12.JPG?set_id=880000500F"
   },
@@ -325492,7 +325492,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511844",
-    "listingUrl": "https://www.ebay.com/itm/158265511844",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Team-Rocket-s-Wobbuffet-103-098-Glory-of-Team-Rocket-Japanese-Holo-NM-/158265511844",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzMVg3NDQ=/z/1RgAAeSweLVqnfPj/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA1NFg3ODU=/z/R4MAAeSw7OFqnfPj/$_12.JPG?set_id=880000500F"
   },
@@ -325526,7 +325526,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511867",
-    "listingUrl": "https://www.ebay.com/itm/158265511867",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Watchog-097-086-Chaos-Rising-Holo-NM-MARINA-Chikazawa-/158265511867",
     "frontImage": "https://i.ebayimg.com/00/s/MTA0OVg3NDQ=/z/XN8AAeSwHQBqnfPk/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA1NFg3ODc=/z/pnoAAeSwsx9qnfPk/$_12.JPG?set_id=880000500F"
   },
@@ -325560,7 +325560,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511860",
-    "listingUrl": "https://www.ebay.com/itm/158265511860",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Team-Rocket-s-Dugtrio-206-193-MEGA-Dream-ex-Japanese-Holo-NM-Whisker-/158265511860",
     "frontImage": "https://i.ebayimg.com/00/s/MTA0N1g3NDU=/z/weYAAeSwv9NqnfPl/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA1MFg3ODc=/z/waEAAeSw2G9qnfPm/$_12.JPG?set_id=880000500F"
   },
@@ -325594,7 +325594,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511846",
-    "listingUrl": "https://www.ebay.com/itm/158265511846",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Medicham-207-193-MEGA-Dream-ex-Japanese-Holo-NM-KEIICHIRO-ITO-/158265511846",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzNVg3NDM=/z/99wAAeSwN0tqnfPl/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA1Mlg3ODY=/z/-30AAeSwjPFqnfPl/$_12.JPG?set_id=880000500F"
   },
@@ -325628,7 +325628,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511848",
-    "listingUrl": "https://www.ebay.com/itm/158265511848",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Heliolisk-201-193-MEGA-Dream-ex-Japanese-Holo-NM-Takeshi-Nakamura-/158265511848",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzOVg3NDU=/z/bnkAAeSwmpZqnfPm/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0NFg3ODY=/z/O5IAAeSwJm1qnfPm/$_12.JPG?set_id=880000500F"
   },
@@ -325662,7 +325662,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511843",
-    "listingUrl": "https://www.ebay.com/itm/158265511843",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Team-Rocket-s-Spidops-099-098-Glory-of-Team-Rocket-Japanese-Holo-NM-/158265511843",
     "frontImage": "https://i.ebayimg.com/00/s/MTA0Nlg3NjQ=/z/D1UAAeSwwtFqnfPn/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA1MVg3OTk=/z/2B0AAeSwm5VqnfPn/$_12.JPG?set_id=880000500F"
   },
@@ -325696,7 +325696,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511857",
-    "listingUrl": "https://www.ebay.com/itm/158265511857",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Togedemaru-104-094-Phantasmal-Flames-Holo-NM-Orca-/158265511857",
     "frontImage": "https://i.ebayimg.com/00/s/MTA0NVg3NzE=/z/qUkAAeSwy-ZqnfPo/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0OFg3NTI=/z/tQoAAeSwC0ZqnfPo/$_12.JPG?set_id=880000500F"
   },
@@ -325730,7 +325730,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511872",
-    "listingUrl": "https://www.ebay.com/itm/158265511872",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Snorunt-200-193-MEGA-Dream-ex-Japanese-Holo-NM-June-/158265511872",
     "frontImage": "https://i.ebayimg.com/00/s/MTA0OVg3NDM=/z/u8wAAeSwi0VqnfPo/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0NFg3ODM=/z/OSgAAeSwZQNqnfPo/$_12.JPG?set_id=880000500F"
   },
@@ -325764,7 +325764,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511858",
-    "listingUrl": "https://www.ebay.com/itm/158265511858",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Hitmontop-240-217-Ascended-Heroes-Holo-NM-osare-/158265511858",
     "frontImage": "https://i.ebayimg.com/00/s/MTA0Nlg3NDI=/z/r2EAAeSwRUZqnfPq/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA1MFg3ODc=/z/mY0AAeSwiTNqnfPq/$_12.JPG?set_id=880000500F"
   },
@@ -325798,7 +325798,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511850",
-    "listingUrl": "https://www.ebay.com/itm/158265511850",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Iron-Moth-069-066-Future-Flash-Japanese-Holo-NM-Takeshi-Nakamura-/158265511850",
     "frontImage": "https://i.ebayimg.com/00/s/MTA0Nlg3NDM=/z/vDEAAeSwYwdqnfPq/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0M1g3ODg=/z/GegAAeSwT-hqnfPq/$_12.JPG?set_id=880000500F"
   },
@@ -325832,7 +325832,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511842",
-    "listingUrl": "https://www.ebay.com/itm/158265511842",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Delibird-074-063-Mega-Symphonia-Japanese-Holo-NM-Takeshi-Nakamura-/158265511842",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzNVg3NDY=/z/7TMAAeSwNhhqnfPs/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTAzOFg3ODQ=/z/7k0AAeSw2bhqnfPs/$_12.JPG?set_id=880000500F"
   },
@@ -325866,7 +325866,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511855",
-    "listingUrl": "https://www.ebay.com/itm/158265511855",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Teal-Mask-Ogerpon-SVP-123-SV-Black-Star-Promo-Holo-NM-kodama-/158265511855",
     "frontImage": "https://i.ebayimg.com/00/s/MTA1MVg3NDM=/z/I8kAAeSwQUJqnfPt/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0M1g3ODY=/z/orcAAeSwRHNqnfPs/$_12.JPG?set_id=880000500F"
   },
@@ -325900,7 +325900,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511849",
-    "listingUrl": "https://www.ebay.com/itm/158265511849",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Spinda-213-193-MEGA-Dream-ex-Japanese-Holo-NM-Yukihiro-Tada-/158265511849",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzM1g3NDM=/z/~RoAAeSwyTVqnfPs/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0MVg3ODY=/z/CtcAAeSwEu1qnfPs/$_12.JPG?set_id=880000500F"
   },
@@ -325934,7 +325934,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511870",
-    "listingUrl": "https://www.ebay.com/itm/158265511870",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Electabuzz-073-066-Crimson-Haze-Japanese-Holo-NM-Tonji-Matsuno-/158265511870",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzMVg3NDM=/z/KP0AAeSwVZ5qnfPu/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTAzN1g3ODg=/z/7JsAAeSwXr1qnfPu/$_12.JPG?set_id=880000500F"
   },
@@ -325968,7 +325968,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511856",
-    "listingUrl": "https://www.ebay.com/itm/158265511856",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Gumshoos-075-063-Mega-Brave-Japanese-Holo-NM-Mina-Nakai-/158265511856",
     "frontImage": "https://i.ebayimg.com/00/s/MTA0Nlg3NDU=/z/H-wAAeSw99ZqnfPu/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTAzNlg3ODg=/z/AaIAAeSwhVlqnfPu/$_12.JPG?set_id=880000500F"
   },
@@ -326002,7 +326002,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511865",
-    "listingUrl": "https://www.ebay.com/itm/158265511865",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Raticate-092-080-Nihil-Zero-Japanese-Holo-NM-Mina-Nakai-/158265511865",
     "frontImage": "https://i.ebayimg.com/00/s/MTA0Nlg3NDY=/z/z9gAAeSw5rdqnfPv/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA0M1g3ODY=/z/hTcAAeSwE~FqnfPv/$_12.JPG?set_id=880000500F"
   },
@@ -326036,7 +326036,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511868",
-    "listingUrl": "https://www.ebay.com/itm/158265511868",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Koraidon-SVP-014-SV-Black-Star-Promo-Holo-NM-Mina-Nakai-/158265511868",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzNFg3NjE=/z/hF8AAeSwhPJqnfPw/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA2NVg3NDc=/z/~SQAAeSwyTVqnfPw/$_12.JPG?set_id=880000500F"
   },
@@ -326070,7 +326070,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511859",
-    "listingUrl": "https://www.ebay.com/itm/158265511859",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-AZ-s-Tranquility-106-086-Chaos-Rising-Holo-NM-GIDORA-/158265511859",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzMVg3ODk=/z/z98AAeSw5rdqnfPx/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTA4N1g3ODc=/z/wyoAAeSwWihqnfPx/$_12.JPG?set_id=880000500F"
   },
@@ -326104,7 +326104,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511853",
-    "listingUrl": "https://www.ebay.com/itm/158265511853",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Ditto-132-165-Scarlet-Violet-151-Holo-NM-KIYOTAKA-OSHIYAMA-/158265511853",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzN1g3NDc=/z/VA4AAeSw6o5qnfPx/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTAzOFg3NDU=/z/sC8AAeSwIK1qnfPx/$_12.JPG?set_id=880000500F"
   },
@@ -326138,7 +326138,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511854",
-    "listingUrl": "https://www.ebay.com/itm/158265511854",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Ambipom-092-080-Inferno-X-Japanese-Holo-NM-Shigenori-Negishi-/158265511854",
     "frontImage": "https://i.ebayimg.com/00/s/MTA2N1g3NTE=/z/0iIAAeSw6wNqnfPx/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTAzN1g3ODc=/z/hUgAAeSwE~FqnfPx/$_12.JPG?set_id=880000500F"
   },
@@ -326172,7 +326172,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511869",
-    "listingUrl": "https://www.ebay.com/itm/158265511869",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Feraligatr-No-160-Neo-Genesis-JP-Japanese-Holo-MP-Ken-Sugimori-/158265511869",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzM1g3Mzk=/z/zeUAAeSwS9dqnfPz/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTAwOVg3MzA=/z/DM4AAeSwVzdqnfPz/$_12.JPG?set_id=880000500F"
   },
@@ -326206,7 +326206,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511983",
-    "listingUrl": "https://www.ebay.com/itm/158265511983",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Cyndaquil-56-111-Neo-Genesis-1st-Edition-MP-Ken-Sugimori-/158265511983",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzM1g3NDU=/z/78MAAeSw3ZFqnfPz/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTAzNFg3NDc=/z/yUYAAeSwhq5qnfPz/$_12.JPG?set_id=880000500F"
   },
@@ -326240,7 +326240,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511981",
-    "listingUrl": "https://www.ebay.com/itm/158265511981",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Diglett-106-165-Expedition-Base-Set-Reverse-Holo-MP-Masako-Yamashita-/158265511981",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzNVg3NDQ=/z/brYAAeSwmpZqnfP0/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTAzN1g3NDc=/z/VKIAAeSw9XJqnfP0/$_12.JPG?set_id=880000500F"
   },
@@ -326274,7 +326274,7 @@ export const inventoryRecords = [
       "lastSoldQuantity": null
     },
     "listingId": "158265511982",
-    "listingUrl": "https://www.ebay.com/itm/158265511982",
+    "listingUrl": "https://www.ebay.com/itm/Pokemon-Charizard-EX-12-108-XY-Evolutions-Holo-LP-PLANETA-/158265511982",
     "frontImage": "https://i.ebayimg.com/00/s/MTAzNFg3NDI=/z/tgMAAeSwcJ1qnfP0/$_12.JPG?set_id=880000500F",
     "backImage": "https://i.ebayimg.com/00/s/MTAzN1g3NDI=/z/C3cAAeSwpN5qnfP0/$_12.JPG?set_id=880000500F"
   }
