@@ -31,6 +31,8 @@ export function StorefrontHome({ featured, categories, counts, total }: { featur
   const [activeFeature, setActiveFeature] = useState(0);
   const [carouselPaused, setCarouselPaused] = useState(false);
   const hero = featured[activeFeature] || featured[0];
+  const previousHero = featured[(activeFeature - 1 + featured.length) % featured.length] || hero;
+  const nextHero = featured[(activeFeature + 1) % featured.length] || hero;
 
   useEffect(() => {
     if (carouselPaused || featured.length < 2) return;
@@ -49,25 +51,29 @@ export function StorefrontHome({ featured, categories, counts, total }: { featur
       <div className="archive-home">
         <section className="archive-hero">
           <div className="archive-hero-copy">
-            <p className="archive-eyebrow">Pocket Archives · Independent collectibles shop</p>
-            <h1>A card shop built like an archive.</h1>
-            <p className="archive-hero-deck">Actual scans, careful identification, and straightforward condition notes for collectors who want to know exactly what they are buying.</p>
+            <p className="archive-eyebrow">Pocket Archives · Individually scanned cards</p>
+            <h1>Every card.<br /><em>Fully seen.</em></h1>
+            <p className="archive-hero-deck">Collect with confidence. Explore {total.toLocaleString()} cards photographed front and back, identified carefully, and described without the hype.</p>
             <div className="archive-hero-actions">
               <Link className="archive-button archive-button-bright" href="/shop">Browse the catalog <span>→</span></Link>
               <a className="archive-button archive-button-quiet" href={EXTERNAL_SHOP_URL} target="_blank" rel="noreferrer">Shop on eBay <span>↗</span></a>
             </div>
             <dl className="archive-hero-facts">
-              <div><dt>Live listings</dt><dd>{total.toLocaleString()}</dd></div>
-              <div><dt>Games represented</dt><dd>{Object.keys(counts).length}</dd></div>
-              <div><dt>Image standard</dt><dd>Front + back</dd></div>
+              <div><dt>Available now</dt><dd>{total.toLocaleString()} cards</dd></div>
+              <div><dt>Every listing</dt><dd>Front + back</dd></div>
+              <div><dt>Checkout</dt><dd>Protected by eBay</dd></div>
             </dl>
           </div>
 
           <div className="archive-feature" onMouseEnter={() => setCarouselPaused(true)} onMouseLeave={() => setCarouselPaused(false)} onFocusCapture={() => setCarouselPaused(true)} onBlurCapture={() => setCarouselPaused(false)}>
-            <div className="archive-feature-index"><span>Featured record</span><b>{String(activeFeature + 1).padStart(2, "0")} / {String(featured.length).padStart(2, "0")}</b></div>
-            <a className="archive-feature-card" href={hero.listingUrl} target="_blank" rel="noreferrer" aria-label={`View ${hero.name} on eBay`}>
-              <img key={hero.sku} src={hero.frontImage} alt={`${hero.name} — ${hero.set}`} />
-            </a>
+            <div className="archive-feature-index"><span>Featured from the archive</span><b>{String(activeFeature + 1).padStart(2, "0")} / {String(featured.length).padStart(2, "0")}</b></div>
+            <div className="archive-feature-stage">
+              <img className="archive-feature-ghost archive-feature-ghost-left" src={previousHero.frontImage} alt="" aria-hidden="true" />
+              <a className="archive-feature-card" href={hero.listingUrl} target="_blank" rel="noreferrer" aria-label={`View ${hero.name} on eBay`}>
+                <img key={hero.sku} src={hero.frontImage} alt={`${hero.name} — ${hero.set}`} />
+              </a>
+              <img className="archive-feature-ghost archive-feature-ghost-right" src={nextHero.frontImage} alt="" aria-hidden="true" />
+            </div>
             <div className="archive-feature-caption">
               <div><small>{hero.sku} · {hero.game}</small><b>{hero.name}</b><span>{hero.set}{hero.number ? ` · ${hero.number}` : ""}</span></div>
               <div><small>{hero.condition}</small><strong>{money(hero.price)}</strong></div>
