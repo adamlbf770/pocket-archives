@@ -1,87 +1,41 @@
 #!/usr/bin/env swift
-
 import Foundation
-import Vision
 import ImageIO
-import CoreGraphics
+import Vision
 
-struct OrientationResult: Codable {
-    let file: String
-    let upScore: Double
-    let downScore: Double
-    let orientation: String
-}
+struct Candidate: Codable { let rotation: Int; let score: Int; let lines: [String] }
+struct Result: Codable { let file: String; let candidates: [Candidate] }
+let encoder = JSONEncoder(); encoder.outputFormatting = [.withoutEscapingSlashes]
 
-func sourceOrientation(_ path: String) -> CGImagePropertyOrientation {
-    let url = URL(fileURLWithPath: path) as CFURL
-    guard let source = CGImageSourceCreateWithURL(url, nil),
-          let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any],
-          let value = properties[kCGImagePropertyOrientation] as? NSNumber,
-          let orientation = CGImagePropertyOrientation(rawValue: value.uint32Value) else {
-        return .up
-    }
-    return orientation
-}
-
-func opposite(_ orientation: CGImagePropertyOrientation) -> CGImagePropertyOrientation {
-    switch orientation {
-    case .up: return .down
-    case .upMirrored: return .downMirrored
-    case .down: return .up
-    case .downMirrored: return .upMirrored
-    case .left: return .right
-    case .leftMirrored: return .rightMirrored
-    case .right: return .left
-    case .rightMirrored: return .leftMirrored
-    @unknown default: return .down
-    }
-}
-
-func score(_ path: String, orientation: CGImagePropertyOrientation) throws -> Double {
-    let request = VNRecognizeTextRequest()
-    request.recognitionLevel = .accurate
-    request.usesLanguageCorrection = true
-    request.minimumTextHeight = 0.008
+func recognize(_ path: String, _ orientation: CGImagePropertyOrientation) throws -> [String] {
+    let request = VNRecognizeTextRequest(); request.recognitionLevel = .accurate; request.usesLanguageCorrection = true; request.minimumTextHeight = 0.008
     let supported = try request.supportedRecognitionLanguages()
-    request.recognitionLanguages = ["en-US", "ja-JP"].filter { supported.contains($0) }
-    let url = URL(fileURLWithPath: path) as CFURL
-    guard let source = CGImageSourceCreateWithURL(url, nil),
-          let image = CGImageSourceCreateImageAtIndex(source, 0, nil) else {
-        throw NSError(domain: "OrientationDetector", code: 1,
-                      userInfo: [NSLocalizedDescriptionKey: "Unable to decode image"])
-    }
-    let handler = VNImageRequestHandler(cgImage: image, orientation: orientation, options: [:])
-    try handler.perform([request])
-    return (request.results ?? []).reduce(0.0) { total, observation in
-        guard let candidate = observation.topCandidates(1).first else { return total }
-        let lengthWeight = Double(min(max(candidate.string.count, 1), 30))
-        return total + Double(candidate.confidence) * lengthWeight
-    }
+    request.recognitionLanguages = ["en-US", "ja-JP", "ko-KR", "zh-Hans", "zh-Hant"].filter { supported.contains($0) }
+    try VNImageRequestHandler(url: URL(fileURLWithPath: path), orientation: orientation).perform([request])
+    return (request.results ?? []).sorted {
+        if abs($0.boundingBox.midY - $1.boundingBox.midY) > 0.02 { return $0.boundingBox.midY > $1.boundingBox.midY }
+        return $0.boundingBox.minX < $1.boundingBox.minX
+    }.compactMap { $0.topCandidates(1).first?.string }
 }
-
-guard CommandLine.arguments.count >= 2 else {
-    fputs("Usage: detect-card-orientation.swift IMAGE...\n", stderr)
-    exit(2)
+func semanticScore(_ lines: [String]) -> Int {
+    guard !lines.isEmpty else { return 0 }
+    let top = lines.prefix(max(2, lines.count / 3)).joined(separator: " ").lowercased()
+    let bottom = lines.suffix(max(2, lines.count / 3)).joined(separator: " ").lowercased()
+    var score = lines.reduce(0) { $0 + $1.count } + lines.count * 8
+    for token in ["basic", "stage", "trainer", "energy", "battle", "extra", "leader", "hp"] where top.contains(token) { score += 80 }
+    for token in ["illus", "©", "made in japan", "game freak", "bandai", "en", "rarity"] where bottom.contains(token) { score += 70 }
+    if bottom.range(of: #"[a-z]{1,4}[0-9]{1,2}[- /][0-9]{2,3}"#, options: .regularExpression) != nil { score += 100 }
+    if top.contains("©") || top.contains("made in japan") || top.contains("game freak") { score -= 100 }
+    return score
 }
-
-let encoder = JSONEncoder()
-encoder.outputFormatting = [.withoutEscapingSlashes]
-
+let orientations: [(Int, CGImagePropertyOrientation)] = [(0,.up),(180,.down),(90,.right),(270,.left)]
 for path in CommandLine.arguments.dropFirst() {
     autoreleasepool {
-        do {
-            let base = sourceOrientation(path)
-            let up = try score(path, orientation: base)
-            let down = try score(path, orientation: opposite(base))
-            let result = OrientationResult(
-                file: URL(fileURLWithPath: path).lastPathComponent,
-                upScore: up,
-                downScore: down,
-                orientation: down > up ? "down" : "up"
-            )
-            print(String(data: try encoder.encode(result), encoding: .utf8)!)
-        } catch {
-            fputs("\(path): \(error)\n", stderr)
-        }
+        let candidates = orientations.map { rotation, orientation -> Candidate in
+            let lines = (try? recognize(path, orientation)) ?? []
+            return Candidate(rotation: rotation, score: semanticScore(lines), lines: lines)
+        }.sorted { $0.score > $1.score }
+        let result = Result(file: URL(fileURLWithPath: path).lastPathComponent, candidates: candidates)
+        print(String(data: try! encoder.encode(result), encoding: .utf8)!)
     }
 }

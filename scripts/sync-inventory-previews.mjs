@@ -55,7 +55,10 @@ let preserved = 0;
 for (const record of needsPreview) {
   for (const side of ["front", "back"]) {
     const source = findSource(record.sku, side);
-    if (!source && side === "back" && /back scan pending/i.test(record.status ?? "")) {
+    const intentionallyFrontOnly = /back scan pending|front-only|location migration/i.test(
+      `${record.status ?? ""} ${record.source ?? ""}`,
+    );
+    if (!source && side === "back" && intentionallyFrontOnly) {
       console.log(`Skipping intentionally pending back scan for ${record.sku}.`);
       continue;
     }

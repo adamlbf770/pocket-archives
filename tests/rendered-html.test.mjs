@@ -93,7 +93,7 @@ test("the Capsule Monsters proposal is introduced in plain museum language", asy
 });
 
 test("internal research planners are not exposed in production", async () => {
-  for (const pathname of ["/internal", "/internal/acquisitions", "/internal/cgc"]) {
+  for (const pathname of ["/internal", "/internal/acquisitions", "/internal/cgc", "/internal/slab-deals"]) {
     const response = await render(pathname);
     assert.equal(response.status, 404);
   }

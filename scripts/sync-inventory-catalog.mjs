@@ -66,10 +66,12 @@ function first(record, ...keys) {
 
 function inferGame(record) {
   const direct = record.game;
+  if (direct?.toLowerCase().includes("one piece")) return "One Piece Card Game";
   if (direct?.toLowerCase().includes("magic")) return "Magic: The Gathering";
   if (direct?.toLowerCase().includes("dragon ball")) return "Dragon Ball Super";
   if (direct?.toLowerCase().includes("sorcery")) return "Sorcery: Contested Realm";
   if (direct?.toLowerCase().includes("pokemon") || direct?.toLowerCase().includes("pokémon")) return "Pokémon";
+  if (record.source.includes("One Piece")) return "One Piece Card Game";
   if (record.source.includes("Magic")) return "Magic: The Gathering";
   if (record.source.includes("Dragon Ball")) return "Dragon Ball Super";
   if (record.source.includes("Sorcery")) return "Sorcery: Contested Realm";
@@ -78,6 +80,7 @@ function inferGame(record) {
 
 function displayStatus(status) {
   const normalized = status.toLowerCase();
+  if (normalized.includes("bundled")) return "Bundled";
   if (normalized.includes("listed") || normalized === "published") return "Listed";
   if (normalized.includes("pending")) return "Pending";
   if (normalized.includes("legacy")) return "Cataloged";

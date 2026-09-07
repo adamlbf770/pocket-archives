@@ -17,6 +17,11 @@ export default function InternalResearchHome() {
         </p>
       </section>
       <nav className="internal-tool-grid">
+        <Link href="/internal/slab-deals">
+          <small>Dealer scanner</small>
+          <b>Slab Deals</b>
+          <span>Sold-comp valuation, landed cost, liquidity, profit, ROI, and maximum-offer math.</span>
+        </Link>
         <Link href="/internal/acquisitions">
           <small>100 targets</small>
           <b>Acquisition roadmap</b>

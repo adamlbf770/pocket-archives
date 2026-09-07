@@ -5,7 +5,7 @@ import sharp from "sharp";
 
 const root = resolve(import.meta.dirname, "..");
 const inbox = join(root, "inventory/Scanner Inbox");
-const batch = join(root, "inventory/Batch 21 - Pokemon Ultrarare Box - PA-3640-PA-3645");
+const batch = join(root, "inventory/Batch 21 - Pokemon Ultrarare Box 1 - PA-3640-PA-3645");
 const raw = join(batch, "01 Raw Scanner Output");
 const listing = join(batch, "02 Listing Images");
 const scanStartMs = new Date("2026-08-24T23:43:00-04:00").getTime();
@@ -33,7 +33,7 @@ for (const entry of await readdir(sourceDir, { withFileTypes: true })) {
     if (details.mtimeMs >= scanStartMs && details.mtimeMs <= scanEndMs) runNames.push(entry.name);
   }
 }
-if (runNames.length !== 22) throw new Error(`Safety stop: expected 22 Ultrarare Box scanner files, found ${runNames.length}.`);
+if (runNames.length !== 22) throw new Error(`Safety stop: expected 22 Ultrarare Box 1 scanner files, found ${runNames.length}.`);
 
 const runNameSet = new Set(runNames);
 for (let number = 2272; number <= 2283; number += 1) {
@@ -58,7 +58,7 @@ for (const card of cards) {
     backRotation: 0,
     frontImage,
     backImage,
-    inventoryLocation: "Ultrarare Box",
+    inventoryLocation: "Ultrarare Box 1",
   });
 }
 
@@ -80,7 +80,7 @@ const manifest = cards.map((card) => ({
   price: "",
   frontImage: join(listing, `${card.sku}_front.jpg`),
   backImage: join(listing, `${card.sku}_back.jpg`),
-  inventoryLocation: "Ultrarare Box",
+  inventoryLocation: "Ultrarare Box 1",
   status: "LOCAL ONLY - CONDITION AND PRICING PENDING",
 }));
 await writeFile(join(batch, "Batch 21 Manifest.csv"), toCsv(manifest, [
@@ -88,13 +88,13 @@ await writeFile(join(batch, "Batch 21 Manifest.csv"), toCsv(manifest, [
 ]));
 
 await writeFile(join(batch, "README.md"), [
-  "# Batch 21 — Pokémon — Ultrarare Box",
+  "# Batch 21 — Pokémon — Ultrarare Box 1",
   "",
   "- SKUs: PA-3640 through PA-3645.",
   "- Six confirmed cards / 12 exact front-and-back listing images.",
   "- All six fronts were corrected by 180 degrees after scanner auto-orientation; paired backs were already upright.",
   "- All 22 untouched scanner files were preserved, including the scanner duplicate stream.",
-  "- Physical inventory location: Ultrarare Box.",
+  "- Physical inventory location: Ultrarare Box 1.",
   "- Local organization only. Condition review, pricing, and eBay publishing remain pending.",
   "",
 ].join("\n"));
@@ -102,7 +102,7 @@ await writeFile(join(batch, "README.md"), [
 if (sourceDir === inbox) {
   for (const name of runNames) await rename(join(inbox, name), join(raw, name));
 }
-console.log(`Ingested Batch 21: ${cards.length} cards in Ultrarare Box with ${runNames.length} raw scanner files preserved.`);
+console.log(`Ingested Batch 21: ${cards.length} cards in Ultrarare Box 1 with ${runNames.length} raw scanner files preserved.`);
 
 async function normalize(source, destination, rotation) {
   let pipeline = sharp(source).autoOrient();

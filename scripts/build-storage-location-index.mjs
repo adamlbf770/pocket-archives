@@ -103,6 +103,7 @@ const allManifestCards = walk(inventoryRoot)
         year: Number(first(row, ["year", "Year"])),
         language: first(row, ["language", "Language"]),
         finish: first(row, ["finish", "Variant/Finish", "Finish"]) || "Regular",
+        artist: first(row, ["artist", "Artist", "illustrator", "Illustrator"]),
         game: first(row, ["game", "Game"]) || inferredGame,
         status: ["status", "ebayStatus", "Inventory Status", "Listing Status", "Status"]
           .map((key) => row[key]?.trim())
@@ -117,7 +118,11 @@ const allManifestCards = walk(inventoryRoot)
 
 const manifestCards = allManifestCards
   .filter((card) => card.inventoryLocation !== "Box 5")
-  .filter((card) => card.inventoryLocation !== "Ultrarare Box")
+  .filter((card) => card.inventoryLocation !== "Box 6")
+  .filter((card) => card.inventoryLocation !== "Box 7")
+  .filter((card) => card.inventoryLocation !== "Ultrarare Box 1")
+  .filter((card) => card.inventoryLocation !== "Cool Art Box")
+  .filter((card) => card.inventoryLocation !== "Aaron Box")
   .filter((card) => isPokemonGame(card.game))
   .filter((card) => card.language === "English" || card.language === "Japanese")
   .filter((card) => card.year >= 1996 && card.year <= 2003)
@@ -171,6 +176,10 @@ const soldAndShippedSkus = new Set(
     .map((line) => line.sku || knownLegacySkuByItemId.get(line.legacyItemId) || "")
     .filter(Boolean),
 );
+// These two legacy no-SKU listings sold before the current order-sync window.
+soldAndShippedSkus.add("PA-0024");
+soldAndShippedSkus.add("PA-0025");
+soldAndShippedSkus.add("PA-0016");
 const counterfeitExclusions = fs.existsSync(counterfeitExclusionsPath)
   ? JSON.parse(fs.readFileSync(counterfeitExclusionsPath, "utf8"))
   : { items: [] };
@@ -205,10 +214,11 @@ const batch15Cards = parseCsv(fs.readFileSync(batch15MappingPath, "utf8")).map((
 
 const box2ManifestCards = allManifestCards
   .filter((card) =>
-    ["magic: the gathering", "dragon ball super card game", "sorcery: contested realm"].includes(
+    ["magic: the gathering", "dragon ball super card game", "sorcery: contested realm", "yu-gi-oh! trading card game"].includes(
       card.game.toLowerCase(),
     ),
   )
+  .filter((card) => card.inventoryLocation !== "DBZ Box")
   .filter((card) => !/(sold|shipped|removed|excluded|do not list)/i.test(card.status));
 const box2Cards = [
   // Keep the scan placeholders as a fallback, but let completed manifests win.
@@ -242,8 +252,15 @@ const box3LegacyCards = [
 
 const box3ManifestCards = allManifestCards
   .filter((card) => card.inventoryLocation !== "Box 5")
+  .filter((card) => card.inventoryLocation !== "Box 6")
+  .filter((card) => card.inventoryLocation !== "Box 7")
   .filter((card) => card.inventoryLocation !== "Box 1")
-  .filter((card) => card.inventoryLocation !== "Ultrarare Box")
+  .filter((card) => card.inventoryLocation !== "Ultrarare Box 1")
+  .filter((card) => card.inventoryLocation !== "Cool Art Box")
+  .filter((card) => card.inventoryLocation !== "Aaron Box")
+  .filter((card) => card.inventoryLocation !== "Box 8")
+  .filter((card) => card.inventoryLocation !== "Box 9")
+  .filter((card) => card.inventoryLocation !== "Box 10")
   .filter((card) => isPokemonGame(card.game))
   .filter((card) => card.year >= 2004)
   .filter((card) => isFoil(card.finish))
@@ -252,12 +269,20 @@ const box3ManifestCards = allManifestCards
   .filter((card) => !excludedSkus.has(card.sku));
 const box3Cards = [
   ...new Map([...box3ManifestCards, ...box3LegacyCards].map((card) => [card.sku, card])).values(),
-].sort((a, b) => a.sku.localeCompare(b.sku));
+].filter((card) => !physicallyDepartedSkus.has(card.sku))
+  .sort((a, b) => a.sku.localeCompare(b.sku));
 
 const box4Cards = allManifestCards
   .filter((card) => card.inventoryLocation !== "Box 5")
+  .filter((card) => card.inventoryLocation !== "Box 6")
+  .filter((card) => card.inventoryLocation !== "Box 7")
   .filter((card) => card.inventoryLocation !== "Box 1")
-  .filter((card) => card.inventoryLocation !== "Ultrarare Box")
+  .filter((card) => card.inventoryLocation !== "Ultrarare Box 1")
+  .filter((card) => card.inventoryLocation !== "Cool Art Box")
+  .filter((card) => card.inventoryLocation !== "Aaron Box")
+  .filter((card) => card.inventoryLocation !== "Box 8")
+  .filter((card) => card.inventoryLocation !== "Box 9")
+  .filter((card) => card.inventoryLocation !== "Box 10")
   .filter((card) => isPokemonGame(card.game))
   .filter((card) => card.year >= 2004)
   .filter((card) => isNonHolo(card.finish))
@@ -287,15 +312,57 @@ const box7Cards = allManifestCards
   .filter((card) => !excludedSkus.has(card.sku))
   .sort((a, b) => a.sku.localeCompare(b.sku));
 
+const box8Cards = allManifestCards
+  .filter((card) => card.inventoryLocation === "Box 8")
+  .filter((card) => !/(sold|shipped|removed|excluded|do not list)/i.test(card.status))
+  .filter((card) => !physicallyDepartedSkus.has(card.sku))
+  .filter((card) => !excludedSkus.has(card.sku))
+  .sort((a, b) => a.sku.localeCompare(b.sku));
+
+const box9Cards = allManifestCards
+  .filter((card) => card.inventoryLocation === "Box 9")
+  .filter((card) => !/(sold|shipped|removed|excluded|do not list)/i.test(card.status))
+  .filter((card) => !physicallyDepartedSkus.has(card.sku))
+  .filter((card) => !excludedSkus.has(card.sku))
+  .sort((a, b) => a.sku.localeCompare(b.sku));
+
+const box10Cards = allManifestCards
+  .filter((card) => card.inventoryLocation === "Box 10")
+  .filter((card) => !/(sold|shipped|removed|excluded|do not list)/i.test(card.status))
+  .filter((card) => !physicallyDepartedSkus.has(card.sku))
+  .filter((card) => !excludedSkus.has(card.sku))
+  .sort((a, b) => a.sku.localeCompare(b.sku));
+
+const dbzBoxCards = allManifestCards
+  .filter((card) => card.inventoryLocation === "DBZ Box")
+  .filter((card) => !/(sold|shipped|removed|excluded|do not list)/i.test(card.status))
+  .filter((card) => !physicallyDepartedSkus.has(card.sku))
+  .filter((card) => !excludedSkus.has(card.sku))
+  .sort((a, b) => a.sku.localeCompare(b.sku));
+
 const ultrarareCards = allManifestCards
-  .filter((card) => card.inventoryLocation === "Ultrarare Box")
+  .filter((card) => card.inventoryLocation === "Ultrarare Box 1")
+  .filter((card) => !/(sold|shipped|removed|excluded|do not list)/i.test(card.status))
+  .filter((card) => !physicallyDepartedSkus.has(card.sku))
+  .filter((card) => !excludedSkus.has(card.sku))
+  .sort((a, b) => a.sku.localeCompare(b.sku));
+
+const coolArtCards = allManifestCards
+  .filter((card) => card.inventoryLocation === "Cool Art Box")
+  .filter((card) => !/(sold|shipped|removed|excluded|do not list)/i.test(card.status))
+  .filter((card) => !physicallyDepartedSkus.has(card.sku))
+  .filter((card) => !excludedSkus.has(card.sku))
+  .sort((a, b) => (a.artist || "").localeCompare(b.artist || "") || a.sku.localeCompare(b.sku));
+
+const aaronCards = allManifestCards
+  .filter((card) => card.inventoryLocation === "Aaron Box")
   .filter((card) => !/(sold|shipped|removed|excluded|do not list)/i.test(card.status))
   .filter((card) => !physicallyDepartedSkus.has(card.sku))
   .filter((card) => !excludedSkus.has(card.sku))
   .sort((a, b) => a.sku.localeCompare(b.sku));
 
 const assignedSkus = new Set(
-  [...box1Cards, ...box2Cards, ...box3Cards, ...box4Cards, ...box5Cards, ...box6Cards, ...box7Cards, ...ultrarareCards].map((card) => card.sku),
+  [...box1Cards, ...box2Cards, ...box3Cards, ...box4Cards, ...box5Cards, ...box6Cards, ...box7Cards, ...box8Cards, ...box9Cards, ...box10Cards, ...dbzBoxCards, ...ultrarareCards, ...coolArtCards, ...aaronCards].map((card) => card.sku),
 );
 const unassignedCards = allManifestCards
   .filter((card) => !assignedSkus.has(card.sku))
@@ -308,7 +375,7 @@ const unassignedCards = allManifestCards
 
 const output = {
   version: 1,
-  updatedAt: "2026-08-23",
+  updatedAt: new Date().toISOString().slice(0, 10),
   boxes: [
     {
       id: "BOX-1",
@@ -327,10 +394,10 @@ const output = {
     {
       id: "BOX-2",
       label: "Box 2",
-      description: "Magic: The Gathering, Dragon Ball, and Sorcery cards",
+      description: "Magic: The Gathering, Dragon Ball, Sorcery, and Yu-Gi-Oh! cards",
       physicalSort: "Grouped by game",
       inclusionRule: {
-        games: ["Magic: The Gathering", "Dragon Ball Super Card Game", "Sorcery: Contested Realm"],
+        games: ["Magic: The Gathering", "Dragon Ball Super Card Game", "Sorcery: Contested Realm", "Yu-Gi-Oh! Trading Card Game"],
         languages: ["All"],
         years: "All",
         finishes: ["All"],
@@ -406,17 +473,98 @@ const output = {
       cardCount: box7Cards.length,
     },
     {
+      id: "BOX-8",
+      label: "Box 8",
+      description: "Modern Pokémon bulk stored from Batch 35",
+      physicalSort: "SKU order unless physically reorganized",
+      inclusionRule: {
+        inventoryLocation: "Box 8",
+        games: ["Pokemon TCG"],
+        finishes: ["All"],
+        excluded: ["Sold, shipped, removed, or explicitly excluded inventory"],
+      },
+      cardCount: box8Cards.length,
+    },
+    {
+      id: "BOX-9",
+      label: "Box 9",
+      description: "Modern Pokémon bulk stored from Batch 36",
+      physicalSort: "SKU order unless physically reorganized",
+      inclusionRule: {
+        inventoryLocation: "Box 9",
+        games: ["Pokemon TCG"],
+        finishes: ["All"],
+        excluded: ["Sold, shipped, removed, or explicitly excluded inventory"],
+      },
+      cardCount: box9Cards.length,
+    },
+    {
+      id: "BOX-10",
+      label: "Box 10",
+      description: "Modern Pokémon holos and reverse holos stored from Batch 44",
+      physicalSort: "SKU order unless physically reorganized",
+      inclusionRule: {
+        inventoryLocation: "Box 10",
+        games: ["Pokemon TCG"],
+        finishes: ["Holofoil", "Reverse Holofoil"],
+        excluded: ["Regular/non-holo cards", "Sold, shipped, removed, or explicitly excluded inventory"],
+      },
+      cardCount: box10Cards.length,
+    },
+    {
+      id: "BOX-DBZ",
+      label: "DBZ Box",
+      description: "Dragon Ball cards stored from Batch 39",
+      physicalSort: "SKU order unless physically reorganized",
+      inclusionRule: {
+        inventoryLocation: "DBZ Box",
+        games: ["Dragon Ball Super Card Game", "Dragon Ball Carddass"],
+        finishes: ["All"],
+        excluded: ["Sold, shipped, removed, or explicitly excluded inventory"],
+      },
+      cardCount: dbzBoxCards.length,
+    },
+    {
       id: "BOX-ULTRARARE",
-      label: "Ultrarare Box",
+      label: "Ultrarare Box 1",
       description: "Selected ultra-rare, vintage holo, and premium collectible Pokémon cards",
       physicalSort: "SKU order unless physically reorganized",
       inclusionRule: {
-        skus: { from: "PA-3640", through: "PA-3645" },
+        inventoryLocation: "Ultrarare Box 1",
         games: ["Pokemon TCG", "Pokemon collectible cards"],
         finishes: ["All"],
         excluded: ["Sold, shipped, removed, or explicitly excluded inventory"],
       },
       cardCount: ultrarareCards.length,
+    },
+    {
+      id: "BOX-COOL-ART",
+      label: "Cool Art Box",
+      status: "Complete",
+      completedOn: "2026-08-29",
+      completedThrough: "Batch 32 / PA-4452",
+      description: "Pokémon cards selected for distinctive illustrator and artwork styles",
+      physicalSort: "Illustrator, then Pokémon name, then SKU",
+      inclusionRule: {
+        inventoryLocation: "Cool Art Box",
+        games: ["Pokemon TCG", "Pokemon collectible cards"],
+        finishes: ["All"],
+        excluded: ["Sold, shipped, removed, or explicitly excluded inventory"],
+      },
+      cardCount: coolArtCards.length,
+    },
+    {
+      id: "BOX-AARON",
+      label: "Aaron Box",
+      description: "Pokémon cards physically grouped in the Aaron collection box",
+      physicalSort: "SKU order unless physically reorganized",
+      inclusionRule: {
+        inventoryLocation: "Aaron Box",
+        games: ["Pokemon TCG", "Pokemon collectible cards"],
+        finishes: ["All"],
+        excluded: ["Sold, shipped, removed, or explicitly excluded inventory"],
+      },
+      cardCount: aaronCards.length,
     },
     {
       id: "BOX-UNASSIGNED",
@@ -439,7 +587,13 @@ const output = {
     ...box5Cards.map((card) => ({ ...card, boxId: "BOX-5" })),
     ...box6Cards.map((card) => ({ ...card, boxId: "BOX-6" })),
     ...box7Cards.map((card) => ({ ...card, boxId: "BOX-7" })),
+    ...box8Cards.map((card) => ({ ...card, boxId: "BOX-8" })),
+    ...box9Cards.map((card) => ({ ...card, boxId: "BOX-9" })),
+    ...box10Cards.map((card) => ({ ...card, boxId: "BOX-10" })),
+    ...dbzBoxCards.map((card) => ({ ...card, boxId: "BOX-DBZ" })),
     ...ultrarareCards.map((card) => ({ ...card, boxId: "BOX-ULTRARARE" })),
+    ...coolArtCards.map((card) => ({ ...card, boxId: "BOX-COOL-ART" })),
+    ...aaronCards.map((card) => ({ ...card, boxId: "BOX-AARON" })),
     ...unassignedCards.map((card) => ({ ...card, boxId: "BOX-UNASSIGNED" })),
   ],
 };
@@ -447,5 +601,5 @@ const output = {
 const outputPath = path.join(inventoryRoot, "Storage Locations.json");
 fs.writeFileSync(outputPath, `${JSON.stringify(output, null, 2)}\n`);
 console.log(
-  `Wrote ${box1Cards.length} Box 1, ${box2Cards.length} Box 2, ${box3Cards.length} Box 3, ${box4Cards.length} Box 4, ${box5Cards.length} Box 5, ${box6Cards.length} Box 6, ${box7Cards.length} Box 7, ${ultrarareCards.length} Ultrarare Box, and ${unassignedCards.length} unassigned records to ${path.relative(root, outputPath)}`,
+  `Wrote ${box1Cards.length} Box 1, ${box2Cards.length} Box 2, ${box3Cards.length} Box 3, ${box4Cards.length} Box 4, ${box5Cards.length} Box 5, ${box6Cards.length} Box 6, ${box7Cards.length} Box 7, ${box8Cards.length} Box 8, ${box9Cards.length} Box 9, ${box10Cards.length} Box 10, ${dbzBoxCards.length} DBZ Box, ${ultrarareCards.length} Ultrarare Box 1, ${coolArtCards.length} Cool Art Box, ${aaronCards.length} Aaron Box, and ${unassignedCards.length} unassigned records to ${path.relative(root, outputPath)}`,
 );

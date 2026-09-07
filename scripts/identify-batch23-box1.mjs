@@ -3,13 +3,24 @@ import { readFile, readdir, writeFile } from "node:fs/promises";
 import { basename, join, resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
-const batch = join(root, "inventory/Batch 23 - Pokemon Box 1 - PA-3649-PA-3996");
+const batchFlag = process.argv.find((argument) => argument.startsWith("--batch="));
+const countFlag = process.argv.find((argument) => argument.startsWith("--count="));
+const labelFlag = process.argv.find((argument) => argument.startsWith("--label="));
+const locationFlag = process.argv.find((argument) => argument.startsWith("--location="));
+const finishFlag = process.argv.find((argument) => argument.startsWith("--finish="));
+const batch = batchFlag
+  ? resolve(root, batchFlag.slice("--batch=".length))
+  : join(root, "inventory/Batch 23 - Pokemon Box 1 - PA-3649-PA-3996");
+const expectedCount = countFlag ? Number(countFlag.slice("--count=".length)) : 348;
+const label = labelFlag ? labelFlag.slice("--label=".length) : "Batch 23";
+const inventoryLocation = locationFlag ? locationFlag.slice("--location=".length) : "Box 1";
+const defaultFinish = finishFlag ? finishFlag.slice("--finish=".length) : "Non-Holo";
 const review = join(batch, "03 Identification Review");
 const listing = join(batch, "02 Listing Images");
 const data = join(root, "data/reference/pokemon-tcg-data");
-const ocrRows = (await readFile(join(review, "Batch 23 OCR.jsonl"), "utf8"))
+const ocrRows = (await readFile(join(review, `${label} OCR.jsonl`), "utf8"))
   .trim().split("\n").map(JSON.parse);
-if (ocrRows.length !== 348) throw new Error(`Safety stop: expected 348 OCR rows, found ${ocrRows.length}.`);
+if (ocrRows.length !== expectedCount) throw new Error(`Safety stop: expected ${expectedCount} OCR rows, found ${ocrRows.length}.`);
 
 const sets = JSON.parse(await readFile(join(data, "sets/en.json"), "utf8"));
 const setById = new Map(sets.map((set) => [set.id, set]));
@@ -21,7 +32,7 @@ for (const file of (await readdir(join(data, "cards/en"))).filter((name) => name
 }
 
 const matches = ocrRows.map(matchRow);
-await writeFile(join(review, "Batch 23 Catalog Matches.json"), `${JSON.stringify(matches, null, 2)}\n`);
+await writeFile(join(review, `${label} Catalog Matches.json`), `${JSON.stringify(matches, null, 2)}\n`);
 
 const rows = matches.map((result) => {
   const accepted = result.confidence === "high" || result.confidence === "medium";
@@ -36,12 +47,12 @@ const rows = matches.map((result) => {
     year: match ? Number(match.releaseDate.slice(0, 4)) : "",
     language: match ? "English" : "",
     rarity: match?.rarity ?? "",
-    finish: "Non-Holo",
+    finish: defaultFinish,
     condition: "Review pending",
     price: "",
     frontImage: join(listing, `${sku}_front.jpg`),
     backImage: join(listing, `${sku}_back.jpg`),
-    inventoryLocation: "Box 1",
+    inventoryLocation,
     identificationConfidence: result.confidence,
     catalogId: match?.id ?? "",
     status: match
@@ -49,7 +60,7 @@ const rows = matches.map((result) => {
       : "LOCAL ONLY - IDENTIFICATION, CONDITION, AND PRICING PENDING",
   };
 });
-await writeFile(join(batch, "Batch 23 Manifest.csv"), toCsv(rows, [
+await writeFile(join(batch, `${label} Manifest.csv`), toCsv(rows, [
   "sku", "game", "name", "set", "number", "year", "language", "rarity", "finish", "condition", "price", "frontImage", "backImage", "inventoryLocation", "identificationConfidence", "catalogId", "status",
 ]));
 

@@ -1,0 +1,41 @@
+{
+  "recipient": "info@pocketarchives.com",
+  "marketplace": "EBAY_US",
+  "sellerBlocklist": ["pocket_archives"],
+  "scanIntervalMinutes": 15,
+  "estimatedSalesTaxRate": 0.07,
+  "estimatedSellingFeeRate": 0.1325,
+  "estimatedTransactionFee": 0.3,
+  "estimatedOutboundSlabShipping": 5,
+  "estimatedSlabPackaging": 0.75,
+  "minimumExpectedProfit": 10,
+  "minimumExpectedRoi": 0.25,
+  "minimumSoldComps": 3,
+  "slabMaximumDeliveredPrice": 50,
+  "bundleMaximumDeliveredPrice": 200,
+  "soldCompDatabase": "data/deals/sold-comps.json",
+  "queries": {
+    "slabs": [
+      "Pokemon PSA graded card",
+      "Pokemon CGC graded card",
+      "Pokemon BGS graded card",
+      "Pokemon TAG graded card",
+      "Pokemon vintage PSA graded card",
+      "Pokemon Japanese promo PSA graded card",
+      "Pokemon illustration rare PSA 10",
+      "Pokemon Charizard Pikachu Gengar Eevee PSA graded",
+      "Magic The Gathering PSA graded card",
+      "One Piece PSA graded card",
+      "Yu-Gi-Oh PSA graded card"
+    ],
+    "illustrationRareBundles": [
+      "Pokemon illustration rare only lot",
+      "Pokemon IR only card lot"
+    ],
+    "ultraRareBundles": [
+      "Pokemon ultra rare only card lot",
+      "Pokemon ultra rare bundle"
+    ],
+    "exactWatches": []
+  }
+}

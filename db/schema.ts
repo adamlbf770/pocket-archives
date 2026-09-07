@@ -1,4 +1,184 @@
-// Intentionally empty by default.
-// Add Drizzle tables here when the site actually needs a database.
-// See examples/d1/db/schema.ts for an opt-in example.
-export {};
+import { index, integer, real, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
+
+// This database is an additive, rebuildable intelligence layer. Canonical
+// inventory remains in inventory/Storage Locations.json and the batch manifests.
+export const sourceRegistry = sqliteTable("source_registry", {
+  sourceId: text("source_id").primaryKey(),
+  name: text("name").notNull(),
+  sourceType: text("source_type").notNull(),
+  accessMode: text("access_mode").notNull(),
+  integrationType: text("integration_type").notNull(),
+  confidenceGrade: text("confidence_grade").notNull(),
+  connectionStatus: text("connection_status").notNull(),
+  officialApi: integer("official_api", { mode: "boolean" }).notNull().default(false),
+  authType: text("auth_type"),
+  pricingNotes: text("pricing_notes"),
+  rateLimitNotes: text("rate_limit_notes"),
+  capabilitiesJson: text("capabilities_json").notNull().default("{}"),
+  restrictions: text("restrictions"),
+  refreshTargetMinutes: integer("refresh_target_minutes"),
+  lastSuccessAt: text("last_success_at"),
+  lastAttemptAt: text("last_attempt_at"),
+  lastError: text("last_error"),
+  termsUrl: text("terms_url"),
+  updatedAt: text("updated_at").notNull(),
+}, (table) => [index("idx_source_registry_status").on(table.connectionStatus)]);
+
+export const syncRuns = sqliteTable("sync_run", {
+  runId: text("run_id").primaryKey(),
+  sourceId: text("source_id").notNull().references(() => sourceRegistry.sourceId),
+  jobType: text("job_type").notNull(),
+  startedAt: text("started_at").notNull(),
+  completedAt: text("completed_at"),
+  status: text("status").notNull(),
+  recordsSeen: integer("records_seen").notNull().default(0),
+  recordsWritten: integer("records_written").notNull().default(0),
+  recordsRejected: integer("records_rejected").notNull().default(0),
+  cursor: text("cursor"),
+  errorSummary: text("error_summary"),
+  codeVersion: text("code_version"),
+}, (table) => [index("idx_sync_run_source_started").on(table.sourceId, table.startedAt)]);
+
+export const normalizedIdentities = sqliteTable("normalized_identity", {
+  identityId: text("identity_id").primaryKey(),
+  canonicalIdentityKey: text("canonical_identity_key").notNull(),
+  game: text("game").notNull(),
+  name: text("name").notNull(),
+  setName: text("set_name"),
+  setCode: text("set_code"),
+  cardNumber: text("card_number"),
+  year: integer("year"),
+  language: text("language"),
+  edition: text("edition"),
+  finish: text("finish"),
+  rarity: text("rarity"),
+  variant: text("variant"),
+  grader: text("grader"),
+  grade: text("grade"),
+  certificationNumber: text("certification_number"),
+  createdAt: text("created_at").notNull(),
+}, (table) => [
+  uniqueIndex("uidx_normalized_identity_key").on(table.canonicalIdentityKey),
+  index("idx_normalized_identity_lookup").on(table.game, table.name, table.cardNumber),
+]);
+
+export const inventoryIdentityMap = sqliteTable("inventory_identity_map", {
+  sku: text("sku").primaryKey(),
+  identityId: text("identity_id").notNull().references(() => normalizedIdentities.identityId),
+  matchMethod: text("match_method").notNull(),
+  matchScore: real("match_score").notNull(),
+  reviewStatus: text("review_status").notNull().default("pending"),
+  evidenceJson: text("evidence_json").notNull().default("{}"),
+  reviewedBy: text("reviewed_by"),
+  reviewedAt: text("reviewed_at"),
+}, (table) => [index("idx_inventory_identity_review").on(table.reviewStatus)]);
+
+export const marketObservations = sqliteTable("market_observation", {
+  observationId: text("observation_id").primaryKey(),
+  sourceId: text("source_id").notNull().references(() => sourceRegistry.sourceId),
+  observedAt: text("observed_at").notNull(),
+  externalItemId: text("external_item_id"),
+  externalUrl: text("external_url"),
+  identityId: text("identity_id").references(() => normalizedIdentities.identityId),
+  sku: text("sku"),
+  observationType: text("observation_type").notNull(),
+  price: real("price"),
+  shipping: real("shipping"),
+  taxEstimate: real("tax_estimate"),
+  currency: text("currency").notNull().default("USD"),
+  quantity: integer("quantity"),
+  listingFormat: text("listing_format"),
+  soldAt: text("sold_at"),
+  watchers: integer("watchers"),
+  views: integer("views"),
+  population: integer("population"),
+  populationHigher: integer("population_higher"),
+  rawPayloadHash: text("raw_payload_hash"),
+  qualityFlagsJson: text("quality_flags_json").notNull().default("[]"),
+}, (table) => [
+  index("idx_market_observation_identity_time").on(table.identityId, table.observedAt),
+  index("idx_market_observation_sku_time").on(table.sku, table.observedAt),
+  index("idx_market_observation_source_type").on(table.sourceId, table.observationType),
+]);
+
+export const soldComparables = sqliteTable("sold_comparable", {
+  comparableId: text("comparable_id").primaryKey(),
+  identityId: text("identity_id").notNull().references(() => normalizedIdentities.identityId),
+  sourceId: text("source_id").notNull().references(() => sourceRegistry.sourceId),
+  soldAt: text("sold_at").notNull(),
+  price: real("price").notNull(),
+  shipping: real("shipping").notNull().default(0),
+  currency: text("currency").notNull().default("USD"),
+  sameGrader: integer("same_grader", { mode: "boolean" }).notNull().default(false),
+  sameGrade: integer("same_grade", { mode: "boolean" }).notNull().default(false),
+  sameLanguage: integer("same_language", { mode: "boolean" }).notNull().default(false),
+  sameVariant: integer("same_variant", { mode: "boolean" }).notNull().default(false),
+  includedInValuation: integer("included_in_valuation", { mode: "boolean" }).notNull().default(false),
+  exclusionReason: text("exclusion_reason"),
+  outlierScore: real("outlier_score"),
+}, (table) => [index("idx_sold_comparable_identity_date").on(table.identityId, table.soldAt)]);
+
+export const valuationSnapshots = sqliteTable("valuation_snapshot", {
+  valuationId: text("valuation_id").primaryKey(),
+  identityId: text("identity_id").notNull().references(() => normalizedIdentities.identityId),
+  sku: text("sku"),
+  valuedAt: text("valued_at").notNull(),
+  expiresAt: text("expires_at").notNull(),
+  marketValueLow: real("market_value_low"),
+  marketValueMid: real("market_value_mid"),
+  marketValueHigh: real("market_value_high"),
+  compCount: integer("comp_count").notNull().default(0),
+  lookbackDays: integer("lookback_days"),
+  liquidityGrade: text("liquidity_grade").notNull().default("D"),
+  confidenceGrade: text("confidence_grade").notNull(),
+  methodVersion: text("method_version").notNull(),
+  sourceMixJson: text("source_mix_json").notNull().default("[]"),
+  assumptionsJson: text("assumptions_json").notNull().default("[]"),
+  reviewRequired: integer("review_required", { mode: "boolean" }).notNull().default(true),
+}, (table) => [index("idx_valuation_snapshot_sku_time").on(table.sku, table.valuedAt)]);
+
+export const pricingRecommendations = sqliteTable("pricing_recommendation", {
+  recommendationId: text("recommendation_id").primaryKey(),
+  sku: text("sku").notNull(),
+  valuationId: text("valuation_id").notNull().references(() => valuationSnapshots.valuationId),
+  currentPrice: real("current_price"),
+  recommendedPrice: real("recommended_price"),
+  minimumPrice: real("minimum_price"),
+  maximumPrice: real("maximum_price"),
+  expectedNet: real("expected_net"),
+  expectedRoi: real("expected_roi"),
+  recommendedAction: text("recommended_action").notNull(),
+  reasonCodesJson: text("reason_codes_json").notNull().default("[]"),
+  createdAt: text("created_at").notNull(),
+  status: text("status").notNull().default("proposed"),
+  approvedBy: text("approved_by"),
+  approvedAt: text("approved_at"),
+  appliedAt: text("applied_at"),
+}, (table) => [index("idx_pricing_recommendation_status").on(table.status, table.createdAt)]);
+
+export const alerts = sqliteTable("alert", {
+  alertId: text("alert_id").primaryKey(),
+  alertType: text("alert_type").notNull(),
+  severity: text("severity").notNull(),
+  sku: text("sku"),
+  identityId: text("identity_id").references(() => normalizedIdentities.identityId),
+  createdAt: text("created_at").notNull(),
+  status: text("status").notNull().default("open"),
+  summary: text("summary").notNull(),
+  evidenceJson: text("evidence_json").notNull().default("{}"),
+  acknowledgedAt: text("acknowledged_at"),
+  resolvedAt: text("resolved_at"),
+}, (table) => [index("idx_alert_open_severity").on(table.status, table.severity)]);
+
+export const auditEvents = sqliteTable("audit_event", {
+  auditId: text("audit_id").primaryKey(),
+  occurredAt: text("occurred_at").notNull(),
+  actor: text("actor").notNull(),
+  action: text("action").notNull(),
+  entityType: text("entity_type").notNull(),
+  entityId: text("entity_id").notNull(),
+  beforeHash: text("before_hash"),
+  afterHash: text("after_hash"),
+  approvalReference: text("approval_reference"),
+  rollbackReference: text("rollback_reference"),
+}, (table) => [index("idx_audit_event_entity_time").on(table.entityType, table.entityId, table.occurredAt)]);

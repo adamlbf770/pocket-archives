@@ -69,10 +69,14 @@ export default function InventoryCatalog({
   return (
     <main className="inventory-app">
       <header className="inventory-header">
-        <div className="inventory-brand">
+        <a className="inventory-brand" href="/inventory">
           <span className="inventory-mark" aria-hidden="true"><i /></span>
           <div><b>POCKET ARCHIVES</b><small>PRIVATE INVENTORY</small></div>
-        </div>
+        </a>
+        <nav className="inventory-nav" aria-label="Pocket Archives operations">
+          <a className="is-active" href="/inventory">Inventory</a>
+          <a href="/source-health">Source Health</a>
+        </nav>
         <div className="inventory-owner"><span>Signed in as</span><b>{ownerName}</b></div>
       </header>
 
