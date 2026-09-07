@@ -54,9 +54,18 @@ const sources = registry.sources.map((source) => ({
 const activeRows = active.activeListings ?? [];
 const assignmentRows = storage.assignments ?? [];
 const activeWithSku = activeRows.filter((row) => row.sku);
+const generatedAt = latest(
+  registry.updatedAt,
+  storage.updatedAt,
+  intake.updatedAt,
+  active.exportedAt,
+  orders.exportedAt,
+  soldComps.updatedAt,
+  dealRun?.runAt,
+) ?? new Date(0).toISOString();
 const snapshot = {
   schemaVersion: 1,
-  generatedAt: new Date().toISOString(),
+  generatedAt,
   readOnly: true,
   sources,
   summary: {
