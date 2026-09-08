@@ -49,7 +49,7 @@ const worker = {
         return Response.json({ error: "Not authorized." }, { status: 401 });
       }
       const key = url.searchParams.get("key") || "";
-      const allowedKey = /^(inventory-previews|art)\/[A-Za-z0-9_@+.,()' -]+(?:\/[A-Za-z0-9_@+.,()' -]+)*\.(?:jpe?g|png|webp|gif)$/i;
+      const allowedKey = /^(inventory-previews|art|shop|sprites)\/[A-Za-z0-9_@+.,()' -]+(?:\/[A-Za-z0-9_@+.,()' -]+)*\.(?:jpe?g|png|webp|gif)$/i;
       if (!allowedKey.test(key) || key.includes("..")) {
         return Response.json({ error: "Invalid media key." }, { status: 400 });
       }
@@ -72,7 +72,7 @@ const worker = {
 
     if (
       (request.method === "GET" || request.method === "HEAD") &&
-      (url.pathname.startsWith("/inventory-previews/") || url.pathname.startsWith("/art/"))
+      ["/inventory-previews/", "/art/", "/shop/", "/sprites/"].some((prefix) => url.pathname.startsWith(prefix))
     ) {
       // Local development still serves public/ directly. Hosted builds omit
       // these large folders and transparently fall back to R2.

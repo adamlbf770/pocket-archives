@@ -7,7 +7,12 @@ const endpoint = (process.env.INVENTORY_MEDIA_UPLOAD_URL || "https://inventory.p
 const token = process.env.INVENTORY_MEDIA_UPLOAD_TOKEN;
 if (!token) throw new Error("INVENTORY_MEDIA_UPLOAD_TOKEN is required.");
 
-const roots = [resolve(root, "public/art"), resolve(root, "public/inventory-previews")];
+const roots = [
+  resolve(root, "public/art"),
+  resolve(root, "public/shop"),
+  resolve(root, "public/sprites"),
+  resolve(root, "public/inventory-previews"),
+];
 const stateFile = resolve(root, ".site-media-upload-state.json");
 const completed = new Set(JSON.parse(await readFile(stateFile, "utf8").catch(() => "[]")));
 const files = [];

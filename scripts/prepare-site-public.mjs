@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 const root = resolve(import.meta.dirname, "..");
 const source = resolve(root, "public");
 const target = resolve(root, ".site-public");
-const remoteFolders = new Set(["inventory-previews", "art"]);
+const remoteFolders = new Set(["inventory-previews", "art", "shop", "sprites"]);
 
 await rm(target, { recursive: true, force: true });
 await mkdir(target, { recursive: true });
@@ -17,4 +17,4 @@ for (const entry of await readdir(source, { withFileTypes: true })) {
   });
 }
 
-console.log("Prepared hosted public assets; inventory-previews/ and art/ will be served from R2.");
+console.log("Prepared hosted public assets; large media folders will be served from R2.");
