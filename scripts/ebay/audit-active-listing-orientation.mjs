@@ -6,7 +6,8 @@ import path from "node:path";
 
 const ROOT = path.resolve(import.meta.dirname, "../..");
 const ACTIVE_PATH = path.join(ROOT, "data/ebay/active-listings.json");
-const OUTPUT_DIR = path.join(ROOT, "outputs/ebay-active-orientation-audit");
+const SIDE = stringArg("--side") === "back" ? "back" : "front";
+const OUTPUT_DIR = path.join(ROOT, SIDE === "back" ? "outputs/ebay-active-back-orientation-audit" : "outputs/ebay-active-orientation-audit");
 const WORKERS = 6;
 const CHUNK_SIZE = 80;
 const active = JSON.parse(await readFile(ACTIVE_PATH, "utf8")).activeListings ?? [];
@@ -17,7 +18,7 @@ const targets = [];
 for (const [sku, listing] of activeBySku) {
   const record = records.get(sku);
   if (!record) continue;
-  const front = await resolveImage(record.frontImage, record.manifestDir, sku, "front");
+  const front = await resolveImage(SIDE === "back" ? record.backImage : record.frontImage, record.manifestDir, sku, SIDE);
   if (front) targets.push({ sku, itemId: listing.itemId, title: listing.title, front });
 }
 
@@ -70,7 +71,12 @@ async function loadManifestRecords() {
     for (const source of parseCsv(await readFile(path.join(manifestDir, manifestName), "utf8"))) {
       const sku = source.sku || source.SKU || source.ID || "";
       if (!sku) continue;
-      records.set(sku, { sku, frontImage: source.frontImage || source["Front Image"] || source["Front Image Path"] || source.front || "", manifestDir });
+      records.set(sku, {
+        sku,
+        frontImage: source.frontImage || source["Front Image"] || source["Front Image Path"] || source.front || "",
+        backImage: source.backImage || source["Back Image"] || source["Back Image Path"] || source.back || "",
+        manifestDir,
+      });
     }
   }
   return records;
@@ -136,4 +142,9 @@ function parseCsv(text) {
 
 function exifOrientationRotation(value) {
   return ({ 1: 0, 3: 180, 6: 90, 8: 270 })[Number(value)] ?? 0;
+}
+
+function stringArg(name) {
+  const index = process.argv.indexOf(name);
+  return index >= 0 ? process.argv[index + 1] : "";
 }
