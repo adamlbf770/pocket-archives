@@ -39,6 +39,8 @@ next-env.d.ts
 /dist/
 /.site-public/
 /.site-media-upload-state.json
+/public/art/
+/public/inventory-previews/
 /.wrangler/
 /outputs/
 /work/
