@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { dirname, extname, resolve } from "node:path";
+import { dirname, resolve } from "node:path";
 import { inspectPair } from "./quality.mjs";
 import { analyzeOrientation, normalizeOrientation } from "./orientation.mjs";
 import { normalizeIdentity, duplicateKey } from "./identity.mjs";
@@ -27,15 +27,13 @@ for (const item of input.cards) {
   let front = { path: resolve(item.front), orientation: frontAnalysis };
   let back = { path: resolve(item.back), orientation: backAnalysis };
   if (orientation.confidence === "high") {
-    const frontExt = extname(item.front) || ".jpg";
-    const backExt = extname(item.back) || ".jpg";
     front = {
-      path: resolve(normalizedRoot, `${item.sku}-front${frontExt.toLowerCase()}`),
-      orientation: await normalizeOrientation(item.front, frontAnalysis, resolve(normalizedRoot, `${item.sku}-front${frontExt.toLowerCase()}`)),
+      path: resolve(normalizedRoot, `${item.sku}-front.png`),
+      orientation: await normalizeOrientation(item.front, frontAnalysis, resolve(normalizedRoot, `${item.sku}-front.png`)),
     };
     back = {
-      path: resolve(normalizedRoot, `${item.sku}-back${backExt.toLowerCase()}`),
-      orientation: await normalizeOrientation(item.back, backAnalysis, resolve(normalizedRoot, `${item.sku}-back${backExt.toLowerCase()}`)),
+      path: resolve(normalizedRoot, `${item.sku}-back.png`),
+      orientation: await normalizeOrientation(item.back, backAnalysis, resolve(normalizedRoot, `${item.sku}-back.png`)),
     };
   }
   const [quality, externalMatch] = await Promise.all([
