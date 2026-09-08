@@ -12,12 +12,15 @@ export default function HomePage() {
   const categories = ["Pokémon", "One Piece Card Game", "Dragon Ball Super", "Magic: The Gathering", "Riftbound"]
     .map((game) => publicEbayListings.find((item) => item.game === game))
     .filter((item): item is (typeof publicEbayListings)[number] => Boolean(item));
+  const curated = ["Pokémon", "One Piece Card Game", "Dragon Ball Super", "Magic: The Gathering", "Riftbound"]
+    .flatMap((game) => publicEbayListings.filter((item) => item.game === game).slice(0, 6));
 
   return (
     <main className="ebay-storefront">
       <GlobalHeader active="home" />
       <StorefrontHome
         featured={heroSlides}
+        curated={curated}
         categories={categories}
         counts={storefrontCounts()}
         total={publicEbayListings.length}

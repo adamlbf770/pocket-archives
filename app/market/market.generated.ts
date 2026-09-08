@@ -11,19 +11,13 @@ export const marketSnapshot = {
     "soldUnits": 116,
     "salesRevenue": 494.44,
     "averageOrderValue": 4.99,
-    "sevenDayRevenue": 95.32,
-    "sevenDayChangePct": -44.3,
+    "sevenDayRevenue": 66.86,
+    "sevenDayChangePct": -64.6,
     "unshippedOrders": 1,
     "comparableListings": 1643,
     "marketPremiumPct": 51.8
   },
   "dailySales": [
-    {
-      "date": "2026-08-09",
-      "label": "Aug 9",
-      "revenue": 0,
-      "units": 0
-    },
     {
       "date": "2026-08-10",
       "label": "Aug 10",
@@ -195,6 +189,12 @@ export const marketSnapshot = {
     {
       "date": "2026-09-07",
       "label": "Sep 7",
+      "revenue": 0,
+      "units": 0
+    },
+    {
+      "date": "2026-09-08",
+      "label": "Sep 8",
       "revenue": 0,
       "units": 0
     }

@@ -26,36 +26,51 @@ function ProductCard({ item, priority = false }: { item: PublicEbayListing; prio
   );
 }
 
-export function StorefrontHome({ featured, categories, counts, total }: { featured: PublicEbayListing[]; categories: PublicEbayListing[]; counts: Record<string, number>; total: number }) {
+export function StorefrontHome({ featured, curated, categories, counts, total }: { featured: PublicEbayListing[]; curated: PublicEbayListing[]; categories: PublicEbayListing[]; counts: Record<string, number>; total: number }) {
   const categoryOrder = ["Pokémon", "One Piece Card Game", "Dragon Ball Super", "Magic: The Gathering", "Riftbound"];
+  const storageKey = "pocket-archives-home-game";
+  const [activeGame, setActiveGame] = useState("all");
   const [activeFeature, setActiveFeature] = useState(0);
   const [carouselPaused, setCarouselPaused] = useState(false);
-  const hero = featured[activeFeature] || featured[0];
-  const previousHero = featured[(activeFeature - 1 + featured.length) % featured.length] || hero;
-  const nextHero = featured[(activeFeature + 1) % featured.length] || hero;
+  const gameCards = activeGame === "all" ? featured : curated.filter((item) => item.game === activeGame);
+  const hero = gameCards[activeFeature] || gameCards[0] || featured[0];
+  const previousHero = gameCards[(activeFeature - 1 + gameCards.length) % gameCards.length] || hero;
+  const nextHero = gameCards[(activeFeature + 1) % gameCards.length] || hero;
+  const visibleCards = (activeGame === "all" ? featured : gameCards).slice(0, 4);
+  const activeTotal = activeGame === "all" ? total : counts[activeGame] || 0;
 
   useEffect(() => {
-    if (carouselPaused || featured.length < 2) return;
+    const saved = window.localStorage.getItem(storageKey);
+    if (saved === "all" || categoryOrder.includes(saved || "")) setActiveGame(saved || "all");
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem(storageKey, activeGame);
+    setActiveFeature(0);
+  }, [activeGame]);
+
+  useEffect(() => {
+    if (carouselPaused || gameCards.length < 2) return;
     const timer = window.setInterval(() => {
-      setActiveFeature((current) => (current + 1) % featured.length);
+      setActiveFeature((current) => (current + 1) % gameCards.length);
     }, 6500);
     return () => window.clearInterval(timer);
-  }, [carouselPaused, featured.length]);
+  }, [carouselPaused, gameCards.length]);
 
   function moveFeature(direction: number) {
-    setActiveFeature((current) => (current + direction + featured.length) % featured.length);
+    setActiveFeature((current) => (current + direction + gameCards.length) % gameCards.length);
   }
 
   return (
     <>
       <div className="archive-home">
         <nav className="archive-quick-nav" aria-label="Browse the archive by game">
-          <Link href="/shop"><span>All cards</span><b>{total.toLocaleString()}</b></Link>
+          <button type="button" className={activeGame === "all" ? "is-active" : ""} aria-pressed={activeGame === "all"} onClick={() => setActiveGame("all")}><span>All cards</span><b>{total.toLocaleString()}</b></button>
           {categoryOrder.map((game) => (
-            <Link key={game} href={`/shop?game=${encodeURIComponent(game)}`}>
+            <button type="button" key={game} className={activeGame === game ? "is-active" : ""} aria-pressed={activeGame === game} onClick={() => setActiveGame(game)}>
               <span>{game === "One Piece Card Game" ? "One Piece" : game === "Dragon Ball Super" ? "Dragon Ball" : game.replace(": The Gathering", "")}</span>
               <b>{counts[game]?.toLocaleString() || 0}</b>
-            </Link>
+            </button>
           ))}
         </nav>
         <section className="archive-hero">
@@ -65,21 +80,22 @@ export function StorefrontHome({ featured, categories, counts, total }: { featur
             <p className="archive-hero-deck">Each card is photographed front and back, cataloged, and available through our eBay store.</p>
             <form className="archive-search" action="/shop">
               <label htmlFor="archive-home-search">Search the archive</label>
+              {activeGame !== "all" && <input type="hidden" name="game" value={activeGame} />}
               <div><input id="archive-home-search" name="q" type="search" placeholder="Card, set, artist, or number" /><button type="submit">Search</button></div>
             </form>
             <div className="archive-hero-actions">
-              <Link className="archive-button archive-button-bright" href="/shop">Browse cards <span>→</span></Link>
+              <Link className="archive-button archive-button-bright" href={activeGame === "all" ? "/shop" : `/shop?game=${encodeURIComponent(activeGame)}`}>Browse cards <span>→</span></Link>
               <a className="archive-button archive-button-quiet" href={EXTERNAL_SHOP_URL} target="_blank" rel="noreferrer">Visit eBay <span>↗</span></a>
             </div>
             <dl className="archive-hero-facts">
-              <div><dt>Available</dt><dd>{total.toLocaleString()}</dd></div>
+              <div><dt>Available</dt><dd>{activeTotal.toLocaleString()}</dd></div>
               <div><dt>Games</dt><dd>{Object.keys(counts).length}</dd></div>
               <div><dt>Photos</dt><dd>Front + back</dd></div>
             </dl>
           </div>
 
           <div className="archive-feature" onMouseEnter={() => setCarouselPaused(true)} onMouseLeave={() => setCarouselPaused(false)} onFocusCapture={() => setCarouselPaused(true)} onBlurCapture={() => setCarouselPaused(false)}>
-            <div className="archive-feature-index"><span>Featured</span><b>{String(activeFeature + 1).padStart(2, "0")} / {String(featured.length).padStart(2, "0")}</b></div>
+            <div className="archive-feature-index"><span>Featured</span><b>{String(activeFeature + 1).padStart(2, "0")} / {String(gameCards.length).padStart(2, "0")}</b></div>
             <div className="archive-feature-stage">
               <img className="archive-feature-ghost archive-feature-ghost-left" src={previousHero.frontImage} alt="" aria-hidden="true" />
               <a className="archive-feature-card" href={hero.listingUrl} target="_blank" rel="noreferrer" aria-label={`View ${hero.name} on eBay`}>
@@ -93,7 +109,7 @@ export function StorefrontHome({ featured, categories, counts, total }: { featur
             </div>
             <div className="archive-feature-controls" aria-label="Featured listing carousel">
               <button type="button" onClick={() => moveFeature(-1)} aria-label="Previous featured card">←</button>
-              <span>{featured.map((item, index) => <button key={item.sku} type="button" className={index === activeFeature ? "is-active" : ""} onClick={() => setActiveFeature(index)} aria-label={`Show ${item.name}`} />)}</span>
+              <span>{gameCards.map((item, index) => <button key={item.sku} type="button" className={index === activeFeature ? "is-active" : ""} onClick={() => setActiveFeature(index)} aria-label={`Show ${item.name}`} />)}</span>
               <button type="button" onClick={() => moveFeature(1)} aria-label="Next featured card">→</button>
             </div>
           </div>
@@ -102,9 +118,9 @@ export function StorefrontHome({ featured, categories, counts, total }: { featur
         <section className="archive-section archive-new-arrivals">
           <header className="archive-section-header">
             <div><h2>Recently added</h2></div>
-            <Link href="/shop">View all <span>→</span></Link>
+            <Link href={activeGame === "all" ? "/shop" : `/shop?game=${encodeURIComponent(activeGame)}`}>View all <span>→</span></Link>
           </header>
-          <div className="ebay-product-grid ebay-home-grid">{featured.slice(0, 4).map((item, index) => <ProductCard key={item.sku} item={item} priority={index < 2} />)}</div>
+          <div className="ebay-product-grid ebay-home-grid">{visibleCards.map((item, index) => <ProductCard key={item.sku} item={item} priority={index < 2} />)}</div>
         </section>
 
         <section className="archive-section archive-games">

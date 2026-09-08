@@ -27,6 +27,7 @@ export const publicEbayListings: PublicEbayListing[] = inventoryRecords
   .filter(
     (record) =>
       record.status === "Listed" &&
+      record.scanReady !== false &&
       Boolean(record.listingId && record.listingUrl && record.frontImage) &&
       typeof record.price === "number",
   )

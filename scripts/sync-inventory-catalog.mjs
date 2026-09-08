@@ -93,6 +93,34 @@ function numeric(value) {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
 }
 
+function hasIncompleteScan(record) {
+  const scanReview = [
+    first(record, "status", "ebayStatus", "listingStatus"),
+    first(record, "notes", "conditionNotes", "reviewNotes"),
+  ].join(" ");
+  return (
+    /\brescan required\b/i.test(scanReview) ||
+    /\b(?:partial|truncated|incomplete|cropped)\b.{0,80}\b(?:front|scan|capture|image)\b/i.test(scanReview) ||
+    /\b(?:front|scan|capture|image)\b.{0,80}\b(?:partial|truncated|incomplete|cropped)\b/i.test(scanReview)
+  );
+}
+
+function hasHalfHeightEbayScan(game, imageUrl) {
+  if (game !== "Magic: The Gathering") return false;
+  const encodedDimensions = String(imageUrl ?? "").match(/\/s\/([^/]+)\//)?.[1];
+  if (!encodedDimensions) return false;
+  try {
+    const [height, width] = Buffer.from(encodedDimensions, "base64")
+      .toString("utf8")
+      .split("X")
+      .map(Number);
+    const ratio = height / width;
+    return Number.isFinite(ratio) && ratio >= 0.75 && ratio <= 0.95;
+  } catch {
+    return false;
+  }
+}
+
 function identityKey(record) {
   return [
     first(record, "name", "cardName"),
@@ -197,12 +225,14 @@ for (const order of orderExport.orders ?? []) {
 
 const records = storage.assignments.map((assignment) => {
   const manifest = manifestBySku.get(assignment.sku) ?? {};
+  const game = inferGame(assignment);
   const key = identityKey({ ...manifest, ...assignment });
   const listingId = first(manifest, "listingId", "ebayListingId") || assignment.listingId || "";
   const active = activeBySku.get(assignment.sku) ?? activeById.get(listingId);
   const images = imageAttachments[assignment.sku]?.imageUrls ?? [];
   const localFront = `${assignment.sku}_front.jpg`;
   const localBack = `${assignment.sku}_back.jpg`;
+  const frontImage = images[0] || (localPreviewFiles.has(localFront) ? `/inventory-previews/${localFront}` : null);
   const priceText = active?.price ?? (first(manifest, "price", "proposedPrice") || assignment.price);
   const price = Number(priceText);
   const market = marketBySku.get(assignment.sku) ?? activeMarketByIdentity.get(key);
@@ -231,7 +261,7 @@ const records = storage.assignments.map((assignment) => {
   return {
     sku: assignment.sku,
     name: assignment.name || first(manifest, "name", "cardName") || "Unidentified card",
-    game: inferGame(assignment),
+    game,
     set: assignment.set || first(manifest, "set") || "Unidentified set",
     number: assignment.number || first(manifest, "number", "cardNumber") || "",
     year: assignment.year || Number(first(manifest, "year")) || null,
@@ -242,6 +272,7 @@ const records = storage.assignments.map((assignment) => {
     artist: assignment.artist || first(manifest, "artist", "illustrator") || "Not recorded",
     boxId: assignment.boxId,
     box: assignment.inventoryLocation || boxLabelById.get(assignment.boxId) || assignment.boxId,
+    scanReady: !hasIncompleteScan(manifest) && !hasHalfHeightEbayScan(game, frontImage),
     status: active
       ? "Listed"
       : displayStatus(assignment.status || first(manifest, "status", "ebayStatus", "listingStatus")),
@@ -249,7 +280,7 @@ const records = storage.assignments.map((assignment) => {
     market: marketSnapshot,
     listingId: active?.itemId || listingId || null,
     listingUrl: active?.viewItemUrl || first(manifest, "ebayUrl") || assignment.listingUrl || null,
-    frontImage: images[0] || (localPreviewFiles.has(localFront) ? `/inventory-previews/${localFront}` : null),
+    frontImage,
     backImage: images[1] || (localPreviewFiles.has(localBack) ? `/inventory-previews/${localBack}` : null),
   };
 });
