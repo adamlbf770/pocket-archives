@@ -24,8 +24,9 @@
     "prepare:site-public": "node scripts/prepare-site-public.mjs",
     "build": "npm run sync:research && npm run sync:inventory && npm run sync:intelligence && npm run prepare:site-public && SITES_SLIM_BUILD=1 WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext build",
     "media:upload": "node scripts/upload-site-media.mjs",
+    "media:verify": "node scripts/verify-site-media.mjs --remote",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
-    "test": "npm run build && node --test tests/*.test.mjs",
+    "test": "npm run build && node --import ./tests/register-cloudflare-loader.mjs --test tests/*.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
   },

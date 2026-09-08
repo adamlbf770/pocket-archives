@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile, readdir } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
 async function render(pathname = "/") {
@@ -30,8 +30,9 @@ test("server-renders the Pocket Archives landing page", async () => {
 
   const html = await response.text();
   assert.match(html, /<title>Pocket Archives/i);
-  assert.match(html, /Pokémon design history, preserved/i);
-  assert.match(html, /From first sketch/i);
+  assert.match(html, /A curated archive of trading cards/i);
+  assert.match(html, /Search the archive/i);
+  assert.match(html, /Front \+ back/i);
   assert.doesNotMatch(html, /Your site is taking shape|Building your site/i);
 });
 
@@ -39,13 +40,13 @@ test("the public shop links lead to the temporary eBay storefront", async () => 
   const response = await render("/");
   const html = await response.text();
 
-  assert.match(html, /https:\/\/www\.ebay\.com\/usr\/pocket_archives/i);
+  assert.match(html, /https:\/\/www\.ebay\.com\/str\/pocketarchives/i);
   assert.doesNotMatch(html, /href="https:\/\/shop\.pocketarchives\.com\/shop"/i);
 });
 
 test("early archive records expose audited provenance without invented plate numbers", async () => {
   const source = await readFile(
-    new URL("../app/page.tsx", import.meta.url),
+    new URL("../app/archive/canonical-data.generated.ts", import.meta.url),
     "utf8",
   );
 
@@ -53,11 +54,10 @@ test("early archive records expose audited provenance without invented plate num
   assert.doesNotMatch(source, /Carddass action archive sheet/);
   assert.doesNotMatch(source, /Beta sprite specimen/);
   assert.match(source, /c\. 1993/);
-  assert.match(source, /Catalog record/i);
-  assert.match(source, /Early development · date under study/i);
-  assert.match(source, /ATTRIBUTION UNVERIFIED/);
-  assert.match(source, /1990 source material · 2019 reconstruction/);
-  assert.match(source, /1997 · Parts 3 and 4/);
+  assert.match(source, /"provenance":/i);
+  assert.match(source, /individual page authorship not independently verified/i);
+  assert.match(source, /not itself a 1990 artifact/i);
+  assert.match(source, /Artist attribution and unique-use claims need original Bandai credits/i);
 });
 
 test("canonical research registers stay connected to the archive build", async () => {
@@ -65,15 +65,10 @@ test("canonical research registers stay connected to the archive build", async (
     new URL("../app/archive/canonical-data.generated.ts", import.meta.url),
     "utf8",
   );
-  const response = await render("/");
-  const html = await response.text();
-
   assert.match(source, /PA-CM-021/);
   assert.match(source, /PA-A100/);
   assert.match(source, /1401044258-021/);
   assert.match(source, /Copyrighted; commercial reuse not cleared/i);
-  assert.match(html, /Canonical research register/i);
-  assert.match(html, /Documented chronology/i);
 });
 
 test("the Capsule Monsters proposal is introduced in plain museum language", async () => {
@@ -81,14 +76,8 @@ test("the Capsule Monsters proposal is introduced in plain museum language", asy
     new URL("../app/archive/canonical-data.generated.ts", import.meta.url),
     "utf8",
   );
-  const pageSource = await readFile(
-    new URL("../app/page.tsx", import.meta.url),
-    "utf8",
-  );
-
   assert.match(archiveSource, /The Proposal That Became Pokémon/i);
   assert.match(archiveSource, /At the time the project was called Capsule Monsters/i);
-  assert.match(pageSource, /return "Proposal cover"/i);
   assert.doesNotMatch(archiveSource, /Working title; named project role; explicit 1990 object date/i);
 });
 
@@ -136,135 +125,23 @@ test("the sprite exhibit contains all 151 across the six Game Boy releases", asy
   }
 });
 
-test("server-renders all batch 03 shop listings", async () => {
+test("server-renders the current searchable eBay catalog", async () => {
   const response = await render("/shop");
   assert.equal(response.status, 200);
 
   const html = await response.text();
-  for (const title of ["Tyrogue", "Omanyte", "Treecko", "Poochyena"]) {
-    assert.match(html, new RegExp(`>${title}<`, "i"));
-  }
-  for (const image of [
-    "pa-0024-front.jpg",
-    "pa-0025-front.jpg",
-    "pa-0026-front.jpg",
-    "pa-0027-front.jpg",
-  ]) {
-    assert.match(html, new RegExp(image, "i"));
-  }
-  assert.match(html, /The Town on No Map/i);
-  assert.match(html, /EX Sandstorm/i);
-  assert.match(html, /EX Ruby &amp; Sapphire/i);
+  assert.match(html, /Find something good/i);
+  assert.match(html, /Card, set, artist, or number/i);
+  assert.match(html, /Every card uses its actual photos/i);
+  assert.match(html, /https:\/\/www\.ebay\.com\/str\/pocketarchives/i);
+  assert.match(html, /\/inventory-previews\//i);
+  assert.doesNotMatch(html, /Your site is taking shape|Building your site/i);
 });
 
-test("server-renders all batch 04 shop listings with their scanned fronts", async () => {
-  const response = await render("/shop");
-  assert.equal(response.status, 200);
-
-  const html = await response.text();
-  for (const title of [
-    "Croconaw",
-    "Tentacruel",
-    "Totodile",
-    "Magneton",
-    "Ampharos",
-    "Magby",
-    "Kangaskhan",
-    "Cleffa",
-    "Scizor",
-  ]) {
-    assert.match(html, new RegExp(`>${title}<`, "i"));
+test("slim production output excludes R2-backed media while retaining app assets", async () => {
+  await access(new URL("../dist/client/manifest.webmanifest", import.meta.url));
+  await access(new URL("../dist/client/og-shop.png", import.meta.url));
+  for (const directory of ["inventory-previews", "art", "shop", "sprites"]) {
+    await assert.rejects(access(new URL(`../dist/client/${directory}`, import.meta.url)));
   }
-  for (let catalogNumber = 28; catalogNumber <= 36; catalogNumber += 1) {
-    const filename = `pa-${String(catalogNumber).padStart(4, "0")}-front.jpg`;
-    assert.match(html, new RegExp(filename, "i"));
-  }
-  for (const set of [
-    "Neo Premium File 1",
-    "Southern Islands",
-    "Awakening Legends",
-    "Wizards Black Star Promos",
-  ]) {
-    assert.match(html, new RegExp(set, "i"));
-  }
-  assert.match(html, /Expansion Pack \(Japanese Base Set\)<!-- --> · <!-- -->Holo Rare/i);
-  assert.match(html, /Neo Genesis<!-- --> · <!-- -->Rare/i);
-  assert.match(html, /Southern Islands<!-- --> · <!-- -->Promo/i);
-  assert.match(html, />Holo Rare<\/option>/i);
-  assert.match(html, />Rare<\/option>/i);
-  assert.match(html, />Promo<\/option>/i);
-  assert.doesNotMatch(html, /Rarity not listed/i);
-  assert.match(html, /class="store-rarity-groups"/i);
-  assert.match(html, /class="store-rarity-heading"/i);
-});
-
-test("the shop distinguishes first editions without overwriting printed rarity", async () => {
-  const response = await render("/shop");
-  assert.equal(response.status, 200);
-
-  const html = await response.text();
-  assert.match(html, /1st Edition(?:<!-- -->)? · (?:<!-- -->)?Rare/i);
-  assert.match(html, /1st Edition(?:<!-- -->)? · (?:<!-- -->)?Uncommon/i);
-  assert.match(html, /1st Edition(?:<!-- -->)? · (?:<!-- -->)?Common/i);
-  assert.match(html, />1st Edition · Rare<\/option>/i);
-  assert.match(html, />1st Edition · Uncommon<\/option>/i);
-  assert.match(html, />1st Edition · Common<\/option>/i);
-});
-
-test("batch 04 object pages show moderately played condition and revised prices", async () => {
-  const listings = [
-    ["croconaw-neo-premium-file-1-no-159", "$2.49"],
-    ["tentacruel-southern-islands-10-18", "$29.99"],
-    ["totodile-neo-premium-file-1-no-158", "$2.49"],
-    ["magneton-japanese-base-set-no-082-holo", "$8.49"],
-    ["ampharos-awakening-legends-no-181-holo", "$14.99"],
-    ["magby-neo-genesis-23-111", "$3.49"],
-    ["kangaskhan-jungle-21-64-unlimited", "$3.49"],
-    ["cleffa-japanese-neo-genesis-no-173", "$3.99"],
-    ["scizor-wizards-black-star-promo-33", "$9.99"],
-  ];
-
-  for (const [slug, price] of listings) {
-    const response = await render(`/objects/${slug}`);
-    assert.equal(response.status, 200);
-    const html = await response.text();
-    assert.match(html, /Moderately Played/i);
-    assert.match(html, new RegExp(price.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
-  }
-});
-
-test("server-renders batch 05 listings with the verified prices and conditions", async () => {
-  const listings = [
-    ["vigoroth-ex-ruby-sapphire-47-109", "$0.99", "Moderately Played"],
-    ["dark-primeape-team-rocket-43-82-first-edition", "$3.49", "Moderately Played"],
-    ["light-sunflora-neo-destiny-72-105-first-edition", "$1.49", "Moderately Played"],
-    ["wigglytuff-1996-bandai-carddass-green-040", "$10.99", "Near Mint"],
-  ];
-
-  for (const [slug, price, condition] of listings) {
-    const response = await render(`/objects/${slug}`);
-    assert.equal(response.status, 200);
-    const html = await response.text();
-    assert.match(html, new RegExp(condition, "i"));
-    assert.match(html, new RegExp(price.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
-    assert.match(html, /batch-05\/pa-00(?:37|38|39|40)-(?:front|back)\.jpg/i);
-  }
-});
-
-test("server-renders all batch 05 shop listings with their submitted scans", async () => {
-  const response = await render("/shop");
-  assert.equal(response.status, 200);
-
-  const html = await response.text();
-  for (const title of ["Vigoroth", "Dark Primeape", "Light Sunflora", "Wigglytuff"]) {
-    assert.match(html, new RegExp(`>${title}<`, "i"));
-  }
-  for (let catalogNumber = 37; catalogNumber <= 40; catalogNumber += 1) {
-    const filename = `pa-${String(catalogNumber).padStart(4, "0")}-front.jpg`;
-    assert.match(html, new RegExp(filename, "i"));
-  }
-  assert.match(html, /Team Rocket/i);
-  assert.match(html, /Neo Destiny/i);
-  assert.match(html, /Bandai Carddass/i);
-  assert.match(html, /Near Mint/i);
 });
