@@ -12,12 +12,12 @@ const LIVE_DIR = path.join(OUTPUT_DIR, "live-fronts");
 const missingMode = process.argv.includes("--missing-manifests");
 const noSkuMode = process.argv.includes("--no-sku");
 const lowConfidenceMode = process.argv.includes("--low-confidence");
-const candidates = backMode
-  ? JSON.parse(await readFile(path.join(OUTPUT_DIR, "candidates.json"), "utf8"))
-  : noSkuMode
+const candidates = noSkuMode
   ? JSON.parse(await readFile(path.join(ROOT, "data/ebay/active-listings.json"), "utf8")).activeListings.filter((row) => !row.sku)
   : missingMode
   ? JSON.parse(await readFile(path.join(ROOT, "outputs/ebay-active-audit/active-image-collision-audit.json"), "utf8")).missingManifest
+  : backMode
+  ? JSON.parse(await readFile(path.join(OUTPUT_DIR, "candidates.json"), "utf8"))
   : lowConfidenceMode
   ? JSON.parse(await readFile(path.join(OUTPUT_DIR, "candidates.json"), "utf8")).filter((row) => Number(row.rotation) === 180 && Number(row.scoreMargin) < 6)
   : JSON.parse(await readFile(path.join(OUTPUT_DIR, "verified.json"), "utf8")).filter((row) => row.accurateRotation === 180);
@@ -54,7 +54,13 @@ async function tradingPictureUrls(itemId) {
   return [...xml.matchAll(/<PictureURL>([\s\S]*?)<\/PictureURL>/gi)].map((match) => match[1].replaceAll("&amp;", "&"));
 }
 
-const prefix = backMode ? "live-back" : noSkuMode ? "live-no-sku" : missingMode ? "live-missing" : lowConfidenceMode ? "live-low-confidence" : "live";
+const prefix = backMode && noSkuMode ? "live-back-no-sku"
+  : backMode && missingMode ? "live-back-missing"
+  : backMode ? "live-back"
+  : noSkuMode ? "live-no-sku"
+  : missingMode ? "live-missing"
+  : lowConfidenceMode ? "live-low-confidence"
+  : "live";
 await writeFile(path.join(OUTPUT_DIR, `${prefix}-review.json`), `${JSON.stringify(rows, null, 2)}\n`);
 await makeSheet(rows, path.join(OUTPUT_DIR, `${prefix}-current.jpg`), 0);
 await makeSheet(rows, path.join(OUTPUT_DIR, `${prefix}-rotated-preview.jpg`), 180);
