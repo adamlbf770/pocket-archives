@@ -949,6 +949,41 @@ body {
 .source-health-details .source-health-table > article { min-height: 120px; padding: 19px 12px; }
 .source-health-details .source-health-table p { font-family: Arial, Helvetica, sans-serif; font-size: 10px; }
 .source-health-app .source-health-footer { padding: 18px 2px; font-family: Arial, Helvetica, sans-serif; font-size: 9px; }
+.ingestion-filter-bar { margin-top: 24px; padding: 8px; display: flex; gap: 7px; overflow-x: auto; border: 1px solid var(--app-line); border-radius: 12px; background: #fff; }
+.ingestion-filter-bar button { min-height: 38px; padding: 0 12px; border: 0; border-radius: 8px; background: transparent; color: #68756f; cursor: pointer; font-size: 10px; font-weight: 750; white-space: nowrap; }
+.ingestion-filter-bar button b { margin-left: 6px; color: #24312d; }
+.ingestion-filter-bar button.is-active { background: #17221f; color: #fff; }
+.ingestion-filter-bar button.is-active b { color: var(--app-accent); }
+.ingestion-filter-bar .ingestion-export { margin-left: auto; background: var(--app-accent); color: #17221f; }
+.ingestion-filter-bar .ingestion-export:disabled { opacity: .45; cursor: default; }
+.ingestion-queue { margin-top: 12px; display: grid; gap: 12px; }
+.ingestion-card { overflow: hidden; border: 1px solid var(--app-line); border-radius: 14px; background: #fff; }
+.ingestion-card > header { min-height: 92px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 18px; border-bottom: 1px solid #edf0ee; }
+.ingestion-card > header small, .ingestion-evidence-grid > section > small { color: #87928d; font-size: 8px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+.ingestion-card > header h2 { margin: 5px 0 3px; font-size: 20px; letter-spacing: -.035em; }
+.ingestion-card > header p { margin: 0; color: #7a8681; font-size: 10px; }
+.ingestion-card > header > span { min-width: 122px; padding: 9px 11px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-radius: 8px; background: #fff1da; color: #8b5a15; font-size: 9px; font-weight: 800; }
+.ingestion-card > header > span b { font-size: 17px; }
+.ingestion-card.state-auto_draft > header > span { background: #e1f5e7; color: #267346; }
+.ingestion-card.state-conflict > header > span, .ingestion-card.state-rescan > header > span { background: #ffe5e1; color: #a23b2e; }
+.ingestion-evidence-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ingestion-evidence-grid > section { min-width: 0; padding: 18px 20px; border-right: 1px solid #edf0ee; }
+.ingestion-evidence-grid > section:last-child { border-right: 0; }
+.ingestion-evidence-grid strong { margin: 9px 0; display: block; font-size: 12px; }
+.ingestion-evidence-grid dl { margin: 10px 0 0; }
+.ingestion-evidence-grid dl div { padding: 5px 0; display: grid; grid-template-columns: 75px minmax(0, 1fr); gap: 8px; border-top: 1px solid #f0f2f1; }
+.ingestion-evidence-grid dt { color: #8b9691; font-size: 8px; text-transform: uppercase; }
+.ingestion-evidence-grid dd { min-width: 0; margin: 0; overflow-wrap: anywhere; font-size: 10px; font-weight: 650; }
+.ingestion-evidence-grid p, .ingestion-evidence-grid li { color: #69756f; font-size: 10px; line-height: 1.45; }
+.ingestion-evidence-grid ul { margin: 8px 0 0; padding-left: 16px; }
+.ingestion-card > footer { min-height: 60px; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; gap: 14px; border-top: 1px solid #edf0ee; background: #fafbfa; }
+.ingestion-card > footer > span { color: #7e8984; font-size: 9px; }
+.ingestion-card > footer div { display: flex; gap: 7px; }
+.ingestion-card > footer button { min-height: 34px; padding: 0 10px; border: 1px solid #d5dcd8; border-radius: 7px; background: #fff; color: #38443f; cursor: pointer; font-size: 9px; font-weight: 750; }
+.ingestion-card > footer button:disabled { opacity: .4; cursor: default; }
+.ingestion-empty { min-height: 260px; display: grid; place-content: center; justify-items: center; gap: 7px; border: 1px dashed #cfd7d3; border-radius: 14px; color: #74817b; }
+.ingestion-empty b { color: #26332e; }
+.ingestion-empty span { font-size: 11px; }
 .market-dashboard-grid { margin-top: 28px; display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(300px, .85fr); gap: 12px; }
 .market-panel { min-width: 0; padding: 20px; border: 1px solid var(--app-line); border-radius: 14px; background: var(--app-panel); box-shadow: 0 5px 18px rgba(25, 43, 36, .025); }
 .market-panel > header { min-height: 42px; margin-bottom: 18px; display: flex; align-items: start; justify-content: space-between; gap: 16px; }
@@ -1077,7 +1112,7 @@ body {
   .inventory-app-shell { display: block; padding-bottom: 64px; }
   .inventory-sidebar { min-height: 0; height: 62px; position: fixed; z-index: 20; inset: auto 0 0; padding: 7px 12px; display: block; }
   .inventory-app-brand, .inventory-sidebar-footer { display: none; }
-  .inventory-sidebar nav { height: 48px; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+  .inventory-sidebar nav { height: 48px; margin: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
   .inventory-sidebar nav a { min-height: 48px; display: grid; place-items: center; gap: 0; font-size: 8px; }
   .inventory-sidebar nav a > span { line-height: 1; font-size: 18px; }
   .inventory-workspace { padding: 22px 14px 40px; }
@@ -1106,6 +1141,11 @@ body {
   .source-health-compact-lock { align-items: flex-start; flex-direction: column; }
   .source-health-details .source-health-table > header { display: none; }
   .source-health-details .source-health-table > article { grid-template-columns: 1fr 1fr; }
+  .ingestion-evidence-grid { grid-template-columns: 1fr; }
+  .ingestion-evidence-grid > section { border-right: 0; border-bottom: 1px solid #edf0ee; }
+  .ingestion-card > footer { align-items: stretch; flex-direction: column; }
+  .ingestion-card > footer div { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .ingestion-card > footer button { min-height: 42px; }
   .market-dashboard-grid { grid-template-columns: 1fr; }
   .market-sales-panel, .market-position-panel, .market-game-panel, .market-source-panel, .market-sales-mix, .market-top-listings { grid-column: auto; min-height: 0; }
   .market-page-header { min-height: 0; }

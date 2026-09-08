@@ -1,0 +1,21 @@
+{
+  "batchId": "example-do-not-run",
+  "cards": [
+    {
+      "sku": "PA-0000",
+      "front": "/absolute/path/to/front.jpg",
+      "back": "/absolute/path/to/back.jpg",
+      "guess": {
+        "game": "Pokémon",
+        "name": "Pikachu",
+        "setName": "Base Set",
+        "setCode": "base1",
+        "cardNumber": "58",
+        "language": "English",
+        "finish": "Non-Holo",
+        "rarity": "Common",
+        "variant": "Unlimited"
+      }
+    }
+  ]
+}

@@ -155,6 +155,7 @@ export default function InventoryCatalog({ boxes, records, summary, games, statu
         <nav aria-label="Pocket Archives app">
           <a className="is-active" href="/inventory"><span aria-hidden="true">⌂</span>Dashboard</a>
           <a href="#card-search"><span aria-hidden="true">⌕</span>Find a card</a>
+          <a href="/ingestion"><span aria-hidden="true">⇣</span>Ingestion</a>
           <a href="/market"><span aria-hidden="true">↗</span>Market</a>
           <a href="/source-health"><span aria-hidden="true">◉</span>Source health</a>
         </nav>

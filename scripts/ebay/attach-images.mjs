@@ -444,6 +444,131 @@ const BATCHES = [
     last: 11623,
     directory: join(ROOT, "inventory/Batch 117 - Pokemon Ultrarare Binder - PA-11596-PA-11623/02 Listing Images"),
   },
+  {
+    first: 11624,
+    last: 11752,
+    directory: join(ROOT, "inventory/Batch 118 - Pokemon PK0020A - PA-11624-PA-11752/02 Listing Images"),
+  },
+  {
+    first: 11753,
+    last: 11947,
+    directory: join(ROOT, "inventory/Batch 119 - Pokemon PK0021A - PA-11753-PA-11947/02 Listing Images"),
+  },
+  {
+    first: 11948,
+    last: 12041,
+    directory: join(ROOT, "inventory/Batch 120 - Pokemon PK0022A - PA-11948-PA-12041/02 Listing Images"),
+  },
+  {
+    first: 12042,
+    last: 12169,
+    directory: join(ROOT, "inventory/Batch 121 - Pokemon PK0023A - PA-12042-PA-12169/02 Listing Images"),
+  },
+  {
+    first: 12170,
+    last: 12289,
+    directory: join(ROOT, "inventory/Batch 122 - Pokemon PK0024A - PA-12170-PA-12289/02 Listing Images"),
+  },
+  {
+    first: 12290,
+    last: 12416,
+    directory: join(ROOT, "inventory/Batch 123 - Pokemon PK0025A - PA-12290-PA-12416/02 Listing Images"),
+  },
+  {
+    first: 12417,
+    last: 12587,
+    directory: join(ROOT, "inventory/Batch 124 - Pokemon PK0026A - PA-12417-PA-12587/02 Listing Images"),
+  },
+  {
+    first: 12588,
+    last: 12595,
+    directory: join(ROOT, "inventory/Batch 125 - Pokemon BOX3 - PA-12588-PA-12595/02 Listing Images"),
+  },
+  {
+    first: 12596,
+    last: 12668,
+    directory: join(ROOT, "inventory/Batch 126 - One Piece OP0006A - PA-12596-PA-12668/02 Listing Images"),
+  },
+  {
+    first: 12669,
+    last: 12746,
+    directory: join(ROOT, "inventory/Batch 127 - One Piece OP0007A - PA-12669-PA-12746/02 Listing Images"),
+  },
+  {
+    first: 12747,
+    last: 12825,
+    directory: join(ROOT, "inventory/Batch 128 - One Piece OP0008A - PA-12747-PA-12825/02 Listing Images"),
+  },
+  {
+    first: 12826,
+    last: 12891,
+    directory: join(ROOT, "inventory/Batch 129 - One Piece OP0009A - PA-12826-PA-12891/02 Listing Images"),
+  },
+  {
+    first: 12892,
+    last: 12954,
+    directory: join(ROOT, "inventory/Batch 130 - One Piece OP0010A - PA-12892-PA-12954/02 Listing Images"),
+  },
+  {
+    first: 12955,
+    last: 13021,
+    directory: join(ROOT, "inventory/Batch 131 - One Piece OP0011A - PA-12955-PA-13021/02 Listing Images"),
+  },
+  {
+    first: 13022,
+    last: 13088,
+    directory: join(ROOT, "inventory/Batch 132 - One Piece OP0012A - PA-13022-PA-13088/02 Listing Images"),
+  },
+  {
+    first: 13089,
+    last: 13148,
+    directory: join(ROOT, "inventory/Batch 133 - One Piece OP0013A - PA-13089-PA-13148/02 Listing Images"),
+  },
+  {
+    first: 13149,
+    last: 13231,
+    directory: join(ROOT, "inventory/Batch 134 - Magic MTG0007A - PA-13149-PA-13231/02 Listing Images"),
+  },
+  {
+    first: 13232,
+    last: 13341,
+    directory: join(ROOT, "inventory/Batch 135 - Magic MTG0008A - PA-13232-PA-13341/02 Listing Images"),
+  },
+  {
+    first: 13342,
+    last: 13433,
+    directory: join(ROOT, "inventory/Batch 136 - Magic MTG0009A - PA-13342-PA-13433/02 Listing Images"),
+  },
+  {
+    first: 13434,
+    last: 13626,
+    directory: join(ROOT, "inventory/Batch 137 - Magic MTG0011A - PA-13434-PA-13626/02 Listing Images"),
+  },
+  {
+    first: 13627,
+    last: 13741,
+    directory: join(ROOT, "inventory/Batch 138 - Magic MTG0010A - PA-13627-PA-13741/02 Listing Images"),
+  },
+  {
+    first: 13742,
+    last: 13869,
+    directory: join(ROOT, "inventory/Batch 139 - Magic MTG0012A - PA-13742-PA-13869/02 Listing Images"),
+  },
+  {
+    first: 13870,
+    last: 13966,
+    directory: join(ROOT, "inventory/Batch 140 - Magic MTG0013A - PA-13870-PA-13966/02 Listing Images"),
+  },
+  {
+    first: 13967,
+    last: 14201,
+    directory: join(ROOT, "inventory/Batch 141 - Magic MTG0014A - PA-13967-PA-14201/02 Listing Images"),
+  },
+  {
+    first: 14202,
+    last: 14318,
+    directory: join(ROOT, "inventory/Batch 142 - Magic MTG0015A - PA-14202-PA-14318/02 Listing Images"),
+  },
 ];
 const SORCERY_SKU = "PA-0209-0220-LOT";
 const SORCERY_DIRECTORY = join(
@@ -565,7 +690,11 @@ async function discoverJobs() {
   }
 
   const discovered = new Set(jobs.map((job) => job.sku));
-  const missing = [...offerSkus].filter((sku) => !discovered.has(sku));
+  const missing = [...offerSkus]
+    .filter((sku) => !requestedSkus || requestedSkus.has(sku))
+    .filter((sku) => !fromSku || skuNumber(sku) >= skuNumber(fromSku))
+    .filter((sku) => !toSku || skuNumber(sku) <= skuNumber(toSku))
+    .filter((sku) => !discovered.has(sku));
   if (missing.length) throw new Error(`No image mapping for offer SKU(s): ${missing.join(", ")}`);
   return jobs.sort((left, right) => skuNumber(left.sku) - skuNumber(right.sku));
 }
