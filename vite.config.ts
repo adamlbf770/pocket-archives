@@ -44,6 +44,9 @@ export default defineConfig(async () => {
   const { cloudflare } = await import("@cloudflare/vite-plugin");
 
   return {
+    // Hosted builds read large card scans and gallery art from R2. Development
+    // keeps using public/ so the local scanner workflow remains unchanged.
+    publicDir: process.env.SITES_SLIM_BUILD === "1" ? ".site-public" : "public",
     server: isCodexSeatbeltSandbox
       ? { watch: { useFsEvents: false, usePolling: true } }
       : undefined,
