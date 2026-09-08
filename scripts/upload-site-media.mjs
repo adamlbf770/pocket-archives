@@ -1,10 +1,11 @@
 import { createReadStream } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { readFile, readdir, stat, writeFile } from "node:fs/promises";
 import { extname, relative, resolve, sep } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
 const endpoint = (process.env.INVENTORY_MEDIA_UPLOAD_URL || "https://inventory.pocketarchives.com/api/media/upload").replace(/\/$/, "");
-const token = process.env.INVENTORY_MEDIA_UPLOAD_TOKEN;
+const token = process.env.INVENTORY_MEDIA_UPLOAD_TOKEN || readKeychainToken();
 if (!token) throw new Error("INVENTORY_MEDIA_UPLOAD_TOKEN is required.");
 
 const roots = [
@@ -55,7 +56,8 @@ async function worker() {
   }
 }
 
-await Promise.all(Array.from({ length: 8 }, worker));
+const concurrency = Math.max(1, Math.min(64, Number(process.env.INVENTORY_MEDIA_UPLOAD_CONCURRENCY) || 32));
+await Promise.all(Array.from({ length: concurrency }, worker));
 await writeFile(stateFile, JSON.stringify([...completed]));
 console.log(`Media upload complete: ${uploaded} uploaded, ${completed.size - uploaded} already completed.`);
 
@@ -73,4 +75,18 @@ function keyFor(file) {
 
 function contentType(file) {
   return ({ ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp", ".gif": "image/gif" })[extname(file).toLowerCase()] || "application/octet-stream";
+}
+
+function readKeychainToken() {
+  if (process.platform !== "darwin") return "";
+  try {
+    return execFileSync("security", [
+      "find-generic-password",
+      "-a", process.env.USER || "adamfinck",
+      "-s", "Pocket Archives Inventory Media Upload",
+      "-w",
+    ], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+  } catch {
+    return "";
+  }
 }
