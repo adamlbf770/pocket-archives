@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { PublicEbayListing } from "./ebay-storefront-data";
 import { EXTERNAL_SHOP_URL } from "./shop/catalog";
 
@@ -32,12 +32,17 @@ export function StorefrontHome({ featured, curated, categories, counts, total }:
   const [activeGame, setActiveGame] = useState("all");
   const [activeFeature, setActiveFeature] = useState(0);
   const [carouselPaused, setCarouselPaused] = useState(false);
-  const gameCards = activeGame === "all" ? featured : curated.filter((item) => item.game === activeGame);
+  const swipeStart = useRef<{ x: number; y: number; pointerId: number } | null>(null);
+  const suppressCardClick = useRef(false);
+  const gameCards = activeGame === "all" ? curated : curated.filter((item) => item.game === activeGame);
   const hero = gameCards[activeFeature] || gameCards[0] || featured[0];
   const previousHero = gameCards[(activeFeature - 1 + gameCards.length) % gameCards.length] || hero;
   const nextHero = gameCards[(activeFeature + 1) % gameCards.length] || hero;
   const visibleCards = (activeGame === "all" ? featured : gameCards).slice(0, 4);
   const activeTotal = activeGame === "all" ? total : counts[activeGame] || 0;
+  const carouselMarkers = gameCards.length <= 7
+    ? gameCards.map((_, index) => index)
+    : [-2, -1, 0, 1, 2].map((offset) => (activeFeature + offset + gameCards.length) % gameCards.length);
 
   useEffect(() => {
     const saved = window.localStorage.getItem(storageKey);
@@ -59,6 +64,24 @@ export function StorefrontHome({ featured, curated, categories, counts, total }:
 
   function moveFeature(direction: number) {
     setActiveFeature((current) => (current + direction + gameCards.length) % gameCards.length);
+  }
+
+  function beginSwipe(event: React.PointerEvent<HTMLDivElement>) {
+    if (event.pointerType === "mouse") return;
+    swipeStart.current = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+  }
+
+  function finishSwipe(event: React.PointerEvent<HTMLDivElement>) {
+    const start = swipeStart.current;
+    swipeStart.current = null;
+    if (!start || start.pointerId !== event.pointerId) return;
+    const deltaX = event.clientX - start.x;
+    const deltaY = event.clientY - start.y;
+    if (Math.abs(deltaX) < 44 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.15) return;
+    suppressCardClick.current = true;
+    moveFeature(deltaX < 0 ? 1 : -1);
+    window.setTimeout(() => { suppressCardClick.current = false; }, 0);
   }
 
   return (
@@ -96,7 +119,17 @@ export function StorefrontHome({ featured, curated, categories, counts, total }:
 
           <div className="archive-feature" onMouseEnter={() => setCarouselPaused(true)} onMouseLeave={() => setCarouselPaused(false)} onFocusCapture={() => setCarouselPaused(true)} onBlurCapture={() => setCarouselPaused(false)}>
             <div className="archive-feature-index"><span>Featured</span><b>{String(activeFeature + 1).padStart(2, "0")} / {String(gameCards.length).padStart(2, "0")}</b></div>
-            <div className="archive-feature-stage">
+            <div
+              className="archive-feature-stage"
+              onPointerDown={beginSwipe}
+              onPointerUp={finishSwipe}
+              onPointerCancel={() => { swipeStart.current = null; }}
+              onClickCapture={(event) => {
+                if (!suppressCardClick.current) return;
+                event.preventDefault();
+                event.stopPropagation();
+              }}
+            >
               <img className="archive-feature-ghost archive-feature-ghost-left" src={previousHero.frontImage} alt="" aria-hidden="true" />
               <a className="archive-feature-card" href={hero.listingUrl} target="_blank" rel="noreferrer" aria-label={`View ${hero.name} on eBay`}>
                 <img key={hero.sku} src={hero.frontImage} alt={`${hero.name} — ${hero.set}`} />
@@ -109,7 +142,10 @@ export function StorefrontHome({ featured, curated, categories, counts, total }:
             </div>
             <div className="archive-feature-controls" aria-label="Featured listing carousel">
               <button type="button" onClick={() => moveFeature(-1)} aria-label="Previous featured card">←</button>
-              <span>{gameCards.map((item, index) => <button key={item.sku} type="button" className={index === activeFeature ? "is-active" : ""} onClick={() => setActiveFeature(index)} aria-label={`Show ${item.name}`} />)}</span>
+              <span>{carouselMarkers.map((index) => {
+                const item = gameCards[index];
+                return <button key={item.sku} type="button" className={index === activeFeature ? "is-active" : ""} onClick={() => setActiveFeature(index)} aria-label={`Show ${item.name}`} />;
+              })}</span>
               <button type="button" onClick={() => moveFeature(1)} aria-label="Next featured card">→</button>
             </div>
           </div>

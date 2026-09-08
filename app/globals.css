@@ -8596,12 +8596,20 @@ footer p {
   }
   .artifact-detail {
     padding: 24px 20px 80px;
+    min-width: 0;
+  }
+  .artifact-gallery,
+  .artifact-record,
+  .object-record-sections,
+  .object-record-sections details {
+    min-width: 0;
   }
   .artifact-primary {
     height: min(68vh, 560px);
   }
   .artifact-record h1 {
     font-size: 14vw;
+    overflow-wrap: anywhere;
   }
   .artifact-back {
     margin-bottom: 42px;
@@ -8617,6 +8625,30 @@ footer p {
   .artifact-key-facts,
   .object-record-sections dl {
     grid-template-columns: 1fr;
+  }
+  .artifact-key-facts dd,
+  .object-record-sections dd,
+  .object-record-sections details > p {
+    overflow-wrap: anywhere;
+  }
+  .artifact-thumbnails {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+  }
+  .artifact-thumbnails button {
+    width: 100%;
+  }
+  .artifact-presentation-tabs {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+  .artifact-presentation-tabs > span {
+    width: 100%;
+    margin-right: 0;
+  }
+  .artifact-presentation-tabs button {
+    flex: 1 1 calc(50% - 7px);
+    white-space: normal;
   }
   .artifact-key-facts div:nth-child(odd) {
     padding-right: 0;
@@ -12705,6 +12737,7 @@ body {
 .archive-hero-actions { margin-top: 14px; }
 .archive-hero-facts { margin-top: 22px; }
 .archive-feature-stage { min-height: clamp(380px, 38vw, 480px); }
+.archive-feature-stage { touch-action: pan-y; user-select: none; }
 .archive-feature-card { width: min(292px, 54%); }
 .archive-feature-ghost { width: min(218px, 38%); }
 .archive-feature-caption { width: min(470px, 76%); }
@@ -12715,15 +12748,23 @@ body {
 .archive-games .ebay-category-card img { min-height: 160px; height: 160px; }
 
 @media (max-width: 820px) {
-  .archive-quick-nav { display: flex; overflow-x: auto; scrollbar-width: none; }
-  .archive-quick-nav::-webkit-scrollbar { display: none; }
-  .archive-quick-nav button { flex: 0 0 auto; min-width: 126px; }
+  .archive-quick-nav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow: visible;
+  }
+  .archive-quick-nav button { width: 100%; min-width: 0; }
   .archive-hero { min-height: auto; }
   .archive-search { width: 100%; }
 }
 @media (max-width: 520px) {
-  .archive-quick-nav { min-height: 54px; padding-inline: 12px; }
-  .archive-quick-nav button { min-width: 112px; padding-inline: 10px; }
+  .archive-quick-nav {
+    min-height: 54px;
+    padding: 10px 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .archive-quick-nav button { min-width: 0; padding-inline: 10px; }
   .archive-hero { padding-top: 36px; }
   .archive-hero-copy h1 { max-width: 390px; font-size: clamp(2.55rem, 11.5vw, 3.35rem); }
   .archive-search { margin-top: 22px; }

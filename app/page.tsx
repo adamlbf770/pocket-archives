@@ -12,8 +12,10 @@ export default function HomePage() {
   const categories = ["Pokémon", "One Piece Card Game", "Dragon Ball Super", "Magic: The Gathering", "Riftbound"]
     .map((game) => publicEbayListings.find((item) => item.game === game))
     .filter((item): item is (typeof publicEbayListings)[number] => Boolean(item));
-  const curated = ["Pokémon", "One Piece Card Game", "Dragon Ball Super", "Magic: The Gathering", "Riftbound"]
-    .flatMap((game) => publicEbayListings.filter((item) => item.game === game).slice(0, 6));
+  const curatedByGame = ["Pokémon", "One Piece Card Game", "Dragon Ball Super", "Magic: The Gathering", "Riftbound"]
+    .map((game) => publicEbayListings.filter((item) => item.game === game).slice(0, 18));
+  const curated = Array.from({ length: Math.max(...curatedByGame.map((items) => items.length)) })
+    .flatMap((_, index) => curatedByGame.map((items) => items[index]).filter((item): item is (typeof publicEbayListings)[number] => Boolean(item)));
 
   return (
     <main className="ebay-storefront">

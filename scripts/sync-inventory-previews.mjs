@@ -1,4 +1,4 @@
-import { access, mkdir, readdir, stat } from "node:fs/promises";
+import { access, mkdir, readdir, rename, stat } from "node:fs/promises";
 import { resolve, basename } from "node:path";
 import { spawnSync } from "node:child_process";
 
@@ -73,11 +73,13 @@ for (const record of needsPreview) {
       continue;
     }
     const rotation = /Batch (10|15)\b/.test(record.source) ? ["-r", "180"] : [];
+    const temporaryOutput = `${output}.${process.pid}.tmp.jpg`;
     const result = spawnSync("sips", [
       ...rotation, "-Z", "1000", "-s", "format", "jpeg", "-s", "formatOptions", "55",
-      source, "--out", output,
+      source, "--out", temporaryOutput,
     ], { stdio: "ignore" });
     if (result.status !== 0) throw new Error(`Could not create web preview for ${record.sku} ${side}`);
+    await rename(temporaryOutput, output);
     generated += 1;
   }
 }
