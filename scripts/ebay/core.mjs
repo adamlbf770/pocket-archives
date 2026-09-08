@@ -121,6 +121,9 @@ export function normalizeDraft(raw) {
     aspects,
     imageUrls,
     shippingProfile,
+    ...(raw.verification && typeof raw.verification === "object"
+      ? { verification: structuredClone(raw.verification) }
+      : {}),
     ...(grading ? { grading } : {}),
   };
 }
