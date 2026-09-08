@@ -12,6 +12,7 @@ const identity = {
   rarity: "Promo",
   variant: "",
   edition: "Unlimited",
+  condition: "Near Mint",
 };
 const images = ["https://example.com/front.jpg", "https://example.com/back.jpg"];
 const item = {
@@ -30,6 +31,7 @@ const item = {
 };
 const record = {
   sku: "PA-TEST",
+  cardCondition: "Near Mint",
   verification: {
     mode: "EXTERNAL_HIGH_CONFIDENCE",
     grade: "HIGH",
@@ -47,6 +49,19 @@ test("a fully certified exact listing can pass the final publish gate", () => {
   assert.equal(assertListingPublishSafe({ record, item, attachment }), true);
 });
 
+test("a recorded human correction can certify an otherwise ambiguous card", () => {
+  const reviewed = structuredClone(record);
+  reviewed.verification = {
+    ...reviewed.verification,
+    mode: "HUMAN_REVIEWED",
+    reviewedBy: "Adam Finck",
+    grade: "REVIEWED",
+    score: null,
+    externalId: null,
+  };
+  assert.equal(assertListingPublishSafe({ record: reviewed, item, attachment }), true);
+});
+
 test("publishing fails closed when no verification certificate exists", () => {
   assert.throws(
     () => assertListingPublishSafe({ record: { sku: "PA-TEST" }, item, attachment }),
@@ -60,6 +75,15 @@ test("certified identity must match the eBay item specifics", () => {
   assert.throws(
     () => assertListingPublishSafe({ record, item: wrongLanguage, attachment }),
     /language conflicts with certified identity/i,
+  );
+});
+
+test("condition must be resolved and preserved through publication", () => {
+  const wrongCondition = structuredClone(record);
+  wrongCondition.cardCondition = "Lightly Played";
+  assert.throws(
+    () => assertListingPublishSafe({ record: wrongCondition, item, attachment }),
+    /condition conflicts with certified identity/i,
   );
 });
 

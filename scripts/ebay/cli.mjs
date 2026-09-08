@@ -186,6 +186,7 @@ async function createDraft(args) {
     status: "UNPUBLISHED",
     createdAt: new Date().toISOString(),
     shippingProfile: draft.shippingProfile,
+    cardCondition: draft.cardCondition,
     ...(draft.verification ? { verification: draft.verification } : {}),
   };
   await writeJson(resolve(dataDir, "drafts", `${safeFilename(draft.sku)}.json`), result);

@@ -38,6 +38,21 @@ test("art and illustration rares enforce the Pocket Archives $4.99 floor", () =>
   }
 });
 
+test("draft normalization binds the verification certificate to its exact image pair", () => {
+  const draft = normalizeDraft({
+    sku: "PA-CERT-TEST",
+    title: "Pokemon Eevee SVP 173 Holo NM",
+    description: "Exact card pictured.",
+    categoryId: "183454",
+    cardCondition: "Near Mint",
+    price: 5.99,
+    aspects: { Game: ["Pokémon"] },
+    imageUrls: ["https://example.com/front.jpg", "https://example.com/back.jpg"],
+    verification: { mode: "HUMAN_REVIEWED", reviewedBy: "Adam", imageUrls: [] },
+  });
+  assert.deepEqual(draft.verification.imageUrls, draft.imageUrls);
+});
+
 test("the eBay mutation gate defaults to draft-only and requires explicit elevated modes", () => {
   assert.doesNotThrow(() =>
     assertDraftOnlyMutation("POST", "/sell/inventory/v1/location/pocket-archives-33067"),

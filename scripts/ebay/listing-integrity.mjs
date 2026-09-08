@@ -35,6 +35,9 @@ export function assertListingPublishSafe({ record, item, attachment }) {
   for (const field of Object.keys(IDENTITY_ASPECTS)) {
     if (!clean(identity[field])) throw new Error(`${record.sku}: publish blocked (identity missing ${field}).`);
   }
+  if (!clean(identity.condition) || token(identity.condition) !== token(record.cardCondition)) {
+    throw new Error(`${record.sku}: publish blocked (condition conflicts with certified identity).`);
+  }
 
   const aspects = item?.product?.aspects ?? {};
   for (const [field, names] of Object.entries(IDENTITY_ASPECTS)) {

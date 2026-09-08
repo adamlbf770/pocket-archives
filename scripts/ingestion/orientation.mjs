@@ -1,6 +1,7 @@
 import { execFile } from "node:child_process";
+import { copyFile, mkdir } from "node:fs/promises";
 import { promisify } from "node:util";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
 const execFileAsync = promisify(execFile);
 
 export async function analyzeOrientation(imagePath, { root = process.cwd() } = {}) {
@@ -20,4 +21,28 @@ export async function analyzeOrientation(imagePath, { root = process.cwd() } = {
   } catch (error) {
     return { rotation: 0, confidence: "low", margin: 0, candidates: [], evidence: [], error: error instanceof Error ? error.message : String(error) };
   }
+}
+
+export async function normalizeOrientation(imagePath, analysis, outputPath) {
+  if (analysis?.confidence !== "high") {
+    throw new Error(`Cannot normalize uncertain orientation for ${imagePath}.`);
+  }
+  const source = resolve(imagePath);
+  const target = resolve(outputPath);
+  await mkdir(dirname(target), { recursive: true });
+  if (Number(analysis.rotation) === 0) {
+    await copyFile(source, target);
+  } else {
+    await execFileAsync("sips", ["--rotate", String(analysis.rotation), source, "--out", target], {
+      maxBuffer: 16 * 1024 * 1024,
+    });
+  }
+  return {
+    path: target,
+    sourcePath: source,
+    sourceRotation: Number(analysis.rotation),
+    confidence: analysis.confidence,
+    rotation: 0,
+    normalized: true,
+  };
 }
