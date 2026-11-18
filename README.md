@@ -1,8 +1,6 @@
-# vinext-starter
+# Pocket Archives
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+Pocket Archives website and curated Pokémon card shop.
 
 ## Prerequisites
 
