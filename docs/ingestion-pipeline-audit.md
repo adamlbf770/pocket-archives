@@ -52,6 +52,8 @@ npm run ingestion:run -- /absolute/path/to/batch-input.json
 npm run sync:intelligence
 ```
 
+The command writes the batch report to `outputs/ingestion/<batchId>.json` and replaces `outputs/ingestion/latest.json` with a copy for the most recent run. Both paths are relative to the repository root when run with the npm command above.
+
 Review exceptions at `/ingestion`. Decisions export as an auditable JSON file; they do not silently overwrite canonical inventory.
 
 ## Next hardening phases
